@@ -1,0 +1,262 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://assets/theme/theme.tres" type="Theme" id=1]
+[ext_resource path="res://ui/MainMenu.gd" type="Script" id=2]
+[ext_resource path="res://ui/PlayerInfoPanel.tscn" type="PackedScene" id=3]
+[ext_resource path="res://assets/font/smallFont.tres" type="DynamicFont" id=4]
+[ext_resource path="res://ui/NameInput.gd" type="Script" id=5]
+
+[node name="MainMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Welcome" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color( 0.294118, 0.729412, 0.894118, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Welcome"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Welcome/HBoxContainer"]
+margin_left = 178.0
+margin_right = 282.0
+margin_bottom = 272.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Welcome/HBoxContainer/VBoxContainer"]
+margin_top = 97.0
+margin_right = 104.0
+margin_bottom = 175.0
+rect_min_size = Vector2( 100, 0 )
+
+[node name="Label" type="Label" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer"]
+margin_right = 104.0
+margin_bottom = 8.0
+text = "SSF Action Game"
+align = 1
+
+[node name="NameInput" type="LineEdit" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer"]
+margin_top = 12.0
+margin_right = 104.0
+margin_bottom = 30.0
+placeholder_text = "Your name"
+script = ExtResource( 5 )
+
+[node name="HostButton" type="Button" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer"]
+margin_top = 34.0
+margin_right = 104.0
+margin_bottom = 54.0
+rect_min_size = Vector2( 0, 20 )
+text = "Host a room"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer"]
+margin_top = 58.0
+margin_right = 104.0
+margin_bottom = 78.0
+rect_min_size = Vector2( 0, 20 )
+
+[node name="CodeInput" type="LineEdit" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+margin_right = 70.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+placeholder_text = "Room code"
+
+[node name="JoinButton" type="Button" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 74.0
+margin_right = 104.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 30, 0 )
+text = "Join"
+
+[node name="Control" type="Control" parent="Welcome/HBoxContainer"]
+margin_left = 286.0
+margin_right = 286.0
+margin_bottom = 272.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ErrorLabel" type="Label" parent="Welcome"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 6.0
+margin_top = -29.0
+margin_right = 185.0
+margin_bottom = -6.0
+custom_colors/font_color = Color( 0.890196, 0.0392157, 0.0392157, 1 )
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Lobby" type="ColorRect" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color( 0.294118, 0.729412, 0.894118, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Lobby"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Lobby/HBoxContainer"]
+margin_left = 78.0
+margin_right = 386.0
+margin_bottom = 272.0
+alignment = 1
+
+[node name="CodeWrapper" type="Control" parent="Lobby/HBoxContainer/VBoxContainer"]
+margin_top = 9.0
+margin_right = 308.0
+margin_bottom = 39.0
+rect_min_size = Vector2( 0, 30 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CodeLabel" type="RichTextLabel" parent="Lobby/HBoxContainer/VBoxContainer/CodeWrapper"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -105.0
+margin_bottom = -15.0
+rect_min_size = Vector2( 0, 10 )
+rect_scale = Vector2( 2, 2 )
+focus_mode = 2
+custom_colors/default_color = Color( 0.0862745, 0.156863, 0.541176, 1 )
+custom_fonts/normal_font = ExtResource( 4 )
+bbcode_enabled = true
+bbcode_text = "asdasd"
+text = "asdasd"
+selection_enabled = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CopyCodeButton" type="Button" parent="Lobby/HBoxContainer/VBoxContainer"]
+visible = false
+margin_top = 67.0
+margin_right = 140.0
+margin_bottom = 87.0
+rect_min_size = Vector2( 0, 20 )
+text = "Copy code"
+
+[node name="TeamsContainer" type="HBoxContainer" parent="Lobby/HBoxContainer/VBoxContainer"]
+margin_top = 43.0
+margin_right = 308.0
+margin_bottom = 239.0
+custom_constants/separation = 24
+
+[node name="GoodGuys" type="VBoxContainer" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer"]
+margin_right = 308.0
+margin_bottom = 196.0
+
+[node name="Label" type="Label" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer/GoodGuys"]
+margin_right = 308.0
+margin_bottom = 8.0
+text = "Players"
+align = 1
+
+[node name="PlayerInfoContainer" type="GridContainer" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer/GoodGuys"]
+margin_top = 12.0
+margin_right = 308.0
+margin_bottom = 196.0
+columns = 3
+
+[node name="PlayerInfoPanel" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer/GoodGuys/PlayerInfoContainer" instance=ExtResource( 3 )]
+
+[node name="PlayerInfoPanel2" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer/GoodGuys/PlayerInfoContainer" instance=ExtResource( 3 )]
+margin_left = 104.0
+margin_right = 204.0
+
+[node name="PlayerInfoPanel3" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer/GoodGuys/PlayerInfoContainer" instance=ExtResource( 3 )]
+margin_left = 208.0
+margin_right = 308.0
+
+[node name="PlayerInfoPanel4" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer/GoodGuys/PlayerInfoContainer" instance=ExtResource( 3 )]
+margin_top = 94.0
+margin_bottom = 184.0
+
+[node name="PlayerInfoPanel5" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer/GoodGuys/PlayerInfoContainer" instance=ExtResource( 3 )]
+margin_left = 104.0
+margin_top = 94.0
+margin_right = 204.0
+margin_bottom = 184.0
+
+[node name="PlayerInfoPanel6" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer/GoodGuys/PlayerInfoContainer" instance=ExtResource( 3 )]
+margin_left = 208.0
+margin_top = 94.0
+margin_right = 308.0
+margin_bottom = 184.0
+
+[node name="BadGuys" type="VBoxContainer" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer"]
+visible = false
+margin_left = 228.0
+margin_right = 432.0
+margin_bottom = 216.0
+
+[node name="Label" type="Label" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer/BadGuys"]
+margin_right = 204.0
+margin_bottom = 8.0
+text = "Bad guys"
+align = 1
+
+[node name="PlayerInfoContainer" type="GridContainer" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer/BadGuys"]
+margin_top = 12.0
+margin_right = 204.0
+margin_bottom = 216.0
+columns = 2
+
+[node name="PlayerInfoPanel" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer/BadGuys/PlayerInfoContainer" instance=ExtResource( 3 )]
+
+[node name="PlayerInfoPanel2" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer/BadGuys/PlayerInfoContainer" instance=ExtResource( 3 )]
+margin_left = 104.0
+margin_right = 204.0
+
+[node name="PlayerInfoPanel3" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer/BadGuys/PlayerInfoContainer" instance=ExtResource( 3 )]
+margin_top = 104.0
+margin_bottom = 204.0
+
+[node name="PlayerInfoPanel4" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer/BadGuys/PlayerInfoContainer" instance=ExtResource( 3 )]
+margin_left = 104.0
+margin_top = 104.0
+margin_right = 204.0
+margin_bottom = 204.0
+
+[node name="StartButton" type="Button" parent="Lobby/HBoxContainer/VBoxContainer"]
+margin_top = 243.0
+margin_right = 308.0
+margin_bottom = 263.0
+rect_min_size = Vector2( 0, 20 )
+text = "Start Game"
+
+[connection signal="text_changed" from="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/NameInput" to="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/NameInput" method="_on_NameInput_text_changed"]
+[connection signal="pressed" from="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/HostButton" to="." method="_on_HostButton_pressed"]
+[connection signal="pressed" from="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer/JoinButton" to="." method="_on_JoinButton_pressed"]
+[connection signal="pressed" from="Lobby/HBoxContainer/VBoxContainer/CopyCodeButton" to="." method="_on_CopyCodeButton_pressed"]
+[connection signal="pressed" from="Lobby/HBoxContainer/VBoxContainer/StartButton" to="." method="_on_StartButton_pressed"]

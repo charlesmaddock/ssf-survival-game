@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://ui/Minimap.gd" type="Script" id=1]
+[ext_resource path="res://assets/sprites/pixelPoint.png" type="Texture" id=2]
+[ext_resource path="res://assets/sprites/largePoint.png" type="Texture" id=3]
+
+[node name="Minimap" type="Control"]
+margin_right = 37.0
+margin_bottom = 29.0
+rect_min_size = Vector2( 37, 29 )
+rect_clip_content = true
+size_flags_horizontal = 0
+size_flags_vertical = 0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+world_tile_map_path = NodePath("../../../../../Navigation2D/World")
+
+[node name="Sprite" type="Sprite" parent="."]
+modulate = Color( 1, 0, 0, 1 )
+scale = Vector2( 2, 2 )
+z_index = 10
+texture = ExtResource( 2 )
+
+[node name="LargeSprite" type="Sprite" parent="."]
+modulate = Color( 1, 0, 0, 1 )
+z_index = 10
+texture = ExtResource( 3 )

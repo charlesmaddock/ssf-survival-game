@@ -1,0 +1,103 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://assets/theme/theme.tres" type="Theme" id=1]
+[ext_resource path="res://ui/PlayerInfoPanel.gd" type="Script" id=2]
+[ext_resource path="res://assets/sprites/coolCharacter.png" type="Texture" id=3]
+
+[node name="PlayerInfoPanel" type="Control"]
+margin_right = 100.0
+margin_bottom = 90.0
+rect_min_size = Vector2( 100, 90 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Empty" type="Panel" parent="."]
+modulate = Color( 1, 1, 1, 0.505882 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 4
+custom_constants/margin_top = 4
+custom_constants/margin_left = 4
+custom_constants/margin_bottom = 4
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="vbox" type="VBoxContainer" parent="Panel/MarginContainer"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 96.0
+margin_bottom = 86.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Name" type="Label" parent="Panel/MarginContainer/vbox"]
+margin_right = 92.0
+margin_bottom = 10.0
+rect_min_size = Vector2( 0, 10 )
+text = "Name"
+align = 1
+valign = 1
+autowrap = true
+
+[node name="Class" type="Label" parent="Panel/MarginContainer/vbox"]
+margin_top = 14.0
+margin_right = 92.0
+margin_bottom = 36.0
+rect_min_size = Vector2( 0, 22 )
+custom_colors/font_color = Color( 0.92549, 0.45098, 0.964706, 1 )
+text = "Class
+"
+align = 1
+autowrap = true
+
+[node name="ClassContainer" type="HBoxContainer" parent="Panel/MarginContainer/vbox"]
+margin_top = 40.0
+margin_right = 92.0
+margin_bottom = 64.0
+alignment = 1
+
+[node name="Left" type="Button" parent="Panel/MarginContainer/vbox/ClassContainer"]
+margin_left = 8.0
+margin_right = 18.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 10, 10 )
+text = "<"
+
+[node name="SpriteContainer" type="Control" parent="Panel/MarginContainer/vbox/ClassContainer"]
+margin_left = 22.0
+margin_right = 70.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 48, 24 )
+
+[node name="Sprite" type="Sprite" parent="Panel/MarginContainer/vbox/ClassContainer/SpriteContainer"]
+position = Vector2( 25, 11 )
+texture = ExtResource( 3 )
+
+[node name="Right" type="Button" parent="Panel/MarginContainer/vbox/ClassContainer"]
+margin_left = 74.0
+margin_right = 84.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 10, 10 )
+text = ">"
+
+[connection signal="pressed" from="Panel/MarginContainer/vbox/ClassContainer/Left" to="." method="_on_Left_pressed"]
+[connection signal="pressed" from="Panel/MarginContainer/vbox/ClassContainer/Right" to="." method="_on_Right_pressed"]

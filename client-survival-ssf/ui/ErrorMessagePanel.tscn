@@ -1,0 +1,44 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://ui/ErrorMessagePanel.gd" type="Script" id=1]
+
+[sub_resource type="StyleBoxFlat" id=1]
+
+[node name="ErrorMessagePanel" type="PanelContainer"]
+margin_right = 131.0
+margin_bottom = 14.0
+custom_styles/panel = SubResource( 1 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_right = 131.0
+margin_bottom = 20.0
+color = Color( 0.890196, 0.168627, 0.168627, 1 )
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+margin_right = 131.0
+margin_bottom = 20.0
+custom_constants/margin_right = 3
+custom_constants/margin_top = 3
+custom_constants/margin_left = 3
+custom_constants/margin_bottom = 3
+
+[node name="Label" type="Label" parent="MarginContainer"]
+margin_left = 3.0
+margin_top = 3.0
+margin_right = 128.0
+margin_bottom = 17.0
+text = "Error:"
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 6.0
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
