@@ -56,12 +56,10 @@ func generate_players(player_data: Array) -> void:
 			if data.id == Lobby.my_id:
 				Camera.set_follow(player)
 	
-	if amount_players < Constants.PLAYERS_PER_ROOM:
-		Lobby.bot_amount = Constants.PLAYERS_PER_ROOM - amount_players
-		for i in Constants.PLAYERS_PER_ROOM - amount_players:
-			var player = player_scene.instance()
-			player.set_players_data("player_bot_" + str(i), "SSF Bot " + str(i), player_spawn_pos, "Sam the Sniper", true)
-			Entities.add_child(player)
+	
+	var player = player_scene.instance()
+	player.set_players_data("player_bot_", "SSF Bot ", player_spawn_pos, "Sam the Sniper", true)
+	Entities.add_child(player)
 	
 	if spawn_scammer == true:
 		var scammer = scammer_scene.instance()

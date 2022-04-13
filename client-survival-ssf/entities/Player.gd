@@ -18,9 +18,6 @@ signal damage_taken(health, dir)
 func _ready():
 	Server.connect("packet_received", self, "_on_packet_received")
 	connect("damage_taken", self, "_on_damage_taken")
-	
-	if _is_bot == false:
-		get_node("PlayerAI").set_physics_process(false)
 
 
 func _on_damage_taken(damage, dir) -> void:
@@ -39,9 +36,6 @@ func get_is_bot() -> bool:
 
 func _on_packet_received(packet: Dictionary) -> void:
 	match(packet.type):
-		Constants.PacketTypes.ABILITY_USED:
-			if _id == packet.id:
-				handle_ability_used(packet)
 		Constants.PacketTypes.ROOM_LEFT:
 			if _id == packet.id:
 				queue_free()
@@ -66,38 +60,3 @@ func _input(event):
 	elif Input.is_action_just_pressed("ability_3") && abilities_used[2] == false:
 		Server.use_ability("3")
 
-
-func handle_ability_used(packet) -> void:
-	if packet.key == "1" && abilities_used[0] == false:
-		
-		if Lobby.is_host:
-			abilities_used[0] = true
-			var prev_speed = get_node("Movement").speed
-			get_node("Movement").speed = 140
-			yield(get_tree().create_timer(8), "timeout")
-			get_node("Movement").speed = prev_speed
-	elif packet.key == "2"&& abilities_used[1] == false:
-		
-		if Lobby.is_host:
-			set_visible(false)
-			yield(get_tree().create_timer(0.2), "timeout")
-			abilities_used[1] = true
-			var nav_points = Util.get_nav_points()
-			var teleport_pos = nav_points[randi() % nav_points.size()].position
-			position = teleport_pos
-			yield(get_tree().create_timer(0.1), "timeout")
-			set_visible(true)
-	elif packet.key == "3":
-		
-		abilities_used[2] = true
-		if _id == Lobby.my_id:
-			modulate = Color(1, 1, 1, 0.3)
-		else:
-			set_visible(false)
-		using_invis_ability = true
-		yield(get_tree().create_timer(8), "timeout")
-		if _id == Lobby.my_id:
-			modulate = Color(1, 1, 1, 1)
-		else:
-			set_visible(true)
-		using_invis_ability = false

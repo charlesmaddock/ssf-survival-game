@@ -63,7 +63,7 @@ margin_top = 14.0
 margin_right = 92.0
 margin_bottom = 36.0
 rect_min_size = Vector2( 0, 22 )
-custom_colors/font_color = Color( 0.92549, 0.45098, 0.964706, 1 )
+custom_colors/font_color = Color( 0.686275, 0.564706, 0.278431, 1 )
 text = "Class
 "
 align = 1

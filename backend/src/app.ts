@@ -2,7 +2,7 @@ import { WebSocket, WebSocketServer } from "ws";
 import isValidUTF8 from "utf-8-validate";
 import { IncomingMessage } from "http";
 
-const port = 9001;
+const port = 9002;
 const wss = new WebSocketServer({ port: port });
 
 type Class =
@@ -313,16 +313,8 @@ const handleStartGame = (ws: WebSocket) => {
   if (startingClient !== null) {
     let playerSpawnPoints = [
       {
-        x: 266 + (Math.random() - 0.5 * 2),
-        y: 410 + (Math.random() - 0.5 * 2),
-      },
-      {
-        x: 974 + (Math.random() - 0.5 * 2),
-        y: -27 + (Math.random() - 0.5 * 2),
-      },
-      {
-        x: -437 + (Math.random() - 0.5 * 2),
-        y: 146 + (Math.random() - 0.5 * 2),
+        x: 0 + (Math.random() - 0.5 * 16),
+        y: 0 + (Math.random() - 0.5 * 16),
       },
     ];
     let spawnPosPlayer =
