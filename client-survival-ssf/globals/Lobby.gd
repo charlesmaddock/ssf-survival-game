@@ -34,9 +34,6 @@ func get_amount_good_guys() -> int:
 func _on_player_dead(id) -> void:
 	if dead_player_ids.find(id) == -1:
 		dead_player_ids.append(id)
-	
-	if dead_player_ids.size() == get_amount_good_guys() + bot_amount:
-		Events.emit_signal("game_over")
 
 
 func _on_packet_recieved(packet: Dictionary) -> void:

@@ -24,11 +24,7 @@ func _ready():
 
 
 func _on_packet_received(packet: Dictionary):
-	match(packet.type):
-		Constants.PacketTypes.NODE_FREED:
-				if nodes_freed.find(packet.id) == -1:
-					nodes_freed.append(packet.id)
-					set_objective_text()
+	pass
 
 
 func set_objective_text():

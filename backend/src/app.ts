@@ -25,21 +25,33 @@ enum PacketTypes {
   GAME_STARTED,
   SET_INPUT,
   SET_PLAYER_POS,
-  FREE_NODE,
-  NODE_FREED,
-  USE_ABILITY,
-  ABILITY_USED,
   SET_HEALTH,
   SHOOT_PROJECTILE,
-  START_DOORS,
+  MELEE_ATTACK,
+  SPAWN_MOB,
+  DESPAWN_MOB,
+  SPAWN_ITEM,
+  DESPAWN_ITEM,
+  ADD_TO_INVENTORY,
 }
-
 type PacketType = PacketTypes;
+
+enum MobTypes {
+  CLOUDER,
+}
+type MobType = MobTypes;
+
+enum ItemTypes {
+  PINK_FLUFF,
+}
+type ItemType = ItemTypes;
 
 interface Room {
   code: string;
   hostId: string;
   clients: Array<Client>;
+  mobs: Array<Mob>;
+  items: Array<Item>;
 }
 
 interface Client {
@@ -54,6 +66,18 @@ interface MinClientData {
   name: string;
   class: Class;
   pos?: { x: number; y: number };
+}
+
+interface Mob {
+  id: string;
+  type: MobType;
+  pos: { x: number; y: number };
+}
+
+interface Item {
+  id: string;
+  type: ItemType;
+  pos: { x: number; y: number };
 }
 
 let rooms: Array<Room> = [];
@@ -130,20 +154,26 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
           case PacketTypes.SET_INPUT:
             handleSetInput(ws, data);
             break;
-          case PacketTypes.USE_ABILITY:
-            handleUseAbility(ws, data.key);
-            break;
           case PacketTypes.SET_PLAYER_POS:
             handleSetPos(ws, data);
-            break;
-          case PacketTypes.FREE_NODE:
-            handleFreeNode(ws, data);
             break;
           case PacketTypes.SET_HEALTH:
             handleSetHealth(ws, data);
             break;
           case PacketTypes.SHOOT_PROJECTILE:
             handleShootProjectile(ws, data);
+            break;
+          case PacketTypes.SPAWN_MOB:
+            handleSpawnMob(ws, data);
+            break;
+          case PacketTypes.SPAWN_ITEM:
+            handleSpawnItem(ws, data);
+            break;
+          case PacketTypes.DESPAWN_ITEM:
+            handleDespawnItem(ws, data);
+            break;
+          case PacketTypes.ADD_TO_INVENTORY:
+            handleAddItemToInventory(ws, data);
             break;
           default:
             console.error("Unhandled packet type.");
@@ -223,6 +253,8 @@ const handleHostRoom = (ws: WebSocket, client: Client) => {
       code: code,
       hostId: client.id,
       clients: [client],
+      mobs: [],
+      items: [],
     };
     rooms.push(newRoom);
 
@@ -337,14 +369,6 @@ const handleStartGame = (ws: WebSocket) => {
           })),
         };
         broadcastToRoom(room, payload);
-
-        // Sync doors for all clients, temporary
-        setTimeout(() => {
-          let doorPayload = {
-            type: PacketTypes.START_DOORS,
-          };
-          broadcastToRoom(room, doorPayload);
-        }, 3000);
       }
     });
   }
@@ -367,18 +391,6 @@ const handleSetInput = (
   }
 };
 
-const handleUseAbility = (ws: WebSocket, key: string) => {
-  let client = getClientFromWs(ws);
-  let room: Room = getClientsRoom(client);
-
-  let payload = {
-    type: PacketTypes.ABILITY_USED,
-    key: key,
-    id: client.id,
-  };
-  broadcastToRoom(room, payload);
-};
-
 const handleSetPos = (
   ws: WebSocket,
   packet: { type: number; id: string; x: number; y: number }
@@ -387,21 +399,6 @@ const handleSetPos = (
   let room: Room = getClientsRoom(client);
 
   broadcastToRoom(room, packet);
-};
-
-const handleFreeNode = (
-  ws: WebSocket,
-  packet: { type: number; id: string }
-) => {
-  let client = getClientFromWs(ws);
-  let room: Room = getClientsRoom(client);
-
-  let payload = {
-    type: PacketTypes.NODE_FREED,
-    id: packet.id,
-  };
-
-  broadcastToRoom(room, payload);
 };
 
 const handleSetHealth = (
@@ -421,6 +418,47 @@ const handleSetHealth = (
 };
 
 const handleShootProjectile = (ws: WebSocket, packet: any) => {
+  let client = getClientFromWs(ws);
+  let room: Room = getClientsRoom(client);
+  broadcastToRoom(room, packet);
+};
+
+const handleSpawnMob = (ws: WebSocket, packet: any) => {
+  let client = getClientFromWs(ws);
+  let room: Room = getClientsRoom(client);
+  let newMob: Mob = {
+    id: packet.id,
+    type: packet.mob_type,
+    pos: { x: packet.posX, y: packet.posY },
+  };
+  room.mobs.push(newMob);
+  broadcastToRoom(room, packet);
+};
+
+const handleSpawnItem = (ws: WebSocket, packet: any) => {
+  let client = getClientFromWs(ws);
+  let room: Room = getClientsRoom(client);
+  let newItem: Item = {
+    id: packet.id,
+    type: packet.item_type,
+    pos: { x: packet.posX, y: packet.posY },
+  };
+  room.items.push(newItem);
+  broadcastToRoom(room, packet);
+};
+
+const handleDespawnItem = (ws: WebSocket, packet: any) => {
+  let client = getClientFromWs(ws);
+  let room: Room = getClientsRoom(client);
+  for (let i = 0; i < room.mobs.length; i++) {
+    if (room.mobs[i].id == packet.id) {
+      room.mobs.splice(i, 1);
+    }
+  }
+  broadcastToRoom(room, packet);
+};
+
+const handleAddItemToInventory = (ws: WebSocket, packet: any) => {
   let client = getClientFromWs(ws);
   let room: Room = getClientsRoom(client);
   broadcastToRoom(room, packet);

@@ -8,7 +8,7 @@
 [ext_resource path="res://assets/theme/theme.tres" type="Theme" id=8]
 
 [sub_resource type="CapsuleShape2D" id=1]
-radius = 4.0
+radius = 3.0
 height = 4.0
 
 [node name="Player" type="KinematicBody2D"]
@@ -17,6 +17,7 @@ collision_mask = 0
 script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 2, 0 )
 rotation = 1.5708
 shape = SubResource( 1 )
 

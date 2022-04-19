@@ -3,15 +3,14 @@ extends Node2D
 
 onready var Bar = $Bar
 onready var health: float = Bar.max_value
+onready var health_for_entity_w_id: String = get_parent().entity.id
 
 
-var health_for_entity_w_id: String = ""
 var _is_dead: bool
 
 
 func _ready():
-	health_for_entity_w_id = get_parent().get_id()
-	get_parent().connect("take_damage", self, "_on_damage_taken")
+	get_parent().entity.connect("take_damage", self, "_on_damage_taken")
 	Server.connect("packet_received", self, "_on_packet_received")
 
 
@@ -25,7 +24,8 @@ func _on_packet_received(packet: Dictionary) -> void:
 			health = packet.health
 			Bar.value = health
 			var knockback_dir = Vector2(packet.dirX, packet.dirY)
-			get_parent().emit_signal("damage_taken", packet.health, knockback_dir)
+			get_parent().entity.emit_signal("damage_taken", packet.health, knockback_dir)
+			damage_flash()
 			if health <= 0 && _is_dead == false:
 				_is_dead = true
 				get_parent().rotation_degrees = 90
@@ -38,7 +38,14 @@ func _on_packet_received(packet: Dictionary) -> void:
 				yield(get_tree().create_timer(2), "timeout")
 				get_parent().set_visible(false)
 				
-				Events.emit_signal("player_dead", get_parent().get_id())
+				Events.emit_signal("player_dead", get_parent().entity.id)
+
+
+func damage_flash() -> void:
+	var parent_modulate = get_parent().modulate
+	get_parent().modulate = Color(1000, 0, 0, parent_modulate.a)
+	yield(get_tree().create_timer(0.1), "timeout")
+	get_parent().modulate = Color(1, 1, 1, parent_modulate.a)
 
 
 func take_damage(damage: float, dir: Vector2) -> void:
@@ -47,4 +54,6 @@ func take_damage(damage: float, dir: Vector2) -> void:
 
 
 func _on_DamageArea_area_entered(area):
-		take_damage(area.get_damage(), area.global_position.direction_to(global_position))
+	if area.has_method("is_made_by"):
+		if area.is_made_by(health_for_entity_w_id) == false:
+			take_damage(area.get_damage(), area.global_position.direction_to(global_position))

@@ -26,7 +26,6 @@ var players_in_view: Array = []
 
 
 func _ready():
-	yield(get_tree().create_timer(10), "timeout")
 	timer.start()
 
 
@@ -78,4 +77,8 @@ func _on_FOVArea_body_exited(body):
 
 
 func _on_IdleWalkTimer_timeout():
-	get_target_path(global_position + Vector2.ONE * randf() * 100)
+	randomize()
+	if randf() > 0.9:
+		get_target_path(global_position + Vector2.ONE * (randf() - 0.5) * 100)
+	else:
+		get_target_path(global_position)
