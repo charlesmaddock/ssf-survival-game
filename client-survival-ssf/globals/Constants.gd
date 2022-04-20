@@ -29,6 +29,7 @@ enum PacketTypes {
 	MELEE_ATTACK,
 	SPAWN_MOB,
 	DESPAWN_MOB,
+	SPAWN_ENVIRONMENT,
 	SPAWN_ITEM,
 	DESPAWN_ITEM,
 	ADD_TO_INVENTORY
@@ -46,7 +47,8 @@ enum ItemTypes {
 enum EntityTypes {
 	PLAYER,
 	CLOUDER,
-	CHOWDER
+	CHOWDER,
+	TREE
 }
 
 

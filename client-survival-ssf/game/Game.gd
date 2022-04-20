@@ -19,6 +19,11 @@ func _ready():
 		var id = str(i + 1 * 12259194)
 		var pos = Vector2(rand_range(-1000, 1000), rand_range(-1000, 1000))
 		Server.spawn_mob(id, Constants.EntityTypes.CLOUDER, pos)
+	
+	for i in 20:
+		var id = str(i + 1 * 12259194)
+		var pos = Vector2(rand_range(-1000, 1000), rand_range(-1000, 1000))
+		Server.spawn_environment(id, Constants.EntityTypes.TREE, pos)
 
 
 func _physics_process(delta):

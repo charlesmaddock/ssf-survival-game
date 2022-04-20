@@ -30,6 +30,7 @@ enum PacketTypes {
   MELEE_ATTACK,
   SPAWN_MOB,
   DESPAWN_MOB,
+  SPAWN_ENVIRONMENT,
   SPAWN_ITEM,
   DESPAWN_ITEM,
   ADD_TO_INVENTORY,
@@ -41,6 +42,11 @@ enum MobTypes {
 }
 type MobType = MobTypes;
 
+enum EnvironmentTypes {
+  TREE,
+}
+type EnvironmentType = EnvironmentTypes;
+
 enum ItemTypes {
   PINK_FLUFF,
 }
@@ -51,6 +57,7 @@ interface Room {
   hostId: string;
   clients: Array<Client>;
   mobs: Array<Mob>;
+  environments: Array<Environment>
   items: Array<Item>;
 }
 
@@ -71,6 +78,12 @@ interface MinClientData {
 interface Mob {
   id: string;
   type: MobType;
+  pos: { x: number; y: number };
+}
+
+interface Environment {
+  id: string;
+  type: EnvironmentType;
   pos: { x: number; y: number };
 }
 
@@ -166,6 +179,11 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
           case PacketTypes.SPAWN_MOB:
             handleSpawnMob(ws, data);
             break;
+          case PacketTypes.SPAWN_ENVIRONMENT:
+            handleSpawnEnvironment(ws, data);
+            break;
+            handleSpawnMob(ws, data);
+            break;
           case PacketTypes.SPAWN_ITEM:
             handleSpawnItem(ws, data);
             break;
@@ -254,6 +272,7 @@ const handleHostRoom = (ws: WebSocket, client: Client) => {
       hostId: client.id,
       clients: [client],
       mobs: [],
+      environments: [],
       items: [],
     };
     rooms.push(newRoom);
@@ -432,6 +451,18 @@ const handleSpawnMob = (ws: WebSocket, packet: any) => {
     pos: { x: packet.posX, y: packet.posY },
   };
   room.mobs.push(newMob);
+  broadcastToRoom(room, packet);
+};
+
+const handleSpawnEnvironment = (ws: WebSocket, packet: any) => {
+  let client = getClientFromWs(ws);
+  let room: Room = getClientsRoom(client);
+  let newEnvironment: Environment = {
+    id: packet.id,
+    type: packet.environment_type,
+    pos: { x: packet.posX, y: packet.posY },
+  };
+  room.environments.push(newEnvironment);
   broadcastToRoom(room, packet);
 };
 

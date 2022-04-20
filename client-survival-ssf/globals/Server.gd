@@ -159,6 +159,17 @@ func spawn_mob(id: String, type: int, pos: Vector2) -> void:
 		"posY": pos.y,
 	}
 	send_packet(payload)
+	
+	
+func spawn_environment(id: String, type: int, pos: Vector2) -> void:
+	var payload = {
+		"type": Constants.PacketTypes.SPAWN_ENVIRONMENT, 
+		"id": id,
+		"environment_type": type,
+		"posX": pos.x,
+		"posY": pos.y,
+	}
+	send_packet(payload)
 
 
 func spawn_item(item_type: int, pos: Vector2) -> void:

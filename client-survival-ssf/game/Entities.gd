@@ -8,6 +8,10 @@ var mob_type_scenes: Dictionary = {
 	Constants.EntityTypes.CHOWDER: preload("res://entities/Chowder.tscn"),
 }
 
+var environment_type_scenes: Dictionary = {
+	Constants.EntityTypes.TREE: preload("res://entities/Tree.tscn")
+}
+
 
 func _ready():
 	Server.connect("packet_received", self, "_on_packet_received")
@@ -35,6 +39,13 @@ func _on_packet_received(packet: Dictionary) -> void:
 			var spawn_pos = Vector2(packet.posX, packet.posY)
 			var entity_type = int(packet.mob_type)
 			var scene = mob_type_scenes[entity_type] 
+			var entity = scene.instance()
+			entity.entity = Entity.new(entity, packet.id, spawn_pos)
+			add_child(entity)
+		Constants.PacketTypes.SPAWN_ENVIRONMENT:
+			var spawn_pos = Vector2(packet.posX, packet.posY)
+			var entity_type = int(packet.environment_type)
+			var scene = environment_type_scenes[entity_type] 
 			var entity = scene.instance()
 			entity.entity = Entity.new(entity, packet.id, spawn_pos)
 			add_child(entity)
