@@ -36,13 +36,32 @@ enum PacketTypes {
 
 
 enum ItemTypes {
-	PINK_FLUFF
+	PINK_FLUFF,
+	FLUFF_BALL,
+	FLUFF_ARROW,
+	CLOUDER
 }
 
 
 enum EntityTypes {
 	PLAYER,
-	CLOUDER
+	CLOUDER,
+	CHOWDER
+}
+
+
+var crafting_recipes = [
+	[ItemTypes.PINK_FLUFF, ItemTypes.PINK_FLUFF, ItemTypes.FLUFF_BALL],
+	[ItemTypes.FLUFF_BALL, ItemTypes.FLUFF_BALL, ItemTypes.FLUFF_ARROW],
+	[ItemTypes.FLUFF_ARROW, ItemTypes.FLUFF_ARROW, ItemTypes.CLOUDER],
+]
+
+
+var item_textures = {
+	ItemTypes.FLUFF_BALL: preload("res://assets/sprites/largePoint.png"),
+	ItemTypes.PINK_FLUFF: preload("res://assets/sprites/fluff.png"),
+	ItemTypes.FLUFF_ARROW: preload("res://assets/sprites/arrow.png"),
+	ItemTypes.CLOUDER: preload("res://assets/sprites/clouder.png"),
 }
 
 

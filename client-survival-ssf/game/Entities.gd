@@ -5,6 +5,7 @@ var item_scene = preload("res://entities/Item.tscn")
 
 var mob_type_scenes: Dictionary = {
 	Constants.EntityTypes.CLOUDER: preload("res://entities/Clouder.tscn"),
+	Constants.EntityTypes.CHOWDER: preload("res://entities/Chowder.tscn"),
 }
 
 
@@ -39,14 +40,13 @@ func _on_packet_received(packet: Dictionary) -> void:
 			add_child(entity)
 		Constants.PacketTypes.SPAWN_ITEM:
 			var spawn_pos = Vector2(packet.posX, packet.posY)
-			var item_type = int(packet.item_type)
 			var item = item_scene.instance()
 			item.entity = Entity.new(item, packet.id, spawn_pos)
+			item.init(int(packet.item_type)) 
 			add_child(item)
 		Constants.PacketTypes.DESPAWN_ITEM:
 			for child in get_children():
 				if Util.is_entity(child):
 					if child.entity.id == packet.id:
-						pass
-						#child.queue_free()
+						child.queue_free()
 

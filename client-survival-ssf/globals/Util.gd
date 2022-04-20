@@ -26,15 +26,11 @@ func is_mobile() -> bool:
 
 
 func get_game_node() -> Node:
-	return get_node("/root/Game")
+	return get_node("/root/GameWrapper/Game")
 
 
 func get_entity(id: String) -> Node:
-	return get_node("/root/Game/Entities").get_entity(id)
-
-
-func get_nav_points() -> Array:
-	return get_node("/root/Game/RoomNavPoints").get_children()
+	return get_node("/root/GameWrapper/Game/Entities").get_entity(id)
 
 
 func get_living_players() -> Array:

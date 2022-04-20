@@ -8,6 +8,8 @@ enum behaviour {
 
 
 export(NodePath) var movement_component_path
+export(bool) var cowardly = false
+export(bool) var agressive = false
 
 
 onready var Movement: Node2D = get_node(movement_component_path)
@@ -59,14 +61,15 @@ func _on_Damage_body_entered(body):
 
 
 func _on_Timer_timeout():
-	for player in players_in_view:
-		if player.visible == true:
-			get_target_path(player.position)
-			return
+	if agressive == true:
+		for player in players_in_view:
+			if player.visible == true:
+				get_target_path(player.position)
+				return
 
 
 func _on_FOVArea_body_entered(body):
-	if body.get("is_player") != null:
+	if Util.is_entity(body):
 		players_in_view.append(body)
 
 
@@ -78,7 +81,9 @@ func _on_FOVArea_body_exited(body):
 
 func _on_IdleWalkTimer_timeout():
 	randomize()
-	if randf() > 0.9:
+	if cowardly == true && agressive == false && players_in_view.size() > 0:
+		get_target_path(global_position + global_position.direction_to(players_in_view[0].global_position) * -100 )
+	elif randf() > 0.9:
 		get_target_path(global_position + Vector2.ONE * (randf() - 0.5) * 100)
 	else:
 		get_target_path(global_position)

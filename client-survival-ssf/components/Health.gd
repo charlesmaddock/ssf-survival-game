@@ -1,8 +1,11 @@
 extends Node2D
 
 
+export(float) var max_health = 100
+
+
 onready var Bar = $Bar
-onready var health: float = Bar.max_value
+onready var health: float = max_health
 onready var health_for_entity_w_id: String = get_parent().entity.id
 
 
@@ -10,6 +13,8 @@ var _is_dead: bool
 
 
 func _ready():
+	Bar.max_value = max_health
+	Bar.value = max_health
 	get_parent().entity.connect("take_damage", self, "_on_damage_taken")
 	Server.connect("packet_received", self, "_on_packet_received")
 
@@ -26,7 +31,7 @@ func _on_packet_received(packet: Dictionary) -> void:
 			var knockback_dir = Vector2(packet.dirX, packet.dirY)
 			get_parent().entity.emit_signal("damage_taken", packet.health, knockback_dir)
 			damage_flash()
-			if health <= 0 && _is_dead == false:
+			if health <= 0 && _is_dead == false && get_parent().get("collision_layer") != null:
 				_is_dead = true
 				get_parent().rotation_degrees = 90
 				get_parent().collision_layer = 0
