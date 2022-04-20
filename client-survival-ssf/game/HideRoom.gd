@@ -61,8 +61,8 @@ func set_entity_modulate(body, opacity) -> void:
 
 func is_my_entity(body: PhysicsBody2D) -> bool:
 	if body != null:
-		if body.has_method("get_id") == true:
-			if body.get_id() == Lobby.specating_player_w_id:
+		if body.has_method("entity") == true:
+			if body.entity.id == Lobby.specating_player_w_id:
 				return true
 	
 	return false

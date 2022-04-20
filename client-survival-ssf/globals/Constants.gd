@@ -24,13 +24,44 @@ enum PacketTypes {
 	GAME_STARTED,
 	SET_INPUT,
 	SET_PLAYER_POS,
-	FREE_NODE,
-	NODE_FREED,
-	USE_ABILITY,
-	ABILITY_USED,
 	SET_HEALTH,
 	SHOOT_PROJECTILE,
-	START_DOORS
+	MELEE_ATTACK,
+	SPAWN_MOB,
+	DESPAWN_MOB,
+	SPAWN_ITEM,
+	DESPAWN_ITEM,
+	ADD_TO_INVENTORY
+}
+
+
+enum ItemTypes {
+	PINK_FLUFF,
+	FLUFF_BALL,
+	FLUFF_ARROW,
+	CLOUDER
+}
+
+
+enum EntityTypes {
+	PLAYER,
+	CLOUDER,
+	CHOWDER
+}
+
+
+var crafting_recipes = [
+	[ItemTypes.PINK_FLUFF, ItemTypes.PINK_FLUFF, ItemTypes.FLUFF_BALL],
+	[ItemTypes.FLUFF_BALL, ItemTypes.FLUFF_BALL, ItemTypes.FLUFF_ARROW],
+	[ItemTypes.FLUFF_ARROW, ItemTypes.FLUFF_ARROW, ItemTypes.CLOUDER],
+]
+
+
+var item_textures = {
+	ItemTypes.FLUFF_BALL: preload("res://assets/sprites/largePoint.png"),
+	ItemTypes.PINK_FLUFF: preload("res://assets/sprites/fluff.png"),
+	ItemTypes.FLUFF_ARROW: preload("res://assets/sprites/arrow.png"),
+	ItemTypes.CLOUDER: preload("res://assets/sprites/clouder.png"),
 }
 
 

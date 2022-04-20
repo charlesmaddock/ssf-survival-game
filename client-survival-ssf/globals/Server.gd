@@ -109,14 +109,6 @@ func send_input(input: Vector2) -> void:
 	send_packet(payload)
 
 
-func use_ability(key: String) -> void:
-	var payload = {
-		"type": Constants.PacketTypes.USE_ABILITY, 
-		"key": key
-	}
-	send_packet(payload)
-
-
 func send_free_node(id: String) -> void:
 	var payload = {
 		"type": Constants.PacketTypes.FREE_NODE, 
@@ -146,12 +138,53 @@ func set_health(id: String, health: float, knockback_dir: Vector2)  -> void:
 	send_packet(payload)
 
 
-func shoot_projectile(start_pos: Vector2, dir: Vector2)  -> void:
+func shoot_projectile(start_pos: Vector2, dir: Vector2, id: String)  -> void:
 	var payload = {
 		"type": Constants.PacketTypes.SHOOT_PROJECTILE, 
 		"posX": start_pos.x,
 		"posY": start_pos.y,
 		"dirX": dir.x,
-		"dirY": dir.y
+		"dirY": dir.y,
+		"id": id 
+	}
+	send_packet(payload)
+
+
+func spawn_mob(id: String, type: int, pos: Vector2) -> void:
+	var payload = {
+		"type": Constants.PacketTypes.SPAWN_MOB, 
+		"id": id,
+		"mob_type": type,
+		"posX": pos.x,
+		"posY": pos.y,
+	}
+	send_packet(payload)
+
+
+func spawn_item(item_type: int, pos: Vector2) -> void:
+	var id = Util.generate_id()
+	var payload = {
+		"type": Constants.PacketTypes.SPAWN_ITEM, 
+		"id": id,
+		"item_type": item_type,
+		"posX": pos.x,
+		"posY": pos.y,
+	}
+	send_packet(payload)
+
+
+func despawn_item(id: String) -> void:
+	var payload = {
+		"type": Constants.PacketTypes.DESPAWN_ITEM, 
+		"id": id,
+	}
+	send_packet(payload)
+
+
+func add_to_inventory(id: String, item_id: String) -> void:
+	var payload = {
+		"type": Constants.PacketTypes.ADD_TO_INVENTORY, 
+		"id": id,
+		"item_id": item_id
 	}
 	send_packet(payload)

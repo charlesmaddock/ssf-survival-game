@@ -5,9 +5,13 @@ export(float) var _damage
 var _damage_creator_id: String
 
 
-func init(val: float, creator_id: String) -> void:
+func init(pos: Vector2, dir: Vector2, val: float, creator_id: String) -> void:
 	_damage = val
 	_damage_creator_id = creator_id
+	
+	set_global_position(pos)
+	look_at(pos + dir * 100)
+	rotate(PI/2)
 
 
 func is_made_by(id: String) -> bool:

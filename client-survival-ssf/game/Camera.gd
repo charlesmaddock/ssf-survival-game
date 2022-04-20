@@ -38,13 +38,13 @@ func _input(event):
 
 
 func set_follow(node: Node2D) -> void:
-	Lobby.specating_player_w_id = node.get_id()
+	Lobby.specating_player_w_id = node.entity.id
 	follow = node
 	Events.emit_signal("switched_spectate", node)
 
 
 func _process(delta):
-	if follow != null:
+	if is_instance_valid(follow):
 		#var follow_dir = (follow.global_position - follow_prev_pos).normalized() * 40
 		#var target = follow.position + follow_dir 
 		position = position.linear_interpolate(follow.global_position, delta * 4)

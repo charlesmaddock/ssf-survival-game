@@ -24,7 +24,7 @@ func _ready() -> void:
 func _physics_process(delta):
 	shoot_i += 1
 	if Lobby.is_host && shoot_i % 30 == 0 && _prev_pos != global_position:
-		Server.shoot_projectile(global_position + Vector2.UP * 10, (global_position - _prev_pos).normalized())
+		Server.shoot_projectile(global_position + Vector2.UP * 10, (global_position - _prev_pos).normalized(), _id)
 	_prev_pos = global_position
 
 

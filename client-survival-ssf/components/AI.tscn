@@ -3,8 +3,8 @@
 [ext_resource path="res://components/AI.gd" type="Script" id=1]
 
 [sub_resource type="CapsuleShape2D" id=4]
-radius = 174.0
-height = 134.0
+radius = 126.0
+height = 70.0
 
 [node name="AI" type="Node2D"]
 script = ExtResource( 1 )
@@ -14,6 +14,7 @@ movement_component_path = NodePath("../Movement")
 wait_time = 0.2
 
 [node name="FOVArea" type="Area2D" parent="."]
+collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FOVArea"]
 position = Vector2( 0, -22 )
@@ -21,6 +22,8 @@ rotation = 1.5708
 shape = SubResource( 4 )
 
 [node name="IdleWalkTimer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
 
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="body_entered" from="FOVArea" to="." method="_on_FOVArea_body_entered"]

@@ -46,13 +46,6 @@ func get_target_path(target_pos):
 func _on_Timer_timeout():
 	randomize()
 	var sees_scammer = run_from_scammer()
-	
-	if sees_scammer == false:
-		var found_freeable_node = find_freeable_node()
-		
-		if found_freeable_node == false:
-			set_random_room_point()
-			get_target_path(room_point.position)
 
 
 func run_from_scammer() -> bool:
@@ -61,29 +54,6 @@ func run_from_scammer() -> bool:
 		get_target_path(room_point.position)
 		return true
 	return false
-
-
-func find_freeable_node() -> bool:
-	if target_freeable_node != null:
-		if target_freeable_node.get_is_freed() == false && target_freeable_node.was_first_freer(get_parent().get_id()):
-			get_target_path(target_freeable_node.position + Vector2.ONE * (randf() - 0.5) * 3)
-			return true
-	
-	var closest_node_dist: float = 9999
-	var closest_node: Node2D = null
-	for freeable_node in freeable_nodes_in_view:
-		var dist = global_position.distance_to(freeable_node.global_position)
-		if dist < closest_node_dist:
-			if freeable_node.was_first_freer(get_parent().get_id()) && freeable_node.get_is_freed() == false:
-				closest_node_dist = dist
-				closest_node = freeable_node
-				get_target_path(freeable_node.position + Vector2.ONE * (randf() - 0.5) * 3)
-	
-	if closest_node != null:
-		target_freeable_node = closest_node
-		return true
-	else:
-		return false
 
 
 func set_random_room_point() -> void:

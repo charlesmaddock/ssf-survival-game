@@ -9,16 +9,28 @@ func _input(event):
 		has_used_touch = true
 
 
+func generate_id() -> String: 
+	return str(randi())
+
+
+func is_entity(body: Node) -> bool:
+	return body.get("entity") != null
+
+
+func is_my_entity(entity: Node) -> bool:
+	return entity.entity.id == Lobby.my_id
+
+
 func is_mobile() -> bool:
 	return has_used_touch
 
 
 func get_game_node() -> Node:
-	return get_node("/root/Game")
+	return get_node("/root/GameWrapper/Game")
 
 
-func get_nav_points() -> Array:
-	return get_node("/root/Game/RoomNavPoints").get_children()
+func get_entity(id: String) -> Node:
+	return get_node("/root/GameWrapper/Game/Entities").get_entity(id)
 
 
 func get_living_players() -> Array:
