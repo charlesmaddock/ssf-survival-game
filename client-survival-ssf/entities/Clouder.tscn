@@ -5,7 +5,7 @@
 [ext_resource path="res://components/AI.tscn" type="PackedScene" id=3]
 [ext_resource path="res://components/Health.tscn" type="PackedScene" id=4]
 [ext_resource path="res://components/Movement.tscn" type="PackedScene" id=5]
-[ext_resource path="res://components/Loot.gd" type="Script" id=6]
+[ext_resource path="res://components/Loot.tscn" type="PackedScene" id=6]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 4.0
@@ -40,7 +40,6 @@ speed = 60.0
 [node name="AI" parent="." instance=ExtResource( 3 )]
 cowardly = true
 
-[node name="Loot" type="Node2D" parent="."]
-script = ExtResource( 6 )
+[node name="Loot" parent="." instance=ExtResource( 6 )]
 
 [editable path="Health"]

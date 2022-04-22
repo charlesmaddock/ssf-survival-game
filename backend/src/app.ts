@@ -31,6 +31,7 @@ enum PacketTypes {
   SPAWN_MOB,
   DESPAWN_MOB,
   SPAWN_ENVIRONMENT,
+  DESPAWN_ENVIRONMENT,
   SPAWN_ITEM,
   DESPAWN_ITEM,
   ADD_TO_INVENTORY,
@@ -179,6 +180,9 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
           case PacketTypes.SPAWN_MOB:
             handleSpawnMob(ws, data);
             break;
+          case PacketTypes.DESPAWN_MOB:
+              handleDespawnMob(ws, data);
+              break;
           case PacketTypes.SPAWN_ENVIRONMENT:
             handleSpawnEnvironment(ws, data);
             break;
@@ -454,6 +458,17 @@ const handleSpawnMob = (ws: WebSocket, packet: any) => {
   broadcastToRoom(room, packet);
 };
 
+const handleDespawnMob = (ws: WebSocket, packet: any) => {
+  let client = getClientFromWs(ws);
+  let room: Room = getClientsRoom(client);
+  for (let i = 0; i < room.mobs.length; i++) {
+    if (room.mobs[i].id == packet.id) {
+      room.mobs.splice(i, 1);
+    }
+  }
+  broadcastToRoom(room, packet);
+};
+
 const handleSpawnEnvironment = (ws: WebSocket, packet: any) => {
   let client = getClientFromWs(ws);
   let room: Room = getClientsRoom(client);
@@ -481,9 +496,9 @@ const handleSpawnItem = (ws: WebSocket, packet: any) => {
 const handleDespawnItem = (ws: WebSocket, packet: any) => {
   let client = getClientFromWs(ws);
   let room: Room = getClientsRoom(client);
-  for (let i = 0; i < room.mobs.length; i++) {
-    if (room.mobs[i].id == packet.id) {
-      room.mobs.splice(i, 1);
+  for (let i = 0; i < room.items.length; i++) {
+    if (room.items[i].id == packet.id) {
+      room.items.splice(i, 1);
     }
   }
   broadcastToRoom(room, packet);

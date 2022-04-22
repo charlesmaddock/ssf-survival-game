@@ -15,7 +15,7 @@ func _ready():
 	Lobby.emit_signal("game_has_loaded", self)
 	Server.connect("packet_received", self, "_on_packet_received")
 	
-	for i in 20:
+	for i in 5:
 		var id = str(i + 1 * 12259194)
 		var pos = Vector2(rand_range(-1000, 1000), rand_range(-1000, 1000))
 		Server.spawn_mob(id, Constants.EntityTypes.CLOUDER, pos)
