@@ -16,6 +16,7 @@ export(bool) var attack_base = false
 onready var Movement: Node2D = get_node(movement_component_path)
 onready var nav: Navigation2D = Util.get_game_node().get_node("Navigation2D")
 onready var gameNode = Util.get_game_node()
+onready var base = Util.get_entity("base")
 onready var timer = $Timer
 
 
@@ -26,6 +27,9 @@ var behaviour_mode: int = behaviour.SEARCH
 var room_point: Node2D = null
 var unchecked_room_points: Array = []
 var players_in_view: Array = []
+
+
+signal target_player(player)
 
 
 func _ready():
@@ -62,11 +66,16 @@ func _on_Damage_body_entered(body):
 
 
 func _on_Timer_timeout():
+	if attack_base == true:
+		get_target_path(base.position)
+	
 	if agressive == true:
 		for player in players_in_view:
 			if player.visible == true:
+				emit_signal("target_player", player)
 				get_target_path(player.position)
 				return
+
 
 
 func _on_FOVArea_body_entered(body):

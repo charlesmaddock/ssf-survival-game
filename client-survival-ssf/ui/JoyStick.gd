@@ -14,6 +14,8 @@ var inner_circle_offset: Vector2 = Vector2(10, 10)
 
 func _ready():
 	var is_mobile = Util.is_mobile()
+	set_visible(false) 
+	
 	yield(get_tree(), "idle_frame")
 	var use_joy_stick = is_mobile && get_node(movement_path).entity_id == Lobby.my_id
 	set_visible(use_joy_stick) 
@@ -21,13 +23,14 @@ func _ready():
 
 
 func _input(event):
-	if event is InputEventScreenTouch or event is InputEventScreenDrag:
-		if is_pressed():
-			velocity = calc_move_dir(event.position)
-	
-	if event is InputEventScreenTouch:
-		if event.pressed == false:
-			velocity = Vector2.ZERO
+	if is_visible_in_tree() && visible == true:
+		if event is InputEventScreenTouch or event is InputEventScreenDrag:
+			if is_pressed():
+				velocity = calc_move_dir(event.position)
+		
+		if event is InputEventScreenTouch:
+			if event.pressed == false:
+				velocity = Vector2.ZERO
 
 
 func _physics_process(delta):

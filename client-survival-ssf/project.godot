@@ -103,9 +103,10 @@ open_inventory={
 2d_physics/layer_1="player"
 2d_physics/layer_2="item"
 2d_physics/layer_3="damage"
-2d_physics/layer_4="wall"
+2d_physics/layer_4="solid"
 2d_physics/layer_5="health"
 2d_physics/layer_6="base"
+2d_physics/layer_7="animal"
 
 [physics]
 
