@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://assets/sprites/romanceScammer.png" type="Texture" id=1]
 [ext_resource path="res://entities/Animal.gd" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://components/Health.tscn" type="PackedScene" id=4]
 [ext_resource path="res://components/Movement.tscn" type="PackedScene" id=5]
 [ext_resource path="res://components/Loot.gd" type="Script" id=6]
+[ext_resource path="res://components/Combat.tscn" type="PackedScene" id=7]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 4.0
@@ -13,7 +14,7 @@ height = 4.0
 
 [node name="Chowder" type="KinematicBody2D"]
 position = Vector2( 29, 43 )
-collision_layer = 0
+collision_layer = 64
 collision_mask = 0
 script = ExtResource( 2 )
 
@@ -41,8 +42,17 @@ speed = 60.0
 
 [node name="AI" parent="." instance=ExtResource( 3 )]
 agressive = true
+attack_base = true
 
 [node name="Loot" type="Node2D" parent="."]
 script = ExtResource( 6 )
+
+[node name="Combat" parent="." instance=ExtResource( 7 )]
+
+[node name="AttackTimer" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="AttackTimer" to="." method="_on_AttackTimer_timeout"]
 
 [editable path="Health"]

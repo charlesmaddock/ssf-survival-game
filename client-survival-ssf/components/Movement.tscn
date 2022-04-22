@@ -29,7 +29,6 @@ __meta__ = {
 }
 
 [node name="JoyStick" type="TouchScreenButton" parent="CanvasLayer/CanvasModulate/Control"]
-visible = false
 position = Vector2( 333, 140 )
 scale = Vector2( 0.626667, 0.626667 )
 normal = ExtResource( 2 )

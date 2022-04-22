@@ -13,7 +13,7 @@ height = 4.0
 
 [node name="Clouder" type="KinematicBody2D"]
 position = Vector2( 29, 43 )
-collision_layer = 0
+collision_layer = 64
 collision_mask = 0
 script = ExtResource( 2 )
 
