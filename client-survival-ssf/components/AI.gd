@@ -10,6 +10,7 @@ enum behaviour {
 export(NodePath) var movement_component_path
 export(bool) var cowardly = false
 export(bool) var agressive = false
+export(bool) var attack_base = false
 
 
 onready var Movement: Node2D = get_node(movement_component_path)

@@ -28,7 +28,7 @@ func _ready():
 
 func _physics_process(delta):
 	time += delta
-	var time_between_waves = 10
+	var time_between_waves = 30
 	var time_left_to_next_wave = time_between_waves - (int(time) % time_between_waves)
 	var text = "Next wave in " + str(time_left_to_next_wave)
 	if floor(time / time_between_waves) > wave:
@@ -39,6 +39,7 @@ func _physics_process(delta):
 			Server.spawn_mob(id, Constants.EntityTypes.CHOWDER, spawn_pos)
 	
 	get_node("CanvasLayer/ObjectiveMarker/PlayersLeft").text = text
+
 
 func _on_packet_received(packet: Dictionary):
 	pass
