@@ -186,6 +186,10 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
           case PacketTypes.SPAWN_ENVIRONMENT:
             handleSpawnEnvironment(ws, data);
             break;
+          case PacketTypes.DESPAWN_ENVIRONMENT:
+            handleDespawnEnvironment(ws, data);
+              break; 
+          case PacketTypes.SPAWN_MOB:
             handleSpawnMob(ws, data);
             break;
           case PacketTypes.SPAWN_ITEM:
@@ -459,6 +463,7 @@ const handleSpawnMob = (ws: WebSocket, packet: any) => {
 };
 
 const handleDespawnMob = (ws: WebSocket, packet: any) => {
+  console.log("handleDespawnMob: ", packet)
   let client = getClientFromWs(ws);
   let room: Room = getClientsRoom(client);
   for (let i = 0; i < room.mobs.length; i++) {
@@ -478,6 +483,17 @@ const handleSpawnEnvironment = (ws: WebSocket, packet: any) => {
     pos: { x: packet.posX, y: packet.posY },
   };
   room.environments.push(newEnvironment);
+  broadcastToRoom(room, packet);
+};
+
+const handleDespawnEnvironment = (ws: WebSocket, packet: any) => {
+  let client = getClientFromWs(ws);
+  let room: Room = getClientsRoom(client);
+  for (let i = 0; i < room.items.length; i++) {
+    if (room.environments[i].id == packet.id) {
+      room.environments.splice(i, 1);
+    }
+  }
   broadcastToRoom(room, packet);
 };
 

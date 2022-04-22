@@ -42,11 +42,6 @@ func _on_packet_received(packet: Dictionary) -> void:
 			var entity = scene.instance()
 			entity.entity = Entity.new(entity, packet.id, spawn_pos)
 			add_child(entity)
-		Constants.PacketTypes.DESPAWN_MOB:
-			for child in get_children():
-				if Util.is_entity(child):
-					if child.entity.id == packet.id:
-						child.queue_free()
 		Constants.PacketTypes.SPAWN_ENVIRONMENT:
 			var spawn_pos = Vector2(packet.posX, packet.posY)
 			var entity_type = int(packet.environment_type)
@@ -60,9 +55,4 @@ func _on_packet_received(packet: Dictionary) -> void:
 			item.entity = Entity.new(item, packet.id, spawn_pos)
 			item.init(int(packet.item_type)) 
 			add_child(item)
-		Constants.PacketTypes.DESPAWN_ITEM:
-			for child in get_children():
-				if Util.is_entity(child):
-					if child.entity.id == packet.id:
-						child.queue_free()
 
