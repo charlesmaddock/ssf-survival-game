@@ -14,4 +14,4 @@ func _on_target_player(player) -> void:
 
 
 func _on_AttackTimer_timeout():
-	pass # Replace with function body.
+	get_node("Combat").attack()

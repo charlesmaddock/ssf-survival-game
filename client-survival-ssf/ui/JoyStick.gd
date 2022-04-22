@@ -23,13 +23,14 @@ func _ready():
 
 
 func _input(event):
-	if event is InputEventScreenTouch or event is InputEventScreenDrag:
-		if is_pressed():
-			velocity = calc_move_dir(event.position)
-	
-	if event is InputEventScreenTouch:
-		if event.pressed == false:
-			velocity = Vector2.ZERO
+	if is_visible_in_tree() && visible == true:
+		if event is InputEventScreenTouch or event is InputEventScreenDrag:
+			if is_pressed():
+				velocity = calc_move_dir(event.position)
+		
+		if event is InputEventScreenTouch:
+			if event.pressed == false:
+				velocity = Vector2.ZERO
 
 
 func _physics_process(delta):
