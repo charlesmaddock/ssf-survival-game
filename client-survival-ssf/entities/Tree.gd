@@ -4,7 +4,6 @@ extends Node2D
 var entity: Entity
 
 func _ready():
-	get_node("AI").connect("target_player", self, "_on_target_player")
 	entity.connect("damage_taken", self, "on_damage_taken")
 
 

@@ -138,6 +138,16 @@ func set_health(id: String, health: float, knockback_dir: Vector2)  -> void:
 	send_packet(payload)
 
 
+func melee_attack(id: String, dir: Vector2)  -> void:
+	var payload = {
+		"type": Constants.PacketTypes.MELEE_ATTACK, 
+		"id": id,
+		"dirX": dir.x,
+		"dirY": dir.y
+	}
+	send_packet(payload)
+
+
 func shoot_projectile(start_pos: Vector2, dir: Vector2, id: String)  -> void:
 	var payload = {
 		"type": Constants.PacketTypes.SHOOT_PROJECTILE, 

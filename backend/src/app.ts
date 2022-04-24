@@ -177,6 +177,9 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
           case PacketTypes.SHOOT_PROJECTILE:
             handleShootProjectile(ws, data);
             break;
+          case PacketTypes.MELEE_ATTACK:
+            handleMeleeAttack(ws, data);
+            break;
           case PacketTypes.SPAWN_MOB:
             handleSpawnMob(ws, data);
             break;
@@ -434,6 +437,21 @@ const handleSetHealth = (
     type: number;
     id: string;
     health: number;
+    dirX: number;
+    dirY: number;
+  }
+) => {
+  let client = getClientFromWs(ws);
+  let room: Room = getClientsRoom(client);
+
+  broadcastToRoom(room, packet);
+};
+
+const handleMeleeAttack = (ws: WebSocket, packet: any) => (
+  ws: WebSocket,
+  packet: {
+    type: number;
+    id: string;
     dirX: number;
     dirY: number;
   }
