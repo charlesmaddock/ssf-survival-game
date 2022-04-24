@@ -169,6 +169,14 @@ func despawn_mob(id: String) -> void:
 	send_packet(payload)
 
 
+func despawn_environment(id: String) -> void:
+	var payload = {
+		"type": Constants.PacketTypes.DESPAWN_ENVIRONMENT, 
+		"id": id,
+	}
+	send_packet(payload)
+
+
 func spawn_environment(id: String, type: int, pos: Vector2) -> void:
 	var payload = {
 		"type": Constants.PacketTypes.SPAWN_ENVIRONMENT, 
