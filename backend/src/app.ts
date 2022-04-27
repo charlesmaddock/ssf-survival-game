@@ -57,7 +57,7 @@ interface Room {
   hostId: string;
   clients: Array<Client>;
   mobs: Array<Mob>;
-  environments: Array<Environment>
+  environments: Array<Environment>;
   items: Array<Item>;
 }
 
