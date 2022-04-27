@@ -55,9 +55,4 @@ func _on_packet_received(packet: Dictionary) -> void:
 			item.entity = Entity.new(item, packet.id, spawn_pos)
 			item.init(int(packet.item_type)) 
 			add_child(item)
-		Constants.PacketTypes.DESPAWN_ITEM:
-			for child in get_children():
-				if Util.is_entity(child):
-					if child.entity.id == packet.id:
-						child.queue_free()
 

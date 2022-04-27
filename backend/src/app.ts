@@ -31,6 +31,7 @@ enum PacketTypes {
   SPAWN_MOB,
   DESPAWN_MOB,
   SPAWN_ENVIRONMENT,
+  DESPAWN_ENVIRONMENT,
   SPAWN_ITEM,
   DESPAWN_ITEM,
   ADD_TO_INVENTORY,
@@ -176,12 +177,23 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
           case PacketTypes.SHOOT_PROJECTILE:
             handleShootProjectile(ws, data);
             break;
+          case PacketTypes.MELEE_ATTACK:
+            console.log("PacketTypes.MELEE_ATTACK is to be called")
+            handleMeleeAttack(ws, data);
+            break;
           case PacketTypes.SPAWN_MOB:
             handleSpawnMob(ws, data);
             break;
+          case PacketTypes.DESPAWN_MOB:
+              handleDespawnMob(ws, data);
+              break;
           case PacketTypes.SPAWN_ENVIRONMENT:
             handleSpawnEnvironment(ws, data);
             break;
+          case PacketTypes.DESPAWN_ENVIRONMENT:
+            handleDespawnEnvironment(ws, data);
+              break; 
+          case PacketTypes.SPAWN_MOB:
             handleSpawnMob(ws, data);
             break;
           case PacketTypes.SPAWN_ITEM:
@@ -436,6 +448,25 @@ const handleSetHealth = (
   broadcastToRoom(room, packet);
 };
 
+const handleMeleeAttack = (
+  ws: WebSocket,
+  packet: {
+    type: number;
+    id: string;
+    dirX: number;
+    dirY: number;
+  }
+ ) => {
+
+  console.log("FINNA BROADCAST TO ROOM MY HANDLE-MELEEATTACK");
+  let client = getClientFromWs(ws);
+  let room: Room = getClientsRoom(client);
+  console.log("I GOT PAST ROOOM YEAAAAAAAAAAAA");
+
+  broadcastToRoom(room, packet);
+
+};
+
 const handleShootProjectile = (ws: WebSocket, packet: any) => {
   let client = getClientFromWs(ws);
   let room: Room = getClientsRoom(client);
@@ -454,6 +485,18 @@ const handleSpawnMob = (ws: WebSocket, packet: any) => {
   broadcastToRoom(room, packet);
 };
 
+const handleDespawnMob = (ws: WebSocket, packet: any) => {
+  console.log("handleDespawnMob: ", packet)
+  let client = getClientFromWs(ws);
+  let room: Room = getClientsRoom(client);
+  for (let i = 0; i < room.mobs.length; i++) {
+    if (room.mobs[i].id == packet.id) {
+      room.mobs.splice(i, 1);
+    }
+  }
+  broadcastToRoom(room, packet);
+};
+
 const handleSpawnEnvironment = (ws: WebSocket, packet: any) => {
   let client = getClientFromWs(ws);
   let room: Room = getClientsRoom(client);
@@ -463,6 +506,17 @@ const handleSpawnEnvironment = (ws: WebSocket, packet: any) => {
     pos: { x: packet.posX, y: packet.posY },
   };
   room.environments.push(newEnvironment);
+  broadcastToRoom(room, packet);
+};
+
+const handleDespawnEnvironment = (ws: WebSocket, packet: any) => {
+  let client = getClientFromWs(ws);
+  let room: Room = getClientsRoom(client);
+  for (let i = 0; i < room.items.length; i++) {
+    if (room.environments[i].id == packet.id) {
+      room.environments.splice(i, 1);
+    }
+  }
   broadcastToRoom(room, packet);
 };
 
@@ -481,9 +535,9 @@ const handleSpawnItem = (ws: WebSocket, packet: any) => {
 const handleDespawnItem = (ws: WebSocket, packet: any) => {
   let client = getClientFromWs(ws);
   let room: Room = getClientsRoom(client);
-  for (let i = 0; i < room.mobs.length; i++) {
-    if (room.mobs[i].id == packet.id) {
-      room.mobs.splice(i, 1);
+  for (let i = 0; i < room.items.length; i++) {
+    if (room.items[i].id == packet.id) {
+      room.items.splice(i, 1);
     }
   }
   broadcastToRoom(room, packet);

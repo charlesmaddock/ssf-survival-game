@@ -41,7 +41,6 @@ func _on_packet_received(packet: Dictionary) -> void:
 					movement_component.set_process(false)
 					movement_component.set_physics_process(false)
 				yield(get_tree().create_timer(2), "timeout")
-				get_parent().set_visible(false)
 				
 				Events.emit_signal("player_dead", get_parent().entity.id)
 

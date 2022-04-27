@@ -138,6 +138,16 @@ func set_health(id: String, health: float, knockback_dir: Vector2)  -> void:
 	send_packet(payload)
 
 
+func melee_attack(id: String, dir: Vector2)  -> void:
+	var payload = {
+		"type": Constants.PacketTypes.MELEE_ATTACK, 
+		"id": id,
+		"dirX": dir.x,
+		"dirY": dir.y
+	}
+	send_packet(payload)
+
+
 func shoot_projectile(start_pos: Vector2, dir: Vector2, id: String)  -> void:
 	var payload = {
 		"type": Constants.PacketTypes.SHOOT_PROJECTILE, 
@@ -159,8 +169,24 @@ func spawn_mob(id: String, type: int, pos: Vector2) -> void:
 		"posY": pos.y,
 	}
 	send_packet(payload)
-	
-	
+
+
+func despawn_mob(id: String) -> void:
+	var payload = {
+		"type": Constants.PacketTypes.DESPAWN_MOB, 
+		"id": id,
+	}
+	send_packet(payload)
+
+
+func despawn_environment(id: String) -> void:
+	var payload = {
+		"type": Constants.PacketTypes.DESPAWN_ENVIRONMENT, 
+		"id": id,
+	}
+	send_packet(payload)
+
+
 func spawn_environment(id: String, type: int, pos: Vector2) -> void:
 	var payload = {
 		"type": Constants.PacketTypes.SPAWN_ENVIRONMENT, 
