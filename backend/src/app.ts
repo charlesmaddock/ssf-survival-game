@@ -178,6 +178,7 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
             handleShootProjectile(ws, data);
             break;
           case PacketTypes.MELEE_ATTACK:
+            console.log("PacketTypes.MELEE_ATTACK is to be called")
             handleMeleeAttack(ws, data);
             break;
           case PacketTypes.SPAWN_MOB:
@@ -447,7 +448,7 @@ const handleSetHealth = (
   broadcastToRoom(room, packet);
 };
 
-const handleMeleeAttack = (ws: WebSocket, packet: any) => (
+const handleMeleeAttack = (
   ws: WebSocket,
   packet: {
     type: number;
@@ -455,11 +456,15 @@ const handleMeleeAttack = (ws: WebSocket, packet: any) => (
     dirX: number;
     dirY: number;
   }
-) => {
+ ) => {
+
+  console.log("FINNA BROADCAST TO ROOM MY HANDLE-MELEEATTACK");
   let client = getClientFromWs(ws);
   let room: Room = getClientsRoom(client);
+  console.log("I GOT PAST ROOOM YEAAAAAAAAAAAA");
 
   broadcastToRoom(room, packet);
+
 };
 
 const handleShootProjectile = (ws: WebSocket, packet: any) => {
