@@ -53,6 +53,7 @@ func _on_Room_body_exited(body):
 			var pos = Vector2(rand_range(room_center_position.x - 96, room_center_position.y + 96), rand_range(room_center_position.x - 48, room_center_position.y + 48))
 			Server.spawn_mob(id, _monster_type, pos)
 	"""
+	print("Room exited by; ", body)
 	if Util.is_entity(body) && body.get("_is_animal") != null:
 		_mobs_in_room.erase(body)
 		if _mobs_in_room.size() == 0:

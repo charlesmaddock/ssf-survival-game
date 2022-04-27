@@ -66,16 +66,12 @@ func _on_Damage_body_entered(body):
 
 
 func _on_Timer_timeout():
-	if attack_base == true:
-		get_target_path(base.position)
-	
 	if agressive == true:
 		for player in players_in_view:
 			if player.visible == true:
 				emit_signal("target_player", player)
 				get_target_path(player.position)
 				return
-
 
 
 func _on_FOVArea_body_entered(body):
@@ -89,7 +85,7 @@ func _on_FOVArea_body_exited(body):
 		players_in_view.remove(remove_at)
 
 
-func _on_IdleWalkTimer_timeout():
+func _on_IdleWalkTimer_timeout(): 
 	randomize()
 	if cowardly == true && agressive == false && players_in_view.size() > 0:
 		get_target_path(global_position + global_position.direction_to(players_in_view[0].global_position) * -100 )
