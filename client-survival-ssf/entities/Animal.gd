@@ -3,6 +3,7 @@ extends KinematicBody2D
 
 var entity: Entity
 var _targeted_player = null
+var _is_animal = true
 
 
 func _ready():

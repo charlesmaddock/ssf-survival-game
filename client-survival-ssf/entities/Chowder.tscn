@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://assets/sprites/romanceScammer.png" type="Texture" id=1]
 [ext_resource path="res://entities/Animal.gd" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://components/Movement.tscn" type="PackedScene" id=5]
 [ext_resource path="res://components/Loot.gd" type="Script" id=6]
 [ext_resource path="res://components/Combat.tscn" type="PackedScene" id=7]
+[ext_resource path="res://components/RoomVisibility.tscn" type="PackedScene" id=8]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 4.0
@@ -52,6 +53,8 @@ script = ExtResource( 6 )
 [node name="AttackTimer" type="Timer" parent="."]
 one_shot = true
 autostart = true
+
+[node name="RoomVisibility" parent="." instance=ExtResource( 8 )]
 
 [connection signal="timeout" from="AttackTimer" to="." method="_on_AttackTimer_timeout"]
 
