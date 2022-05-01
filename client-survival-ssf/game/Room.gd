@@ -5,12 +5,12 @@ extends Area2D
 #onready var _door: Node2D = 
 onready var _room_collision_shape: CollisionShape2D = $CollisionShape2D
 onready var _door: Node2D = $Door
+onready var room_center_position = self.global_position
 
-export(int) var _monster_amount: int = 5
+
+export(int) var _monster_amount: int = 3
 export(preload("res://globals/Constants.gd").EntityTypes) var _monster_type: int = 1
-
-
-var room_center_position = self.global_position
+export(bool) var _final_room: bool = false
 
 var _mobs_in_room: Array = [] 
 var _mobs_entered_room: bool = false
@@ -20,7 +20,9 @@ var _room_completed: bool = false
 
 
 
+
 func _ready():
+	print(self.name, " - This is my room pos!: ", room_center_position)
 	Server.connect("packet_received", self, "_on_packet_received")
 
 #lagra array av ids på spawnade mobs, ifall lista.size = 0 then room_completed = true
@@ -35,11 +37,19 @@ func _ready():
 func _on_Room_body_entered(body):
 	if Util.is_entity(body) && body.get("_is_animal") == null && _room_completed == false && _mobs_entered_room == false:
 		print("player has entered a room!")
-		for i in _monster_amount:
-			var id = Util.generate_id()
-			var pos = Vector2(rand_range(room_center_position.x - 96, room_center_position.y + 96), rand_range(room_center_position.x - 48, room_center_position.y + 48))
-			Server.spawn_mob(id, _monster_type, pos)
-			_mobs_in_room.append(id)
+		var mob_spawn_count: int = Lobby.players_data.size() * _monster_amount
+		for i in mob_spawn_count:
+			if i % 3 == 0:
+				var id = Util.generate_id()
+				var pos = Vector2(rand_range(room_center_position.x - 96, room_center_position.x + 96), rand_range(room_center_position.y - 48, room_center_position.y + 48))
+				Server.spawn_mob(id, Constants.EntityTypes.CHOWDER, pos)
+				_mobs_in_room.append(id)
+			else:
+				var id = Util.generate_id()
+				var pos = Vector2(rand_range(room_center_position.x - 96, room_center_position.x + 96), rand_range(room_center_position.y - 48, room_center_position.y + 48))
+				Server.spawn_mob(id, _monster_type, pos)
+				_mobs_in_room.append(id)
+			
 		_mobs_entered_room = true
 
 
@@ -57,6 +67,9 @@ func _on_packet_received(packet: Dictionary) -> void:
 			_mobs_in_room.remove(id_index)
 			print("- You defeated a mob in the room! -")
 			if _mobs_in_room.size() == 0:
-				print("- Room is completed! -")
-				_door._go_next_room()
+				if _final_room == false:
+					print("- Room is completed! -")
+					_door._go_next_room()
+				if _final_room == true:
+					Events.emit_signal("game_over")
 

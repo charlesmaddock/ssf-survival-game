@@ -22,8 +22,8 @@ func on_damage_taken(health, dir) -> void:
 
 
 func _on_AttackTimer_timeout():
-	get_node("Combat").attack()
+	#get_node("Combat").attack()
+	pass
 
 
 
-	

@@ -1,24 +1,16 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://game/Game.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/TileBackground-PCB.png" type="Texture" id=2]
 [ext_resource path="res://assets/theme/theme.tres" type="Theme" id=3]
 [ext_resource path="res://game/Camera.gd" type="Script" id=4]
 [ext_resource path="res://assets/tiles/tiles.tres" type="TileSet" id=5]
-[ext_resource path="res://game/Room.gd" type="Script" id=6]
-[ext_resource path="res://assets/sprites/Door.png" type="Texture" id=7]
+[ext_resource path="res://game/Room.tscn" type="PackedScene" id=6]
 [ext_resource path="res://ui/LeaveButton.gd" type="Script" id=8]
-[ext_resource path="res://game/Door.gd" type="Script" id=9]
 [ext_resource path="res://ui/DeathScreen.gd" type="Script" id=13]
 [ext_resource path="res://ui/LoseScreen.gd" type="Script" id=14]
 [ext_resource path="res://game/Entities.gd" type="Script" id=15]
 [ext_resource path="res://ui/ObjectiveMarker.gd" type="Script" id=18]
-
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 192, 96 )
-
-[sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 32, 10 )
 
 [node name="GameWrapper" type="Control"]
 margin_right = 40.0
@@ -31,29 +23,6 @@ __meta__ = {
 
 [node name="Game" type="Node2D" parent="."]
 script = ExtResource( 1 )
-
-[node name="RoomHandler" type="Node2D" parent="Game"]
-
-[node name="Room" type="Area2D" parent="Game/RoomHandler"]
-collision_layer = 0
-script = ExtResource( 6 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Game/RoomHandler/Room"]
-shape = SubResource( 1 )
-
-[node name="Door" type="StaticBody2D" parent="Game/RoomHandler/Room"]
-collision_layer = 8
-collision_mask = 65
-script = ExtResource( 9 )
-
-[node name="Sprite" type="Sprite" parent="Game/RoomHandler/Room/Door"]
-position = Vector2( 0, -200 )
-scale = Vector2( 2, 2 )
-texture = ExtResource( 7 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Game/RoomHandler/Room/Door"]
-position = Vector2( 0, -200 )
-shape = SubResource( 2 )
 
 [node name="Navigation2D" type="Navigation2D" parent="Game"]
 
@@ -75,6 +44,62 @@ tile_data = PoolIntArray( -5046324, 0, 0, -5046323, 0, 0, -5046322, 0, 0, -50463
 
 [node name="Entities" type="YSort" parent="Game"]
 script = ExtResource( 15 )
+
+[node name="RoomHandler" type="Node2D" parent="Game"]
+
+[node name="Room" parent="Game/RoomHandler" instance=ExtResource( 6 )]
+
+[node name="Door" parent="Game/RoomHandler/Room" index="1"]
+position = Vector2( 0, 96 )
+
+[node name="Room2" parent="Game/RoomHandler" instance=ExtResource( 6 )]
+position = Vector2( 0, -352 )
+
+[node name="Door" parent="Game/RoomHandler/Room2" index="1"]
+position = Vector2( 8, 1.52588e-05 )
+rotation = 1.5708
+
+[node name="Room3" parent="Game/RoomHandler" instance=ExtResource( 6 )]
+position = Vector2( 544, -352 )
+
+[node name="Door" parent="Game/RoomHandler/Room3" index="1"]
+position = Vector2( 0, 304 )
+rotation = 3.14159
+scale = Vector2( -1, -1 )
+
+[node name="Room4" parent="Game/RoomHandler" instance=ExtResource( 6 )]
+position = Vector2( 544, 0 )
+
+[node name="Door" parent="Game/RoomHandler/Room4" index="1"]
+position = Vector2( 0, 304 )
+rotation = 3.14159
+scale = Vector2( -1, -1 )
+
+[node name="Room5" parent="Game/RoomHandler" instance=ExtResource( 6 )]
+position = Vector2( 544, 352 )
+
+[node name="Door" parent="Game/RoomHandler/Room5" index="1"]
+position = Vector2( 0, 1.52588e-05 )
+rotation = 4.71239
+
+[node name="Room6" parent="Game/RoomHandler" instance=ExtResource( 6 )]
+position = Vector2( 0, 352 )
+
+[node name="Door" parent="Game/RoomHandler/Room6" index="1"]
+position = Vector2( 0, 1.52588e-05 )
+rotation = 4.71239
+
+[node name="Room7" parent="Game/RoomHandler" instance=ExtResource( 6 )]
+position = Vector2( -544, 352 )
+
+[node name="Door" parent="Game/RoomHandler/Room7" index="1"]
+position = Vector2( 0, 96 )
+
+[node name="Room8" parent="Game/RoomHandler" instance=ExtResource( 6 )]
+position = Vector2( -544, 0 )
+
+[node name="Door" parent="Game/RoomHandler/Room8" index="1"]
+position = Vector2( 0, 96 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="Game"]
 
@@ -196,7 +221,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[connection signal="body_entered" from="Game/RoomHandler/Room" to="Game/RoomHandler/Room" method="_on_Room_body_entered"]
-[connection signal="body_exited" from="Game/RoomHandler/Room" to="Game/RoomHandler/Room" method="_on_Room_body_exited"]
 [connection signal="pressed" from="Game/CanvasLayer/LoseScreen/LeaveButton" to="Game/CanvasLayer/LoseScreen/LeaveButton" method="_on_LeaveButton_pressed"]
 [connection signal="pressed" from="Game/EscPanel/LeaveButton" to="Game/EscPanel/LeaveButton" method="_on_LeaveButton_pressed"]
+
+[editable path="Game/RoomHandler/Room"]
+[editable path="Game/RoomHandler/Room2"]
+[editable path="Game/RoomHandler/Room3"]
+[editable path="Game/RoomHandler/Room4"]
+[editable path="Game/RoomHandler/Room5"]
+[editable path="Game/RoomHandler/Room6"]
+[editable path="Game/RoomHandler/Room7"]
+[editable path="Game/RoomHandler/Room8"]
