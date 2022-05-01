@@ -20,6 +20,9 @@ func _init(node: Node, entity_id: String, pos: Vector2):
 
 func _on_packet_received(packet: Dictionary) -> void:
 	match(packet.type):
-		Constants.PacketTypes.DESPAWN_MOB, Constants.PacketTypes.DESPAWN_ENVIRONMENT, Constants.PacketTypes.DESPAWN_ITEM:
+		Constants.PacketTypes.DESPAWN_ENVIRONMENT, Constants.PacketTypes.DESPAWN_ITEM:
+			if id == packet.id:
+				entity_node.queue_free()
+		Constants.PacketTypes.DESPAWN_MOB:
 			if id == packet.id:
 				entity_node.queue_free()
