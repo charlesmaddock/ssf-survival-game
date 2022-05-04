@@ -21,6 +21,7 @@ func _input(event):
 func _on_packet_received(packet) -> void:
 	
 	if packet.type == Constants.PacketTypes.MELEE_ATTACK:
+		if packet.id == entity_id:
 			var attack = attack_scene.instance()
 			var spawn_pos = global_position 
 			var dir = Vector2(packet.dirX, packet.dirY)

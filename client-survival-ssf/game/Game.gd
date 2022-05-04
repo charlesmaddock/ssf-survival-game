@@ -16,7 +16,7 @@ func _ready():
 	Lobby.emit_signal("game_has_loaded", self)
 	Server.connect("packet_received", self, "_on_packet_received")
 	
-
+"""
 	for i in 20:
 		var id = Util.generate_id()
 		var pos = Vector2(rand_range(-1000, 1000), rand_range(-1000, 1000))
@@ -26,7 +26,7 @@ func _ready():
 		var id = Util.generate_id()
 		var pos = Vector2(rand_range(-1000, 1000), rand_range(-1000, 1000))
 		Server.spawn_environment(id, Constants.EntityTypes.TREE, pos)
-
+"""
 
 func _physics_process(delta):
 	time += delta

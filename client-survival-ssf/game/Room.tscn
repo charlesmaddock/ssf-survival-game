@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://game/Room.gd" type="Script" id=1]
+[ext_resource path="res://game/Door.gd" type="Script" id=2]
+[ext_resource path="res://assets/sprites/Door.png" type="Texture" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 192, 96 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 32, 10 )
+
+[node name="Room" type="Area2D"]
+collision_layer = 0
+script = ExtResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="Door" type="StaticBody2D" parent="."]
+collision_layer = 8
+collision_mask = 65
+script = ExtResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="Door"]
+position = Vector2( 0, -200 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Door"]
+position = Vector2( 0, -200 )
+shape = SubResource( 2 )
+
+[connection signal="body_entered" from="." to="." method="_on_Room_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_Room_body_exited"]
