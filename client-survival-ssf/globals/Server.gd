@@ -150,16 +150,17 @@ func melee_attack(id: String, dir: Vector2, team: int)  -> void:
 
 
 func shoot_projectile(start_pos: Vector2, dir: Vector2, id: String, team: int)  -> void:
-	var payload = {
-		"type": Constants.PacketTypes.SHOOT_PROJECTILE, 
-		"posX": start_pos.x,
-		"posY": start_pos.y,
-		"dirX": dir.x,
-		"dirY": dir.y,
-		"id": id,
-		"team": team,
-	}
-	send_packet(payload)
+	if Lobby.is_host:
+		var payload = {
+			"type": Constants.PacketTypes.SHOOT_PROJECTILE, 
+			"posX": start_pos.x,
+			"posY": start_pos.y,
+			"dirX": dir.x,
+			"dirY": dir.y,
+			"id": id,
+			"team": team,
+		}
+		send_packet(payload)
 
 
 func spawn_mob(id: String, type: int, pos: Vector2) -> void:

@@ -2,7 +2,7 @@ extends Node2D
 
 
 export(bool) var retract = true
-export(float) var offset = 0.0
+export(bool) var start_retracted = false
 
 
 onready var DamageCollisionShape: CollisionShape2D = $Damage/CollisionShape2D
@@ -11,11 +11,15 @@ onready var InSpikes: Sprite = $InSpikes
 
 
 func _ready() -> void:
-	if retract == true:
-		$InOutTimer.start(offset) 
+	if start_retracted == true:
+		retract()
 
 
 func _on_InOutTimer_timeout():
+	retract()
+
+
+func retract() -> void:
 	DamageCollisionShape.disabled = !DamageCollisionShape.disabled
 	OutSpikes.set_visible(!DamageCollisionShape.disabled)
 	InSpikes.set_visible(DamageCollisionShape.disabled)
