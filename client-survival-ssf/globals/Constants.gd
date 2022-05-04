@@ -76,4 +76,4 @@ var class_info = [
 ]
 
 
-var app_mode: int = AppMode.DEVELOPMENT 
+var app_mode: int = AppMode.RELEASE 
