@@ -47,17 +47,25 @@ enum ItemTypes {
 
 enum EntityTypes {
 	PLAYER,
-	CLOUDER,
-	CHOWDER,
 	TREE
 }
 
+enum MobTypes {
+	CLOUDER,
+	CHOWDER,
+	TURRET_CRAWLER,
+	BAT,
+	MOLE,
+	SLIME,
+	SMALL_SLIME
+}
 
-var crafting_recipes = [
-	[ItemTypes.PINK_FLUFF, ItemTypes.PINK_FLUFF, ItemTypes.FLUFF_BALL],
-	[ItemTypes.FLUFF_BALL, ItemTypes.FLUFF_BALL, ItemTypes.FLUFF_ARROW],
-	[ItemTypes.FLUFF_ARROW, ItemTypes.FLUFF_ARROW, ItemTypes.CLOUDER],
-]
+
+enum Teams {
+	NONE,
+	GOOD_GUYS,
+	BAD_GUYS
+}
 
 
 var item_textures = {

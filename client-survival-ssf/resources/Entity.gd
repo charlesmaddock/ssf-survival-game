@@ -3,6 +3,7 @@ class_name Entity
 
 
 var id: String = ""
+var team: int = Constants.Teams.NONE
 var entity_node: Node
 
 
@@ -11,11 +12,12 @@ signal damage_taken(health, dir)
 signal request_attack()
 
 
-func _init(node: Node, entity_id: String, pos: Vector2):
+func _init(node: Node, entity_id: String, entity_team: int, pos: Vector2):
 	Server.connect("packet_received", self, "_on_packet_received")
 	entity_node = node
 	id = entity_id
 	node.global_position = pos
+	team = entity_team
 
 
 func _on_packet_received(packet: Dictionary) -> void:

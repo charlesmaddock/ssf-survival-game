@@ -5,8 +5,10 @@ var item_scene = preload("res://entities/Item.tscn")
 var attack_scene: PackedScene = preload("res://entities/Attack.tscn")
 
 var mob_type_scenes: Dictionary = {
-	Constants.EntityTypes.CLOUDER: preload("res://entities/Clouder.tscn"),
-	Constants.EntityTypes.CHOWDER: preload("res://entities/Chowder.tscn"),
+	Constants.MobTypes.CLOUDER: preload("res://entities/Clouder.tscn"),
+	Constants.MobTypes.CHOWDER: preload("res://entities/Chowder.tscn"),
+	Constants.MobTypes.TURRET_CRAWLER: preload("res://entities/TurretCrawler.tscn"),
+	Constants.MobTypes.MOLE: preload("res://entities/Mole.tscn"),
 }
 
 var environment_type_scenes: Dictionary = {
@@ -34,26 +36,26 @@ func _on_packet_received(packet: Dictionary) -> void:
 			var dir = Vector2(packet.dirX, packet.dirY)
 			var projectile_scene = preload("res://entities/Projectile.tscn")
 			var projectile = projectile_scene.instance()
-			projectile.init(spawn_pos, dir, 10, packet.id)
+			projectile.init(spawn_pos, dir, 10, packet.id, packet.team)
 			add_child(projectile)
 		Constants.PacketTypes.SPAWN_MOB:
 			var spawn_pos = Vector2(packet.posX, packet.posY)
 			var entity_type = int(packet.mob_type)
 			var scene = mob_type_scenes[entity_type] 
 			var entity = scene.instance()
-			entity.entity = Entity.new(entity, packet.id, spawn_pos)
+			entity.entity = Entity.new(entity, packet.id, Constants.Teams.BAD_GUYS, spawn_pos)
 			add_child(entity)
 		Constants.PacketTypes.SPAWN_ENVIRONMENT:
 			var spawn_pos = Vector2(packet.posX, packet.posY)
 			var entity_type = int(packet.environment_type)
 			var scene = environment_type_scenes[entity_type] 
 			var entity = scene.instance()
-			entity.entity = Entity.new(entity, packet.id, spawn_pos)
+			entity.entity = Entity.new(entity, packet.id, Constants.Teams.NONE, spawn_pos)
 			add_child(entity)
 		Constants.PacketTypes.SPAWN_ITEM:
 			var spawn_pos = Vector2(packet.posX, packet.posY)
 			var item = item_scene.instance()
-			item.entity = Entity.new(item, packet.id, spawn_pos)
+			item.entity = Entity.new(item, packet.id, Constants.Teams.NONE, spawn_pos)
 			item.init(int(packet.item_type)) 
 			add_child(item)
 		Constants.PacketTypes.MELEE_ATTACK:
@@ -62,6 +64,6 @@ func _on_packet_received(packet: Dictionary) -> void:
 				var attack = attack_scene.instance()
 				var spawn_pos = attacker_entity.global_position 
 				var dir = Vector2(packet.dirX, packet.dirY)
-				attack.init(spawn_pos, dir, 20, packet.id)
+				attack.init(spawn_pos, dir, 20, packet.id, packet.team)
 				add_child(attack)
 
