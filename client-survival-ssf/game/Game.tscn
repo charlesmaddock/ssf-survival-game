@@ -47,12 +47,14 @@ script = ExtResource( 15 )
 [node name="RoomHandler" type="Node2D" parent="Game"]
 
 [node name="Room" parent="Game/RoomHandler" instance=ExtResource( 6 )]
+_next_room_path = NodePath("../Room2")
 
 [node name="Door" parent="Game/RoomHandler/Room" index="1"]
 position = Vector2( 0, 96 )
 
 [node name="Room2" parent="Game/RoomHandler" instance=ExtResource( 6 )]
 position = Vector2( 0, -352 )
+_next_room_path = NodePath("../Room3")
 
 [node name="Door" parent="Game/RoomHandler/Room2" index="1"]
 position = Vector2( 8, 1.52588e-05 )
@@ -60,22 +62,23 @@ rotation = 1.5708
 
 [node name="Room3" parent="Game/RoomHandler" instance=ExtResource( 6 )]
 position = Vector2( 544, -352 )
+_next_room_path = NodePath("../Room4")
 
 [node name="Door" parent="Game/RoomHandler/Room3" index="1"]
-position = Vector2( 0, 304 )
+position = Vector2( 0, -94 )
 rotation = 3.14159
-scale = Vector2( -1, -1 )
 
 [node name="Room4" parent="Game/RoomHandler" instance=ExtResource( 6 )]
 position = Vector2( 544, 0 )
+_next_room_path = NodePath("../Room5")
 
 [node name="Door" parent="Game/RoomHandler/Room4" index="1"]
-position = Vector2( 0, 304 )
+position = Vector2( 0, -94 )
 rotation = 3.14159
-scale = Vector2( -1, -1 )
 
 [node name="Room5" parent="Game/RoomHandler" instance=ExtResource( 6 )]
 position = Vector2( 544, 352 )
+_next_room_path = NodePath("../Room6")
 
 [node name="Door" parent="Game/RoomHandler/Room5" index="1"]
 position = Vector2( 0, 1.52588e-05 )
@@ -83,6 +86,7 @@ rotation = 4.71239
 
 [node name="Room6" parent="Game/RoomHandler" instance=ExtResource( 6 )]
 position = Vector2( 0, 352 )
+_next_room_path = NodePath("../Room7")
 
 [node name="Door" parent="Game/RoomHandler/Room6" index="1"]
 position = Vector2( 0, 1.52588e-05 )
@@ -90,12 +94,14 @@ rotation = 4.71239
 
 [node name="Room7" parent="Game/RoomHandler" instance=ExtResource( 6 )]
 position = Vector2( -544, 352 )
+_next_room_path = NodePath("../Room8")
 
 [node name="Door" parent="Game/RoomHandler/Room7" index="1"]
 position = Vector2( 0, 96 )
 
 [node name="Room8" parent="Game/RoomHandler" instance=ExtResource( 6 )]
 position = Vector2( -544, 0 )
+_next_room_path = NodePath("../Room")
 
 [node name="Door" parent="Game/RoomHandler/Room8" index="1"]
 position = Vector2( 0, 96 )

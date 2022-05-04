@@ -114,6 +114,15 @@ func send_free_node(id: String) -> void:
 		"type": Constants.PacketTypes.FREE_NODE, 
 		"id": id
 	}
+	send_packet(payload)	
+
+
+func switch_rooms(new_pos: Vector2) -> void:
+	var payload = {
+		"type": Constants.PacketTypes.SWITCH_ROOMS,
+		"x": new_pos.x,
+		"y": new_pos.y
+	}
 	send_packet(payload)
 
 

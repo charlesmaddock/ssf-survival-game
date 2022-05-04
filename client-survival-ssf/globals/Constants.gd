@@ -34,6 +34,7 @@ enum PacketTypes {
   SPAWN_ITEM,
   DESPAWN_ITEM,
   ADD_TO_INVENTORY,
+  SWITCH_ROOMS,
 }
 
 
@@ -50,6 +51,13 @@ enum EntityTypes {
 	CLOUDER,
 	CHOWDER,
 	TREE
+}
+
+enum DoorDirectios {
+UP,
+DOWN,
+LEFT,
+RIGHT
 }
 
 

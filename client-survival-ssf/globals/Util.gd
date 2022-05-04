@@ -34,7 +34,7 @@ func get_entity(id: String) -> Node:
 
 
 func get_living_players() -> Array:
-	var entities = get_node("/root/Game/Entities").get_children()
+	var entities = get_node("/root/GameWrapper/Game/Entities").get_children()
 	var players = []
 	for e in entities:
 		if e.get("is_player") != null && e.visible == true:

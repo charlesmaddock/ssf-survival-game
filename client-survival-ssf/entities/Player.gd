@@ -5,6 +5,7 @@ onready var Sprite = $Sprite
 
 
 var entity: Entity
+var is_player: bool = true
 
 
 func _ready():
