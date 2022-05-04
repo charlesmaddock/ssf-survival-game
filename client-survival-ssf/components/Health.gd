@@ -40,9 +40,9 @@ func _on_packet_received(packet: Dictionary) -> void:
 				if movement_component != null:
 					movement_component.set_process(false)
 					movement_component.set_physics_process(false)
-				yield(get_tree().create_timer(2), "timeout")
+				#yield(get_tree().create_timer(2), "timeout")
 				
-				Events.emit_signal("player_dead", get_parent().entity.id)
+				#Events.emit_signal("player_dead", get_parent().entity.id)
 
 
 func damage_flash() -> void:

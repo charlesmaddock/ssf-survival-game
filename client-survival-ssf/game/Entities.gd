@@ -2,6 +2,7 @@ extends YSort
 
 
 var item_scene = preload("res://entities/Item.tscn")
+var attack_scene: PackedScene = preload("res://entities/Attack.tscn")
 
 var mob_type_scenes: Dictionary = {
 	Constants.EntityTypes.CLOUDER: preload("res://entities/Clouder.tscn"),
@@ -55,4 +56,12 @@ func _on_packet_received(packet: Dictionary) -> void:
 			item.entity = Entity.new(item, packet.id, spawn_pos)
 			item.init(int(packet.item_type)) 
 			add_child(item)
+		Constants.PacketTypes.MELEE_ATTACK:
+			var attacker_entity = get_entity(packet.id)
+			if attacker_entity != null:
+				var attack = attack_scene.instance()
+				var spawn_pos = attacker_entity.global_position 
+				var dir = Vector2(packet.dirX, packet.dirY)
+				attack.init(spawn_pos, dir, 20, packet.id)
+				add_child(attack)
 
