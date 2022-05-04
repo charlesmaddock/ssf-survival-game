@@ -2,7 +2,7 @@ import { WebSocket, WebSocketServer } from "ws";
 import isValidUTF8 from "utf-8-validate";
 import { IncomingMessage } from "http";
 
-const port = 9002;
+const port = 9005;
 const wss = new WebSocketServer({ port: port });
 
 type Class =
@@ -178,21 +178,21 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
             handleShootProjectile(ws, data);
             break;
           case PacketTypes.MELEE_ATTACK:
-            console.log("PacketTypes.MELEE_ATTACK is to be called")
+            console.log("PacketTypes.MELEE_ATTACK is to be called");
             handleMeleeAttack(ws, data);
             break;
           case PacketTypes.SPAWN_MOB:
             handleSpawnMob(ws, data);
             break;
           case PacketTypes.DESPAWN_MOB:
-              handleDespawnMob(ws, data);
-              break;
+            handleDespawnMob(ws, data);
+            break;
           case PacketTypes.SPAWN_ENVIRONMENT:
             handleSpawnEnvironment(ws, data);
             break;
           case PacketTypes.DESPAWN_ENVIRONMENT:
             handleDespawnEnvironment(ws, data);
-              break; 
+            break;
           case PacketTypes.SPAWN_MOB:
             handleSpawnMob(ws, data);
             break;
@@ -456,15 +456,13 @@ const handleMeleeAttack = (
     dirX: number;
     dirY: number;
   }
- ) => {
-
+) => {
   console.log("FINNA BROADCAST TO ROOM MY HANDLE-MELEEATTACK");
   let client = getClientFromWs(ws);
   let room: Room = getClientsRoom(client);
   console.log("I GOT PAST ROOOM YEAAAAAAAAAAAA");
 
   broadcastToRoom(room, packet);
-
 };
 
 const handleShootProjectile = (ws: WebSocket, packet: any) => {
@@ -486,7 +484,7 @@ const handleSpawnMob = (ws: WebSocket, packet: any) => {
 };
 
 const handleDespawnMob = (ws: WebSocket, packet: any) => {
-  console.log("handleDespawnMob: ", packet)
+  console.log("handleDespawnMob: ", packet);
   let client = getClientFromWs(ws);
   let room: Room = getClientsRoom(client);
   for (let i = 0; i < room.mobs.length; i++) {

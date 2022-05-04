@@ -1,7 +1,7 @@
 extends Node
 
 
-onready var url = "ws://127.0.0.1:9002" if Constants.app_mode == Constants.AppMode.DEVELOPMENT else "http://173.212.232.13:9002/"
+onready var url = "ws://127.0.0.1:9005" if Constants.app_mode == Constants.AppMode.DEVELOPMENT else "http://173.212.232.13:9005/"
 
 
 var _client = WebSocketClient.new()
