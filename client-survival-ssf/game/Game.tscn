@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://game/Game.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/TileBackground-PCB.png" type="Texture" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://game/Room.tscn" type="PackedScene" id=6]
 [ext_resource path="res://entities/Spikes.tscn" type="PackedScene" id=7]
 [ext_resource path="res://ui/LeaveButton.gd" type="Script" id=8]
+[ext_resource path="res://game/RoomHandler.gd" type="Script" id=9]
 [ext_resource path="res://ui/DeathScreen.gd" type="Script" id=13]
 [ext_resource path="res://ui/LoseScreen.gd" type="Script" id=14]
 [ext_resource path="res://game/Entities.gd" type="Script" id=15]
@@ -176,6 +177,7 @@ position = Vector2( 432, -336 )
 position = Vector2( 656, -368 )
 
 [node name="RoomHandler" type="Node2D" parent="Game"]
+script = ExtResource( 9 )
 
 [node name="Room" parent="Game/RoomHandler" instance=ExtResource( 6 )]
 _next_room_path = NodePath("../Room2")

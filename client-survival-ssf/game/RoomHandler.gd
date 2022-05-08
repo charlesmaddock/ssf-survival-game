@@ -1,6 +1,6 @@
 extends Node2D
 
-export(int) var _number_of_rooms: int 
+export(int) var _number_of_rooms: int = 9
 
 
 
@@ -16,7 +16,13 @@ func _ready():
 
 
 func _generate_rooms() -> void:
+	
 	for i in _number_of_rooms:
+		if i == 1:
+			pass
+		
 		#generate random room continuation
 		#randi() % 4
-		pass
+		
+		else: 
+			pass

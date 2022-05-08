@@ -38,6 +38,12 @@ enum PacketTypes {
 }
 
 
+enum RoomTypes {
+	MOB_ROOM,
+	PUZZLE_ROOM,
+}
+
+
 enum ItemTypes {
 	PINK_FLUFF,
 	FLUFF_BALL,
