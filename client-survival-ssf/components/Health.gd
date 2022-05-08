@@ -7,6 +7,7 @@ export(float) var max_health = 100
 onready var Bar = $Bar
 onready var health: float = max_health
 onready var health_for_entity_w_id: String = get_parent().entity.id
+onready var health_for_entity_team: int = get_parent().entity.team
 
 
 var _is_dead: bool
@@ -58,6 +59,6 @@ func take_damage(damage: float, dir: Vector2) -> void:
 
 
 func _on_DamageArea_area_entered(area):
-	if area.has_method("is_made_by"):
-		if area.is_made_by(health_for_entity_w_id) == false:
+	if area.has_method("same_creator_or_team"):
+		if area.same_creator_or_team(health_for_entity_w_id, health_for_entity_team) == false:
 			take_damage(area.get_damage(), area.global_position.direction_to(global_position))

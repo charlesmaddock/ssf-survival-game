@@ -3,8 +3,8 @@
 [ext_resource path="res://components/AI.gd" type="Script" id=1]
 
 [sub_resource type="CapsuleShape2D" id=4]
-radius = 126.0
-height = 70.0
+radius = 365.0
+height = 214.0
 
 [node name="AI" type="Node2D"]
 script = ExtResource( 1 )

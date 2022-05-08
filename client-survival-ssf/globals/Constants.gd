@@ -48,10 +48,9 @@ enum ItemTypes {
 
 enum EntityTypes {
 	PLAYER,
-	CLOUDER,
-	CHOWDER,
 	TREE
 }
+
 
 enum DoorDirectios {
 UP,
@@ -61,11 +60,22 @@ RIGHT
 }
 
 
-var crafting_recipes = [
-	[ItemTypes.PINK_FLUFF, ItemTypes.PINK_FLUFF, ItemTypes.FLUFF_BALL],
-	[ItemTypes.FLUFF_BALL, ItemTypes.FLUFF_BALL, ItemTypes.FLUFF_ARROW],
-	[ItemTypes.FLUFF_ARROW, ItemTypes.FLUFF_ARROW, ItemTypes.CLOUDER],
-]
+enum MobTypes {
+	CLOUDER,
+	CHOWDER,
+	TURRET_CRAWLER,
+	BAT,
+	MOLE,
+	SLIME,
+	SMALL_SLIME
+}
+
+
+enum Teams {
+	NONE,
+	GOOD_GUYS,
+	BAD_GUYS
+}
 
 
 var item_textures = {
@@ -84,4 +94,4 @@ var class_info = [
 ]
 
 
-var app_mode: int = AppMode.DEVELOPMENT 
+var app_mode: int = AppMode.RELEASE 

@@ -2,8 +2,6 @@ extends Area2D
 
 
 
-export(int) var _monster_amount: int = 1
-export(preload("res://globals/Constants.gd").EntityTypes) var _monster_type: int = 1
 export(bool) var _final_room: bool = false
 export(NodePath) var _next_room_path: NodePath
 
@@ -12,6 +10,15 @@ onready var _door: Node2D = $Door
 onready var room_center_position = self.global_position
 onready var _next_room_spawn_pos = $Door/NextRoomSpawnPos.global_position
 onready var _next_room: Area2D = get_node(_next_room_path)
+
+
+export(int) var _monster_amount: int = 3
+export(preload("res://globals/Constants.gd").MobTypes) var mob_type_1: int 
+export(int) var mob_type_1_amount: int = 1
+export(preload("res://globals/Constants.gd").MobTypes) var mob_type_2: int 
+export(int) var mob_type_2_amount: int = 0
+export(preload("res://globals/Constants.gd").MobTypes) var mob_type_3: int 
+export(int) var mob_type_3_amount: int = 0
 
 
 var _mobs_in_room: Array = [] 
@@ -34,21 +41,17 @@ func _ready():
 
 func _on_Room_body_entered(body):
 	if Lobby.is_host:
+		randomize()
 		if Util.is_entity(body) && body.get("_is_animal") == null && _room_completed == false && _mobs_entered_room == false:
-			var mob_spawn_count: int = int(Lobby.players_data.size() * 1.5) * _monster_amount
-			for i in mob_spawn_count:
-				if i % 3 == 0:
+			var mob_spawn_data = [{"type": mob_type_1, "amount": mob_type_1_amount}, {"type": mob_type_2, "amount": mob_type_2_amount}, {"type": mob_type_3, "amount": mob_type_3_amount}]
+			for data in mob_spawn_data:
+				for i in data["amount"]:
 					var id = Util.generate_id()
 					var pos = Vector2(rand_range(room_center_position.x - 96, room_center_position.x + 96), rand_range(room_center_position.y - 48, room_center_position.y + 48))
-					Server.spawn_mob(id, Constants.EntityTypes.CHOWDER, pos)
+					Server.spawn_mob(id, data["type"], pos)
 					_mobs_in_room.append(id)
-				else:
-					var id = Util.generate_id()
-					var pos = Vector2(rand_range(room_center_position.x - 96, room_center_position.x + 96), rand_range(room_center_position.y - 48, room_center_position.y + 48))
-					Server.spawn_mob(id, _monster_type, pos)
-					_mobs_in_room.append(id)
-			
-			_mobs_entered_room = true
+				
+				_mobs_entered_room = true
 
 
 func _on_Room_body_exited(body):
@@ -67,7 +70,6 @@ func _go_next_room() -> void:
 		for player in Util.get_living_players(): 
 			print("looping through players for go next room")
 			player.global_position = _next_room_spawn_pos
-	#teleport players
 
 
 #must be refined later with server-site support

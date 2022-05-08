@@ -451,6 +451,7 @@ const handleSetHealth = (
   broadcastToRoom(room, packet);
 };
 
+<<<<<<< HEAD
 const handleMeleeAttack = (
   ws: WebSocket,
   packet: {
@@ -461,6 +462,9 @@ const handleMeleeAttack = (
   }
  ) => {
 
+=======
+const handleMeleeAttack = (ws: WebSocket, packet: any) => {
+>>>>>>> 7b67be07278e823be24760dabc78d8d7f08714ed
   let client = getClientFromWs(ws);
   let room: Room = getClientsRoom(client);
 
