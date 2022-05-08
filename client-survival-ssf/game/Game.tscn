@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://game/Game.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/TileBackground-PCB.png" type="Texture" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://game/Camera.gd" type="Script" id=4]
 [ext_resource path="res://assets/tiles/tiles.tres" type="TileSet" id=5]
 [ext_resource path="res://game/Room.tscn" type="PackedScene" id=6]
+[ext_resource path="res://game/RoomHandler.gd" type="Script" id=7]
 [ext_resource path="res://ui/LeaveButton.gd" type="Script" id=8]
 [ext_resource path="res://ui/DeathScreen.gd" type="Script" id=13]
 [ext_resource path="res://ui/LoseScreen.gd" type="Script" id=14]
@@ -45,6 +46,7 @@ tile_data = PoolIntArray( -1114139, 6, 0, -1114138, 6, 1, -1114137, 6, 1, -11141
 script = ExtResource( 15 )
 
 [node name="RoomHandler" type="Node2D" parent="Game"]
+script = ExtResource( 7 )
 
 [node name="Room" parent="Game/RoomHandler" instance=ExtResource( 6 )]
 _next_room_path = NodePath("../Room2")

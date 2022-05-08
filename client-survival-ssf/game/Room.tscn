@@ -19,17 +19,17 @@ script = ExtResource( 1 )
 shape = SubResource( 1 )
 
 [node name="Door" type="StaticBody2D" parent="."]
+position = Vector2( 0, 104 )
 collision_layer = 8
 collision_mask = 65
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="Door"]
-position = Vector2( 0, -200 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 3 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Door"]
-position = Vector2( 0, -200 )
+position = Vector2( 0, 6 )
 shape = SubResource( 2 )
 
 [node name="NextRoomSpawnPos" type="Node2D" parent="Door"]
