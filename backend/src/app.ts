@@ -35,6 +35,7 @@ enum PacketTypes {
   SPAWN_ITEM,
   DESPAWN_ITEM,
   ADD_TO_INVENTORY,
+  SWITCH_ROOMS,
 }
 type PacketType = PacketTypes;
 
@@ -58,7 +59,7 @@ interface Room {
   hostId: string;
   clients: Array<Client>;
   mobs: Array<Mob>;
-  environments: Array<Environment>;
+  environments: Array<Environment>
   items: Array<Item>;
 }
 
@@ -184,14 +185,14 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
             handleSpawnMob(ws, data);
             break;
           case PacketTypes.DESPAWN_MOB:
-            handleDespawnMob(ws, data);
-            break;
+              handleDespawnMob(ws, data);
+              break;
           case PacketTypes.SPAWN_ENVIRONMENT:
             handleSpawnEnvironment(ws, data);
             break;
           case PacketTypes.DESPAWN_ENVIRONMENT:
             handleDespawnEnvironment(ws, data);
-            break;
+              break; 
           case PacketTypes.SPAWN_MOB:
             handleSpawnMob(ws, data);
             break;
@@ -203,6 +204,9 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
             break;
           case PacketTypes.ADD_TO_INVENTORY:
             handleAddItemToInventory(ws, data);
+            break;
+          case PacketTypes.SWITCH_ROOMS:
+            handleSwitchRooms(ws, data);
             break;
           default:
             console.error("Unhandled packet type.");
@@ -447,11 +451,25 @@ const handleSetHealth = (
   broadcastToRoom(room, packet);
 };
 
+<<<<<<< HEAD
+const handleMeleeAttack = (
+  ws: WebSocket,
+  packet: {
+    type: number;
+    id: string;
+    dirX: number;
+    dirY: number;
+  }
+ ) => {
+
+=======
 const handleMeleeAttack = (ws: WebSocket, packet: any) => {
+>>>>>>> 7b67be07278e823be24760dabc78d8d7f08714ed
   let client = getClientFromWs(ws);
   let room: Room = getClientsRoom(client);
 
   broadcastToRoom(room, packet);
+
 };
 
 const handleShootProjectile = (ws: WebSocket, packet: any) => {
@@ -473,7 +491,7 @@ const handleSpawnMob = (ws: WebSocket, packet: any) => {
 };
 
 const handleDespawnMob = (ws: WebSocket, packet: any) => {
-  console.log("handleDespawnMob: ", packet);
+  console.log("handleDespawnMob: ", packet)
   let client = getClientFromWs(ws);
   let room: Room = getClientsRoom(client);
   for (let i = 0; i < room.mobs.length; i++) {
@@ -548,6 +566,12 @@ const broadcastToRoom = (
       }
     });
   }
+};
+
+const handleSwitchRooms = (ws: WebSocket, packet: any) => {
+  let client = getClientFromWs(ws);
+  let room: Room = getClientsRoom(client);
+  broadcastToRoom(room, packet);
 };
 
 const sendJoined = (ws: WebSocket, room: Room) => {

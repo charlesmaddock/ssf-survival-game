@@ -34,6 +34,13 @@ enum PacketTypes {
   SPAWN_ITEM,
   DESPAWN_ITEM,
   ADD_TO_INVENTORY,
+  SWITCH_ROOMS,
+}
+
+
+enum RoomTypes {
+	MOB_ROOM,
+	PUZZLE_ROOM,
 }
 
 
@@ -49,6 +56,15 @@ enum EntityTypes {
 	PLAYER,
 	TREE
 }
+
+
+enum DoorDirectios {
+UP,
+DOWN,
+LEFT,
+RIGHT
+}
+
 
 enum MobTypes {
 	CLOUDER,

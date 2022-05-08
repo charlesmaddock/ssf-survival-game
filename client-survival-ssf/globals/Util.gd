@@ -1,6 +1,8 @@
 extends Node
 
 
+onready var _room_scene: PackedScene = preload("res://game/Room.tscn")
+
 var has_used_touch: bool = false 
 
 
@@ -34,7 +36,7 @@ func get_entity(id: String) -> Node:
 
 
 func get_living_players() -> Array:
-	var entities = get_node("/root/Game/Entities").get_children()
+	var entities = get_node("/root/GameWrapper/Game/Entities").get_children()
 	var players = []
 	for e in entities:
 		if e.get("is_player") != null && e.visible == true:
@@ -48,3 +50,36 @@ func get_sprite_for_class(className: String) -> Texture:
 			return info.tex
 	
 	return null
+
+
+func generate_room(room_handler: Node2D, room_type, room_coordinates, entry_direction, exit_direction) -> void:
+	var new_room: Node2D = _room_scene.instance()
+	new_room.global_position = room_coordinates
+	var room_door: StaticBody2D = new_room.get_node("Door")
+	var room_door_passage: Area2D = room_door.get_node("Passage")
+	
+	
+	match(entry_direction):
+		Constants.DoorDirections.UP:
+			pass
+		Constants.DoorDirections.DOWN:
+			pass
+		Constants.DoorDirections.LEFT:
+			pass
+		Constants.DoorDirections.RIGHT:
+			pass
+	
+	match(exit_direction):
+		Constants.DoorDirections.UP:
+			pass
+		Constants.DoorDirections.DOWN:
+			room_door.rotation_degrees = 180
+		Constants.DoorDirections.LEFT:
+			room_door.position.y += 96
+			room_door.rotation_degrees = 270
+		Constants.DoorDirections.RIGHT:
+			room_door.position.y += 96
+			room_door.rotation_degrees = 90
+	
+	
+	room_handler.add_child(new_room)

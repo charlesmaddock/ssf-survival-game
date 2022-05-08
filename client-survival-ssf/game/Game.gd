@@ -20,5 +20,3 @@ func generate_players(player_data: Array) -> void:
 		player.entity = Entity.new(player, data.id, Constants.Teams.GOOD_GUYS,  Vector2.ZERO)
 		player.set_players_data(data.name, data.class)
 		Entities.add_child(player)
-		if data.id == Lobby.my_id:
-			Camera.set_follow(player)
