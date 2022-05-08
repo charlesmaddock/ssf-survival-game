@@ -10,8 +10,6 @@ var players_data: Array
 var dead_player_ids: Array = []
 var bot_amount: int = 0
 
-var specating_player_w_id: String = ""
-
 
 signal game_has_loaded(game_node)
 
@@ -34,6 +32,8 @@ func get_amount_good_guys() -> int:
 func _on_player_dead(id) -> void:
 	if dead_player_ids.find(id) == -1:
 		dead_player_ids.append(id)
+		if dead_player_ids.size() == players_data.size():
+			Events.emit_signal("game_over")
 
 
 func _on_packet_recieved(packet: Dictionary) -> void:
@@ -80,6 +80,7 @@ func handle_update_client_data(packet: Dictionary) -> void:
 
 func handle_game_started(packet: Dictionary) -> void:
 	players_data = packet.players
+	dead_player_ids.clear()
 	
 	print("players_data: ", packet.players)
 	

@@ -43,6 +43,7 @@ func _on_DigTimer_timeout():
 	undergroundSprite.set_visible(true)
 	surfaceTimer.start(5)
 	_underground = false
+	get_node("Health").set_invinsible(true) 
 	get_node("Movement").set_physics_process(true)
 
 
@@ -51,5 +52,6 @@ func _on_SurfaceTimer_timeout():
 	undergroundSprite.set_visible(false)
 	undergroundTimer.start(3)
 	_underground = true
+	get_node("Health").set_invinsible(false) 
 	get_node("Movement").set_physics_process(false)
 	

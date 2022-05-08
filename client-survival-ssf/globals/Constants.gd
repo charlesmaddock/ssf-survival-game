@@ -35,6 +35,7 @@ enum PacketTypes {
   DESPAWN_ITEM,
   ADD_TO_INVENTORY,
   SWITCH_ROOMS,
+  COMPLETE_ROOM
 }
 
 
@@ -100,4 +101,4 @@ var class_info = [
 ]
 
 
-var app_mode: int = AppMode.RELEASE 
+var app_mode: int = AppMode.DEVELOPMENT 

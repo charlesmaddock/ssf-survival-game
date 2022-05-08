@@ -57,8 +57,9 @@ func _on_Room_body_entered(body):
 func _on_Room_body_exited(body):
 	print("I can see that these is a body leaving: ", body, "And room is: ", _room_completed)
 	if _room_completed == true && Util.is_entity(body) && body.get("_is_animal") == null:
-		print("I will now _go_next_room!")
-		_go_next_room()
+		if (Util.is_dead(body) == false):
+			print("I will now _go_next_room!")
+			_go_next_room()
 
 
 func _go_next_room() -> void:
@@ -74,6 +75,9 @@ func _go_next_room() -> void:
 
 #must be refined later with server-site support
 func _on_packet_received(packet: Dictionary) -> void:
+	if packet.type == Constants.PacketTypes.COMPLETE_ROOM:
+		if packet.name == self.name:
+			_door._open()
 	if packet.type == Constants.PacketTypes.DESPAWN_MOB:
 		#print("I found a packet that I will deal with! -Yours sincerely, Room ;3", packet.id)
 		#print("The list of mobs in this room!: ",_mobs_in_room)
@@ -85,7 +89,7 @@ func _on_packet_received(packet: Dictionary) -> void:
 				_room_completed = true
 				if _final_room == false:
 					print("- Room is completed! -")
-					_door._open()
+					Server.room_completed(self.name)
 				if _final_room == true:
 					Events.emit_signal("game_over")
 

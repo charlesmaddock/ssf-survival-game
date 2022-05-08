@@ -61,7 +61,7 @@ func get_target_path(target_pos):
 
 
 func _on_Damage_body_entered(body):
-	if body.get("is_player"):
+	if Util.is_player(body):
 		body.emit_signal("take_damage", 30, global_position.direction_to(body.global_position))
 
 

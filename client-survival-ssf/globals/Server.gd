@@ -100,6 +100,13 @@ func start() -> void:
 	send_packet(payload)
 
 
+func restart_game() -> void:
+	var payload = {
+		"type": Constants.PacketTypes.START_GAME, 
+	}
+	send_packet(payload)
+
+
 func send_input(input: Vector2) -> void:
 	var payload = {
 		"type": Constants.PacketTypes.SET_INPUT, 
@@ -122,6 +129,14 @@ func switch_rooms(new_pos: Vector2) -> void:
 		"type": Constants.PacketTypes.SWITCH_ROOMS,
 		"x": new_pos.x,
 		"y": new_pos.y
+	}
+	send_packet(payload)
+
+
+func room_completed(name: String) -> void:
+	var payload = {
+		"type": Constants.PacketTypes.COMPLETE_ROOM,
+		"name": name,
 	}
 	send_packet(payload)
 

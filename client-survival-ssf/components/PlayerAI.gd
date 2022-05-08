@@ -73,15 +73,6 @@ func set_random_room_point() -> void:
 		room_point = random_room_point
 
 
-func is_scammer(body) -> bool:
-	return body.get("is_player") == null && body is KinematicBody2D
-
-
-func _on_ScammerFOVArea_body_entered(body):
-	if is_scammer(body):
-		scammers_in_view.append(body)
-
-
 func _on_ScammerFOVArea_body_exited(body):
 	var remove_at = scammers_in_view.find(body)
 	if remove_at != -1:

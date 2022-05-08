@@ -5,6 +5,7 @@ export(float) var max_health = 100
 
 
 onready var Bar = $Bar
+onready var HealthCollisionShape = $DamageArea/CollisionShape2D
 onready var health: float = max_health
 onready var health_for_entity_w_id: String = get_parent().entity.id
 onready var health_for_entity_team: int = get_parent().entity.team
@@ -20,11 +21,22 @@ func _ready():
 	Server.connect("packet_received", self, "_on_packet_received")
 
 
+func get_is_dead() -> bool:
+	return _is_dead
+
+
 func _on_damage_taken(damage, dir: Vector2) -> void:
 	take_damage(damage, dir)
 
 
+func set_invinsible(invinsible: bool) -> void:
+	HealthCollisionShape.set_disabled(invinsible)
+
+
 func _on_packet_received(packet: Dictionary) -> void:
+	if packet.type == Constants.PacketTypes.COMPLETE_ROOM:
+		if Util.is_player(get_parent()):
+				Server.set_health(health_for_entity_w_id, max_health, Vector2.ZERO)
 	if packet.type == Constants.PacketTypes.SET_HEALTH:
 		if packet.id == health_for_entity_w_id:
 			health = packet.health
@@ -41,9 +53,10 @@ func _on_packet_received(packet: Dictionary) -> void:
 				if movement_component != null:
 					movement_component.set_process(false)
 					movement_component.set_physics_process(false)
-				#yield(get_tree().create_timer(2), "timeout")
+				yield(get_tree().create_timer(2), "timeout")
 				
-				#Events.emit_signal("player_dead", get_parent().entity.id)
+				if Util.is_player(get_parent()):
+					Events.emit_signal("player_dead", get_parent().entity.id)
 
 
 func damage_flash() -> void:

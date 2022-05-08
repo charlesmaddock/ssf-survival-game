@@ -6,6 +6,19 @@ onready var _room_scene: PackedScene = preload("res://game/Room.tscn")
 var has_used_touch: bool = false 
 
 
+func is_player(body) -> bool:
+	return body.get("is_player") != null
+
+
+func is_dead(body) -> bool:
+	if is_entity(body):
+		var health_node = body.get_node("Health")
+		if health_node != null:
+			return health_node.get_is_dead()
+	
+	return false
+
+
 func _input(event):
 	if event is InputEventScreenTouch or event is InputEventScreenDrag:
 		has_used_touch = true

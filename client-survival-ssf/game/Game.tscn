@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://game/Game.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/TileBackground-PCB.png" type="Texture" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://entities/Spikes.tscn" type="PackedScene" id=7]
 [ext_resource path="res://ui/LeaveButton.gd" type="Script" id=8]
 [ext_resource path="res://game/RoomHandler.gd" type="Script" id=9]
+[ext_resource path="res://ui/RestartButton.gd" type="Script" id=10]
 [ext_resource path="res://ui/DeathScreen.gd" type="Script" id=13]
 [ext_resource path="res://ui/LoseScreen.gd" type="Script" id=14]
 [ext_resource path="res://game/Entities.gd" type="Script" id=15]
@@ -183,8 +184,8 @@ script = ExtResource( 9 )
 _next_room_path = NodePath("../Room2")
 mob_type_1_amount = 2
 
-[node name="Door" parent="Game/RoomHandler/Room" index="1"]
-position = Vector2( 0, 96 )
+[node name="NextRoomSpawnPos" parent="Game/RoomHandler/Room/Door" index="2"]
+position = Vector2( 0, -224 )
 
 [node name="Room2" parent="Game/RoomHandler" instance=ExtResource( 6 )]
 position = Vector2( 0, -352 )
@@ -193,8 +194,11 @@ mob_type_1 = 4
 mob_type_1_amount = 2
 
 [node name="Door" parent="Game/RoomHandler/Room2" index="1"]
-position = Vector2( 8, 1.52588e-05 )
+position = Vector2( 96, 0 )
 rotation = 1.5708
+
+[node name="NextRoomSpawnPos" parent="Game/RoomHandler/Room2/Door" index="2"]
+position = Vector2( -0.000854492, -240 )
 
 [node name="Room3" parent="Game/RoomHandler" instance=ExtResource( 6 )]
 position = Vector2( 544, -352 )
@@ -203,9 +207,12 @@ mob_type_1 = 2
 mob_type_1_amount = 3
 
 [node name="Door" parent="Game/RoomHandler/Room3" index="1"]
-position = Vector2( 0, 304 )
-rotation = 3.14159
+position = Vector2( 0, -3.05176e-05 )
+rotation = 6.28319
 scale = Vector2( -1, -1 )
+
+[node name="NextRoomSpawnPos" parent="Game/RoomHandler/Room3/Door" index="2"]
+position = Vector2( -6.10352e-05, -224 )
 
 [node name="Room4" parent="Game/RoomHandler" instance=ExtResource( 6 )]
 position = Vector2( 544, 0 )
@@ -213,13 +220,17 @@ _next_room_path = NodePath("../Room5")
 mob_type_1_amount = 0
 
 [node name="Door" parent="Game/RoomHandler/Room4" index="1"]
-visible = false
-position = Vector2( 0, 304 )
-rotation = 3.14159
+rotation = 6.28319
 scale = Vector2( -1, -1 )
+
+[node name="Sprite" parent="Game/RoomHandler/Room4/Door" index="0"]
+visible = false
 
 [node name="CollisionShape2D" parent="Game/RoomHandler/Room4/Door" index="1"]
 disabled = true
+
+[node name="NextRoomSpawnPos" parent="Game/RoomHandler/Room4/Door" index="2"]
+position = Vector2( 0.00012207, -48 )
 
 [node name="Room5" parent="Game/RoomHandler" instance=ExtResource( 6 )]
 position = Vector2( 544, 352 )
@@ -229,8 +240,11 @@ mob_type_2 = 1
 mob_type_2_amount = 1
 
 [node name="Door" parent="Game/RoomHandler/Room5" index="1"]
-position = Vector2( 0, 1.52588e-05 )
+position = Vector2( -96, -1.52588e-05 )
 rotation = 4.71239
+
+[node name="NextRoomSpawnPos" parent="Game/RoomHandler/Room5/Door" index="2"]
+position = Vector2( -0.000244141, -256 )
 
 [node name="Room6" parent="Game/RoomHandler" instance=ExtResource( 6 )]
 position = Vector2( 0, 352 )
@@ -243,8 +257,11 @@ mob_type_3 = 4
 mob_type_3_amount = 2
 
 [node name="Door" parent="Game/RoomHandler/Room6" index="1"]
-position = Vector2( 0, 1.52588e-05 )
+position = Vector2( -96, 0 )
 rotation = 4.71239
+
+[node name="NextRoomSpawnPos" parent="Game/RoomHandler/Room6/Door" index="2"]
+position = Vector2( -0.000244141, -256 )
 
 [node name="Room7" parent="Game/RoomHandler" instance=ExtResource( 6 )]
 position = Vector2( -544, 352 )
@@ -254,8 +271,8 @@ mob_type_1_amount = 3
 mob_type_2 = 4
 mob_type_2_amount = 3
 
-[node name="Door" parent="Game/RoomHandler/Room7" index="1"]
-position = Vector2( 0, 96 )
+[node name="NextRoomSpawnPos" parent="Game/RoomHandler/Room7/Door" index="2"]
+position = Vector2( 0, -256 )
 
 [node name="Room8" parent="Game/RoomHandler" instance=ExtResource( 6 )]
 position = Vector2( -544, 0 )
@@ -267,8 +284,8 @@ mob_type_2_amount = 3
 mob_type_3 = 4
 mob_type_3_amount = 3
 
-[node name="Door" parent="Game/RoomHandler/Room8" index="1"]
-position = Vector2( 0, 96 )
+[node name="NextRoomSpawnPos" parent="Game/RoomHandler/Room8/Door" index="2"]
+position = Vector2( 0, -256 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="Game"]
 
@@ -304,7 +321,6 @@ __meta__ = {
 }
 
 [node name="LoseScreen" type="ColorRect" parent="Game/CanvasLayer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -325,9 +341,26 @@ margin_top = -82.5
 margin_right = 145.0
 margin_bottom = 82.5
 custom_colors/font_color = Color( 0.180392, 0.207843, 0.0588235, 1 )
-text = "Basen förstördes, ni förlorade."
+text = "Alla spelare dog, game over."
 align = 1
 valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RestartButton" type="Button" parent="Game/CanvasLayer/LoseScreen"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -49.5
+margin_top = 13.0
+margin_right = 50.5
+margin_bottom = 27.0
+rect_min_size = Vector2( 100, 0 )
+theme = ExtResource( 3 )
+text = "Börja om"
+script = ExtResource( 10 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -370,6 +403,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[connection signal="pressed" from="Game/CanvasLayer/LoseScreen/RestartButton" to="Game/CanvasLayer/LoseScreen/RestartButton" method="_on_RestartButton_pressed"]
 [connection signal="pressed" from="Game/CanvasLayer/LoseScreen/LeaveButton" to="Game/CanvasLayer/LoseScreen/LeaveButton" method="_on_LeaveButton_pressed"]
 [connection signal="pressed" from="Game/EscPanel/LeaveButton" to="Game/EscPanel/LeaveButton" method="_on_LeaveButton_pressed"]
 
