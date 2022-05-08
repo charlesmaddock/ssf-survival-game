@@ -17,6 +17,7 @@ signal game_has_loaded(game_node)
 func _ready():
 	Server.connect("packet_received", self, "_on_packet_recieved")
 	Events.connect("player_dead", self, "_on_player_dead")
+	Events.connect("player_revived", self, "_on_player_revived")
 	connect("game_has_loaded", self, "_on_game_loaded")
 
 
@@ -34,6 +35,12 @@ func _on_player_dead(id) -> void:
 		dead_player_ids.append(id)
 		if dead_player_ids.size() == players_data.size():
 			Events.emit_signal("game_over")
+
+
+func _on_player_revived(id) -> void:
+	var index = dead_player_ids.find(id)
+	if index != -1:
+		dead_player_ids.remove(index)
 
 
 func _on_packet_recieved(packet: Dictionary) -> void:

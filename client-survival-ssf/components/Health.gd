@@ -12,9 +12,12 @@ onready var health_for_entity_team: int = get_parent().entity.team
 
 
 var _is_dead: bool
+var _default_parent_collision_layer: int
 
 
 func _ready():
+	if get_parent().get("collision_layer") != null:
+		_default_parent_collision_layer = get_parent().collision_layer
 	Bar.max_value = max_health
 	Bar.value = max_health
 	get_parent().entity.connect("take_damage", self, "_on_damage_taken")
@@ -34,7 +37,7 @@ func set_invinsible(invinsible: bool) -> void:
 
 
 func _on_packet_received(packet: Dictionary) -> void:
-	if packet.type == Constants.PacketTypes.COMPLETE_ROOM:
+	if packet.type == Constants.PacketTypes.SWITCH_ROOMS:
 		if Util.is_player(get_parent()):
 				Server.set_health(health_for_entity_w_id, max_health, Vector2.ZERO)
 	if packet.type == Constants.PacketTypes.SET_HEALTH:
@@ -57,6 +60,20 @@ func _on_packet_received(packet: Dictionary) -> void:
 				
 				if Util.is_player(get_parent()):
 					Events.emit_signal("player_dead", get_parent().entity.id)
+			
+			if health > 0 && _is_dead == true:
+				_is_dead = false
+				get_parent().rotation_degrees = 0
+				get_parent().collision_layer = _default_parent_collision_layer
+				
+				var movement_component = get_parent().get_node("Movement")
+				if movement_component != null:
+					movement_component.set_process(true)
+					movement_component.set_physics_process(true)
+				
+				if Util.is_player(get_parent()):
+					Events.emit_signal("player_revived", get_parent().entity.id)
+				
 
 
 func damage_flash() -> void:

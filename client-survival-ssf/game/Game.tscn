@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://game/Game.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/TileBackground-PCB.png" type="Texture" id=2]
@@ -13,6 +13,38 @@
 [ext_resource path="res://ui/DeathScreen.gd" type="Script" id=13]
 [ext_resource path="res://ui/LoseScreen.gd" type="Script" id=14]
 [ext_resource path="res://game/Entities.gd" type="Script" id=15]
+
+[sub_resource type="RectangleShape2D" id=1]
+resource_local_to_scene = true
+extents = Vector2( 192, 96 )
+
+[sub_resource type="RectangleShape2D" id=2]
+resource_local_to_scene = true
+extents = Vector2( 192, 96 )
+
+[sub_resource type="RectangleShape2D" id=3]
+resource_local_to_scene = true
+extents = Vector2( 192, 96 )
+
+[sub_resource type="RectangleShape2D" id=4]
+resource_local_to_scene = true
+extents = Vector2( 192, 120 )
+
+[sub_resource type="RectangleShape2D" id=5]
+resource_local_to_scene = true
+extents = Vector2( 192, 96 )
+
+[sub_resource type="RectangleShape2D" id=6]
+resource_local_to_scene = true
+extents = Vector2( 192, 96 )
+
+[sub_resource type="RectangleShape2D" id=7]
+resource_local_to_scene = true
+extents = Vector2( 192, 96 )
+
+[sub_resource type="RectangleShape2D" id=8]
+resource_local_to_scene = true
+extents = Vector2( 192, 96 )
 
 [node name="GameWrapper" type="Control"]
 margin_right = 40.0
@@ -184,6 +216,9 @@ script = ExtResource( 9 )
 _next_room_path = NodePath("../Room2")
 mob_type_1_amount = 2
 
+[node name="CollisionShape2D" parent="Game/RoomHandler/Room" index="0"]
+shape = SubResource( 1 )
+
 [node name="NextRoomSpawnPos" parent="Game/RoomHandler/Room/Door" index="2"]
 position = Vector2( 0, -224 )
 
@@ -192,6 +227,9 @@ position = Vector2( 0, -352 )
 _next_room_path = NodePath("../Room3")
 mob_type_1 = 4
 mob_type_1_amount = 2
+
+[node name="CollisionShape2D" parent="Game/RoomHandler/Room2" index="0"]
+shape = SubResource( 2 )
 
 [node name="Door" parent="Game/RoomHandler/Room2" index="1"]
 position = Vector2( 96, 0 )
@@ -206,6 +244,9 @@ _next_room_path = NodePath("../Room4")
 mob_type_1 = 2
 mob_type_1_amount = 3
 
+[node name="CollisionShape2D" parent="Game/RoomHandler/Room3" index="0"]
+shape = SubResource( 3 )
+
 [node name="Door" parent="Game/RoomHandler/Room3" index="1"]
 position = Vector2( 0, -3.05176e-05 )
 rotation = 6.28319
@@ -217,20 +258,17 @@ position = Vector2( -6.10352e-05, -224 )
 [node name="Room4" parent="Game/RoomHandler" instance=ExtResource( 6 )]
 position = Vector2( 544, 0 )
 _next_room_path = NodePath("../Room5")
-mob_type_1_amount = 0
+
+[node name="CollisionShape2D" parent="Game/RoomHandler/Room4" index="0"]
+position = Vector2( 0, -24 )
+shape = SubResource( 4 )
 
 [node name="Door" parent="Game/RoomHandler/Room4" index="1"]
 rotation = 6.28319
 scale = Vector2( -1, -1 )
 
-[node name="Sprite" parent="Game/RoomHandler/Room4/Door" index="0"]
-visible = false
-
-[node name="CollisionShape2D" parent="Game/RoomHandler/Room4/Door" index="1"]
-disabled = true
-
 [node name="NextRoomSpawnPos" parent="Game/RoomHandler/Room4/Door" index="2"]
-position = Vector2( 0.00012207, -48 )
+position = Vector2( -6.10352e-05, -226 )
 
 [node name="Room5" parent="Game/RoomHandler" instance=ExtResource( 6 )]
 position = Vector2( 544, 352 )
@@ -239,12 +277,15 @@ mob_type_1_amount = 2
 mob_type_2 = 1
 mob_type_2_amount = 1
 
+[node name="CollisionShape2D" parent="Game/RoomHandler/Room5" index="0"]
+shape = SubResource( 5 )
+
 [node name="Door" parent="Game/RoomHandler/Room5" index="1"]
 position = Vector2( -96, -1.52588e-05 )
 rotation = 4.71239
 
 [node name="NextRoomSpawnPos" parent="Game/RoomHandler/Room5/Door" index="2"]
-position = Vector2( -0.000244141, -256 )
+position = Vector2( -0.000183105, -208 )
 
 [node name="Room6" parent="Game/RoomHandler" instance=ExtResource( 6 )]
 position = Vector2( 0, 352 )
@@ -256,12 +297,15 @@ mob_type_2_amount = 1
 mob_type_3 = 4
 mob_type_3_amount = 2
 
+[node name="CollisionShape2D" parent="Game/RoomHandler/Room6" index="0"]
+shape = SubResource( 6 )
+
 [node name="Door" parent="Game/RoomHandler/Room6" index="1"]
 position = Vector2( -96, 0 )
 rotation = 4.71239
 
 [node name="NextRoomSpawnPos" parent="Game/RoomHandler/Room6/Door" index="2"]
-position = Vector2( -0.000244141, -256 )
+position = Vector2( -0.000213623, -208 )
 
 [node name="Room7" parent="Game/RoomHandler" instance=ExtResource( 6 )]
 position = Vector2( -544, 352 )
@@ -271,8 +315,11 @@ mob_type_1_amount = 3
 mob_type_2 = 4
 mob_type_2_amount = 3
 
+[node name="CollisionShape2D" parent="Game/RoomHandler/Room7" index="0"]
+shape = SubResource( 7 )
+
 [node name="NextRoomSpawnPos" parent="Game/RoomHandler/Room7/Door" index="2"]
-position = Vector2( 0, -256 )
+position = Vector2( 0, -192 )
 
 [node name="Room8" parent="Game/RoomHandler" instance=ExtResource( 6 )]
 position = Vector2( -544, 0 )
@@ -284,8 +331,11 @@ mob_type_2_amount = 3
 mob_type_3 = 4
 mob_type_3_amount = 3
 
+[node name="CollisionShape2D" parent="Game/RoomHandler/Room8" index="0"]
+shape = SubResource( 8 )
+
 [node name="NextRoomSpawnPos" parent="Game/RoomHandler/Room8/Door" index="2"]
-position = Vector2( 0, -256 )
+position = Vector2( 0, -176 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="Game"]
 
