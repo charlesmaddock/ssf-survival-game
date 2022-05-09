@@ -25,10 +25,21 @@ var _mobs_in_room: Array = []
 var _mobs_entered_room: bool = false
 var _room_completed: bool = false
 
+var _room_data: Dictionary
+
 
 func _ready():
-	print(self.name, " - This is my room pos!: ", room_center_position)
 	Server.connect("packet_received", self, "_on_packet_received")
+	
+	global_position = _room_data.room_rect.position * 32
+	_door.global_position = _room_data.door_pos
+	var next_room = get_parent().get_node(str(_room_data.id + 1))
+	if next_room != null:
+		print("found next room! ", next_room)
+		_next_room = next_room
+	
+	if name == str(0):
+		Server.switch_rooms(global_position + (_room_data.room_rect.size / 2) * 32)
 
 #lagra array av ids på spawnade mobs, ifall lista.size = 0 then room_completed = true
 	#ELLER en collider som känner ifall det är mobs kvar i rummet, om ej ? room_completed = true
@@ -37,6 +48,11 @@ func _ready():
 	#när man entrar room_body, då ska man komma till nytt rum
 	#tänk på kamera!
 	#192-96 area
+
+
+func set_room_data(room_data: Dictionary) -> void:
+	name = str(room_data.id)
+	_room_data = room_data
 
 
 func _on_Room_body_entered(body):

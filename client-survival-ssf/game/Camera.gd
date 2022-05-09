@@ -10,6 +10,11 @@ func _ready():
 
 
 func _process(delta):
+	if Input.is_key_pressed(KEY_1) && Input.is_key_pressed(KEY_2):
+		zoom = Vector2(5, 5)
+	else:
+		zoom = Vector2.ONE
+	
 	if self.global_position != destined_position:
 		position = position.linear_interpolate(destined_position, delta * 4)
 
