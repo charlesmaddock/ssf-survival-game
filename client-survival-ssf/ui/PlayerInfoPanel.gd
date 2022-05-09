@@ -41,8 +41,8 @@ func set_player_info(client_data: Dictionary) -> void:
 	Name.text = client_data.name
 	ClassName.text = client_data.class
 	
-	LeftButton.set_visible(client_data.id == Lobby.my_id)
-	RightButton.set_visible(client_data.id == Lobby.my_id)
+	#LeftButton.set_visible(client_data.id == Lobby.my_id)
+	#RightButton.set_visible(client_data.id == Lobby.my_id)
 
 
 func _on_Left_pressed():

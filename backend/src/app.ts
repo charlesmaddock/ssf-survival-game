@@ -248,7 +248,7 @@ const handleConnected = (ws: WebSocket) => {
     id: id,
     name: name + Math.floor(Math.random() * 100),
     socket: ws,
-    class: "Sam the Sniper",
+    class: "Ryan the Robot",
   };
 
   console.log(`New player, id: ${id}`);

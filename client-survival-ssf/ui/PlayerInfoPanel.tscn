@@ -2,7 +2,7 @@
 
 [ext_resource path="res://assets/theme/theme.tres" type="Theme" id=1]
 [ext_resource path="res://ui/PlayerInfoPanel.gd" type="Script" id=2]
-[ext_resource path="res://assets/sprites/coolCharacter.png" type="Texture" id=3]
+[ext_resource path="res://assets/sprites/robot.png" type="Texture" id=3]
 
 [node name="PlayerInfoPanel" type="Control"]
 margin_right = 100.0
@@ -76,6 +76,7 @@ margin_bottom = 64.0
 alignment = 1
 
 [node name="Left" type="Button" parent="Panel/MarginContainer/vbox/ClassContainer"]
+visible = false
 margin_left = 8.0
 margin_right = 18.0
 margin_bottom = 24.0
@@ -93,8 +94,9 @@ position = Vector2( 25, 11 )
 texture = ExtResource( 3 )
 
 [node name="Right" type="Button" parent="Panel/MarginContainer/vbox/ClassContainer"]
-margin_left = 74.0
-margin_right = 84.0
+visible = false
+margin_left = 67.0
+margin_right = 77.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 10, 10 )
 text = ">"
