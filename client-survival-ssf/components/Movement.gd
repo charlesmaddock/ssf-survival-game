@@ -14,6 +14,7 @@ var _send_pos_iteration = 0
 var _velocity = Vector2.ZERO
 var _force: Vector2 = Vector2.ZERO
 var _prev_input: Vector2 = Vector2.ZERO
+var walking: bool = false
 
 
 func _ready():
@@ -58,7 +59,12 @@ func get_input():
 		velocity.y += 1
 	if Input.is_action_pressed("ui_up"):
 		velocity.y -= 1
+	if velocity == Vector2.ZERO:
+		walking = false
+	else:
+		walking = true
 	return velocity.normalized() + joy_stick_velocity
+
 
 
 func _physics_process(delta):
