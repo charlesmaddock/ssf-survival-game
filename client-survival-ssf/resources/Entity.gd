@@ -10,6 +10,7 @@ var entity_node: Node
 signal take_damage(damage, dir)
 signal damage_taken(health, dir)
 signal request_attack()
+signal change_movement_speed(speed)
 
 
 func _init(node: Node, entity_id: String, entity_team: int, pos: Vector2):

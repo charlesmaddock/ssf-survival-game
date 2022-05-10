@@ -5,13 +5,16 @@ onready var parent_entity: Entity = get_parent().entity
 var walk_state: bool = false
 var movement_node: Node
 
-export(float) var walk_speed: float = 0.3
+export(float) var walk_speed: float = 80
 export(Texture) var leg_texture: Texture
 
 
 func _ready():
-	get_node("Timer").wait_time = walk_speed
+	get_node("Timer").wait_time = 0.3 - round(walk_speed/100)/10
 	movement_node = get_parent().get_node("Movement")
+	
+	if movement_node != null:
+		get_parent().entity.emit_signal("change_movement_speed", walk_speed)
 	
 	if leg_texture != null:
 		get_node("Sprite1").texture = leg_texture

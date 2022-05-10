@@ -48,5 +48,6 @@ cowardly = true
 [node name="RoomVisibility" parent="." instance=ExtResource( 7 )]
 
 [node name="RobotLegs" parent="." instance=ExtResource( 8 )]
+walk_speed = 60.0
 
 [editable path="Health"]
