@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://assets/sprites/robot.png" type="Texture" id=1]
 [ext_resource path="res://entities/Player.gd" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://components/Health.tscn" type="PackedScene" id=4]
 [ext_resource path="res://components/Movement.tscn" type="PackedScene" id=5]
 [ext_resource path="res://components/RobotLegs.tscn" type="PackedScene" id=6]
+[ext_resource path="res://assets/sprites/character.png" type="Texture" id=7]
 [ext_resource path="res://assets/theme/theme.tres" type="Theme" id=8]
 
 [sub_resource type="CapsuleShape2D" id=1]
@@ -50,3 +51,4 @@ position = Vector2( -3, -11 )
 
 [node name="RobotLegs" parent="." instance=ExtResource( 6 )]
 position = Vector2( 2, -7 )
+leg_texture = ExtResource( 7 )
