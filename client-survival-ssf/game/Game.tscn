@@ -92,6 +92,8 @@ script = ExtResource( 14 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+win_color = Color( 0.47451, 0.831373, 0.513726, 1 )
+lose_color = Color( 0.890196, 0.431373, 0.431373, 1 )
 
 [node name="Label" type="Label" parent="Game/CanvasLayer/LoseScreen"]
 anchor_left = 0.5

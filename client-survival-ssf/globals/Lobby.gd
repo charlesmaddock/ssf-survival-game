@@ -34,7 +34,7 @@ func _on_player_dead(id) -> void:
 	if dead_player_ids.find(id) == -1:
 		dead_player_ids.append(id)
 		if dead_player_ids.size() == players_data.size():
-			Events.emit_signal("game_over")
+			Events.emit_signal("game_over", false)
 
 
 func _on_player_revived(id) -> void:

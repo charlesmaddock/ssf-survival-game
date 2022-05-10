@@ -383,8 +383,8 @@ const handleStartGame = (ws: WebSocket) => {
   if (startingClient !== null) {
     let playerSpawnPoints = [
       {
-        x: 0 + (Math.random() - 0.5 * 16),
-        y: 0 + (Math.random() - 0.5 * 16),
+        x: 100 + (Math.random() - 0.5 * 16),
+        y: -100 + (Math.random() - 0.5 * 16),
       },
     ];
     let spawnPosPlayer =

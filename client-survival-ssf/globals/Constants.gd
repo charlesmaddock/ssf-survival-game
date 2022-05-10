@@ -2,7 +2,7 @@ extends Node
 
 
 const PLAYERS_PER_ROOM: int = 6
-
+const TILE_SIZE = Vector2(32, 32)
 
 enum AppMode {
 	DEVELOPMENT,

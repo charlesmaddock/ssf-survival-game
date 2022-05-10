@@ -17,6 +17,6 @@ func generate_players(player_data: Array) -> void:
 	var scammer_i: int
 	for data in player_data:
 		var player = player_scene.instance()
-		player.entity = Entity.new(player, data.id, Constants.Teams.GOOD_GUYS,  Vector2.ZERO)
+		player.entity = Entity.new(player, data.id, Constants.Teams.GOOD_GUYS,  Vector2(100, 100))
 		player.set_players_data(data.name, data.class)
 		Entities.add_child(player)

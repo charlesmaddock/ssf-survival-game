@@ -11,7 +11,7 @@ func _ready():
 
 func _process(delta):
 	if Input.is_key_pressed(KEY_1) && Input.is_key_pressed(KEY_2):
-		zoom = Vector2(5, 5)
+		zoom = Vector2(9, 9)
 	else:
 		zoom = Vector2.ONE
 	
@@ -21,6 +21,4 @@ func _process(delta):
 
 func _on_packet_received(packet: Dictionary) -> void:
 	if packet.type == Constants.PacketTypes.SWITCH_ROOMS:
-		print("We 'bout to switch rooms mah dudes: ", packet.x, packet.y)
 		destined_position = Vector2(packet.x, packet.y)
-			

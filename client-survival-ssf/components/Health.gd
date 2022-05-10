@@ -6,7 +6,7 @@ export(float) var max_health = 100
 
 onready var Bar = $Bar
 onready var HealthCollisionShape = $DamageArea/CollisionShape2D
-onready var health: float = max_health
+onready var health: float 
 onready var health_for_entity_w_id: String = get_parent().entity.id
 onready var health_for_entity_team: int = get_parent().entity.team
 
@@ -16,12 +16,18 @@ var _default_parent_collision_layer: int
 
 
 func _ready():
+	# Temp: 20% more health for each player in room
+	max_health += max_health * Lobby.players_data.size() * 0.2
+	
 	if get_parent().get("collision_layer") != null:
 		_default_parent_collision_layer = get_parent().collision_layer
 	Bar.max_value = max_health
 	Bar.value = max_health
+	health = max_health 
 	get_parent().entity.connect("take_damage", self, "_on_damage_taken")
 	Server.connect("packet_received", self, "_on_packet_received")
+	
+	
 
 
 func get_is_dead() -> bool:
