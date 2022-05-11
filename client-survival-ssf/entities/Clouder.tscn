@@ -48,6 +48,11 @@ cowardly = true
 [node name="RoomVisibility" parent="." instance=ExtResource( 7 )]
 
 [node name="RobotLegs" parent="." instance=ExtResource( 8 )]
-walk_speed = 60.0
+
+[node name="TargetEnemyTimer" type="Timer" parent="."]
+wait_time = 0.016
+autostart = true
+
+[connection signal="timeout" from="TargetEnemyTimer" to="." method="_on_TargetEnemyTimer_timeout"]
 
 [editable path="Health"]
