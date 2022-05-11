@@ -81,15 +81,11 @@ func handle_update_client_data(packet: Dictionary) -> void:
 	
 	if new_client_data.id == my_id:
 		my_client_data = new_client_data
-	
-	print("players_data: ", players_data)
 
 
 func handle_game_started(packet: Dictionary) -> void:
 	players_data = packet.players
 	dead_player_ids.clear()
-	
-	print("players_data: ", packet.players)
 	
 	get_tree().change_scene("res://game/Game.tscn")
 	# Now we wait for _on_game_loaded

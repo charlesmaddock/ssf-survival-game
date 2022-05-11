@@ -245,6 +245,21 @@ func despawn_item(id: String) -> void:
 	send_packet(payload)
 
 
+func rooms_generated(rooms: Array) -> void:
+	var modified_rooms = rooms.duplicate(true)
+	for room_data in modified_rooms:
+		for key in room_data.keys():
+			if typeof(room_data[key]) == TYPE_VECTOR2:
+				room_data[key] = {"x": room_data[key].x, "y": room_data[key].y, }
+	
+	print("modified_rooms: ", modified_rooms)
+	var payload = {
+		"type": Constants.PacketTypes.ROOMS_GENERATED, 
+		"rooms": modified_rooms,
+	}
+	send_packet(payload)
+
+
 func add_to_inventory(id: String, item_id: String) -> void:
 	var payload = {
 		"type": Constants.PacketTypes.ADD_TO_INVENTORY, 

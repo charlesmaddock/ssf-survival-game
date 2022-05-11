@@ -31,10 +31,10 @@ var _next_room_data: Dictionary = {}
 func _ready():
 	Server.connect("packet_received", self, "_on_packet_received")
 	
-	global_position = (_room_data.room_rect.position + _room_data.room_rect.size / 2) * Constants.TILE_SIZE.x
-	_door.global_position = _room_data.exit_pos * Constants.TILE_SIZE
+	global_position = (Vector2(_room_data.room_rect_pos.x, _room_data.room_rect_pos.y) + Vector2(_room_data.room_rect_size.x, _room_data.room_rect_size.y) / 2) * Constants.TILE_SIZE.x
+	_door.global_position = Vector2(_room_data.exit_pos.x, _room_data.exit_pos.y) * Constants.TILE_SIZE
 	if _next_room_data.empty() == false:
-		_next_room_spawn_pos.global_position = (_next_room_data.enter_pos + Vector2.RIGHT + Vector2.DOWN * 3) * Constants.TILE_SIZE 
+		_next_room_spawn_pos.global_position = (Vector2(_next_room_data.enter_pos.x, _next_room_data.enter_pos.y) + Vector2.RIGHT + Vector2.DOWN * 3) * Constants.TILE_SIZE 
 	
 	print_mobs()
 	
@@ -55,8 +55,8 @@ func get_next_room() -> Node:
 
 func get_available_spawn_points() -> Array:
 	var spawn_points = []
-	for y in range(_room_data.room_rect.position.y + 1, _room_data.room_rect.end.y - 1):
-		for x in range(_room_data.room_rect.position.x + 1, _room_data.room_rect.end.x - 1):
+	for y in range(_room_data.room_rect_pos.y + 1, _room_data.room_rect_end.y - 1):
+		for x in range(_room_data.room_rect_pos.x + 1, _room_data.room_rect_end.x - 1):
 			var space_state = get_world_2d().direct_space_state
 			var result: Dictionary = space_state.intersect_ray(Vector2(x, y) * Constants.TILE_SIZE, (Vector2(x, y) + Vector2.ONE) * Constants.TILE_SIZE, [])
 			if result.empty() == false:

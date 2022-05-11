@@ -37,6 +37,7 @@ enum PacketTypes {
   ADD_TO_INVENTORY,
   SWITCH_ROOMS,
   COMPLETE_ROOM,
+  ROOMS_GENERATED,
 }
 type PacketType = PacketTypes;
 
@@ -211,6 +212,9 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
             break;
           case PacketTypes.COMPLETE_ROOM:
             handleCompleteRoom(ws, data);
+            break;
+          case PacketTypes.ROOMS_GENERATED:
+            handleRoomsGenerated(ws, data);
             break;
           default:
             console.error("Unhandled packet type.");
@@ -565,6 +569,12 @@ const handleSwitchRooms = (ws: WebSocket, packet: any) => {
 };
 
 const handleCompleteRoom = (ws: WebSocket, packet: any) => {
+  let client = getClientFromWs(ws);
+  let room: Room = getClientsRoom(client);
+  broadcastToRoom(room, packet);
+};
+
+const handleRoomsGenerated = (ws: WebSocket, packet: any) => {
   let client = getClientFromWs(ws);
   let room: Room = getClientsRoom(client);
   broadcastToRoom(room, packet);

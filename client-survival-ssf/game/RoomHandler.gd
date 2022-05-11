@@ -17,10 +17,15 @@ var _room_coordinates: PoolVector2Array = [Vector2(0, 0)]
 
 
 func _ready():
-	Events.connect("rooms_generated", self, "_on_rooms_generated")
+	Server.connect("packet_received", self, "_on_packet_received")
 	
 	if Lobby.is_host:
 		_generate_rooms() 
+
+
+func _on_packet_received(packet: Dictionary) -> void:
+	if packet.type == Constants.PacketTypes.ROOMS_GENERATED:
+		_on_rooms_generated(packet.rooms)
 
 
 func _on_rooms_generated(all_room_data: Array) -> void:
@@ -49,10 +54,9 @@ func _generate_rooms() -> void:
 		var prev_room_data = null
 		var enter_pos = Vector2.ZERO
 		var final_room = i == _number_of_rooms - 1
-		print("final: ", final_room)
 		if i - 1 >= 0:
 			prev_room_data = all_room_data[i - 1]
-			enter_pos = prev_room_data.exit_pos + Vector2.UP * prev_room_data.corridor_rect.size.y 
+			enter_pos = prev_room_data.exit_pos + Vector2.UP * prev_room_data.corridor_rect_size.y 
 		
 		var mobs = generate_mobs(i + 1)
 		
@@ -64,9 +68,16 @@ func _generate_rooms() -> void:
 			exit_pos = Vector2(1000, 1000)
 			corridor_pos = Vector2(2000, 2000)
 		
+		var room_rect = Rect2(current_pos, ROOM_DIMENSIONS)
+		var corridor_rect = Rect2(corridor_pos, CORRIDOR_DIMENSIONS)
+		
 		var data = {
-			"room_rect": Rect2(current_pos, ROOM_DIMENSIONS),
-			"corridor_rect": Rect2(corridor_pos, CORRIDOR_DIMENSIONS),
+			"room_rect_pos": room_rect.position,
+			"room_rect_end": room_rect.end,
+			"room_rect_size": room_rect.size,
+			"corridor_rect_pos": corridor_rect.position,
+			"corridor_rect_end": corridor_rect.end,
+			"corridor_rect_size": corridor_rect.size,
 			"exit_pos": exit_pos,
 			"enter_pos": enter_pos,
 			"mobs": mobs,
@@ -74,8 +85,8 @@ func _generate_rooms() -> void:
 		}
 		current_pos -= Vector2(0, ROOM_DIMENSIONS.y + CORRIDOR_DIMENSIONS.y) + Vector2.UP
 		all_room_data.append(data)
-		
-	Events.emit_signal("rooms_generated", all_room_data)
+	
+	Server.rooms_generated(all_room_data)
 
 
 func generate_mobs(i) -> Array:
