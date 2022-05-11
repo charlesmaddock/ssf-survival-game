@@ -100,7 +100,7 @@ interface Item {
 let rooms: Array<Room> = [];
 let clients: Array<Client> = [];
 
-console.log(`Running on ws://127.0.0.1:${port}`);
+console.log(`Running on ws://127.0.0.1:${port}!`);
 
 const clientHasNotConnected = (id: string): boolean => {
   return clients.filter((c) => c.id == id).length == 0;
