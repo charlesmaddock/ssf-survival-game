@@ -1,9 +1,6 @@
 extends Node2D
 
 
-export(float) var speed: float = 80.0
-
-
 onready var JoyStick = $CanvasLayer/CanvasModulate/Control/JoyStick
 onready var entity_id = get_parent().entity.id
 
@@ -17,6 +14,7 @@ var _prev_input: Vector2 = Vector2.ZERO
 
 var walking: bool = false
 var attack_freeze: bool = false
+var speed: float = 80.0
 
 
 func _ready():
@@ -24,6 +22,12 @@ func _ready():
 	
 	get_parent().entity.connect("damage_taken", self, "_on_take_damage")
 	get_parent().entity.connect("change_movement_speed", self, "_on_change_movement_speed")
+	get_parent().entity.connect("dashed", self, "_on_dashed")
+
+
+func _on_dashed(dir) -> void:
+	print("I am dashing within movement right now!")
+	_force += dir
 
 
 func _on_take_damage(health, dir) -> void:
@@ -39,7 +43,7 @@ func set_speed(speed: float) -> void:
 
 
 func set_velocity(dir: Vector2) -> void:
-	_velocity = dir * speed
+	_velocity = dir.normalized() * speed
 
 
 func _on_packet_received(packet: Dictionary) -> void:
@@ -87,7 +91,6 @@ func _physics_process(delta):
 				walking = false
 			else:
 				walking = true
-			
 			#only works for host
 	else:
 		get_parent().global_position = get_parent().global_position.linear_interpolate(target_position, delta * 6)
