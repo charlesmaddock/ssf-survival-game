@@ -18,6 +18,7 @@ onready var nav: Navigation2D = Util.get_game_node().get_node("Navigation2D")
 onready var gameNode = Util.get_game_node()
 onready var base = Util.get_entity("base")
 onready var timer = $Timer
+onready var parent_entity: Node2D = self.get_parent()
 
 
 var path = []
@@ -47,6 +48,13 @@ func _physics_process(delta):
 		if path.size() > 0:
 			move_to_target()
 
+
+func get_strafe_position(strafe_dist, target_player_position) -> Vector2:
+	var strafe_dir_normalized = target_player_position.global_position.direction_to(self.global_position)
+	var strafe_pos_without_strafe: Vector2 = target_player_position.global_position + strafe_dir_normalized * strafe_dist
+	var strafe_pos: Vector2  = target_player_position.global_position + strafe_dir_normalized.rotated(deg2rad(40)) * strafe_dist
+	return strafe_pos
+	
 
 func move_to_target():
 	if global_position.distance_to(path[0]) < threshold:
@@ -93,3 +101,4 @@ func _on_IdleWalkTimer_timeout():
 		get_target_path(global_position + Vector2.ONE * (randf() - 0.5) * 100)
 	else:
 		get_target_path(global_position)
+

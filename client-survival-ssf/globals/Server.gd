@@ -252,7 +252,7 @@ func rooms_generated(rooms: Array) -> void:
 			if typeof(room_data[key]) == TYPE_VECTOR2:
 				room_data[key] = {"x": room_data[key].x, "y": room_data[key].y, }
 	
-	print("modified_rooms: ", modified_rooms)
+	#print("modified_rooms: ", modified_rooms)
 	var payload = {
 		"type": Constants.PacketTypes.ROOMS_GENERATED, 
 		"rooms": modified_rooms,
