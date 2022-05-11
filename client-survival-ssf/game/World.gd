@@ -13,7 +13,6 @@ func _on_packet_received(packet: Dictionary) -> void:
 
 
 func _on_rooms_generated(all_room_data: Array) -> void:
-	print("all_room_data: ", all_room_data)
 	for rd in all_room_data:
 		var exit_pos = rd.exit_pos
 		var enter_pos = rd.enter_pos
