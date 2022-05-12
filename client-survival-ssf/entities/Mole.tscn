@@ -41,7 +41,6 @@ margin_top = -34.0
 margin_bottom = -30.0
 
 [node name="Movement" parent="." instance=ExtResource( 5 )]
-speed = 40.0
 
 [node name="AI" parent="." instance=ExtResource( 3 )]
 agressive = true

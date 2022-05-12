@@ -47,6 +47,16 @@ func get_game_node() -> Node:
 func get_entity(id: String) -> Node:
 	return get_node("/root/GameWrapper/Game/Entities").get_entity(id)
 
+func get_closest_player(position) -> Object:
+	var living_players: Array = Util.get_living_players()
+	var closest_player
+	var distance_to_closest_player = 99999
+	for player in living_players:
+		var distance_between_positions = position.distance_to(player.global_position)
+		if distance_between_positions < distance_to_closest_player:
+			distance_to_closest_player = distance_between_positions
+			closest_player = player
+	return closest_player
 
 func get_living_players() -> Array:
 	var entities = get_node("/root/GameWrapper/Game/Entities").get_children()
