@@ -11,6 +11,7 @@ signal take_damage(damage, dir)
 signal damage_taken(health, dir)
 signal request_attack()
 signal change_movement_speed(speed)
+signal turned_around(dir)
 
 
 func _init(node: Node, entity_id: String, entity_team: int, pos: Vector2):
