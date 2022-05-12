@@ -41,9 +41,9 @@ func _on_rooms_generated(all_room_data: Array) -> void:
 
 
 var mob_difficulties = {
-	Constants.MobTypes.CHOWDER: 6,
-	Constants.MobTypes.TURRET_CRAWLER: 4,
-	Constants.MobTypes.MOLE: 3,
+	Constants.MobTypes.CHOWDER: 5,
+	Constants.MobTypes.TURRET_CRAWLER: 3,
+	Constants.MobTypes.MOLE: 2,
 	Constants.MobTypes.CLOUDER: 1,
 }
 

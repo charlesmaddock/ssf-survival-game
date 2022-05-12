@@ -47,7 +47,7 @@ rect_min_size = Vector2( 100, 0 )
 [node name="Label" type="Label" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer"]
 margin_right = 104.0
 margin_bottom = 8.0
-text = "SSF HEROES"
+text = "SSF Survival Game"
 align = 1
 
 [node name="NameInput" type="LineEdit" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer"]
@@ -105,7 +105,6 @@ __meta__ = {
 }
 
 [node name="Lobby" type="ColorRect" parent="."]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2

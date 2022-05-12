@@ -21,6 +21,11 @@ position = Vector2( 0, -22 )
 rotation = 1.5708
 shape = SubResource( 4 )
 
+[node name="IdleWalkTimer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="body_entered" from="FOVArea" to="." method="_on_FOVArea_body_entered"]
 [connection signal="body_exited" from="FOVArea" to="." method="_on_FOVArea_body_exited"]
+[connection signal="timeout" from="IdleWalkTimer" to="." method="_on_IdleWalkTimer_timeout"]
