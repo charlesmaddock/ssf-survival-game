@@ -26,6 +26,7 @@ jobs:
           cache: "npm"
           cache-dependency-path: "./backend/package-lock.json"
       - run: npm i --prefix backend
+      - run: npm i --prefix builds
       - run: npm run build --prefix backend
       - run: pm2 restart AdventureGameServer
       - run: pm2 restart AdventureGameWeb
