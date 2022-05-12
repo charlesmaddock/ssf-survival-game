@@ -11,6 +11,7 @@ var _send_pos_iteration = 0
 var _velocity = Vector2.ZERO
 var _force: Vector2 = Vector2.ZERO
 var _prev_input: Vector2 = Vector2.ZERO
+var _prev_pos: Vector2
 
 var walking: bool = false
 var attack_freeze: bool = false
@@ -22,6 +23,8 @@ func _ready():
 	
 	get_parent().entity.connect("damage_taken", self, "_on_take_damage")
 	get_parent().entity.connect("change_movement_speed", self, "_on_change_movement_speed")
+	
+	_prev_pos = get_parent().global_position
 	get_parent().entity.connect("dashed", self, "_on_dashed")
 
 
@@ -94,6 +97,19 @@ func _physics_process(delta):
 			#only works for host
 	else:
 		get_parent().global_position = get_parent().global_position.linear_interpolate(target_position, delta * 6)
+	
+	if _prev_pos.distance_to(get_parent().global_position) > 0.1:
+		walking = true
+	else:
+		walking = false
+	
+	if walking:
+		if abs(_prev_pos.x - get_parent().global_position.x) > 1:
+			get_parent().entity.emit_signal("turned_around", _prev_pos.x > get_parent().global_position.x)
+	
+	
+	_prev_pos = get_parent().global_position
+	
 	
 	if _force.length() < 3:
 		_force = Vector2.ZERO
