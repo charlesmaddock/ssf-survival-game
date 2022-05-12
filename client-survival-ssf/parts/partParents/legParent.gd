@@ -67,6 +67,7 @@ func _on_turned_around(dir):
 	if dir:
 		sprite1.offset.x = sprite_offset.x * -1
 		sprite2.offset.x = sprite_offset.x * -1
+		
 	else:
 		sprite1.offset.x = sprite_offset.x
 		sprite2.offset.x = sprite_offset.x
