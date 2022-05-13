@@ -47,9 +47,6 @@ cowardly = true
 
 [node name="RoomVisibility" parent="." instance=ExtResource( 7 )]
 
-[node name="RobotLegs" parent="." instance=ExtResource( 8 )]
-walk_speed = 60.0
-
 [node name="TargetEnemyTimer" type="Timer" parent="."]
 wait_time = 0.051
 autostart = true
@@ -67,6 +64,8 @@ autostart = true
 [node name="StopDashingTimer" type="Timer" parent="."]
 wait_time = 0.8
 one_shot = true
+
+[node name="Leg Name" parent="." instance=ExtResource( 8 )]
 
 [connection signal="timeout" from="TargetEnemyTimer" to="." method="_on_TargetEnemyTimer_timeout"]
 [connection signal="timeout" from="DashTimer" to="." method="_on_DashTimer_timeout"]

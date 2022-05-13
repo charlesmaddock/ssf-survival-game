@@ -23,8 +23,9 @@ func _ready():
 	Events.connect("player_dead", self, "_on_player_dead")
 	Events.connect("player_revived", self, "_on_player_revived")
 	
-	get_parent().entity.connect("turned_around", self, "_on_turned_around")
-	get_parent().entity.connect("move_dir", self, "_on_move_dir")
+	if get_parent() != null:
+		get_parent().entity.connect("turned_around", self, "_on_turned_around")
+		get_parent().entity.connect("move_dir", self, "_on_move_dir")
 	
 	if arm_texture != null:
 		sprite1.texture = arm_texture
