@@ -25,6 +25,7 @@ func _ready():
 	
 	get_parent().entity.connect("damage_taken", self, "_on_take_damage")
 	get_parent().entity.connect("change_movement_speed", self, "_on_change_movement_speed")
+	get_parent().entity.connect("change_movement_speed", self, "")
 	
 	_prev_pos = get_parent().global_position
 	get_parent().entity.connect("dashed", self, "_on_dashed")
@@ -78,6 +79,10 @@ func _on_packet_received(packet: Dictionary) -> void:
 					_pos_history.clear()
 
 
+func _on_attack_freeze(time):
+	attack_freeze = true
+
+
 func get_input():
 	var velocity = Vector2.ZERO
 	var joy_stick_velocity = JoyStick.get_velocity()
@@ -93,6 +98,9 @@ func get_input():
 
 
 func _physics_process(delta):
+	if attack_freeze:
+		return
+	
 	_send_pos_iteration += 1
 	_remote_send_pos_iteration += 1
 	if Util.is_my_entity(get_parent()):
