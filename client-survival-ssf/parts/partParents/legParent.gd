@@ -15,6 +15,7 @@ export(Vector2) var sprite_offset: Vector2
 export(float) var leg_separation: float = 5
 
 
+
 func _ready():
 	var timer = get_node("Timer")
 	timer.wait_time = 0.3 - round(walk_speed/100)/10

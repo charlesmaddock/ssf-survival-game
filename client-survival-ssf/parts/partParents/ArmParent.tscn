@@ -17,18 +17,6 @@ tracks/0/keys = {
 "update": 0,
 "values": [ 45.0 ]
 }
-tracks/1/type = "value"
-tracks/1/path = NodePath("Sprite2:rotation_degrees")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ -45.0 ]
-}
 
 [sub_resource type="Animation" id=2]
 resource_name = "attack"
@@ -45,18 +33,6 @@ tracks/0/keys = {
 "update": 0,
 "values": [ 45.0, -45.0, 108.0, 45.0 ]
 }
-tracks/1/type = "value"
-tracks/1/path = NodePath("Sprite2:rotation_degrees")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.1, 0.3, 0.6 ),
-"transitions": PoolRealArray( 1, 0.3, 3.7, 0.07 ),
-"update": 0,
-"values": [ -45.0, 45.0, -108.0, -45.0 ]
-}
 
 [node name="Arm Name" type="Node2D"]
 script = ExtResource( 2 )
@@ -68,15 +44,6 @@ show_behind_parent = true
 rotation = 0.785398
 texture = ExtResource( 1 )
 offset = Vector2( 4, -6 )
-
-[node name="Sprite2" type="Sprite" parent="."]
-visible = false
-show_behind_parent = true
-rotation = -0.785398
-scale = Vector2( 1, 1 )
-texture = ExtResource( 1 )
-offset = Vector2( -4, -6 )
-flip_h = true
 
 [node name="Timer" type="Timer" parent="."]
 
