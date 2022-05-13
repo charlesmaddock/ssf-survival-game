@@ -107,7 +107,7 @@ func _on_NextRoomDetector_body_entered(body) -> void:
 			var player_index: int
 			for player in Util.get_living_players(): 
 				player.global_position = _next_room_spawn_pos.global_position + (Vector2.DOWN * player_index * Constants.TILE_SIZE)
-				player_index += 1
+				#player_index += 1
 		elif Lobby.is_host == true && next_room == null:
 			printerr("Room was null.")
 

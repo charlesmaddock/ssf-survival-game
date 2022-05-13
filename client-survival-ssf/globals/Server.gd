@@ -30,10 +30,7 @@ func _closed(was_clean = false):
 	# by the remote peer before closing the socket.
 	print("Closed, clean: ", was_clean)
 	set_process(false)
-	if Constants.app_mode == Constants.AppMode.DEVELOPMENT:
-		get_tree().quit()
-	else:
-		Events.emit_signal("error_message", "Couldn't connect to server with the url " + url)
+	Events.emit_signal("error_message", "Couldn't connect to server with the url " + url)
 
 
 func _connected(proto = ""):
@@ -107,9 +104,10 @@ func restart_game() -> void:
 	send_packet(payload)
 
 
-func send_input(input: Vector2) -> void:
+func send_input(input: Vector2, pos_iteration: int) -> void:
 	var payload = {
 		"type": Constants.PacketTypes.SET_INPUT, 
+		"i": pos_iteration,
 		"x": input.x,
 		"y": input.y
 	}
@@ -141,9 +139,10 @@ func room_completed(name: String) -> void:
 	send_packet(payload)
 
 
-func send_pos(id: String, pos: Vector2) -> void:
+func send_pos(id: String, pos: Vector2, pos_iteration: int) -> void:
 	var payload = {
 		"type": Constants.PacketTypes.SET_PLAYER_POS, 
+		"i": pos_iteration,
 		"id": id,
 		"x": pos.x,
 		"y": pos.y

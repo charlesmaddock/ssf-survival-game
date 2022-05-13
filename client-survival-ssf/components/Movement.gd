@@ -8,10 +8,12 @@ onready var entity_id = get_parent().entity.id
 var sprite_scale: Vector2 = Vector2.ONE
 var target_position: Vector2 = Vector2.ZERO
 var _send_pos_iteration = 0
+var _remote_send_pos_iteration = 0
 var _velocity = Vector2.ZERO
 var _force: Vector2 = Vector2.ZERO
 var _prev_input: Vector2 = Vector2.ZERO
 var _prev_pos: Vector2
+var _pos_history: Array
 
 var walking: bool = false
 var attack_freeze: bool = false
@@ -54,12 +56,26 @@ func _on_packet_received(packet: Dictionary) -> void:
 		Constants.PacketTypes.SET_INPUT:
 			if entity_id == packet.id:
 				_velocity = Vector2(packet.x, packet.y).normalized() * speed
+				_remote_send_pos_iteration = packet.i
 		Constants.PacketTypes.SET_PLAYER_POS:
 			if entity_id == packet.id:
 				# Don't move the host's player if we are the host
 				if Lobby.is_host == true && entity_id == Lobby.my_id:
 					return
-				target_position = Vector2(packet.x, packet.y)
+				
+				if entity_id != Lobby.my_id:
+					target_position = Vector2(packet.x, packet.y)
+				else:
+					for pos_hist_data in _pos_history:
+						if pos_hist_data.i == packet.i:
+							var server_pos: Vector2 = Vector2(packet.x, packet.y)
+							var server_diff = pos_hist_data.pos - server_pos
+							var local_time_pos_diff = pos_hist_data.pos - _pos_history[_pos_history.size() - 1].pos
+							var reconciled_pos = (pos_hist_data.pos - server_diff) + local_time_pos_diff
+							
+							get_parent().global_position = reconciled_pos
+							break
+					_pos_history.clear()
 
 
 func get_input():
@@ -76,25 +92,31 @@ func get_input():
 	return velocity.normalized() + joy_stick_velocity
 
 
-
 func _physics_process(delta):
 	_send_pos_iteration += 1
+	_remote_send_pos_iteration += 1
 	if Util.is_my_entity(get_parent()):
 		var input = get_input()
 		if input != _prev_input:
-			Server.send_input(input)
+			Server.send_input(input, _send_pos_iteration)
 		_prev_input = input
+		
+		set_velocity(input)
 	
 	if Lobby.is_host == true:
 		var vel = get_parent().move_and_slide(_velocity + _force)
 		if _send_pos_iteration % 6 == 0:
-			Server.send_pos(entity_id, global_position + (vel * delta))
+			Server.send_pos(entity_id, global_position + (vel * delta), _remote_send_pos_iteration)
 			
 			if vel == Vector2.ZERO:
 				walking = false
 			else:
 				walking = true
 			#only works for host
+	elif entity_id == Lobby.my_id:
+		# Local client side prediction 
+		get_parent().move_and_slide(_velocity + _force)
+		_pos_history.append({"pos": get_parent().global_position, "i": _send_pos_iteration})
 	else:
 		get_parent().global_position = get_parent().global_position.linear_interpolate(target_position, delta * 6)
 	

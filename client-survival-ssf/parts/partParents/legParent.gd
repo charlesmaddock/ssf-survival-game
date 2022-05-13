@@ -19,12 +19,14 @@ func _ready():
 	var timer = get_node("Timer")
 	timer.wait_time = 0.3 - round(walk_speed/100)/10
 	timer.wait_time = clamp(timer.wait_time, 0.05, 10)
-	movement_node = get_parent().get_node("Movement")
 	
-	if movement_node != null:
-		get_parent().entity.emit_signal("change_movement_speed", walk_speed)
-	
-	get_parent().entity.connect("turned_around", self, "_on_turned_around")
+	if get_parent() != null:
+		movement_node = get_parent().get_node("Movement")
+		
+		if movement_node != null:
+			get_parent().entity.emit_signal("change_movement_speed", walk_speed)
+		
+		get_parent().entity.connect("turned_around", self, "_on_turned_around")
 	
 	if leg_texture != null:
 		sprite1.texture = leg_texture

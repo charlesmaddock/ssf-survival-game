@@ -418,7 +418,7 @@ const handleStartGame = (ws: WebSocket) => {
 
 const handleSetInput = (
   ws: WebSocket,
-  packet: { type: number; x: number; y: number }
+  packet: { type: number; i: number, x: number; y: number }
 ) => {
   let client = getClientFromWs(ws);
   let room: Room = getClientsRoom(client);
