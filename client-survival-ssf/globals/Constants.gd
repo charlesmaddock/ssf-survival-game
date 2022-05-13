@@ -85,6 +85,13 @@ enum Teams {
 	BAD_GUYS
 }
 
+enum DialogueMoods {
+	NEUTRAL,
+	HAPPY,
+	ANGRY,
+	SAD,
+	FLUSTERED
+}
 
 var item_textures = {
 	ItemTypes.FLUFF_BALL: preload("res://assets/sprites/largePoint.png"),

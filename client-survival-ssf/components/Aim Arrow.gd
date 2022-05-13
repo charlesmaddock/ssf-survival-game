@@ -13,6 +13,4 @@ func _ready():
 func _process(delta):
 	sprite.rotation_degrees = rad2deg(get_angle_to(last_pos))
 	
-	print(sprite.rotation_degrees)
-	
 	last_pos = get_parent().global_position

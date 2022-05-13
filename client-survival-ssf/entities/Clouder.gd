@@ -41,7 +41,6 @@ func _on_TargetEnemyTimer_timeout():
 		if _has_dashed == false:
 			AI_node.stop_moving()
 			entity.emit_signal("dashed", dir)
-			print("I should be dashing!")
 			_has_dashed = true
 	else:
 		if closest_player != null:
