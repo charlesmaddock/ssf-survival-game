@@ -13,7 +13,8 @@ signal request_attack()
 signal change_movement_speed(speed)
 signal turned_around(dir)
 signal dashed(force)
-
+signal move_dir(dir)
+signal is_attacking(attack_bool)
 
 func _init(node: Node, entity_id: String, entity_team: int, pos: Vector2):
 	Server.connect("packet_received", self, "_on_packet_received")
