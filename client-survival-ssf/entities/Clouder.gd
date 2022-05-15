@@ -23,15 +23,8 @@ var _has_dashed: bool = false
 
 func _ready():
 	get_node("AI").connect("target_player", self, "_on_target_player")
-	entity.connect("damage_taken", self, "on_damage_taken")
 	
 	damage_node.init(entity.id, entity.team)
-
-
-func on_damage_taken(health, dir) -> void:
-	if health <= 0:
-		if Lobby.is_host == true:
-			Server.despawn_mob(entity.id)
 
 
 func _on_TargetEnemyTimer_timeout():
@@ -44,9 +37,15 @@ func _on_TargetEnemyTimer_timeout():
 			_has_dashed = true
 	else:
 		if closest_player != null:
-			var strafe_pos = AI_node.get_strafe_position(_strafe_distance, closest_player)
-			AI_node.get_target_path(strafe_pos)
+			var strafe_pos = get_strafe_position(_strafe_distance, closest_player)
+			AI_node.set_target_walking_path(strafe_pos)
 
+
+func get_strafe_position(strafe_dist, target_player_position) -> Vector2:
+	var strafe_dir_normalized = target_player_position.global_position.direction_to(self.global_position)
+	var strafe_pos_without_strafe: Vector2 = target_player_position.global_position + strafe_dir_normalized * strafe_dist
+	var strafe_pos: Vector2  = target_player_position.global_position + strafe_dir_normalized.rotated(deg2rad(40)) * strafe_dist
+	return strafe_pos
 
 
 func _on_DashTimer_timeout():

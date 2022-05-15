@@ -21,7 +21,8 @@ onready var timer = $Timer
 onready var parent_entity: Node2D = self.get_parent()
 
 
-var path = []
+var move_path = []
+var attack_path = []
 var threshold = 16
 
 var behaviour_mode: int = behaviour.SEARCH
@@ -45,32 +46,29 @@ func _input(event):
 
 func _physics_process(delta):
 	if Lobby.is_host == true:
-		if path.size() > 0:
+		if move_path.size() > 0:
 			move_to_target()
 
 
 func stop_moving() -> void:
-	path = []
+	move_path = []
 	Movement.set_velocity(Vector2.ZERO)
 
 
-func get_strafe_position(strafe_dist, target_player_position) -> Vector2:
-	var strafe_dir_normalized = target_player_position.global_position.direction_to(self.global_position)
-	var strafe_pos_without_strafe: Vector2 = target_player_position.global_position + strafe_dir_normalized * strafe_dist
-	var strafe_pos: Vector2  = target_player_position.global_position + strafe_dir_normalized.rotated(deg2rad(40)) * strafe_dist
-	return strafe_pos
-	
-
 func move_to_target():
-	if global_position.distance_to(path[0]) < threshold:
-		path.remove(0)
+	if global_position.distance_to(move_path[0]) < threshold:
+		move_path.remove(0)
 	else:
-		var direction = global_position.direction_to(path[0])
+		var direction = global_position.direction_to(move_path[0])
 		Movement.set_velocity(direction)
 
 
-func get_target_path(target_pos):
-	path = nav.get_simple_path(global_position, target_pos, false)
+func set_target_walking_path(target_pos):
+	move_path = nav.get_simple_path(global_position, target_pos, false)
+
+
+func set_target_attack_path(target_pos):
+	attack_path = nav.get_simple_path(global_position, target_pos, false)
 
 
 func _on_Damage_body_entered(body):
@@ -83,8 +81,16 @@ func _on_Timer_timeout():
 		for player in players_in_view:
 			if player.visible == true:
 				emit_signal("target_player", player)
-				get_target_path(player.position)
+				set_target_walking_path(player.position)
 				return
+
+
+func _target_player_in_view() -> void:
+	for player in players_in_view:
+		if player.visible == true:
+			emit_signal("target_player", player)
+			set_target_walking_path(player.position)
+			return
 
 
 func _on_FOVArea_body_entered(body):
@@ -97,13 +103,13 @@ func _on_FOVArea_body_exited(body):
 	if remove_at != -1:
 		players_in_view.remove(remove_at)
 
-"""
+
 func _on_IdleWalkTimer_timeout(): 
 	randomize()
 	if cowardly == true && agressive == false && players_in_view.size() > 0:
-		get_target_path(global_position + global_position.direction_to(players_in_view[0].global_position) * -100 )
+		set_target_walking_path(global_position + global_position.direction_to(players_in_view[0].global_position) * -100 )
 	elif randf() > 0.9:
-		get_target_path(global_position + Vector2.ONE * (randf() - 0.5) * 100)
+		set_target_walking_path(global_position + Vector2.ONE * (randf() - 0.5) * 100)
 	else:
-		get_target_path(global_position)
-"""
+		set_target_walking_path(global_position)
+

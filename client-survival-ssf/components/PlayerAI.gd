@@ -39,7 +39,7 @@ func move_to_target():
 		Movement.set_velocity(direction)
 
 
-func get_target_path(target_pos):
+func set_target_walking_path(target_pos):
 	path = nav.get_simple_path(global_position, target_pos, false)
 
 
@@ -51,7 +51,7 @@ func _on_Timer_timeout():
 func run_from_scammer() -> bool:
 	if scammers_in_view.size() > 0:
 		set_random_room_point()
-		get_target_path(room_point.position)
+		set_target_walking_path(room_point.position)
 		return true
 	return false
 

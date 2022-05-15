@@ -21,6 +21,7 @@ func _init(node: Node, entity_id: String, entity_team: int, pos: Vector2):
 	id = entity_id
 	node.global_position = pos
 	team = entity_team
+	connect("damage_taken", self, "on_damage_taken")
 
 
 func _on_packet_received(packet: Dictionary) -> void:
@@ -32,3 +33,8 @@ func _on_packet_received(packet: Dictionary) -> void:
 			if id == packet.id:
 				entity_node.queue_free()
 
+
+func on_damage_taken(health, dir) -> void:
+	if health <= 0:
+		if Lobby.is_host == true:
+			Server.despawn_mob(id)

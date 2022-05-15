@@ -1,0 +1,48 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://assets/sprites/LoveBull-spritesheet.png" type="Texture" id=1]
+[ext_resource path="res://components/Health.tscn" type="PackedScene" id=2]
+[ext_resource path="res://components/Damage.tscn" type="PackedScene" id=3]
+[ext_resource path="res://components/AI.tscn" type="PackedScene" id=4]
+[ext_resource path="res://components/Loot.tscn" type="PackedScene" id=5]
+[ext_resource path="res://components/Movement.tscn" type="PackedScene" id=6]
+[ext_resource path="res://entities/LoveBull.gd" type="Script" id=7]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 12.0416
+
+[node name="LoveBull" type="KinematicBody2D"]
+collision_layer = 64
+collision_mask = 0
+script = ExtResource( 7 )
+
+[node name="AI" parent="." instance=ExtResource( 4 )]
+visible = false
+
+[node name="Loot" parent="." instance=ExtResource( 5 )]
+
+[node name="Damage" parent="." instance=ExtResource( 3 )]
+
+[node name="Health" parent="." instance=ExtResource( 2 )]
+
+[node name="Movement" parent="." instance=ExtResource( 6 )]
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+hframes = 4
+
+[node name="ChargeBuildupTimer" type="Timer" parent="."]
+wait_time = 1.5
+one_shot = true
+
+[node name="AimlessWalkingTimer" type="Timer" parent="."]
+wait_time = 1.5
+autostart = true
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[connection signal="timeout" from="ChargeBuildupTimer" to="." method="_on_ChargeBuildupTimer_timeout"]
+[connection signal="timeout" from="AimlessWalkingTimer" to="." method="_on_AimlessWalkingTimer_timeout"]

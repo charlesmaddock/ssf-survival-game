@@ -44,7 +44,8 @@ var mob_difficulties = {
 	Constants.MobTypes.CHOWDER: 6,
 	Constants.MobTypes.TURRET_CRAWLER: 4,
 	Constants.MobTypes.MOLE: 3,
-	Constants.MobTypes.CLOUDER: 1,
+	Constants.MobTypes.CLOUDER: 3,
+	Constants.MobTypes.LOVE_BULL: 1,
 }
 
 func _generate_rooms() -> void:

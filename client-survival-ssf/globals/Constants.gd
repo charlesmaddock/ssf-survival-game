@@ -75,7 +75,8 @@ enum MobTypes {
 	BAT,
 	MOLE,
 	SLIME,
-	SMALL_SLIME
+	SMALL_SLIME,
+	LOVE_BULL
 }
 
 
