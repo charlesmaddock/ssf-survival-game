@@ -77,7 +77,7 @@ func _on_Damage_body_entered(body):
 	if Util.is_player(body):
 		body.emit_signal("take_damage", 30, global_position.direction_to(body.global_position))
 
-"""
+
 func _on_Timer_timeout():
 	if agressive == true:
 		for player in players_in_view:
@@ -85,7 +85,7 @@ func _on_Timer_timeout():
 				emit_signal("target_player", player)
 				get_target_path(player.position)
 				return
-"""
+
 
 func _on_FOVArea_body_entered(body):
 	if Util.is_entity(body):
