@@ -25,7 +25,7 @@ func _process(delta):
 
 
 	if get_parent().global_position != last_pos:
-		move_dir = lerp(move_dir, last_pos.direction_to(get_parent().global_position), 0.05)
+		move_dir = lerp(move_dir, last_pos.direction_to(get_parent().global_position), 0.2)
 	#move_dir = (get_global_mouse_position() - global_position).normalized()
 	sprite.rotation_degrees = rad2deg(move_dir.angle())
 	get_parent().entity.emit_signal("move_dir", move_dir)
