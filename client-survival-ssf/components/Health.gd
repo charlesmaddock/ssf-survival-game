@@ -2,6 +2,7 @@ extends Node2D
 
 
 export(float) var max_health = 100
+export var knockbackable: bool = true
 
 
 onready var Bar = $Bar
@@ -48,7 +49,9 @@ func _on_packet_received(packet: Dictionary) -> void:
 		if packet.id == health_for_entity_w_id:
 			health = packet.health
 			Bar.value = health
-			var knockback_dir = Vector2(packet.dirX, packet.dirY)
+			var knockback_dir = Vector2.ZERO
+			if knockbackable == true:
+				knockback_dir = Vector2(packet.dirX, packet.dirY)
 			get_parent().entity.emit_signal("damage_taken", packet.health, knockback_dir)
 			damage_flash()
 			if health <= 0 && _is_dead == false && get_parent().get("collision_layer") != null:
