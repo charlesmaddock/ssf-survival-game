@@ -25,6 +25,7 @@ enum PacketTypes {
   GAME_STARTED,
   SET_INPUT,
   SET_PLAYER_POS,
+  RECONCILE_PLAYER_POS,
   SET_HEALTH,
   SHOOT_PROJECTILE,
   MELEE_ATTACK,
@@ -173,6 +174,9 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
             break;
           case PacketTypes.SET_PLAYER_POS:
             handleSetPos(ws, data);
+            break;
+          case PacketTypes.RECONCILE_PLAYER_POS:
+            handleReconcilePlayerPos(ws, data);
             break;
           case PacketTypes.SET_HEALTH:
             handleSetHealth(ws, data);
@@ -439,9 +443,21 @@ const handleSetPos = (
 ) => {
   let client = getClientFromWs(ws);
   let room: Room = getClientsRoom(client);
-
+ 
   broadcastToRoom(room, packet);
 };
+
+const handleReconcilePlayerPos = (ws: WebSocket, packet: any) => {
+   let client = getClientFromWs(ws)
+   let room: Room = getClientsRoom(client);
+ 
+   room.clients.forEach((client: Client) => {
+     if (client.id === packet.id){
+      client.socket.send(JSON.stringify(packet))
+      return
+     }
+   })
+}
 
 const handleSetHealth = (
   ws: WebSocket,

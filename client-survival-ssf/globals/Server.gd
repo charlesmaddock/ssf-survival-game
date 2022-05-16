@@ -139,14 +139,25 @@ func room_completed(name: String) -> void:
 	send_packet(payload)
 
 
-func send_pos(id: String, pos: Vector2, pos_iteration: int) -> void:
+func send_pos(id: String, pos: Vector2) -> void:
 	var payload = {
 		"type": Constants.PacketTypes.SET_PLAYER_POS, 
-		"i": pos_iteration,
 		"id": id,
 		"x": pos.x,
 		"y": pos.y
 	}
+	send_packet(payload)
+
+
+func host_reconcile_player_pos(i: int, pos: Vector2, id: String) -> void:
+	var payload = {
+		"type": Constants.PacketTypes.RECONCILE_PLAYER_POS, 
+		"id": id,
+		"i": i,
+		"x": pos.x,
+		"y": pos.y
+	}
+	yield(get_tree().create_timer(0.2), "timeout")
 	send_packet(payload)
 
 

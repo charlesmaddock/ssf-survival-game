@@ -148,6 +148,7 @@ __meta__ = {
 }
 
 [node name="GrattisSigge" type="Sprite" parent="Game/CanvasLayer/LoseScreen"]
+visible = false
 position = Vector2( 238, 138 )
 scale = Vector2( 0.252778, 0.252778 )
 texture = ExtResource( 6 )
