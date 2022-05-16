@@ -3,6 +3,7 @@ extends Node2D
 
 onready var JoyStick = $CanvasLayer/CanvasModulate/Control/JoyStick
 onready var entity_id = get_parent().entity.id
+onready var freeze_timer: Node = get_node("FreezeTimer")
 
 
 var sprite_scale: Vector2 = Vector2.ONE
@@ -18,6 +19,7 @@ var _pos_history: Array
 var walking: bool = false
 var attack_freeze: bool = false
 var speed: float = 80.0
+var speed_modifier: float = 1.0
 
 
 func _ready():
@@ -25,7 +27,7 @@ func _ready():
 	
 	get_parent().entity.connect("damage_taken", self, "_on_take_damage")
 	get_parent().entity.connect("change_movement_speed", self, "_on_change_movement_speed")
-	get_parent().entity.connect("change_movement_speed", self, "")
+	get_parent().entity.connect("attack_freeze", self, "_on_attack_freeze")
 	
 	_prev_pos = get_parent().global_position
 	get_parent().entity.connect("dashed", self, "_on_dashed")
@@ -49,7 +51,7 @@ func set_speed(speed: float) -> void:
 
 
 func set_velocity(dir: Vector2) -> void:
-	_velocity = dir.normalized() * speed
+	_velocity = dir.normalized() * speed * speed_modifier
 
 
 func _on_packet_received(packet: Dictionary) -> void:
@@ -80,7 +82,9 @@ func _on_packet_received(packet: Dictionary) -> void:
 
 
 func _on_attack_freeze(time):
+	speed_modifier = 0.0
 	attack_freeze = true
+	freeze_timer.start(time)
 
 
 func get_input():
@@ -98,9 +102,6 @@ func get_input():
 
 
 func _physics_process(delta):
-	if attack_freeze:
-		return
-	
 	_send_pos_iteration += 1
 	_remote_send_pos_iteration += 1
 	if Util.is_my_entity(get_parent()):
@@ -145,3 +146,8 @@ func _physics_process(delta):
 		_force = Vector2.ZERO
 	else:
 		_force /= 1.1
+
+
+func _on_FreezeTimer_timeout():
+	attack_freeze = false
+	speed_modifier = 1.0
