@@ -1,26 +1,13 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=2 format=2]
 
 [ext_resource path="res://components/AI.gd" type="Script" id=1]
-
-[sub_resource type="CapsuleShape2D" id=4]
-radius = 365.0
-height = 214.0
 
 [node name="AI" type="Node2D"]
 script = ExtResource( 1 )
 movement_component_path = NodePath("../Movement")
 
-[node name="Timer" type="Timer" parent="."]
-wait_time = 0.2
+[node name="MovementActionTimer" type="Timer" parent="."]
+wait_time = 0.05
+autostart = true
 
-[node name="FOVArea" type="Area2D" parent="."]
-collision_layer = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="FOVArea"]
-position = Vector2( 0, -22 )
-rotation = 1.5708
-shape = SubResource( 4 )
-
-[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
-[connection signal="body_entered" from="FOVArea" to="." method="_on_FOVArea_body_entered"]
-[connection signal="body_exited" from="FOVArea" to="." method="_on_FOVArea_body_exited"]
+[connection signal="timeout" from="MovementActionTimer" to="." method="_on_MovementActionTimer_timeout"]

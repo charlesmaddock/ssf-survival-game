@@ -29,7 +29,6 @@ func _ready():
 
 
 func _on_dashed(dir) -> void:
-	print("I am dashing within movement right now!")
 	_force += dir
 
 

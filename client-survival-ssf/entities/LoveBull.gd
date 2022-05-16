@@ -2,18 +2,6 @@ extends Node2D
 
 export(float) var _charge_speed: float = 200.0 
 
-onready var sprite_node = $"Sprite"
-onready var AI_node = $"AI"
-onready var raycast_node = $"RayCast2D"
-onready var charge_buildup_timer = $"ChargeBuildupTimer"
-onready var aimless_walking_timer = $"AimlessWalkingTimer"
-onready var charge_collision_node = $"ChargeCollision"
-
-enum behaviourState {
-	AIMLESS_WALKING,
-	CHARGE_ATTACK
-} 
-
 var entity: Entity
 var _targeted_player = null
 var _is_animal = true
@@ -21,9 +9,25 @@ var _is_animal = true
 var _behaviour_state = behaviourState.AIMLESS_WALKING
 
 
+onready var sprite_node = $Sprite
+onready var AI_node = $AI
+onready var damage_node = $Damage
+
+onready var raycast_node = $RayCast2D
+onready var charge_collision_node = $ChargeCollision
+
+onready var charge_buildup_timer = $ChargeBuildupTimer
+onready var aimless_walking_timer = $AimlessWalkingTimer
+
+
+enum behaviourState {
+	AIMLESS_WALKING,
+	CHARGE_ATTACK
+} 
+
 func _ready():
-	get_node("AI").connect("target_player", self, "_on_target_player")
 	entity.emit_signal("change_movement_speed", 60.0)
+	damage_node.init(entity.id, entity.team)
 	new_aimless_walking_path()
 	
 
@@ -70,7 +74,7 @@ func new_aimless_walking_path() -> void:
 
 func detected_charge_collision() -> void:
 	if _behaviour_state == behaviourState.CHARGE_ATTACK:
-		yield(get_tree().create_timer(0.10), "timeout")
+		yield(get_tree().create_timer(0.30), "timeout")
 		entity.emit_signal("change_movement_speed", 60.0)
 		AI_node.stop_moving()
 		yield(get_tree().create_timer(0.60), "timeout")
