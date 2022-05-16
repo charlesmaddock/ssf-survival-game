@@ -26,9 +26,12 @@ enum behaviourState {
 } 
 
 func _ready():
+	_behaviour_state = behaviourState.AIMLESS_WALKING
 	entity.emit_signal("change_movement_speed", 60.0)
 	damage_node.init(entity.id, entity.team)
+	AI_node.motionless_behaviour()
 	new_aimless_walking_path()
+	
 	
 
 func _physics_process(delta):
@@ -70,6 +73,7 @@ func new_aimless_walking_path() -> void:
 			sprite_node.set_frame(3)
 			raycast_node.rotation_degrees = 270
 	AI_node.set_target_walking_path(target_pos)
+	AI_node.move_to_target()
 
 
 func detected_charge_collision() -> void:

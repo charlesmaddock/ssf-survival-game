@@ -94,6 +94,12 @@ enum DialogueMoods {
 	FLUSTERED
 }
 
+enum DialogueSpeeds {
+	SLOW,
+	MEDIUM,
+	FAST
+}
+
 var item_textures = {
 	ItemTypes.FLUFF_BALL: preload("res://assets/sprites/largePoint.png"),
 	ItemTypes.PINK_FLUFF: preload("res://assets/sprites/fluff.png"),

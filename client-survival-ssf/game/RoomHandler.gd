@@ -1,5 +1,7 @@
 extends Node2D
 
+var pino_scene: PackedScene = preload("res://entities/Pino.tscn")
+
 
 const ROOM_DIMENSIONS = Vector2(14, 8)
 const CORRIDOR_DIMENSIONS = Vector2(2, 8)
@@ -42,17 +44,29 @@ func _on_rooms_generated(all_room_data: Array) -> void:
 
 var mob_difficulties = {
 	Constants.MobTypes.CHOWDER: 6,
-	Constants.MobTypes.TURRET_CRAWLER: 4,
-	Constants.MobTypes.MOLE: 3,
-	Constants.MobTypes.CLOUDER: 1,
-	Constants.MobTypes.LOVE_BULL: 2,
+	Constants.MobTypes.TURRET_CRAWLER: 12,
+	Constants.MobTypes.MOLE: 10,
+	Constants.MobTypes.CLOUDER: 9,
+	Constants.MobTypes.LOVE_BULL: 1,
 }
+
+func _spawn_pino(pino_global_position: Vector2) -> void:
+	var pino: Node2D = pino_scene.instance()
+	pino.global_position = pino_global_position
+	var entities: YSort = $"../Entities"
+	entities.add_child(pino)
+	
 
 func _generate_rooms() -> void:
 	var current_pos = Vector2.ZERO
 	var all_room_data = []
 	yield(get_tree().create_timer(1), "timeout")
 	for i in _number_of_rooms:
+		
+		if i == 0:
+			_spawn_pino(Vector2(100, 100))
+		
+		
 		var prev_room_data = null
 		var enter_pos = Vector2.ZERO
 		var final_room = i == _number_of_rooms - 1
