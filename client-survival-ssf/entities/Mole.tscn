@@ -43,7 +43,6 @@ margin_bottom = -30.0
 [node name="Movement" parent="." instance=ExtResource( 5 )]
 
 [node name="AI" parent="." instance=ExtResource( 3 )]
-agressive = true
 
 [node name="RoomVisibility" parent="." instance=ExtResource( 7 )]
 

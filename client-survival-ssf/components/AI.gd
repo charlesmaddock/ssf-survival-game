@@ -8,10 +8,8 @@ enum behaviour {
 
 
 export(NodePath) var movement_component_path
-export(bool) var cowardly = false
-export(bool) var agressive = false
-export(bool) var attack_base = false
-
+export(int) var _strafe_dist = 80
+export(float) var _follow_player_dist = 0
 
 onready var Movement: Node2D = get_node(movement_component_path)
 onready var nav: Navigation2D = Util.get_game_node().get_node("Navigation2D")
@@ -21,89 +19,100 @@ onready var timer = $Timer
 onready var parent_entity: Node2D = self.get_parent()
 
 
-var path = []
+var move_path = []
+var attack_path = []
 var threshold = 16
 
-var behaviour_mode: int = behaviour.SEARCH
 var room_point: Node2D = null
 var unchecked_room_points: Array = []
+
 var players_in_view: Array = []
+var current_movement_behaviour = movementBehaviour.MOTIONLESS
 
-
-signal target_player(player)
-
-
-func _ready():
-	timer.start()
-
-
-# Development test
-func _input(event):
-	if event.is_action("ui_up"):
-		timer.start()
+enum movementBehaviour {
+	FOLLOW_PLAYER,
+	STRAFE,
+	MOTIONLESS
+}
 
 
 func _physics_process(delta):
 	if Lobby.is_host == true:
-		if path.size() > 0:
+		if move_path.size() > 0:
 			move_to_target()
 
 
+func strafe_behaviour(strafe_dist: int) -> void:
+	_strafe_dist = strafe_dist
+	current_movement_behaviour = movementBehaviour.STRAFE
+
+
+func follow_player_behaviour(follow_player_dist) -> void:
+	_follow_player_dist = follow_player_dist
+	current_movement_behaviour = movementBehaviour.FOLLOW_PLAYER
+
+
+func motionless_behaviour() -> void:
+	current_movement_behaviour = movementBehaviour.MOTIONLESS
+
+
 func stop_moving() -> void:
-	path = []
+	move_path = []
 	Movement.set_velocity(Vector2.ZERO)
 
 
-func get_strafe_position(strafe_dist, target_player_position) -> Vector2:
-	var strafe_dir_normalized = target_player_position.global_position.direction_to(self.global_position)
-	var strafe_pos_without_strafe: Vector2 = target_player_position.global_position + strafe_dir_normalized * strafe_dist
-	var strafe_pos: Vector2  = target_player_position.global_position + strafe_dir_normalized.rotated(deg2rad(40)) * strafe_dist
-	return strafe_pos
-	
-
 func move_to_target():
-	if global_position.distance_to(path[0]) < threshold:
-		path.remove(0)
+	if global_position.distance_to(move_path[0]) < threshold:
+		move_path.remove(0)
 	else:
-		var direction = global_position.direction_to(path[0])
+		var direction = global_position.direction_to(move_path[0])
 		Movement.set_velocity(direction)
 
 
-func get_target_path(target_pos):
-	path = nav.get_simple_path(global_position, target_pos, false)
+func set_target_walking_path(target_pos):
+	move_path = nav.get_simple_path(global_position, target_pos, false)
+
+
+func set_target_attack_path(target_pos):
+	attack_path = nav.get_simple_path(global_position, target_pos, false)
 
 
 func _on_Damage_body_entered(body):
 	if Util.is_player(body):
 		body.emit_signal("take_damage", 30, global_position.direction_to(body.global_position))
 
-"""
-func _on_Timer_timeout():
-	if agressive == true:
-		for player in players_in_view:
-			if player.visible == true:
-				emit_signal("target_player", player)
-				get_target_path(player.position)
-				return
-"""
 
-func _on_FOVArea_body_entered(body):
-	if Util.is_entity(body):
-		players_in_view.append(body)
-
-
-func _on_FOVArea_body_exited(body):
-	var remove_at = players_in_view.find(body)
-	if remove_at != -1:
-		players_in_view.remove(remove_at)
+func _get_strafe_position() -> Vector2:
+	var strafe_dir_normalized = get_closest_player().global_position.direction_to(self.global_position)
+	var strafe_pos_without_strafe: Vector2 = get_closest_player().global_position + strafe_dir_normalized * _strafe_dist
+	var strafe_pos: Vector2  = get_closest_player().global_position + strafe_dir_normalized.rotated(deg2rad(40)) * _strafe_dist
+	return strafe_pos
 
 """
-func _on_IdleWalkTimer_timeout(): 
-	randomize()
-	if cowardly == true && agressive == false && players_in_view.size() > 0:
-		get_target_path(global_position + global_position.direction_to(players_in_view[0].global_position) * -100 )
-	elif randf() > 0.9:
-		get_target_path(global_position + Vector2.ONE * (randf() - 0.5) * 100)
-	else:
-		get_target_path(global_position)
+func _get_follow_position() -> Vector2:
+	var follow_dir_normalized = get_closest_player().global_position.direction_to(self.global_position)
+	var follow_dir: Vector2 = get_closest_player().global_position + strafe_dir_normalized * _strafe_dist
+	return follow_dir
 """
+
+func get_closest_player() -> Object:
+	var parent_position = parent_entity.global_position
+	var living_players: Array = Util.get_living_players()
+	var closest_player
+	var distance_to_closest_player = 99999
+	for player in living_players:
+		var distance_between_positions = parent_position.distance_to(player.global_position)
+		if distance_between_positions < distance_to_closest_player:
+			distance_to_closest_player = distance_between_positions
+			closest_player = player
+	return closest_player
+
+
+func _on_MovementActionTimer_timeout():
+	if current_movement_behaviour != movementBehaviour.MOTIONLESS:
+		if current_movement_behaviour == movementBehaviour.FOLLOW_PLAYER:
+			set_target_walking_path(parent_entity.direction_to(get_closest_player().global_position))
+		elif current_movement_behaviour == movementBehaviour.STRAFE:
+			set_target_walking_path(_get_strafe_position())
+	elif current_movement_behaviour == movementBehaviour.MOTIONLESS:
+		stop_moving()
