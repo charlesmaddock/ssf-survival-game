@@ -31,8 +31,8 @@ func _ready():
 	damage_node.init(entity.id, entity.team)
 	AI_node.motionless_behaviour()
 	new_aimless_walking_path()
-	
-	
+	AI_node.custom_behaviour()
+
 
 func _physics_process(delta):
 	if raycast_node.is_colliding() == true:
@@ -41,13 +41,12 @@ func _physics_process(delta):
 			_behaviour_state = behaviourState.CHARGE_ATTACK
 			AI_node.stop_moving()
 			entity.emit_signal("change_movement_speed", _charge_speed)
-			_charge_at_player(raycast_node.get_collider())
+			_charge_at_player()
 	pass
 
 
-func _charge_at_player(player) -> void:
+func _charge_at_player() -> void:
 	charge_buildup_timer.start()
-	pass
 
 
 func new_aimless_walking_path() -> void:
@@ -73,7 +72,6 @@ func new_aimless_walking_path() -> void:
 			sprite_node.set_frame(3)
 			raycast_node.rotation_degrees = 270
 	AI_node.set_target_walking_path(target_pos)
-	AI_node.move_to_target()
 
 
 func detected_charge_collision() -> void:
@@ -100,6 +98,7 @@ func _on_ChargeBuildupTimer_timeout():
 
 func _on_AimlessWalkingTimer_timeout():
 	if _behaviour_state == behaviourState.AIMLESS_WALKING:
+		print("New aimless walking destination")
 		new_aimless_walking_path()
 
 

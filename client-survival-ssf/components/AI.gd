@@ -32,7 +32,8 @@ var current_movement_behaviour = movementBehaviour.MOTIONLESS
 enum movementBehaviour {
 	FOLLOW_PLAYER,
 	STRAFE,
-	MOTIONLESS
+	MOTIONLESS,
+	CUSTOM
 }
 
 
@@ -56,6 +57,10 @@ func motionless_behaviour() -> void:
 	current_movement_behaviour = movementBehaviour.MOTIONLESS
 
 
+func custom_behaviour() -> void:
+	current_movement_behaviour = movementBehaviour.CUSTOM
+
+
 func stop_moving() -> void:
 	move_path = []
 	Movement.set_velocity(Vector2.ZERO)
@@ -71,6 +76,7 @@ func move_to_target():
 
 func set_target_walking_path(target_pos):
 	move_path = nav.get_simple_path(global_position, target_pos, false)
+	print(move_path)
 
 
 func set_target_attack_path(target_pos):
@@ -114,5 +120,7 @@ func _on_MovementActionTimer_timeout():
 			set_target_walking_path(parent_entity.direction_to(get_closest_player().global_position))
 		elif current_movement_behaviour == movementBehaviour.STRAFE:
 			set_target_walking_path(_get_strafe_position())
+		elif current_movement_behaviour == movementBehaviour.CUSTOM:
+			pass
 	elif current_movement_behaviour == movementBehaviour.MOTIONLESS:
 		stop_moving()

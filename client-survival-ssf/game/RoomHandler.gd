@@ -44,10 +44,10 @@ func _on_rooms_generated(all_room_data: Array) -> void:
 
 var mob_difficulties = {
 	Constants.MobTypes.CHOWDER: 6,
-	Constants.MobTypes.TURRET_CRAWLER: 12,
-	Constants.MobTypes.MOLE: 10,
-	Constants.MobTypes.CLOUDER: 9,
-	Constants.MobTypes.LOVE_BULL: 1,
+	Constants.MobTypes.TURRET_CRAWLER: 4,
+	Constants.MobTypes.MOLE: 3,
+	Constants.MobTypes.CLOUDER: 1,
+	Constants.MobTypes.LOVE_BULL: 2,
 }
 
 func _spawn_pino(pino_global_position: Vector2) -> void:
@@ -62,10 +62,10 @@ func _generate_rooms() -> void:
 	var all_room_data = []
 	yield(get_tree().create_timer(1), "timeout")
 	for i in _number_of_rooms:
-		
+		"""
 		if i == 0:
 			_spawn_pino(Vector2(100, 100))
-		
+		"""
 		
 		var prev_room_data = null
 		var enter_pos = Vector2.ZERO

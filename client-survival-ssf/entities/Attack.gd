@@ -7,6 +7,7 @@ var _damage_creator_team: int
 var _pos: Vector2
 var _dir: Vector2
 
+
 func _ready():
 	set_global_position(_pos)
 	look_at(_pos + _dir * 120)

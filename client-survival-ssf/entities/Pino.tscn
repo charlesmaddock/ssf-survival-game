@@ -1,13 +1,51 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://components/Dialogue.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/sprites/CompO-spritesheet!.png" type="Texture" id=3]
+
+[sub_resource type="Animation" id=1]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 1 ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "Talking_Neutral"
+length = 0.5
+loop = true
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 1, 0 ]
+}
 
 [node name="Pino" type="Node2D"]
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 3 )
 hframes = 9
+frame = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite"]
+anims/RESET = SubResource( 1 )
+anims/Talking_Neutral = SubResource( 2 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 

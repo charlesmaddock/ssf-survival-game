@@ -27,7 +27,7 @@ visible = false
 [node name="Damage" parent="." instance=ExtResource( 3 )]
 
 [node name="Health" parent="." instance=ExtResource( 2 )]
-max_health = 10.0
+max_health = 90.0
 knockbackable = false
 
 [node name="Movement" parent="." instance=ExtResource( 6 )]
@@ -41,7 +41,7 @@ wait_time = 1.2
 one_shot = true
 
 [node name="AimlessWalkingTimer" type="Timer" parent="."]
-wait_time = 1.5
+wait_time = 3.013
 autostart = true
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
