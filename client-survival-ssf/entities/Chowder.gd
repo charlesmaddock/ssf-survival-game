@@ -25,5 +25,5 @@ func _on_AttackTimer_timeout():
 	_targeted_player = AI_node.get_closest_player()
 	if _targeted_player != null:
 		var dir = (_targeted_player.global_position - global_position).normalized()
-		Server.melee_attack(entity.id, dir, entity.team)
+		Server.melee_attack(entity.id, dir, global_position, entity.team)
 

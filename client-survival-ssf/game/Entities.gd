@@ -63,7 +63,7 @@ func _on_packet_received(packet: Dictionary) -> void:
 			var attacker_entity = get_entity(packet.id)
 			if attacker_entity != null:
 				var attack = attack_scene.instance()
-				var spawn_pos = attacker_entity.global_position 
+				var spawn_pos = Vector2(packet.posX, packet.posY)
 				var dir = Vector2(packet.dirX, packet.dirY)
 				attack.init(spawn_pos, dir, 20, packet.id, packet.team)
 				add_child(attack)
