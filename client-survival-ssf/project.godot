@@ -18,10 +18,16 @@ _global_script_classes=[ {
 "class": "Entity",
 "language": "GDScript",
 "path": "res://resources/Entity.gd"
+}, {
+"base": "Resource",
+"class": "dialogue",
+"language": "GDScript",
+"path": "res://resources/DialogueResource.gd"
 } ]
 _global_script_class_icons={
 "ClientPredictionUtil": "",
-"Entity": ""
+"Entity": "",
+"dialogue": ""
 }
 
 [application]

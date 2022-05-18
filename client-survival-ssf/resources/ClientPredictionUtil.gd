@@ -12,6 +12,7 @@ const POSITION_UPDATE_DIVISOR: int = 6
 var _entity_parent_node: Node
 var _server_preview_sprite: Sprite = null
 var _server_preview_sprites: Array 
+var draw_previews: bool = false
 
 # Client values
 var _predicted_positions: Array
@@ -28,10 +29,12 @@ var _test_body: KinematicBody2D = null
 func _init(parent):
 	_entity_parent_node = parent
 	_dt_since_server_reconciliations.append({"start": OS.get_ticks_usec(), "stop": OS.get_ticks_usec()})
-	_server_preview_sprite = draw_preview(0)
+	
+	if draw_previews == true:
+		_server_preview_sprite = draw_preview(0)
+	
 	_target_pos = _entity_parent_node.global_position
 	
-	return
 	if Lobby.my_id == _entity_parent_node.entity.id && Lobby.is_host == false:
 		var test_body = KinematicBody2D.new()
 		test_body.collision_layer = parent.collision_layer
@@ -41,6 +44,10 @@ func _init(parent):
 		test_body.add_child(_entity_parent_node.get_node("CollisionShape2D").duplicate())
 		entities.add_child(test_body)
 		_test_body = test_body
+
+
+func get_adjust_vector() -> Vector2:
+	return _host_client_pos_difference
 
 
 func get_target_pos() -> Vector2:
@@ -106,7 +113,8 @@ var first_time: bool = true
 func handle_reconciliation_from_host(position_iteration: int, server_pos: Vector2) -> void:
 	#print("4. (Client) Handle and adjust reconciliation: ", position_iteration)
 	
-	_server_preview_sprite.global_position = server_pos
+	if _server_preview_sprite != null:
+		_server_preview_sprite.global_position = server_pos
 	
 	var print_arr = ""
 	var slice_pos = -1
@@ -149,18 +157,22 @@ func handle_reconciliation_from_host(position_iteration: int, server_pos: Vector
 	#print("Predicted Positions: ")
 	#print(print_arr)
 	
-	var to_delete = _server_preview_sprites.slice(0, slice_pos, 1, true)
-	var to_keep = _server_preview_sprites.slice(slice_pos + 1, _predicted_positions.size() - 1, 1, true)
-	for s in to_delete:
-		s.queue_free()
-	_server_preview_sprites = to_keep
+	if draw_previews == true:
+		var to_delete = _server_preview_sprites.slice(0, slice_pos, 1, true)
+		var to_keep = _server_preview_sprites.slice(slice_pos + 1, _predicted_positions.size() - 1, 1, true)
+		for s in to_delete:
+			s.queue_free()
+		_server_preview_sprites = to_keep
 	
 	
 	if _predicted_positions.size() > 0:
 		_host_client_pos_difference = server_pos - _predicted_positions[0].pos
 		var predicted_between: Vector2 = _predicted_positions[0].pos.direction_to(_predicted_positions[1].pos) 
 		var server_between: Vector2 = server_pos.direction_to(_predicted_positions[1].pos) 
-		if predicted_between.normalized().dot(server_between.normalized()) > 0:
+		var dot = predicted_between.normalized().dot(server_between.normalized()) 
+		if dot > -0.1 || dot < 0.1:
+			_latency_adjuster = 0
+		elif dot >= 0.1:
 			_latency_adjuster = -0.01
 		else:
 			_latency_adjuster = 0.01
@@ -178,5 +190,6 @@ func handle_reconciliation_from_host(position_iteration: int, server_pos: Vector
 
 
 func add_prediction(pos: Vector2, delta: float) -> void:
-	_server_preview_sprites.append(draw_preview(0, pos))
+	if draw_previews == true:
+		_server_preview_sprites.append(draw_preview(0, pos))
 	_predicted_positions.append({"pos": pos, "dt": delta})

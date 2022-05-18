@@ -4,6 +4,7 @@ extends Node2D
 onready var JoyStick = $CanvasLayer/CanvasModulate/Control/JoyStick
 onready var entity_id = get_parent().entity.id
 onready var client_prediction_util: ClientPredictionUtil = ClientPredictionUtil.new(get_parent())
+onready var freeze_timer: Node = get_node("FreezeTimer")
 
 
 var sprite_scale: Vector2 = Vector2.ONE
@@ -20,6 +21,7 @@ var _time_since_last_input: float = Constants.RECONCILE_POSITION_RATE
 var walking: bool = false
 var attack_freeze: bool = false
 var speed: float = 80.0
+var speed_modifier: float = 1.0
 
 
 func _ready():
@@ -27,14 +29,13 @@ func _ready():
 	
 	get_parent().entity.connect("damage_taken", self, "_on_take_damage")
 	get_parent().entity.connect("change_movement_speed", self, "_on_change_movement_speed")
-	get_parent().entity.connect("change_movement_speed", self, "")
+	get_parent().entity.connect("attack_freeze", self, "_on_attack_freeze")
 	
 	_prev_pos = get_parent().global_position
 	get_parent().entity.connect("dashed", self, "_on_dashed")
 
 
 func _on_dashed(dir) -> void:
-	print("I am dashing within movement right now!")
 	_force += dir
 
 
@@ -51,7 +52,7 @@ func set_speed(speed: float) -> void:
 
 
 func set_velocity(dir: Vector2) -> void:
-	_velocity = dir.normalized() * speed
+	_velocity = dir.normalized() * speed * speed_modifier
 
 
 func _on_packet_received(packet: Dictionary) -> void:
@@ -78,7 +79,9 @@ func _on_packet_received(packet: Dictionary) -> void:
 
 
 func _on_attack_freeze(time):
+	speed_modifier = 0.0
 	attack_freeze = true
+	freeze_timer.start(time)
 
 
 func get_input():
@@ -99,9 +102,12 @@ func _process(delta):
 	#var test_body = client_prediction_util.get_test_body()
 	#if test_body != null:
 	#print("test_body.global_position: ", test_body.global_position)
-	client_prediction_util.add_prediction(global_position, delta)
-	
+
 	if entity_id == Lobby.my_id:
+		var test_body = client_prediction_util.get_test_body()
+		if test_body != null:
+			client_prediction_util.add_prediction(test_body.global_position, delta)
+		
 		_time_since_last_input += delta
 		if _time_since_last_input >= Constants.RECONCILE_POSITION_RATE:
 			#if Lobby.is_host == false:
@@ -112,9 +118,6 @@ func _process(delta):
 
 
 func _physics_process(delta):
-	if attack_freeze:
-		return
-	
 	_send_pos_iteration += 1
 	
 	if Util.is_my_entity(get_parent()):
@@ -146,7 +149,9 @@ func _physics_process(delta):
 		#var move_amount = Vector2(move_toward(test_body.global_position.x, target.x, 12 * delta), move_toward(test_body.global_position.x, target.y, 12  * delta))
 		#est_body.move_and_slide(move_amount)
 		client_prediction_util.add_input((_velocity + _force) * delta)
-		get_parent().global_position = get_parent().global_position.linear_interpolate(target_pos, delta * 12)
+		test_body.move_and_slide(_velocity + _force)
+		test_body.global_position = test_body.global_position.linear_interpolate(test_body.global_position + client_prediction_util.get_adjust_vector(), delta * 0.8)
+		get_parent().global_position = test_body.global_position
 	else:
 		get_parent().global_position = get_parent().global_position.linear_interpolate(target_position, delta * 6)
 	
@@ -166,3 +171,8 @@ func _physics_process(delta):
 		_force = Vector2.ZERO
 	else:
 		_force /= 1.1
+
+
+func _on_FreezeTimer_timeout():
+	attack_freeze = false
+	speed_modifier = 1.0

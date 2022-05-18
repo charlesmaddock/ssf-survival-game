@@ -5,12 +5,12 @@ export(int) var _strafe_distance: int = 80
 export(int) var _dashing_multiplier: int = 350
 
 
-onready var damage_node = $"Damage"
-onready var AI_node = $"AI"
-onready var movement_node: Node2D = $"Movement"
+onready var damage_node = $Damage
+onready var AI_node = $AI
+onready var movement_node: Node2D = $Movement
 
-onready var dash_timer_node: Timer = $"DashTimer"
-onready var stop_dashing_timer_node: Timer = $"StopDashingTimer"
+onready var dash_timer_node: Timer = $DashTimer
+onready var stop_dashing_timer_node: Timer = $StopDashingTimer
 
 
 var entity: Entity
@@ -22,40 +22,23 @@ var _has_dashed: bool = false
 
 
 func _ready():
-	get_node("AI").connect("target_player", self, "_on_target_player")
-	entity.connect("damage_taken", self, "on_damage_taken")
-	
+	AI_node.strafe_behaviour(_strafe_distance)
 	damage_node.init(entity.id, entity.team)
 
 
-func on_damage_taken(health, dir) -> void:
-	if health <= 0:
-		if Lobby.is_host == true:
-			Server.despawn_mob(entity.id)
-
-
-func _on_TargetEnemyTimer_timeout():
-	var closest_player = Util.get_closest_player(self.global_position)
-	if _is_dashing == true:
-		var dir = self.global_position.direction_to(closest_player.global_position) * _dashing_multiplier
-		if _has_dashed == false:
-			AI_node.stop_moving()
-			entity.emit_signal("dashed", dir)
-			print("I should be dashing!")
-			_has_dashed = true
-	else:
-		if closest_player != null:
-			var strafe_pos = AI_node.get_strafe_position(_strafe_distance, closest_player)
-			AI_node.get_target_path(strafe_pos)
-
-
-
 func _on_DashTimer_timeout():
-	_is_dashing = true
-	stop_dashing_timer_node.start()
+	if _has_dashed == false:
+		_is_dashing = true
+		var closest_player = AI_node.get_closest_player()
+		var dir = self.global_position.direction_to(closest_player.global_position) * _dashing_multiplier
+		AI_node.motionless_behaviour()
+		entity.emit_signal("dashed", dir)
+		_has_dashed = true
+		stop_dashing_timer_node.start()
 
 
 func _on_StopDashingTimer_timeout():
+	AI_node.strafe_behaviour(_strafe_distance)
 	_is_dashing = false
 	_has_dashed = false
 	dash_timer_node.start()

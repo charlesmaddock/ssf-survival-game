@@ -41,8 +41,6 @@ margin_bottom = -63.0
 [node name="Movement" parent="." instance=ExtResource( 5 )]
 
 [node name="AI" parent="." instance=ExtResource( 3 )]
-agressive = true
-attack_base = true
 
 [node name="Loot" type="Node2D" parent="."]
 script = ExtResource( 6 )

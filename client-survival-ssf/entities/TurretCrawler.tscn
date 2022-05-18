@@ -36,11 +36,8 @@ margin_top = -34.0
 margin_bottom = -30.0
 
 [node name="Movement" parent="." instance=ExtResource( 5 )]
-speed = 20.0
 
 [node name="AI" parent="." instance=ExtResource( 3 )]
-cowardly = true
-agressive = true
 
 [node name="RoomVisibility" parent="." instance=ExtResource( 7 )]
 
@@ -50,3 +47,4 @@ autostart = true
 [connection signal="timeout" from="ShootTimer" to="." method="_on_ShootTimer_timeout"]
 
 [editable path="Health"]
+[editable path="AI"]

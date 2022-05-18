@@ -58,8 +58,8 @@ arm_separation = 4.0
 [node name="RobotBody" parent="." instance=ExtResource( 9 )]
 position = Vector2( 1, -12 )
 
-[node name="Aim Arrow" parent="." instance=ExtResource( 7 )]
-position = Vector2( 1, -13 )
-
 [node name="Leg Name" parent="." instance=ExtResource( 6 )]
 position = Vector2( 1, -7 )
+
+[node name="Aim Arrow" parent="." instance=ExtResource( 7 )]
+position = Vector2( 1, -13 )

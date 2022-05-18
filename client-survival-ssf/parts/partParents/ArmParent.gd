@@ -16,6 +16,7 @@ export(Texture) var arm_texture: Texture
 export(Vector2) var sprite_offset: Vector2
 export(float) var arm_separation: float
 export(float) var cooldown: float = 1
+export(float) var freeze_time: float = 0.2
 export(float) var anim_speed: float = 1
 
 
@@ -83,6 +84,8 @@ func _input(event):
 			#var dir = (get_global_mouse_position() - global_position).normalized()
 			Server.melee_attack(parent_entity.id, attack_dir, global_position, parent_entity.team)
 			get_parent().entity.emit_signal("is_attacking", true)
+			#Server.melee_attack(parent_entity.id, attack_dir, parent_entity.team)
+			#get_parent().entity.emit_signal("attack_freeze", freeze_time)
 			animation.play("attack", -1, anim_speed)
 			attack_timer.start()
 
