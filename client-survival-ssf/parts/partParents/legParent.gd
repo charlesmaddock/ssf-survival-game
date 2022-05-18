@@ -71,9 +71,12 @@ func _on_turned_around(dir):
 		sprite1.offset.x = sprite_offset.x * -1
 		sprite2.offset.x = sprite_offset.x * -1
 		
+		sprite1.z_index = 1
 	else:
 		sprite1.offset.x = sprite_offset.x
 		sprite2.offset.x = sprite_offset.x
+		
+		sprite1.z_index = 0
 
 
 func _flip_direction():

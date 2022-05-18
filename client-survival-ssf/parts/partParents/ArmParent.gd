@@ -18,6 +18,8 @@ export(float) var arm_separation: float
 export(float) var cooldown: float = 1
 export(float) var freeze_time: float = 0.2
 export(float) var anim_speed: float = 1
+export(float) var knockback: float = 0
+export(bool) var melee: bool = true
 
 
 func _ready():
@@ -82,8 +84,14 @@ func _input(event):
 		if Input.is_action_just_pressed("attack") && able_to_attack == true:
 			able_to_attack = false
 			#var dir = (get_global_mouse_position() - global_position).normalized()
-			Server.melee_attack(parent_entity.id, attack_dir, parent_entity.team)
+			
+			if melee == true:
+				Server.melee_attack(parent_entity.id, attack_dir, parent_entity.team)
+			else:
+				Server.shoot_projectile(global_position, attack_dir, parent_entity.id, parent_entity.team)
+			
 			get_parent().entity.emit_signal("attack_freeze", freeze_time)
+			get_parent().entity.emit_signal("knockback", attack_dir * -knockback)
 			animation.play("attack", -1, anim_speed)
 			attack_timer.start()
 

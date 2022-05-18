@@ -22,3 +22,4 @@ func _on_packet_received(packet: Dictionary) -> void:
 func set_players_data(name: String, className: String) -> void:
 	$UsernameLabel.text = name
 	get_node("Sprite").texture = Util.get_sprite_for_class(className)
+	

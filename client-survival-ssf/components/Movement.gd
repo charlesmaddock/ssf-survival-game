@@ -28,6 +28,7 @@ func _ready():
 	get_parent().entity.connect("damage_taken", self, "_on_take_damage")
 	get_parent().entity.connect("change_movement_speed", self, "_on_change_movement_speed")
 	get_parent().entity.connect("attack_freeze", self, "_on_attack_freeze")
+	get_parent().entity.connect("knockback", self, "_on_knockback")
 	
 	_prev_pos = get_parent().global_position
 	get_parent().entity.connect("dashed", self, "_on_dashed")
@@ -39,6 +40,10 @@ func _on_dashed(dir) -> void:
 
 func _on_take_damage(health, dir) -> void:
 	_force += dir 
+
+
+func _on_knockback(dir) -> void:
+	_force += dir
 
 
 func _on_change_movement_speed(new_speed):
