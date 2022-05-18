@@ -13,6 +13,9 @@ var TimerSpeeds: Dictionary = {
 	"fast": 0.015
 }
 
+var _old_bubble_text: String
+var _old_bubble_text_length: int = 0
+var _old_bubble_text_index: int = 0
 
 var _bubble_text: String = "This is just a test!"
 var _bubble_text_length = 0

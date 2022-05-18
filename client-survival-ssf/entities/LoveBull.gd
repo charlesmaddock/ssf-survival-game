@@ -74,7 +74,8 @@ func new_aimless_walking_path() -> void:
 	AI_node.set_target_walking_path(target_pos)
 
 
-func detected_charge_collision() -> void:
+func detected_charge_collision(body) -> void:
+	print("The bull collided with: ", body.get_name())
 	if _behaviour_state == behaviourState.CHARGE_ATTACK:
 		yield(get_tree().create_timer(0.30), "timeout")
 		entity.emit_signal("change_movement_speed", 60.0)
@@ -104,12 +105,13 @@ func _on_AimlessWalkingTimer_timeout():
 
 func _on_ChargeCollision_body_entered(body):
 	print("and the bull collided with a somebooody!")
-	detected_charge_collision()
+	if Util.is_player(body):
+		detected_charge_collision(body)
 
 
 func _on_ChargeCollision_body_shape_entered(body_rid, body, body_shape_index, local_shape_index):
 	if _behaviour_state == behaviourState.CHARGE_ATTACK:
-		detected_charge_collision()
+		detected_charge_collision(body)
 	else: 
 		aimless_walking_timer.emit_signal("timeout")
 		

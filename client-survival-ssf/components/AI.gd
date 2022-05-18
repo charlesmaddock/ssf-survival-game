@@ -89,10 +89,13 @@ func _on_Damage_body_entered(body):
 
 
 func _get_strafe_position() -> Vector2:
-	var strafe_dir_normalized = get_closest_player().global_position.direction_to(self.global_position)
-	var strafe_pos_without_strafe: Vector2 = get_closest_player().global_position + strafe_dir_normalized * _strafe_dist
-	var strafe_pos: Vector2  = get_closest_player().global_position + strafe_dir_normalized.rotated(deg2rad(40)) * _strafe_dist
-	return strafe_pos
+	if get_closest_player() == null:
+		var strafe_dir_normalized = get_closest_player().global_position.direction_to(self.global_position)
+		var strafe_pos_without_strafe: Vector2 = get_closest_player().global_position + strafe_dir_normalized * _strafe_dist
+		var strafe_pos: Vector2  = get_closest_player().global_position + strafe_dir_normalized.rotated(deg2rad(40)) * _strafe_dist
+		return strafe_pos
+	else:
+		return Vector2.ZERO
 
 """
 func _get_follow_position() -> Vector2:
