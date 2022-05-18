@@ -4,6 +4,7 @@ extends Node
 const PLAYERS_PER_ROOM: int = 6
 const TILE_SIZE = Vector2(32, 32)
 
+
 enum AppMode {
 	DEVELOPMENT,
 	RELEASE
@@ -99,6 +100,13 @@ enum collisionLayers {
 }
 
 
+enum DialogueSpeedKeywords {
+	SLOW,
+	MEDIUM,
+	FAST
+}
+
+
 enum DialogueMoods {
 	NEUTRAL,
 	HAPPY,
@@ -107,11 +115,13 @@ enum DialogueMoods {
 	FLUSTERED
 }
 
-enum DialogueSpeeds {
-	SLOW,
-	MEDIUM,
-	FAST
+
+var DialogueSpeeds: Dictionary = {
+	"Slow": 0.10,
+	"Medium": 0.06,
+	"Fast": 0.05
 }
+
 
 var item_textures = {
 	ItemTypes.FLUFF_BALL: preload("res://assets/sprites/largePoint.png"),

@@ -1,64 +1,76 @@
 extends Node2D
 
 
-#onready var ninerect = $"VBoxContainer/Label/NinePatchRect"
 onready var vBoxContainer: VBoxContainer = $VBoxContainer
 onready var lbltext = $VBoxContainer/Label
 onready var timer = $Timer
 
 
-var TimerSpeeds: Dictionary = {
-	"slow": 0.10,
-	"medium": 0.04,
-	"fast": 0.015
-}
-
-var _old_bubble_text: String
-var _old_bubble_text_length: int = 0
-var _old_bubble_text_index: int = 0
-
-var _bubble_text: String = "This is just a test!"
+var _bubble_text: String = ""
 var _bubble_text_length = 0
 var _bubble_text_index = 0
 var _current_text = ""
 
-var _tick_time: float = TimerSpeeds["medium"]
-var _do_erase_text = false
+var _new_bubble_text: String
+var _new_tick_time: String
+var _new_bubble_text_length = 0
+
+var _first_dialogue: bool = true
+var _tick_time: String = "Medium"
 var _do_close = false
+var _is_there_new_dialogue = false
 
 
-func init(new_bubble_text: String, timer_speed: float) -> void:
-	_bubble_text = new_bubble_text
-	_bubble_text_length = _bubble_text.length()
+signal dialogue_finished()
+
+
+func _ready():
+	vBoxContainer.visible = false
+
+
+func write_new_dialogue(new_bubble_text: String, tick_speed: String) -> void:
+	_is_there_new_dialogue = true
+	_new_bubble_text = new_bubble_text
+	_new_tick_time = tick_speed
 	
-	match(timer_speed):
-		Constants.DialogueSpeeds.SLOW:
-			_tick_time = TimerSpeeds["slow"]
-		Constants.DialogueSpeeds.MEDIUM:
-			_tick_time = TimerSpeeds["medium"]
-		Constants.DialogueSpeeds.FAST:
-			_tick_time = TimerSpeeds["fast"]
+	if _first_dialogue == true:
+		_first_dialogue = false
+		_bubble_text_length = _bubble_text.length()
+		vBoxContainer.visible = true
+		_start_timer(tick_speed)
+	else:
+		_start_timer(_tick_time)
 
 
-func write_new_dialogue(new_bubble_text: String, timer_speed: float) -> void:
-	pass
+func _instantiate_new_dialogue() -> void:
+	_is_there_new_dialogue = false
+	_bubble_text = _new_bubble_text
+	_tick_time = _new_tick_time
+	_bubble_text_length = _bubble_text.length()
 
-func remove_bubble() -> void:
+
+func _start_timer(tick_speed) -> void:
+	var new_tick_speed = Constants.DialogueSpeeds[tick_speed]
+	timer.start(new_tick_speed)
+
+
+func delete_dialogue_then_bubble(tick_speed) -> void:
+	_new_bubble_text = ""
+	_tick_time = tick_speed
+	_do_close = true
+
+
+func delete_bubble() -> void:
 	print("Queue freeing this bubble now!")
 	self.queue_free()
 
 
-func _erase_text() -> void:
-	_do_erase_text = true
-
-
 func _type_character() -> void:
-	print("I should be typing characters!")
 	_current_text += _bubble_text[_bubble_text_index]
 	lbltext.text = _current_text
 	if _bubble_text_index < _bubble_text_length - 1:
-		timer.start(_tick_time)
 		_bubble_text_index += 1
+		_start_timer(_tick_time)
 
 
 func _delete_character() -> void:
@@ -66,16 +78,34 @@ func _delete_character() -> void:
 		_current_text.erase(_bubble_text_length -1, 1)
 		lbltext.text = _current_text
 		_bubble_text_length -= 1
-		timer.start(0.04)
+		_start_timer(_tick_time)
 
 
 func _on_Timer_timeout():
-	if !_do_close:
-		if _do_erase_text:
-			_delete_character()
-		else:
+	if _is_there_new_dialogue:
+		print("Am in _is_there_new_dialogue")
+		if _current_text == "":
+			_instantiate_new_dialogue()
 			_type_character()
-	elif _do_close && _bubble_text_length == 0:
-		remove_bubble()
+		else:
+			_delete_character()
+	else:
+		if !_do_close:
+			print("Am in !do_close and this are the two texts: ", _current_text, "and this bubble: ", _bubble_text)
+			if _current_text != _bubble_text:
+				print("Typing out the text")
+				_type_character()
+			else:
+				print("Emitting signal: dialogue_finished bc current_text is = bubble_text")
+				emit_signal("dialogue_finished")
+				timer.stop()
+		else:
+			if _current_text != "":
+				_delete_character()
+			else:
+				print("Emitting signal: dialogue_finished bc deleting_bubble")
+				emit_signal("dialogue_finished")
+				delete_bubble()
+				timer.stop()
 
 

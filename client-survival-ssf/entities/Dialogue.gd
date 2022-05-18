@@ -11,49 +11,71 @@ onready var animation_player_node = $AnimationPlayer
 var _is_player_in_area: bool = false
 var _players_in_area: Array = []
 
-var _is_text_written_out: bool = true
-var _is_text_erased: bool = false
+var _is_dialogue_finished = true
 var bubble: Node2D
 var _current_bubble_animation: String = "Talking_Neutral"
 
+var _dialogue_index = 0
 var dialogues: Array = [
-	{"text": "Hello there Hero! We are in much need of you. There is currently a monster-virus residing at the end of this dungeon",
-	"text_speed": Constants.DialogueSpeeds.MEDIUM,
+	{
+	"text": "Hello there Hero!\nWe are in much need of you.",
+	"text_speed": "Fast",
 	"animation": "Talking_Neutral"
 	},
 	
-	{"text": "Would you please defeat it?",
-	"text_speed": Constants.DialogueSpeeds.MEDIUM,
+	{
+	"text": "There's a lovely monstrosity down the road.",
+	"text_speed": "Fast",
 	"animation": "Talking_Neutral"},
 	
-	{"text": "And remember: do not succumb to it's allure!",
-	"text_speed": Constants.DialogueSpeeds.MEDIUM,
+	{
+	"text": "Would you please defeat it?",
+	"text_speed": "Fast",
+	"animation": "Talking_Neutral"},
+	
+	{
+	"text": "And remember: do not succumb to it's allure!",
+	"text_speed": "Fast",
 	"animation": "Talking_Neutral"},
 ]
 
 
+func _ready():
+	pass
+	
+
+func on_dialogue_finished() -> void:
+	_is_dialogue_finished = true
+	print("Dialogue is finished!")
+
+
 func _process(delta):
 	if Input.is_action_pressed("ui_accept") && _is_player_in_area:
-		_next_dialogue()
+		_start_next_dialogue()
 	if !_is_player_in_area && is_instance_valid(bubble):
-		_remove_bubble()
+		delete_bubble()
 
 
-func _next_dialogue() -> void:
+func _start_next_dialogue() -> void:
 	if !is_instance_valid(bubble):
 		bubble = bubble_scene.instance()
-		bubble.global_position += Vector2(0, -60)
-		bubble.init(dialogues[0]["text"], dialogues[0]["text_speed"])
 		add_child(bubble)
-	
-	else:
-		if _is_text_written_out && !_is_text_erased:
-			pass
-		elif !_is_text_written_out && _is_text_erased:
-			pass
+		bubble.connect("dialogue_finished", self, "on_dialogue_finished")
+		bubble.global_position += Vector2(0, -60)
+	_write_next_dialogue()
 
-func _remove_bubble() -> void:
-	bubble.remove_bubble()
+
+func _write_next_dialogue() -> void:
+	if _is_dialogue_finished && _dialogue_index < dialogues.size() - 1:
+			_is_dialogue_finished = false
+			print("Writing this dialogue: ", dialogues[_dialogue_index])
+			bubble.write_new_dialogue(dialogues[_dialogue_index]["text"], dialogues[_dialogue_index]["text_speed"])
+			_dialogue_index += 1
+
+
+func delete_bubble() -> void:
+	bubble.delete_bubble()
+	_dialogue_index = 0
 
 
 func _on_DialogueArea2D_body_entered(body):

@@ -48,7 +48,6 @@ func _charge_at_player() -> void:
 
 
 func _new_aimless_walking_path() -> void:
-	print("New aimless walking path!")
 	randomize()
 	var random_distance = rand_range(100, 600)
 	var random_direction = randi() % 4
