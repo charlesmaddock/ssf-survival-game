@@ -76,7 +76,6 @@ func move_to_target():
 
 func set_target_walking_path(target_pos):
 	move_path = nav.get_simple_path(global_position, target_pos, false)
-	print(move_path)
 
 
 func set_target_attack_path(target_pos):

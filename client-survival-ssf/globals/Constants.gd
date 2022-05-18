@@ -86,6 +86,19 @@ enum Teams {
 	BAD_GUYS
 }
 
+
+enum collisionLayers {
+	PLAYER,
+	ITEM,
+	DAMAGE,
+	SOLID,
+	HEALTH,
+	BASE,
+	ANIMAL
+	IS_IN_ROOM,
+}
+
+
 enum DialogueMoods {
 	NEUTRAL,
 	HAPPY,
