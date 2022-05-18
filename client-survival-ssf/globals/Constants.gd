@@ -3,6 +3,8 @@ extends Node
 
 const PLAYERS_PER_ROOM: int = 6
 const TILE_SIZE = Vector2(32, 32)
+const RECONCILE_POSITION_RATE: float = 0.2
+
 
 enum AppMode {
 	DEVELOPMENT,
@@ -24,6 +26,7 @@ enum PacketTypes {
   GAME_STARTED,
   SET_INPUT,
   SET_PLAYER_POS,
+  REQUEST_RECONCILIATION,
   RECONCILE_PLAYER_POS,
   SET_HEALTH,
   SHOOT_PROJECTILE,

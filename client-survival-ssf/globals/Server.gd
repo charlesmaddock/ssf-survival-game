@@ -149,6 +149,13 @@ func send_pos(id: String, pos: Vector2) -> void:
 	send_packet(payload)
 
 
+func client_request_reconciliation() -> void:
+	var payload = {
+		"type": Constants.PacketTypes.REQUEST_RECONCILIATION, 
+	}
+	send_packet(payload)
+
+
 func host_reconcile_player_pos(i: int, pos: Vector2, id: String) -> void:
 	var payload = {
 		"type": Constants.PacketTypes.RECONCILE_PLAYER_POS, 
@@ -157,7 +164,6 @@ func host_reconcile_player_pos(i: int, pos: Vector2, id: String) -> void:
 		"x": pos.x,
 		"y": pos.y
 	}
-	yield(get_tree().create_timer(0.2), "timeout")
 	send_packet(payload)
 
 
@@ -172,10 +178,12 @@ func set_health(id: String, health: float, knockback_dir: Vector2)  -> void:
 	send_packet(payload)
 
 
-func melee_attack(id: String, dir: Vector2, team: int)  -> void:
+func melee_attack(id: String, dir: Vector2, pos: Vector2, team: int)  -> void:
 	var payload = {
 		"type": Constants.PacketTypes.MELEE_ATTACK, 
 		"id": id,
+		"posX": pos.x,
+		"posY": pos.y,
 		"team": team,
 		"dirX": dir.x,
 		"dirY": dir.y

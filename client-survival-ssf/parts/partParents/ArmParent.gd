@@ -81,7 +81,7 @@ func _input(event):
 		if Input.is_action_just_pressed("attack") && able_to_attack == true:
 			able_to_attack = false
 			#var dir = (get_global_mouse_position() - global_position).normalized()
-			Server.melee_attack(parent_entity.id, attack_dir, parent_entity.team)
+			Server.melee_attack(parent_entity.id, attack_dir, global_position, parent_entity.team)
 			get_parent().entity.emit_signal("is_attacking", true)
 			animation.play("attack", -1, anim_speed)
 			attack_timer.start()
