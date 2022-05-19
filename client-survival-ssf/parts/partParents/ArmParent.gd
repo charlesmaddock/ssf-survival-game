@@ -86,7 +86,7 @@ func _input(event):
 			#var dir = (get_global_mouse_position() - global_position).normalized()
 			
 			if melee == true:
-				Server.melee_attack(parent_entity.id, attack_dir, parent_entity.team)
+				Server.melee_attack(parent_entity.id, attack_dir, global_position, parent_entity.team)
 			else:
 				Server.shoot_projectile(global_position, attack_dir, parent_entity.id, parent_entity.team)
 			
