@@ -23,6 +23,7 @@ var _is_there_new_dialogue = false
 
 signal dialogue_finished()
 signal bubble_deleted()
+signal changed_talking_state(is_talking)
 
 
 func _ready():
@@ -63,11 +64,13 @@ func delete_dialogue_then_bubble(tick_speed) -> void:
 
 
 func delete_bubble() -> void:
+	emit_signal("changed_talking_state", false)
 	emit_signal("bubble_deleted")
 	self.queue_free()
 
 
 func _type_character() -> void:
+	emit_signal("changed_talking_state", true)
 	_current_text += _bubble_text[_bubble_text_index]
 	lbltext.text = _current_text
 	if !_bubble_text_index > _bubble_text_length - 1:
@@ -81,6 +84,7 @@ func _delete_character() -> void:
 		lbltext.text = _current_text
 		_bubble_text_length -= 1
 		_bubble_text_index -= 1
+		emit_signal("changed_talking_state", false)
 	_start_timer(_tick_time)
 
 
@@ -97,11 +101,11 @@ func _on_Timer_timeout():
 			if _current_text != _bubble_text:
 				_type_character()
 			else:
+				emit_signal("changed_talking_state", false)
 				emit_signal("dialogue_finished")
 		else:
 			if _current_text != "":
 				_delete_character()
-				print("Am in do close and called delete_character()")
 			else:
 				#yield(get_tree().create_timer(Constants.DialogueSpeeds[_tick_time]), "timeout")
 				delete_bubble()
