@@ -22,6 +22,7 @@ var walking: bool = false
 var attack_freeze: bool = false
 var speed: float = 80.0
 var speed_modifier: float = 1.0
+var weight: float = 0.0
 
 
 func _ready():
@@ -29,6 +30,7 @@ func _ready():
 	
 	get_parent().entity.connect("damage_taken", self, "_on_take_damage")
 	get_parent().entity.connect("change_movement_speed", self, "_on_change_movement_speed")
+	get_parent().entity.connect("change_weight", self, "_on_change_weight")
 	get_parent().entity.connect("attack_freeze", self, "_on_attack_freeze")
 	get_parent().entity.connect("knockback", self, "_on_knockback")
 	
@@ -50,6 +52,10 @@ func _on_knockback(dir) -> void:
 
 func _on_change_movement_speed(new_speed):
 	speed = new_speed
+
+
+func _on_change_weight(new_weight):
+	weight = new_weight
 
 
 func set_speed(speed: float) -> void:

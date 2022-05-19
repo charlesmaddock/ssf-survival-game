@@ -13,7 +13,7 @@ func _on_target_player(player) -> void:
 func _on_AttackTimer_timeout():
 	if _targeted_player != null:
 		var dir = (_targeted_player.global_position - global_position).normalized()
-		Server.melee_attack(entity.id, dir, global_position, 0)
+		Server.melee_attack(entity.id, dir, 0, 5)
 
 
 

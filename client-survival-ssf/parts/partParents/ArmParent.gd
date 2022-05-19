@@ -6,7 +6,10 @@ onready var parent_entity: Entity = get_parent().entity
 onready var sprite1: Node = get_node("Sprite1")
 onready var sprite2: Node = get_node("Sprite2")
 onready var animation: Node = get_node("AnimationPlayer")
-onready var attack_timer: Node = get_node("Timer")
+onready var attack_timer: Node = get_node("AttackTimer")
+onready var delay_timer: Node = get_node("DelayTimer")
+
+var attack_scene: PackedScene = preload("res://entities/Attack.tscn")
 
 var able_to_attack: bool = true
 var is_dead: bool = false
@@ -20,12 +23,14 @@ export(float) var freeze_time: float = 0.2
 export(float) var anim_speed: float = 1
 export(float) var knockback: float = 0
 export(bool) var melee: bool = true
-export(float) var attack_delay: float = 0
+export(float) var damage: float = 20
+#export(float) var attack_delay: float = 0
 
 
 func _ready():
 	Events.connect("player_dead", self, "_on_player_dead")
 	Events.connect("player_revived", self, "_on_player_revived")
+	Server.connect("packet_received", self, "_on_packet_recieved")
 	
 	if get_parent() != null:
 		get_parent().entity.connect("turned_around", self, "_on_turned_around")
@@ -37,6 +42,7 @@ func _ready():
 	sprite1.position.x = arm_separation
 	
 	attack_timer.wait_time = cooldown
+	#delay_timer.wait_time = attack_delay
 
 
 func _process(delta):
@@ -87,7 +93,7 @@ func _input(event):
 			#var dir = (get_global_mouse_position() - global_position).normalized()
 			
 			if melee == true:
-				Server.melee_attack(parent_entity.id, attack_dir, global_position, parent_entity.team)
+				Server.melee_attack(parent_entity.id, attack_dir, parent_entity.team, damage)
 			else:
 				Server.shoot_projectile(global_position, attack_dir, parent_entity.id, parent_entity.team)
 			
@@ -97,6 +103,15 @@ func _input(event):
 			attack_timer.start()
 
 
-func _on_Timer_timeout():
+func _on_packet_recieved(packet: Dictionary):
+	if packet.type == Constants.PacketTypes.MELEE_ATTACK:
+		if packet.id == get_parent().entity.id:
+			var attack = attack_scene.instance()
+			var dir = Vector2(packet.dirX, packet.dirY)
+			attack.init(dir, packet.damage, packet.id, packet.team)
+			get_parent().add_child(attack)
+
+
+func _on_AttackTimer_timeout():
 	able_to_attack = true
 	get_parent().entity.emit_signal("is_attacking", false)

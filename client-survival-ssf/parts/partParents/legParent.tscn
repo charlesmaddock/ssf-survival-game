@@ -16,6 +16,7 @@ offset = Vector2( 1.5, 3.5 )
 [node name="Sprite2" type="Sprite" parent="."]
 show_behind_parent = true
 position = Vector2( -2.5, 1 )
+rotation = 0.00083957
 texture = ExtResource( 1 )
 offset = Vector2( 1.5, 3.5 )
 

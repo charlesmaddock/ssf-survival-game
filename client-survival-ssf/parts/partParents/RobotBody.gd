@@ -1,21 +1,28 @@
+tool
+
 extends Node2D
 
 
 onready var parent_entity: Entity = get_parent().entity
-#var walk_state: bool = false
-#var movement_node: Node
 
-export(float) var weight: float = 100
+var movement_node: Node
+
 export(Texture) var body_texture: Texture
-
-#signal change_movement_speed
+export(float) var weight: float = 100
 
 
 func _ready():
-	
-	#if movement_node != null:
-	#	connect("change_movement_speed", movement_node, "_on_change_movement_speed")
-	#	emit_signal("change_movement_speed", walk_speed)
+	if get_parent() != null:
+		movement_node = get_parent().get_node("Movement")
+		
+		if movement_node != null:
+			get_parent().entity.emit_signal("change_weight", weight)
 	
 	if body_texture != null:
 		get_node("Sprite").texture = body_texture
+
+
+func _process(delta):
+	if Engine.editor_hint:
+		if body_texture != null:
+			get_node("Sprite").texture = body_texture

@@ -178,15 +178,14 @@ func set_health(id: String, health: float, knockback_dir: Vector2)  -> void:
 	send_packet(payload)
 
 
-func melee_attack(id: String, dir: Vector2, pos: Vector2, team: int)  -> void:
+func melee_attack(id: String, dir: Vector2, team: int, damage: int)  -> void:
 	var payload = {
 		"type": Constants.PacketTypes.MELEE_ATTACK, 
 		"id": id,
-		"posX": pos.x,
-		"posY": pos.y,
 		"team": team,
 		"dirX": dir.x,
-		"dirY": dir.y
+		"dirY": dir.y,
+		"damage" : damage
 	}
 	send_packet(payload)
 
@@ -284,3 +283,7 @@ func add_to_inventory(id: String, item_id: String) -> void:
 		"item_id": item_id
 	}
 	send_packet(payload)
+
+
+func ping():
+	pass

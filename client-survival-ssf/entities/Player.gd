@@ -24,7 +24,12 @@ func set_players_data(name: String, className: String) -> void:
 	get_node("Sprite").texture = Util.get_sprite_for_class(className)
 	
 	var nameLength = name.length()
-	var armArray: Array = ["res://parts/arms/Default Arm.tscn", "res://parts/arms/HammerArm.tscn", "res://parts/arms/Heart Arm.tscn"]
+	var armArray: Array = [
+		"res://parts/arms/Default Arm.tscn",
+		"res://parts/arms/HammerArm.tscn",
+		"res://parts/arms/Heart Arm.tscn",
+		"res://parts/arms/DrillArm.tscn"
+		]
 	var armPath: String = armArray[nameLength % armArray.size()]
 	var armNode = load(armPath).instance()
 	add_child_below_node($UsernameLabel, armNode)
