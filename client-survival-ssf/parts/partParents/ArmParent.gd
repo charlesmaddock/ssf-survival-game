@@ -20,6 +20,7 @@ export(float) var freeze_time: float = 0.2
 export(float) var anim_speed: float = 1
 export(float) var knockback: float = 0
 export(bool) var melee: bool = true
+export(float) var attack_delay: float = 0
 
 
 func _ready():
