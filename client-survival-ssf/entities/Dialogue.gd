@@ -12,6 +12,7 @@ var _is_player_in_area: bool = false
 var _players_in_area: Array = []
 
 var _is_dialogue_finished = true
+var _is_dialogue_being_deleted = false
 var bubble: Node2D
 var _current_bubble_animation: String = "Talking_Neutral"
 
@@ -42,7 +43,15 @@ var dialogues: Array = [
 
 func _ready():
 	pass
-	
+
+
+func on_bubble_deleted() -> void:
+	yield(get_tree().create_timer(1), "timeout")
+	_dialogue_index = 0
+	_is_dialogue_finished = true
+	_is_dialogue_being_deleted = false
+	print("This is the dialogue_index: ", _dialogue_index)
+
 
 func on_dialogue_finished() -> void:
 	_is_dialogue_finished = true
@@ -53,7 +62,10 @@ func _process(delta):
 	if Input.is_action_pressed("ui_accept") && _is_player_in_area:
 		_start_next_dialogue()
 	if !_is_player_in_area && is_instance_valid(bubble):
-		delete_bubble()
+		_delete_bubble()
+	if is_instance_valid(bubble):
+		if _is_dialogue_finished:
+			pass
 
 
 func _start_next_dialogue() -> void:
@@ -61,21 +73,31 @@ func _start_next_dialogue() -> void:
 		bubble = bubble_scene.instance()
 		add_child(bubble)
 		bubble.connect("dialogue_finished", self, "on_dialogue_finished")
+		bubble.connect("bubble_deleted", self, "on_bubble_deleted")
 		bubble.global_position += Vector2(0, -60)
 	_write_next_dialogue()
 
 
 func _write_next_dialogue() -> void:
-	if _is_dialogue_finished && _dialogue_index < dialogues.size() - 1:
+	if _is_dialogue_finished && is_instance_valid(bubble) && _is_dialogue_being_deleted != true:
+		print("This is the dialogue_index: ", _dialogue_index)
+		if !_dialogue_index > dialogues.size() - 1:
 			_is_dialogue_finished = false
 			print("Writing this dialogue: ", dialogues[_dialogue_index])
 			bubble.write_new_dialogue(dialogues[_dialogue_index]["text"], dialogues[_dialogue_index]["text_speed"])
 			_dialogue_index += 1
+		else: 
+			_delete_dialogue_then_bubble("Fast")
 
 
-func delete_bubble() -> void:
+func _delete_bubble() -> void:
+	_is_dialogue_being_deleted = true
 	bubble.delete_bubble()
-	_dialogue_index = 0
+
+
+func _delete_dialogue_then_bubble(tick_speed) -> void:
+	_is_dialogue_being_deleted = true
+	bubble.delete_dialogue_then_bubble(tick_speed)
 
 
 func _on_DialogueArea2D_body_entered(body):
