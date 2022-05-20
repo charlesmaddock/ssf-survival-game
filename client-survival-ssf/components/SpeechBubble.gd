@@ -2,6 +2,8 @@ extends Node2D
 
 
 onready var vBoxContainer: VBoxContainer = $VBoxContainer
+onready var dialogue_node: Node2D = self.get_parent()
+onready var LetterSoundAudioPlayer = dialogue_node.get_node("LetterSoundAudioPlayer")
 onready var lbltext = $VBoxContainer/Label
 onready var timer = $Timer
 
@@ -24,10 +26,12 @@ var _is_there_new_dialogue = false
 signal dialogue_finished()
 signal bubble_deleted()
 signal changed_talking_state(is_talking)
+signal letter_typed(letter_typed)
 
 
 func _ready():
 	vBoxContainer.visible = false
+	connect("letter_typed", LetterSoundAudioPlayer, "_on_letter_typed")
 
 
 func write_new_dialogue(new_bubble_text: String, tick_speed: String) -> void:

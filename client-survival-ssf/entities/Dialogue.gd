@@ -57,18 +57,18 @@ func _process(delta):
 		_delete_bubble()
 
 
-func on_bubble_deleted() -> void:
+func _on_bubble_deleted() -> void:
 	yield(get_tree().create_timer(1), "timeout")
 	_reset_settings()
 	print("This is the dialogue_index: ", _dialogue_index)
 
 
-func on_dialogue_finished() -> void:
+func _on_dialogue_finished() -> void:
 	_is_dialogue_finished = true
 	print("Dialogue is finished!")
 
 
-func on_changed_talking_state(is_talking: bool) -> void:
+func _on_changed_talking_state(is_talking: bool) -> void:
 	if _is_talking != is_talking:
 		_is_talking = is_talking
 		if _is_talking:
@@ -91,9 +91,9 @@ func _start_next_dialogue() -> void:
 	if !is_instance_valid(bubble):
 		bubble = bubble_scene.instance()
 		add_child(bubble)
-		bubble.connect("dialogue_finished", self, "on_dialogue_finished")
-		bubble.connect("bubble_deleted", self, "on_bubble_deleted")
-		bubble.connect("changed_talking_state", self, "on_changed_talking_state")
+		bubble.connect("dialogue_finished", self, "_on_dialogue_finished")
+		bubble.connect("bubble_deleted", self, "_on_bubble_deleted")
+		bubble.connect("changed_talking_state", self, "_on_changed_talking_state")
 		bubble.global_position += Vector2(0, -40)
 	_write_next_dialogue()
 
