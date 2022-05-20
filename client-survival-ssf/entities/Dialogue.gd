@@ -94,29 +94,37 @@ func _start_next_dialogue() -> void:
 		bubble.connect("dialogue_finished", self, "_on_dialogue_finished")
 		bubble.connect("bubble_deleted", self, "_on_bubble_deleted")
 		bubble.connect("changed_talking_state", self, "_on_changed_talking_state")
-		bubble.global_position += Vector2(0, -40)
+		bubble.global_position += sprite.position + Vector2(0, -30)
 	_write_next_dialogue()
 
 
 func _write_next_dialogue() -> void:
-	if _is_dialogue_finished && is_instance_valid(bubble) && _is_dialogue_being_deleted != true:
-		print("This is the dialogue_index: ", _dialogue_index)
-		if !_dialogue_index > dialogues.size() - 1:
-			_is_dialogue_finished = false
-			_current_bubble_animation = dialogues[_dialogue_index]["animation"]
-			print("Writing this dialogue: ", dialogues[_dialogue_index])
-			bubble.write_new_dialogue(dialogues[_dialogue_index]["text"], dialogues[_dialogue_index]["text_speed"])
-			_dialogue_index += 1
-		else: 
-			_delete_dialogue_then_bubble("Fast")
+	if is_instance_valid(bubble) && dialogues.size() != 0:
+		if _is_dialogue_finished && _is_dialogue_being_deleted != true:
+			print("This is the dialogue_index: ", _dialogue_index)
+			if !_dialogue_index > dialogues.size() - 1:
+				_is_dialogue_finished = false
+				if dialogues[_dialogue_index]["animation"]:
+					_current_bubble_animation = dialogues[_dialogue_index]["animation"]
+				else:
+					_current_bubble_animation = "Talking_Neutral"
+				print("Writing this dialogue: ", dialogues[_dialogue_index])
+				if "text_speed" in dialogues[_dialogue_index]:
+					bubble.write_new_dialogue(dialogues[_dialogue_index]["text"], dialogues[_dialogue_index]["text_speed"])
+				else:
+					bubble.write_new_dialogue(dialogues[_dialogue_index]["text"], "Slow")
+				_dialogue_index += 1
+			else: 
+				_delete_dialogue_then_bubble("Fast")
 
 
 func _play_animation(animation) -> void:
-	if _is_dialogue_finished == false && is_instance_valid(animationPlayer):
-		var dialogue_index: int = _dialogue_index - 1
-		if !dialogue_index > dialogues.size() - 1:
-			print("Telling animationplayer to play index: ", dialogue_index)
-			animationPlayer.play(dialogues[dialogue_index]["animation"], -1, 0.4 / Constants.DialogueSpeeds[dialogues[dialogue_index]["text_speed"]])
+	if is_instance_valid(animationPlayer):
+		if _is_dialogue_finished == false && animationPlayer.get_animation(animation):
+			var dialogue_index: int = _dialogue_index - 1
+			if !dialogue_index > dialogues.size() - 1:
+				print("Telling animationplayer to play index: ", dialogue_index)
+				animationPlayer.play(dialogues[dialogue_index]["animation"], -1, 0.4 / Constants.DialogueSpeeds[dialogues[dialogue_index]["text_speed"]])
 
 
 func _delete_bubble() -> void:

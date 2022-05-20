@@ -31,7 +31,6 @@ func _ready():
 func _play_letter_sound(letter_to_be_sounded: String):
 	randomize()
 	self.set_pitch_scale(rand_range(self.get_pitch_scale(), self.get_pitch_scale() + 0.1))
-	print("I should be talking this: ", letter_to_be_sounded)
 	self.stream = _LetterSoundDictionary[letter_to_be_sounded]
 	self.play()
 

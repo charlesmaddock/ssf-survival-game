@@ -12,13 +12,13 @@ var _bubble_text: String = ""
 var _bubble_text_length = 0
 var _bubble_text_index = 0
 var _current_text = ""
+var _tick_time: String = "Medium"
 
 var _new_bubble_text: String
 var _new_tick_time: String
 var _new_bubble_text_length = 0
 
 var _first_dialogue: bool = true
-var _tick_time: String = "Medium"
 var _do_close = false
 var _is_there_new_dialogue = false
 

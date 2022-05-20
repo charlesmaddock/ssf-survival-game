@@ -52,6 +52,7 @@ tracks/1/keys = {
 [node name="Pino" type="Node2D"]
 
 [node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 0, -19 )
 texture = ExtResource( 3 )
 hframes = 9
 
@@ -59,6 +60,5 @@ hframes = 9
 anims/RESET = SubResource( 1 )
 anims/Talking_Neutral = SubResource( 2 )
 
-[node name="Camera2D" type="Camera2D" parent="."]
-
 [node name="Dialogue" parent="." instance=ExtResource( 1 )]
+position = Vector2( 0, -19 )
