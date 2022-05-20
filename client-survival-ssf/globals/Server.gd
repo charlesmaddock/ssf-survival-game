@@ -285,5 +285,10 @@ func add_to_inventory(id: String, item_id: String) -> void:
 	send_packet(payload)
 
 
-func ping():
-	pass
+func ping() -> void:
+	var payload = {
+		"type": Constants.PacketTypes.PING,
+		"send_time": OS.get_ticks_msec()
+	}
+	send_packet(payload)
+	print("Ping!")

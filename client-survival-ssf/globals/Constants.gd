@@ -41,6 +41,7 @@ enum PacketTypes {
   SWITCH_ROOMS,
   COMPLETE_ROOM,
   ROOMS_GENERATED,
+  PING,
 }
 
 

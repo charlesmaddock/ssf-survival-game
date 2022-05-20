@@ -58,3 +58,6 @@ func _on_packet_received(packet: Dictionary) -> void:
 			item.entity = Entity.new(item, packet.id, Constants.Teams.NONE, spawn_pos)
 			item.init(int(packet.item_type)) 
 			add_child(item)
+		Constants.PacketTypes.PING:
+			var response_time = OS.get_ticks_msec() - packet.send_time
+			print("Pong! Response time: " + str(response_time) + " milliseconds")

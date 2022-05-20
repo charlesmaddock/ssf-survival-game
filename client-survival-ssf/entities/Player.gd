@@ -34,3 +34,5 @@ func set_players_data(name: String, className: String) -> void:
 	var armNode = load(armPath).instance()
 	add_child_below_node($UsernameLabel, armNode)
 	armNode.position = Vector2(1, -14)
+	
+	Server.ping()
