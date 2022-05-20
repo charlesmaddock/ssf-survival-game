@@ -4,10 +4,11 @@ var _LetterSoundDictionary: Dictionary
 var _alphabet: Array = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
 var _alphabet_index: int = 0
 var _queued_letter_sounds: Array = []
+var _letter_time: float
 
 
 func _ready():
-	var LetterSoundsPath = "res://assets/Audio/Samples/AnimalCrossingLetters/"
+	var LetterSoundsPath = "res://assets/audio/sfx/AnimalCrossingLetters/"
 	var dir = Directory.new()
 	dir.open(LetterSoundsPath)
 	dir.list_dir_begin()
@@ -16,7 +17,7 @@ func _ready():
 		if file_name == "":
 			#break the while loop when get_next() returns ""
 			break
-		elif !file_name.begins_with("."):
+		elif !file_name.begins_with(".") && !file_name.ends_with(".import"):
 			#get_next() returns a string so this can be used to load the images into an array.
 			var soundfile = load(LetterSoundsPath + file_name)
 			_LetterSoundDictionary[_alphabet[_alphabet_index]] = soundfile
@@ -26,7 +27,9 @@ func _ready():
 
 
 func _play_letter_sound(letter_to_be_sounded: String):
-	self.play(_LetterSoundDictionary[letter_to_be_sounded])
+	print("I should be talking this: ", letter_to_be_sounded)
+	self.stream = _LetterSoundDictionary[letter_to_be_sounded]
+	self.play()
 
 
 func _on_letter_typed(letter_name: String) -> void:

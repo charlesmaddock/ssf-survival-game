@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Letter_N.wav-2f56a64ad8c10d24a2a494dd66972b54.sample"
+
+[deps]
+
+source_file="res://assets/audio/sfx/AnimalCrossingLetters/Letter_N.wav"
+dest_files=[ "res://.import/Letter_N.wav-2f56a64ad8c10d24a2a494dd66972b54.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

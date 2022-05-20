@@ -76,6 +76,8 @@ func delete_bubble() -> void:
 func _type_character() -> void:
 	emit_signal("changed_talking_state", true)
 	_current_text += _bubble_text[_bubble_text_index]
+	var letter_typed = _current_text[-1]
+	emit_signal("letter_typed", letter_typed)
 	lbltext.text = _current_text
 	if !_bubble_text_index > _bubble_text_length - 1:
 		_bubble_text_index += 1

@@ -16,6 +16,7 @@ collision_layer = 0
 shape = SubResource( 1 )
 
 [node name="LetterSoundAudioPlayer" parent="." instance=ExtResource( 1 )]
+pitch_scale = 4.5
 
 [connection signal="body_entered" from="DialogueArea2D" to="." method="_on_DialogueArea2D_body_entered"]
 [connection signal="body_exited" from="DialogueArea2D" to="." method="_on_DialogueArea2D_body_exited"]
