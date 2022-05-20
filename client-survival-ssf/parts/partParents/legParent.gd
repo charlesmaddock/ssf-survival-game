@@ -64,16 +64,10 @@ func _draw():
 
 
 func _on_turned_around(dir):
-	sprite1.flip_h = dir
-	sprite2.flip_h = dir
-	
 	if dir:
-		sprite1.offset.x = sprite_offset.x * -1
-		sprite2.offset.x = sprite_offset.x * -1
-		
+		scale.x = -1
 	else:
-		sprite1.offset.x = sprite_offset.x
-		sprite2.offset.x = sprite_offset.x
+		scale.x = 1
 
 
 func _flip_direction():

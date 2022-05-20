@@ -139,11 +139,28 @@ func room_completed(name: String) -> void:
 	send_packet(payload)
 
 
-func send_pos(id: String, pos: Vector2, pos_iteration: int) -> void:
+func send_pos(id: String, pos: Vector2) -> void:
 	var payload = {
 		"type": Constants.PacketTypes.SET_PLAYER_POS, 
-		"i": pos_iteration,
 		"id": id,
+		"x": pos.x,
+		"y": pos.y
+	}
+	send_packet(payload)
+
+
+func client_request_reconciliation() -> void:
+	var payload = {
+		"type": Constants.PacketTypes.REQUEST_RECONCILIATION, 
+	}
+	send_packet(payload)
+
+
+func host_reconcile_player_pos(i: int, pos: Vector2, id: String) -> void:
+	var payload = {
+		"type": Constants.PacketTypes.RECONCILE_PLAYER_POS, 
+		"id": id,
+		"i": i,
 		"x": pos.x,
 		"y": pos.y
 	}
@@ -161,13 +178,14 @@ func set_health(id: String, health: float, knockback_dir: Vector2)  -> void:
 	send_packet(payload)
 
 
-func melee_attack(id: String, dir: Vector2, team: int)  -> void:
+func melee_attack(id: String, dir: Vector2, team: int, damage: int)  -> void:
 	var payload = {
 		"type": Constants.PacketTypes.MELEE_ATTACK, 
 		"id": id,
 		"team": team,
 		"dirX": dir.x,
-		"dirY": dir.y
+		"dirY": dir.y,
+		"damage" : damage
 	}
 	send_packet(payload)
 
@@ -265,3 +283,12 @@ func add_to_inventory(id: String, item_id: String) -> void:
 		"item_id": item_id
 	}
 	send_packet(payload)
+
+
+func ping() -> void:
+	var payload = {
+		"type": Constants.PacketTypes.PING,
+		"send_time": OS.get_ticks_msec()
+	}
+	send_packet(payload)
+	print("Ping!")

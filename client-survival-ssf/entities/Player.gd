@@ -22,3 +22,17 @@ func _on_packet_received(packet: Dictionary) -> void:
 func set_players_data(name: String, className: String) -> void:
 	$UsernameLabel.text = name
 	get_node("Sprite").texture = Util.get_sprite_for_class(className)
+	
+	var nameLength = name.length()
+	var armArray: Array = [
+		"res://parts/arms/Default Arm.tscn",
+		"res://parts/arms/HammerArm.tscn",
+		"res://parts/arms/Heart Arm.tscn",
+		"res://parts/arms/DrillArm.tscn"
+		]
+	var armPath: String = armArray[nameLength % armArray.size()]
+	var armNode = load(armPath).instance()
+	add_child_below_node($UsernameLabel, armNode)
+	armNode.position = Vector2(1, -14)
+	
+	Server.ping()

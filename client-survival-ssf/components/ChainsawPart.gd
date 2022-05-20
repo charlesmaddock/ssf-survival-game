@@ -28,7 +28,7 @@ func _input(event):
 		if Input.is_action_just_pressed("attack") && able_to_attack == true:
 			able_to_attack = false
 			var dir = (get_global_mouse_position() - global_position).normalized()
-			Server.melee_attack(parent_entity.id, dir, parent_entity.team)
+			Server.melee_attack(parent_entity.id, dir, parent_entity.team, 20)
 
 
 func _on_Timer_timeout():

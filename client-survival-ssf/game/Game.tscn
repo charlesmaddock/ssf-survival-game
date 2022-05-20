@@ -1,10 +1,11 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://game/Game.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/TileBackground-PCB.png" type="Texture" id=2]
 [ext_resource path="res://assets/theme/theme.tres" type="Theme" id=3]
 [ext_resource path="res://game/Camera.gd" type="Script" id=4]
 [ext_resource path="res://assets/tiles/tiles.tres" type="TileSet" id=5]
+[ext_resource path="res://game/grattisSigge.jpg" type="Texture" id=6]
 [ext_resource path="res://ui/LeaveButton.gd" type="Script" id=8]
 [ext_resource path="res://game/RoomHandler.gd" type="Script" id=9]
 [ext_resource path="res://ui/RestartButton.gd" type="Script" id=10]
@@ -18,9 +19,6 @@ margin_right = 40.0
 margin_bottom = 40.0
 mouse_filter = 2
 theme = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Game" type="Node2D" parent="."]
 script = ExtResource( 1 )
@@ -145,6 +143,12 @@ script = ExtResource( 8 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="GrattisSigge" type="Sprite" parent="Game/CanvasLayer/LoseScreen"]
+visible = false
+position = Vector2( 238, 138 )
+scale = Vector2( 0.252778, 0.252778 )
+texture = ExtResource( 6 )
 
 [node name="Camera" type="Camera2D" parent="Game"]
 current = true

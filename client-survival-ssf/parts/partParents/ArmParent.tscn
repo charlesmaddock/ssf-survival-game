@@ -45,10 +45,14 @@ rotation = 0.785398
 texture = ExtResource( 1 )
 offset = Vector2( 4, -6 )
 
-[node name="Timer" type="Timer" parent="."]
+[node name="AttackTimer" type="Timer" parent="."]
+
+[node name="DelayTimer" type="Timer" parent="."]
+one_shot = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 1 )
 anims/attack = SubResource( 2 )
 
-[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[connection signal="timeout" from="AttackTimer" to="." method="_on_AttackTimer_timeout"]
+[connection signal="timeout" from="DelayTimer" to="." method="_on_DelayTimer_timeout"]

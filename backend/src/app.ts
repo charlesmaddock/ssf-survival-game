@@ -25,6 +25,8 @@ enum PacketTypes {
   GAME_STARTED,
   SET_INPUT,
   SET_PLAYER_POS,
+  REQUEST_RECONCILIATION,
+  RECONCILE_PLAYER_POS,
   SET_HEALTH,
   SHOOT_PROJECTILE,
   MELEE_ATTACK,
@@ -38,6 +40,7 @@ enum PacketTypes {
   SWITCH_ROOMS,
   COMPLETE_ROOM,
   ROOMS_GENERATED,
+  PING,
 }
 type PacketType = PacketTypes;
 
@@ -174,6 +177,12 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
           case PacketTypes.SET_PLAYER_POS:
             handleSetPos(ws, data);
             break;
+          case PacketTypes.REQUEST_RECONCILIATION:
+              handleRequestReconcilation(ws, data);
+              break;
+          case PacketTypes.RECONCILE_PLAYER_POS:
+            handleReconcilePlayerPos(ws, data);
+            break;
           case PacketTypes.SET_HEALTH:
             handleSetHealth(ws, data);
             break;
@@ -215,6 +224,9 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
             break;
           case PacketTypes.ROOMS_GENERATED:
             handleRoomsGenerated(ws, data);
+            break;
+          case PacketTypes.PING:
+            handlePing(ws, data);
             break;
           default:
             console.error("Unhandled packet type.");
@@ -312,9 +324,9 @@ const handleJoinRoom = (
   packet: { type: number; code: string }
 ) => {
   let room = null;
-  if (packet.code === "random") {
+  if (packet.code === "") {
     if (rooms.length > 0) {
-      room = rooms[0];
+      room = rooms[rooms.length - 1];
     } else {
       sendError(ws, "No rooms available, host one yourself!");
     }
@@ -331,7 +343,7 @@ const handleJoinRoom = (
         sendJoined(client.socket, room);
 
         // For speeding up development
-        if (packet.code === "random") {
+        if (packet.code === "") {
           handleStartGame(client.socket);
         }
       });
@@ -439,9 +451,33 @@ const handleSetPos = (
 ) => {
   let client = getClientFromWs(ws);
   let room: Room = getClientsRoom(client);
-
+ 
   broadcastToRoom(room, packet);
 };
+
+const handleRequestReconcilation = (ws: WebSocket, packet: any) => {
+  let client = getClientFromWs(ws)
+  let room: Room = getClientsRoom(client);
+  let host: Client = getRoomsClient(room)
+
+  if (room != null){
+    host.socket.send(JSON.stringify({...packet, id: client.id}))
+  }
+}
+
+const handleReconcilePlayerPos = (ws: WebSocket, packet: any) => {
+   let client = getClientFromWs(ws)
+   let room: Room = getClientsRoom(client);
+ 
+   if (room != null){
+    room.clients.forEach((client: Client) => {
+      if (client.id === packet.id){
+       client.socket.send(JSON.stringify(packet))
+       return
+      }
+    })
+   }
+}
 
 const handleSetHealth = (
   ws: WebSocket,
@@ -543,6 +579,12 @@ const handleDespawnItem = (ws: WebSocket, packet: any) => {
 };
 
 const handleAddItemToInventory = (ws: WebSocket, packet: any) => {
+  let client = getClientFromWs(ws);
+  let room: Room = getClientsRoom(client);
+  broadcastToRoom(room, packet);
+};
+
+const handlePing = (ws: WebSocket, packet: any) => {
   let client = getClientFromWs(ws);
   let room: Room = getClientsRoom(client);
   broadcastToRoom(room, packet);
