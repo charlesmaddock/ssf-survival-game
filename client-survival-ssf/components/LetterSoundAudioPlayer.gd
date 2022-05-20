@@ -5,9 +5,11 @@ var _alphabet: Array = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "
 var _alphabet_index: int = 0
 var _queued_letter_sounds: Array = []
 var _letter_time: float
+var _original_pitch_scale: float
 
 
 func _ready():
+	_original_pitch_scale = self.get_pitch_scale()
 	var LetterSoundsPath = "res://assets/audio/sfx/AnimalCrossingLetters/"
 	var dir = Directory.new()
 	dir.open(LetterSoundsPath)
@@ -27,6 +29,8 @@ func _ready():
 
 
 func _play_letter_sound(letter_to_be_sounded: String):
+	randomize()
+	self.set_pitch_scale(rand_range(self.get_pitch_scale(), self.get_pitch_scale() + 0.1))
 	print("I should be talking this: ", letter_to_be_sounded)
 	self.stream = _LetterSoundDictionary[letter_to_be_sounded]
 	self.play()
@@ -43,5 +47,6 @@ func _on_letter_typed(letter_name: String) -> void:
 
 
 func _on_LetterSoundAudioPlayer_finished():
+	self.set_pitch_scale(_original_pitch_scale)
 	if _queued_letter_sounds.size() > 0:
 		_play_letter_sound(_queued_letter_sounds.pop_front())
