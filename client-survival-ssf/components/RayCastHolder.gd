@@ -37,4 +37,4 @@ func is_colliding_with_layers(collision_layers) -> Array:
 						this_ray_cast_dict["colliding_layers"].append(layer)
 	
 	return array_of_colliding_ray_casts
-
+#Return an array of the names of the RayCasts with the layers they collide with

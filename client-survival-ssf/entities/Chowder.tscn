@@ -18,6 +18,14 @@ position = Vector2( 29, 43 )
 collision_layer = 64
 collision_mask = 0
 script = ExtResource( 2 )
+_movement_speed = 80
+distance_from_player = 50
+_attack_scale = Vector2( 0.2, 1 )
+_pause_before_attack = 0.7
+_distance_between_attack = 30
+_number_of_attacks = 5
+_flurry_attack_intervall_time = 0.2
+_triple_attack = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = 1.5708
@@ -48,7 +56,8 @@ script = ExtResource( 6 )
 [node name="Combat" parent="." instance=ExtResource( 7 )]
 
 [node name="AttackTimer" type="Timer" parent="."]
-autostart = true
+wait_time = 2.0
+one_shot = true
 
 [node name="RoomVisibility" parent="." instance=ExtResource( 8 )]
 

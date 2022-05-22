@@ -49,8 +49,6 @@ func _physics_process(delta):
 				if detection["ray_cast_name"] == _direction_faced:
 					_new_aimless_walking_path()
 					break
-				else:
-					pass
 		elif aimless_walking_timer.is_paused():
 			print("For some reason walking timer paused so I started it again")
 			aimless_walking_timer.start()

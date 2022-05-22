@@ -14,3 +14,6 @@ func _input(event):
 
 func _on_Timer_timeout():
 	able_to_attack = true
+
+
+
