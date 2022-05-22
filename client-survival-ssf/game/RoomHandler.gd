@@ -56,7 +56,7 @@ func _spawn_pino(pino_global_position: Vector2) -> void:
 	pino.global_position = pino_global_position
 	var entities: YSort = $"../Entities"
 	entities.add_child(pino)
-	
+
 
 func _generate_rooms() -> void:
 	var current_pos = Vector2.ZERO
