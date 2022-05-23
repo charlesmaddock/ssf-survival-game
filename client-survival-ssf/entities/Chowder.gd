@@ -59,19 +59,20 @@ func _create_attack(dir, attack_index) -> void:
 
 
 func _on_AttackTimer_timeout():
+	
+	var targeted_player = AI_node.get_closest_player() 
 	AI_node.motionless_behaviour()
 	yield(get_tree().create_timer(_pause_before_attack), "timeout")
-	var targeted_player = AI_node.get_closest_player() 
 	
 	if targeted_player != null:
 		var dir = (targeted_player.global_position - self.global_position).normalized()
 		
-		for i in (_number_of_attacks - 1):
-			_create_attack(dir, i)
+		for i in (_number_of_attacks):
 			if i == 0:
 				pass
 			else:
 				yield(get_tree().create_timer(_flurry_attack_intervall_time), "timeout")
+			_create_attack(dir, i)
 		
 		AI_node.strafe_behaviour(distance_from_player)
 		attackTimer.start()

@@ -21,6 +21,8 @@ onready var parent_entity: Node2D = self.get_parent()
 var move_path = []
 var attack_path = []
 var threshold = 16
+var _strafe_direction: int = 1
+var _is_first_strafe_position: bool = true
 
 var room_point: Node2D = null
 var unchecked_room_points: Array = []
@@ -81,6 +83,10 @@ func set_target_attack_path(target_pos):
 	attack_path = nav.get_simple_path(global_position, target_pos, false)
 
 
+func reset_first_strafe_pos() -> void:
+	_is_first_strafe_position = true
+
+
 func _on_Damage_body_entered(body):
 	if Util.is_player(body):
 		body.emit_signal("take_damage", 30, global_position.direction_to(body.global_position))
@@ -89,12 +95,22 @@ func _on_Damage_body_entered(body):
 func _get_strafe_position() -> Vector2:
 	if get_closest_player() != null:
 		var strafe_dir_normalized = get_closest_player().global_position.direction_to(self.global_position)
-		var strafe_pos_without_strafe: Vector2 = get_closest_player().global_position + strafe_dir_normalized * _strafe_dist
-		var strafe_pos: Vector2  = get_closest_player().global_position + strafe_dir_normalized.rotated(deg2rad(40)) * _strafe_dist
+		if _is_first_strafe_position:
+			randomize()
+			var nums = [-1, 1] 
+			_strafe_direction = nums[randi() % nums.size()]
+			var rand_rotation: float = deg2rad(rand_range(90, 270))
+			print("This is the strafe dir before rotatation: ", strafe_dir_normalized)
+			strafe_dir_normalized.rotated(rand_rotation)
+			print("this the first strafe pos! ", strafe_dir_normalized)
+			_is_first_strafe_position = false
+		
+		var strafe_pos: Vector2  = get_closest_player().global_position + (strafe_dir_normalized.rotated(deg2rad(_strafe_direction * 40)) * _strafe_dist)
 		return strafe_pos
 	else:
 		print("In AI._get_strafe_position() -> get_closest_player returning incorrectly.")
 		return parent_entity.global_position
+
 
 """
 func _get_follow_position() -> Vector2:
@@ -102,6 +118,7 @@ func _get_follow_position() -> Vector2:
 	var follow_dir: Vector2 = get_closest_player().global_position + strafe_dir_normalized * _strafe_dist
 	return follow_dir
 """
+
 
 func get_closest_player() -> Object:
 	var parent_position = parent_entity.global_position

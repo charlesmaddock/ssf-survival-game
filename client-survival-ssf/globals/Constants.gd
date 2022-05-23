@@ -100,7 +100,7 @@ enum collisionLayers {
 	SOLID,
 	HEALTH,
 	BASE,
-	ANIMAL
+	ANIMAL,
 	IS_IN_ROOM,
 }
 

@@ -20,11 +20,9 @@ collision_mask = 0
 script = ExtResource( 2 )
 _movement_speed = 80
 distance_from_player = 50
-_attack_scale = Vector2( 0.2, 1 )
+_attack_scale = Vector2( 0.5, 1 )
 _pause_before_attack = 0.7
-_distance_between_attack = 30
-_number_of_attacks = 5
-_flurry_attack_intervall_time = 0.2
+_flurry_attack_intervall_time = 0.5
 _triple_attack = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
