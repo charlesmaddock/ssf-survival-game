@@ -61,3 +61,9 @@ func _on_packet_received(packet: Dictionary) -> void:
 		Constants.PacketTypes.PING:
 			var response_time = OS.get_ticks_msec() - packet.send_time
 			print("Pong! Response time: " + str(response_time) + " milliseconds")
+		Constants.PacketTypes.SPAWN_PART:
+			var spawn_pos = Vector2(packet.posX, packet.posY)
+			var drop_scene = preload("res://entities/PartDrop.tscn")
+			var drop = drop_scene.instance()
+			drop.init(spawn_pos, int(packet.part))
+			add_child(drop)

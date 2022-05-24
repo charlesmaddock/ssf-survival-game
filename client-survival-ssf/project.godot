@@ -121,6 +121,7 @@ open_inventory={
 2d_physics/layer_6="base"
 2d_physics/layer_7="animal"
 2d_physics/layer_8="is_in_room"
+2d_physics/layer_9="pickup"
 
 [physics]
 

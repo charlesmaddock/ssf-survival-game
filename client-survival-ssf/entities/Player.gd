@@ -36,3 +36,7 @@ func set_players_data(name: String, className: String) -> void:
 	armNode.position = Vector2(1, -14)
 	
 	Server.ping()
+
+
+func _on_Pickup_area_entered(area):
+	print(area)
