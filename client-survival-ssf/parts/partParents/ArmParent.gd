@@ -115,3 +115,7 @@ func _on_packet_recieved(packet: Dictionary):
 func _on_AttackTimer_timeout():
 	able_to_attack = true
 	get_parent().entity.emit_signal("is_attacking", false)
+
+
+func get_sprite():
+	return(arm_texture)

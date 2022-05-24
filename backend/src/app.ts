@@ -41,6 +41,7 @@ enum PacketTypes {
   COMPLETE_ROOM,
   ROOMS_GENERATED,
   PING,
+  SPAWN_PART,
 }
 type PacketType = PacketTypes;
 
@@ -227,6 +228,9 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
             break;
           case PacketTypes.PING:
             handlePing(ws, data);
+            break;
+          case PacketTypes.SPAWN_PART:
+            handleSpawnPart(ws, data);
             break;
           default:
             console.error("Unhandled packet type.");
@@ -585,6 +589,12 @@ const handleAddItemToInventory = (ws: WebSocket, packet: any) => {
 };
 
 const handlePing = (ws: WebSocket, packet: any) => {
+  let client = getClientFromWs(ws);
+  let room: Room = getClientsRoom(client);
+  broadcastToRoom(room, packet);
+};
+
+const handleSpawnPart = (ws: WebSocket, packet: any) => {
   let client = getClientFromWs(ws);
   let room: Room = getClientsRoom(client);
   broadcastToRoom(room, packet);

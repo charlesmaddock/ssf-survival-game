@@ -11,4 +11,4 @@ func _ready():
 func _on_damage_taken(health, _dir) -> void:
 	if health <= 0 && dropped == false:
 		dropped = true
-		Server.spawn_item(Constants.ItemTypes.PINK_FLUFF, global_position)
+		#Server.spawn_pickup(Constants.Parts.DefaultArm, global_position)

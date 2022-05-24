@@ -292,3 +292,13 @@ func ping() -> void:
 	}
 	send_packet(payload)
 	print("Ping!")
+
+
+func spawn_pickup(part: int, pos: Vector2) -> void:
+	var payload = {
+		"type": Constants.PacketTypes.SPAWN_PART,
+		"part": part,
+		"posX": pos.x,
+		"posY": pos.y
+	}
+	send_packet(payload)

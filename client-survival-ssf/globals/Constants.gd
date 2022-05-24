@@ -43,6 +43,7 @@ enum PacketTypes {
   COMPLETE_ROOM,
   ROOMS_GENERATED,
   PING,
+  SPAWN_PART
 }
 
 
@@ -126,6 +127,38 @@ enum PartTypes {
 	ARM,
 	LEG,
 	BODY,
+}
+
+
+enum Parts {
+	DefaultArm,
+	DrillArm,
+	HammerArm,
+	HeartArm,
+	
+	DefaultBody,
+	ExoSkeleton,
+	FishBody,
+	
+	DefaultLegs,
+	BirdLegs,
+	BlueShoes,
+}
+
+
+var PartScenes: Dictionary = {
+	Parts.DefaultArm:  load("res://parts/arms/Default Arm.tscn"),
+	Parts.DrillArm:    load("res://parts/arms/DrillArm.tscn"),
+	Parts.HammerArm:   load("res://parts/arms/HammerArm.tscn"),
+	Parts.HeartArm:    load("res://parts/arms/Heart Arm.tscn"),
+	
+	Parts.DefaultBody: load("res://parts/bodies/DefaultBody.tscn"),
+	Parts.ExoSkeleton: load("res://parts/bodies/ExoSkeleton.tscn"),
+	Parts.FishBody:    load("res://parts/bodies/FishBody.tscn"),
+	
+	Parts.DefaultLegs: load("res://parts/legs/Default Legs.tscn"),
+	Parts.BirdLegs:    load("res://parts/legs/BirdLegs.tscn"),
+	Parts.BlueShoes:   load("res://parts/legs/BlueShoes.tscn")
 }
 
 
