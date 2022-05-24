@@ -4,7 +4,7 @@ extends Node2D
 
 onready var parent_entity: Entity = get_parent().entity
 onready var sprite1: Node = get_node("Sprite1")
-onready var sprite2: Node = get_node("Sprite2")
+#onready var sprite2: Node = get_node("Sprite2")
 onready var animation: Node = get_node("AnimationPlayer")
 onready var attack_timer: Node = get_node("AttackTimer")
 onready var delay_timer: Node = get_node("DelayTimer")

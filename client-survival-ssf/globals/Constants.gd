@@ -102,6 +102,7 @@ enum collisionLayers {
 	BASE,
 	ANIMAL,
 	IS_IN_ROOM,
+	PICKUP,
 }
 
 
@@ -118,6 +119,13 @@ enum DialogueMoods {
 	ANGRY,
 	SAD,
 	FLUSTERED
+}
+
+
+enum PartTypes {
+	ARM,
+	LEG,
+	BODY,
 }
 
 
