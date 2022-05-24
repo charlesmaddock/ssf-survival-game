@@ -24,7 +24,6 @@ func _ready():
 			var soundfile = load(LetterSoundsPath + file_name)
 			_LetterSoundDictionary[_alphabet[_alphabet_index]] = soundfile
 			_alphabet_index += 1
-	print(_LetterSoundDictionary.keys())
 	dir.list_dir_end()
 
 

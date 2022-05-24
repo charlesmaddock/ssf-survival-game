@@ -100,9 +100,7 @@ func _get_strafe_position() -> Vector2:
 			var nums = [-1, 1] 
 			_strafe_direction = nums[randi() % nums.size()]
 			var rand_rotation: float = deg2rad(rand_range(90, 270))
-			print("This is the strafe dir before rotatation: ", strafe_dir_normalized)
 			strafe_dir_normalized.rotated(rand_rotation)
-			print("this the first strafe pos! ", strafe_dir_normalized)
 			_is_first_strafe_position = false
 		
 		var strafe_pos: Vector2  = get_closest_player().global_position + (strafe_dir_normalized.rotated(deg2rad(_strafe_direction * 40)) * _strafe_dist)
