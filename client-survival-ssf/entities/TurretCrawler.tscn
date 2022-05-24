@@ -26,7 +26,8 @@ position = Vector2( 29, 43 )
 collision_layer = 64
 collision_mask = 0
 script = ExtResource( 1 )
-_dashing_interval = 0.7
+_dashing_interval = 0.6
+_dashing_multiplier = 320.0
 _player_detection_radius = 58
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
