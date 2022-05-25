@@ -34,7 +34,7 @@ func _ready():
 	
 	if get_parent() != null:
 		get_parent().entity.connect("turned_around", self, "_on_turned_around")
-		get_parent().entity.connect("move_dir", self, "_on_move_dir")
+		get_parent().entity.connect("aim_dir", self, "_on_aim_dir")
 	
 	if arm_texture != null:
 		sprite1.texture = arm_texture
@@ -70,7 +70,7 @@ func _on_turned_around(dir):
 		scale.x = 1
 
 
-func _on_move_dir(dir) -> void:
+func _on_aim_dir(dir) -> void:
 	attack_dir = dir
 
 
@@ -88,19 +88,21 @@ func _input(event):
 	if parent_entity.id == Lobby.my_id && is_dead == false:
 		#rotation = global_position.angle_to_point(get_global_mouse_position()) + PI
 		
-		if Input.is_action_just_pressed("attack") && able_to_attack == true:
-			able_to_attack = false
-			#var dir = (get_global_mouse_position() - global_position).normalized()
-			
-			if melee == true:
-				Server.melee_attack(parent_entity.id, attack_dir, parent_entity.team, damage)
-			else:
-				Server.shoot_projectile(global_position, attack_dir, parent_entity.id, parent_entity.team)
-			
-			get_parent().entity.emit_signal("attack_freeze", freeze_time)
-			get_parent().entity.emit_signal("knockback", attack_dir * -knockback)
-			animation.play("attack", -1, anim_speed)
-			attack_timer.start()
+		if Input.is_action_just_pressed("aim_left") || Input.is_action_just_pressed("aim_right") || Input.is_action_just_pressed("aim_up") || Input.is_action_just_pressed("aim_down"):
+			if able_to_attack == true:
+				able_to_attack = false
+				#var dir = (get_global_mouse_position() - global_position).normalized()
+				
+				if melee == true:
+					Server.melee_attack(parent_entity.id, attack_dir, parent_entity.team, damage)
+				else:
+					Server.shoot_projectile(global_position, attack_dir, parent_entity.id, parent_entity.team)
+				
+				get_parent().entity.emit_signal("attack_freeze", freeze_time)
+				get_parent().entity.emit_signal("knockback", attack_dir * -knockback)
+				get_parent().entity.emit_signal("is_attacking", true)
+				animation.play("attack", -1, anim_speed)
+				attack_timer.start()
 
 
 func _on_packet_recieved(packet: Dictionary):
