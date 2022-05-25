@@ -27,7 +27,6 @@ func set_players_data(name: String, className: String) -> void:
 	var armArray: Array = [
 		"res://parts/arms/Default Arm.tscn",
 		"res://parts/arms/HammerArm.tscn",
-		"res://parts/arms/Heart Arm.tscn",
 		"res://parts/arms/DrillArm.tscn"
 		]
 	var armPath: String = armArray[nameLength % armArray.size()]
