@@ -22,7 +22,6 @@ radius = 48.0
 height = 0.0
 
 [node name="TurretCrawler" type="KinematicBody2D"]
-position = Vector2( 29, 43 )
 collision_layer = 64
 collision_mask = 0
 script = ExtResource( 1 )
@@ -47,7 +46,7 @@ position = Vector2( 0, -8 )
 shape = SubResource( 2 )
 
 [node name="Health" parent="." instance=ExtResource( 4 )]
-max_health = 70.0
+max_health = 50.0
 
 [node name="CollisionShape2D" parent="Health/DamageArea" index="0"]
 position = Vector2( 0, -4 )
