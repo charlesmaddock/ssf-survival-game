@@ -2,7 +2,6 @@ extends Node2D
 
 
 onready var parent_entity: Entity = get_parent().entity
-onready var sprite: Node = get_node("Sprite")
 
 var last_pos
 var aim_dir: Vector2
@@ -38,6 +37,4 @@ func _input(event):
 	#	move_h = int(Input.is_action_pressed("aim_right")) - int(Input.is_action_pressed("aim_left"))
 	#	move_v = int(Input.is_action_pressed("aim_down"))  - int(Input.is_action_pressed("aim_up"))
 	
-	#print(rad2deg(Vector2(move_h, move_v).angle()))
-	sprite.rotation_degrees = rad2deg(aim_dir.angle())
 	get_parent().entity.emit_signal("aim_dir", aim_dir)
