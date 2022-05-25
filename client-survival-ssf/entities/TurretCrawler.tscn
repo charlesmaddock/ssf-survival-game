@@ -22,7 +22,6 @@ radius = 48.0
 height = 0.0
 
 [node name="TurretCrawler" type="KinematicBody2D"]
-position = Vector2( 29, 43 )
 collision_layer = 64
 collision_mask = 0
 script = ExtResource( 1 )

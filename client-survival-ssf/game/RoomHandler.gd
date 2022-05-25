@@ -127,14 +127,14 @@ func generate_mobs(i) -> Array:
 					mobs.append(mob_type)
 	
 	#Experimental code for playtesting! ! ! !
-#	var living_players: Array = Util.get_living_players()
-#	var player_amount: int = 0
-#	for player in living_players:
-#		player_amount += 1
-#		if player_amount % 2 == 0 && !player_amount > 4:
-#			randomize()
-#			var random_mob = mob_difficulties.keys()[randi() % 3 + 2]
-#			mobs.append(random_mob)
+	var living_players: Array = Util.get_living_players()
+	var player_amount: int = 0
+	for player in living_players:
+		player_amount += 1
+		if player_amount % 2 == 0 && !player_amount > 4:
+			randomize()
+			var random_mob = mob_difficulties.keys()[randi() % 3 + 2]
+			mobs.append(random_mob)
 		#Experimental code for playtesting! ! ! !
 	
 	return mobs
