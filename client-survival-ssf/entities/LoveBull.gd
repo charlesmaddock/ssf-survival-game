@@ -73,6 +73,7 @@ func _detected_collision_in_charge(detected_walls) -> void:
 				AI_node.stop_moving()
 				yield(get_tree().create_timer(0.20), "timeout")
 				_behaviour_state = behaviourState.AIMLESS_WALKING
+				damage_node.deactivate_damage()
 
 
 func _charge_at_player() -> void:
@@ -124,6 +125,7 @@ func _new_aimless_walking_path() -> void:
 
 
 func _on_ChargeBuildupTimer_timeout():
+	damage_node.activate_damage()
 	match(sprite_node.get_frame()):
 		0:
 			AI_node.set_target_walking_path(self.global_position + Vector2(0, -1000))

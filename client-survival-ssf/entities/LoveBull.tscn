@@ -24,11 +24,11 @@ visible = false
 [node name="Loot" parent="." instance=ExtResource( 5 )]
 
 [node name="Damage" parent="." instance=ExtResource( 3 )]
-_damage = 45.0
+_damage = 30.0
 
 [node name="Health" parent="." instance=ExtResource( 2 )]
 position = Vector2( 0, 10 )
-max_health = 10.0
+max_health = 65.0
 knockbackable = false
 
 [node name="Movement" parent="." instance=ExtResource( 6 )]
