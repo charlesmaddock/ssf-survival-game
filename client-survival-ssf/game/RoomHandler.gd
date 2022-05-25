@@ -42,6 +42,7 @@ func _on_rooms_generated(all_room_data: Array) -> void:
 		add_child(room)
 
 
+#From highest cost to lowest - otherwise generate_mobs() breaks
 var mob_difficulties = {
 	Constants.MobTypes.CHOWDER: 6,
 	Constants.MobTypes.LOVE_BULL: 4,
