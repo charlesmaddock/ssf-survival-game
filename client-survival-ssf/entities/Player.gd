@@ -25,10 +25,9 @@ func set_players_data(name: String, className: String) -> void:
 	
 	var nameLength = name.length()
 	var armArray: Array = [
-		"res://parts/arms/Default Arm.tscn",
+		"res://parts/arms/DefaultArm.tscn",
 		"res://parts/arms/HammerArm.tscn",
-		"res://parts/arms/DrillArm.tscn",
-		"res://parts/arms/Default Arm.tscn"
+		"res://parts/arms/DrillArm.tscn"
 		]
 	var armPath: String = armArray[nameLength % armArray.size()]
 	var armNode = load(armPath).instance()

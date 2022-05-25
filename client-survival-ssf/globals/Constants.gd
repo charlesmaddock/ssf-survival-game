@@ -147,7 +147,7 @@ enum Parts {
 
 
 var PartScenes: Dictionary = {
-	Parts.DefaultArm:  load("res://parts/arms/Default Arm.tscn"),
+	Parts.DefaultArm:  load("res://parts/arms/DefaultArm.tscn"),
 	Parts.DrillArm:    load("res://parts/arms/DrillArm.tscn"),
 	Parts.HammerArm:   load("res://parts/arms/HammerArm.tscn"),
 	Parts.HeartArm:    load("res://parts/arms/Heart Arm.tscn"),
