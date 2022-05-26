@@ -24,12 +24,9 @@ anchor_bottom = 1.0
 margin_right = 465.0
 margin_bottom = 272.0
 mouse_filter = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="JoyStick" type="TouchScreenButton" parent="CanvasLayer/CanvasModulate/Control"]
-position = Vector2( 333, 140 )
+position = Vector2( 35, 140 )
 scale = Vector2( 0.626667, 0.626667 )
 normal = ExtResource( 2 )
 shape = SubResource( 1 )

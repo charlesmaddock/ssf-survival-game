@@ -113,33 +113,36 @@ func generate_mobs(i) -> Array:
 	var spawn_same_only: bool = false #i % 3 == 0
 	var spawn_iterations: int = i + 1 
 	
-	if !i >= mob_difficulties.keys().size():
-		for n in (mob_difficulties.keys().size() - i):
-			mobs.append(mob_difficulties.keys()[5 - i])
-			if i == 4:
-				mobs.append(mob_difficulties.keys()[5 - i])
+	if i == 1000000000:
+		mobs.append(Constants.MobTypes.ROMANS_BOSS)
 	else:
-		for amount in spawn_iterations:
-			for mob_diff_index in range(0, mob_difficulties.keys().size()):
-				var mob_type = mob_difficulties.keys()[mob_diff_index]
-				var spawn_cost = mob_difficulties.values()[mob_diff_index]
-				randomize()
-				if spawn_currency >= spawn_cost:
-					if spawn_same_only == true:
-						for x in i:
+		if !i >= mob_difficulties.keys().size():
+			for n in (mob_difficulties.keys().size() - i):
+				mobs.append(mob_difficulties.keys()[5 - i])
+				if i == 4:
+					mobs.append(mob_difficulties.keys()[5 - i])
+		else:
+			for amount in spawn_iterations:
+				for mob_diff_index in range(0, mob_difficulties.keys().size()):
+					var mob_type = mob_difficulties.keys()[mob_diff_index]
+					var spawn_cost = mob_difficulties.values()[mob_diff_index]
+					randomize()
+					if spawn_currency >= spawn_cost:
+						if spawn_same_only == true:
+							for x in i:
+								mobs.append(mob_type)
+							return mobs
+						else:
+							spawn_currency -= spawn_cost
 							mobs.append(mob_type)
-						return mobs
-					else:
-						spawn_currency -= spawn_cost
-						mobs.append(mob_type)
-		
-		var living_players: Array = Util.get_living_players()
-		var player_amount: int = 0
-		for player in living_players:
-			player_amount += 1
-			if player_amount % 2 == 0 && !player_amount > 4:
-				randomize()
-				var random_mob = mob_difficulties.keys()[randi() % 3 + 2]
-				mobs.append(random_mob)
+			
+			var living_players: Array = Util.get_living_players()
+			var player_amount: int = 0
+			for player in living_players:
+				player_amount += 1
+				if player_amount % 2 == 0 && !player_amount > 4:
+					randomize()
+					var random_mob = mob_difficulties.keys()[randi() % 3 + 2]
+					mobs.append(random_mob)
 	
 	return mobs

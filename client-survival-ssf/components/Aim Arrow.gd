@@ -2,9 +2,9 @@ extends Node2D
 
 
 onready var parent_entity: Entity = get_parent().entity
-onready var sprite: Node = get_node("Sprite")
+
 var last_pos
-var move_dir: Vector2
+var aim_dir: Vector2
 
 
 func _ready():
@@ -20,13 +20,21 @@ func _on_is_attacking(attack_bool) -> void:
 		visible = true
 
 
-func _process(delta):
-	sprite.rotation_degrees = rad2deg(get_angle_to(last_pos))
-
-
-	if get_parent().global_position != last_pos:
-		move_dir = lerp(move_dir, last_pos.direction_to(get_parent().global_position), 0.2)
-	#move_dir = (get_global_mouse_position() - global_position).normalized()
-	sprite.rotation_degrees = rad2deg(move_dir.angle())
-	get_parent().entity.emit_signal("move_dir", move_dir)
-	last_pos = get_parent().global_position
+func _input(event):
+	if Input.is_action_pressed("aim_right"):
+		aim_dir = Vector2(1, 0)
+	
+	if Input.is_action_pressed("aim_left"):
+		aim_dir = Vector2(-1, 0)
+	
+	if Input.is_action_pressed("aim_up"):
+		aim_dir = Vector2(0, -1)
+	
+	if Input.is_action_pressed("aim_down"):
+		aim_dir = Vector2(0, 1)
+	
+	#if Input.is_action_pressed("aim_right") || Input.is_action_pressed("aim_left") || Input.is_action_pressed("aim_up") || Input.is_action_pressed("aim_down"):
+	#	move_h = int(Input.is_action_pressed("aim_right")) - int(Input.is_action_pressed("aim_left"))
+	#	move_v = int(Input.is_action_pressed("aim_down"))  - int(Input.is_action_pressed("aim_up"))
+	
+	get_parent().entity.emit_signal("aim_dir", aim_dir)
