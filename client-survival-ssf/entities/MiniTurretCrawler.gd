@@ -7,10 +7,15 @@ export(float) var _dashing_time = 0.2
 export(float) var _dashing_multiplier: float = 300
 export(int) var _player_detection_radius: int = 48
 export(int) var _ray_cast_length_multiplier = 1
-export(int) var _spiders_to_spawn: int = 3
+
+export(float) var _jump_length: float = 50
+export(int) var _jump_time: int = 1
+export(int) var _jump_height: int = 48
 
 onready var intact_turret_sprite: Sprite = $IntactTurret
 onready var broken_turret_sprite: Sprite = $BrokenTurret
+onready var animationPlayer: AnimationPlayer = $AnimationPlayer
+onready var health_node: Node2D = $Health
 onready var player_detection_node = $PlayerDetection
 onready var ray_cast_wall_detection = $RayCastContainerWallDetection
 onready var damage_node = $Damage
@@ -27,19 +32,27 @@ var _is_animal = true
 var _nearby_players: Array = []
 var _is_dashing: bool = false
 var _has_dashed: bool = false
-
+var _animation_ticks: int = 0
 
 func _ready():
-	broken_turret_sprite.set_visible(false)
-	player_detection_node.get_node("CollisionShape2D").shape.set_radius(_player_detection_radius)
-	dash_timer_node.set_wait_time(_dashing_interval)
-	stop_dashing_timer_node.set_wait_time(_dashing_time)
-	entity.emit_signal("change_movement_speed", _movement_speed)
+	
+	health_node.set_invinsible(true)
 	AI_node.custom_behaviour()
-	damage_node.init(entity.id, entity.team)
+	damage_node.deactivate_damage()
+	randomize()
+	var random_direction: Vector2 = Vector2(rand_range(-1, 1), rand_range(-1, 1))
+	var random_pos = random_direction * _jump_length
+	AI_node.set_target_walking_path(random_pos)
+	AI_node.move_to_target()
+	print("rand_dir ", random_direction, "rand_dir * range ", random_pos)
+	animationPlayer.play("Jump", -1, _jump_time)
+
+
+
 
 
 func get_closest_player() -> Object:
+	
 	var closest_player
 	var distance_to_closest_player = 99999
 	for player in _nearby_players:
@@ -55,6 +68,7 @@ func _detect_walls() -> Array:
 
 
 func on_damage_taken(health, dir) -> void:
+	
 	if health <= 0:
 		if Lobby.is_host == true:
 			Server.despawn_mob(entity.id)
@@ -99,6 +113,7 @@ func _on_DashTimer_timeout():
 
 
 func _on_StopDashingTimer_timeout():
+	
 	AI_node.stop_moving()
 	_is_dashing = false
 	_has_dashed = false
@@ -107,20 +122,39 @@ func _on_StopDashingTimer_timeout():
 
 
 func _on_PlayerDetection_body_entered(body):
+	
 	_nearby_players.append(body)
 
 
 func _on_PlayerDetection_body_exited(body):
+	
 	_nearby_players.erase(body)
 
 
-func _on_TurretCrawler_tree_exiting():
-#	intact_turret_sprite.set_visible(false)
-#	broken_turret_sprite.set_visible(true)
+func _on_AnimationPlayer_animation_finished(anim_name):
 	
-#	if Lobby.is_host == true:
-#		for i in _spiders_to_spawn:
-#				Server.spawn_mob(Util.generate_id(), Constants.MobTypes.MINI_TURRET_CRAWLER, self.global_position + Vector2(0, 5))
-#
-#	yield(get_tree().create_timer(1), "timeout")
-	pass
+	yield(get_tree().create_timer(1), "timeout")
+	health_node.set_invinsible(false)
+	damage_node.activate_damage()
+	player_detection_node.get_node("CollisionShape2D").shape.set_radius(_player_detection_radius)
+	dash_timer_node.set_wait_time(_dashing_interval)
+	stop_dashing_timer_node.set_wait_time(_dashing_time)
+	entity.emit_signal("change_movement_speed", _movement_speed)
+	damage_node.init(entity.id, entity.team)
+
+
+func _on_animation_player_tick() -> void:
+	
+	_animation_ticks += 1
+	var jump_difference = _jump_height / (_jump_time * 10)
+	if _animation_ticks <= 5:
+		intact_turret_sprite.offset -= Vector2(0, jump_difference)
+	else:
+		intact_turret_sprite.position += Vector2(0, jump_difference)
+
+
+#func _on_MiniTurretCrawler_tree_exiting():
+##	intact_turret_sprite.set_visible(false)
+##	broken_turret_sprite.set_visible(true)
+##	yield(get_tree().create_timer(1), "timeout")
+	

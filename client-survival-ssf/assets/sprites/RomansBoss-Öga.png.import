@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/turret2Broken1.png-f97b1468ce9433d4287f2258d331386a.stex"
+path="res://.import/RomansBoss-Öga.png-43ebfbc1d79ca9789a18260a0901bd03.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/turret2Broken1.png"
-dest_files=[ "res://.import/turret2Broken1.png-f97b1468ce9433d4287f2258d331386a.stex" ]
+source_file="res://assets/sprites/RomansBoss-Öga.png"
+dest_files=[ "res://.import/RomansBoss-Öga.png-43ebfbc1d79ca9789a18260a0901bd03.stex" ]
 
 [params]
 

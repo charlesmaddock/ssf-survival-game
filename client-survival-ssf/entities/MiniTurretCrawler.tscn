@@ -1,0 +1,182 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://components/Damage.tscn" type="PackedScene" id=1]
+[ext_resource path="res://components/AI.tscn" type="PackedScene" id=2]
+[ext_resource path="res://components/RoomVisibility.tscn" type="PackedScene" id=3]
+[ext_resource path="res://components/RayCastContainer.tscn" type="PackedScene" id=4]
+[ext_resource path="res://components/Movement.tscn" type="PackedScene" id=5]
+[ext_resource path="res://components/Health.tscn" type="PackedScene" id=6]
+[ext_resource path="res://assets/sprites/turret2.png" type="Texture" id=7]
+[ext_resource path="res://entities/MiniTurretCrawler.gd" type="Script" id=8]
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 4.0
+height = 4.0
+
+[sub_resource type="CapsuleShape2D" id=6]
+radius = 8.0
+height = 3.0
+
+[sub_resource type="CapsuleShape2D" id=7]
+radius = 13.0
+height = 0.0
+
+[sub_resource type="CapsuleShape2D" id=3]
+radius = 48.0
+height = 0.0
+
+[sub_resource type="Animation" id=4]
+resource_name = "Jump"
+tracks/0/type = "method"
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"values": [ {
+"args": [  ],
+"method": "_on_animation_player_tick"
+}, {
+"args": [  ],
+"method": "_on_animation_player_tick"
+}, {
+"args": [  ],
+"method": "_on_animation_player_tick"
+}, {
+"args": [  ],
+"method": "_on_animation_player_tick"
+}, {
+"args": [  ],
+"method": "_on_animation_player_tick"
+}, {
+"args": [  ],
+"method": "_on_animation_player_tick"
+}, {
+"args": [  ],
+"method": "_on_animation_player_tick"
+}, {
+"args": [  ],
+"method": "_on_animation_player_tick"
+}, {
+"args": [  ],
+"method": "_on_animation_player_tick"
+}, {
+"args": [  ],
+"method": "_on_animation_player_tick"
+} ]
+}
+
+[sub_resource type="Animation" id=5]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("IntactTurret:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, -10 ) ]
+}
+
+[node name="MiniTurretCrawler" type="KinematicBody2D"]
+scale = Vector2( 0.5, 0.5 )
+collision_layer = 64
+collision_mask = 0
+script = ExtResource( 8 )
+_dashing_interval = 1.0
+_dashing_multiplier = 400.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -10 )
+rotation = 1.5708
+shape = SubResource( 1 )
+
+[node name="IntactTurret" type="Sprite" parent="."]
+position = Vector2( 0, -10 )
+texture = ExtResource( 7 )
+
+[node name="BrokenTurret" type="Sprite" parent="."]
+
+[node name="Damage" parent="." instance=ExtResource( 1 )]
+position = Vector2( 0, -8 )
+_damage = 8.0
+
+[node name="CollisionShape2D" parent="Damage" index="0"]
+position = Vector2( 0, -2 )
+shape = SubResource( 6 )
+
+[node name="Health" parent="." instance=ExtResource( 6 )]
+max_health = 1.0
+
+[node name="CollisionShape2D" parent="Health/DamageArea" index="0"]
+position = Vector2( 0, -10 )
+shape = SubResource( 7 )
+
+[node name="Bar" parent="Health" index="1"]
+margin_top = -34.0
+margin_bottom = -30.0
+
+[node name="Movement" parent="." instance=ExtResource( 5 )]
+
+[node name="AI" parent="." instance=ExtResource( 2 )]
+
+[node name="RoomVisibility" parent="." instance=ExtResource( 3 )]
+
+[node name="DashTimer" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
+[node name="StopDashingTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="RayCastContainerWallDetection" parent="." instance=ExtResource( 4 )]
+layers_to_be_detected = [ 3 ]
+_set_raycast_length = true
+_raycast_length = 60
+
+[node name="Up" type="RayCast2D" parent="RayCastContainerWallDetection"]
+enabled = true
+cast_to = Vector2( 0, -40 )
+collision_mask = 8
+
+[node name="Down" type="RayCast2D" parent="RayCastContainerWallDetection"]
+enabled = true
+cast_to = Vector2( 0, 40 )
+collision_mask = 8
+
+[node name="Left" type="RayCast2D" parent="RayCastContainerWallDetection"]
+enabled = true
+cast_to = Vector2( -40, 0 )
+collision_mask = 8
+
+[node name="Right" type="RayCast2D" parent="RayCastContainerWallDetection"]
+enabled = true
+cast_to = Vector2( 40, 0 )
+collision_mask = 8
+
+[node name="PlayerDetection" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetection"]
+shape = SubResource( 3 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/Jump = SubResource( 4 )
+anims/RESET = SubResource( 5 )
+
+[connection signal="tree_exiting" from="." to="." method="_on_MiniTurretCrawler_tree_exiting"]
+[connection signal="timeout" from="DashTimer" to="." method="_on_DashTimer_timeout"]
+[connection signal="timeout" from="StopDashingTimer" to="." method="_on_StopDashingTimer_timeout"]
+[connection signal="body_entered" from="PlayerDetection" to="." method="_on_PlayerDetection_body_entered"]
+[connection signal="body_exited" from="PlayerDetection" to="." method="_on_PlayerDetection_body_exited"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
+
+[editable path="Damage"]
+[editable path="Health"]
+[editable path="AI"]

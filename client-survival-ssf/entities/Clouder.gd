@@ -31,9 +31,12 @@ func _on_DashTimer_timeout():
 	if _has_dashed == false:
 		_is_dashing = true
 		var closest_player = AI_node.get_closest_player()
-		var dir = self.global_position.direction_to(closest_player.global_position) * _dashing_multiplier
-		AI_node.motionless_behaviour()
-		entity.emit_signal("dashed", dir)
+		if closest_player != null:
+			var dir = self.global_position.direction_to(closest_player.global_position) * _dashing_multiplier
+			AI_node.motionless_behaviour()
+			entity.emit_signal("dashed", dir)
+		else:
+			print("Somehow, get_closest_player() == null")
 		_has_dashed = true
 		stop_dashing_timer_node.start()
 

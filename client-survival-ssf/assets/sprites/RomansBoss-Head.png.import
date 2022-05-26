@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/turret2Broken2.png-ebc9b35620d907d9827e155b8ace4053.stex"
+path="res://.import/RomansBoss-Head.png-525089ddce8b8c2aab14aa17fcc9589a.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/turret2Broken2.png"
-dest_files=[ "res://.import/turret2Broken2.png-ebc9b35620d907d9827e155b8ace4053.stex" ]
+source_file="res://assets/sprites/RomansBoss-Head.png"
+dest_files=[ "res://.import/RomansBoss-Head.png-525089ddce8b8c2aab14aa17fcc9589a.stex" ]
 
 [params]
 
