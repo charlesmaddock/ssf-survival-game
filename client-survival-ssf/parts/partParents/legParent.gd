@@ -93,3 +93,7 @@ func _on_Timer_timeout():
 		else:
 			sprite1.rotation_degrees = 0
 			sprite2.rotation_degrees = 0
+
+
+func get_sprite():
+	return(leg_texture)

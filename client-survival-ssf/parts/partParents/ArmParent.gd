@@ -43,6 +43,8 @@ func _ready():
 	
 	attack_timer.wait_time = cooldown
 	#delay_timer.wait_time = attack_delay
+	
+	print(get_parent().get_name())
 
 
 func _process(delta):
@@ -107,6 +109,8 @@ func _input(event):
 
 func _on_packet_recieved(packet: Dictionary):
 	if packet.type == Constants.PacketTypes.MELEE_ATTACK:
+		print(get_parent())
+		
 		if packet.id == get_parent().entity.id:
 			var attack = attack_scene.instance()
 			var dir = Vector2(packet.dirX, packet.dirY)

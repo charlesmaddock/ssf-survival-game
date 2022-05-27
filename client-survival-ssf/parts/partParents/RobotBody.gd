@@ -26,3 +26,7 @@ func _process(delta):
 	if Engine.editor_hint:
 		if body_texture != null:
 			get_node("Sprite").texture = body_texture
+
+
+func get_sprite():
+	return(body_texture)
