@@ -7,6 +7,10 @@ onready var Sprite = $Sprite
 var entity: Entity
 var is_player: bool = true
 
+var _armPart:  Node
+var _legPart:  Node
+var _bodyPart: Node
+
 var legArray: Array = [
 	preload("res://parts/legs/Default Legs.tscn"),
 	preload("res://parts/legs/BlueShoes.tscn"),
@@ -43,20 +47,30 @@ func set_players_data(name: String, className: String) -> void:
 	
 	var nameLength = name.length()
 	
-	var legNode = legArray[nameLength % legArray.size()].instance()
+	var legNode = legArray[nameLength % legArray.size()].duplicate(true).instance()
 	add_child_below_node($UsernameLabel, legNode)
 	legNode.position = Vector2(1, -7)
+	_legPart = legNode
 	
-	var bodyNode = bodyArray[nameLength % bodyArray.size()].instance()
+	var bodyNode = bodyArray[nameLength % bodyArray.size()].duplicate(true).instance()
 	add_child_below_node($UsernameLabel, bodyNode)
 	bodyNode.position = Vector2(1, -12)
+	_bodyPart = bodyNode
 	
-	var armNode = armArray[nameLength % armArray.size()].instance()
+	var armNode = armArray[nameLength % armArray.size()].duplicate(true).instance()
 	add_child_below_node($UsernameLabel, armNode)
 	armNode.position = Vector2(1, -14)
+	_armPart = armNode
 	
 	Server.ping()
 
 
 func _on_Pickup_area_entered(area):
-	print(area)
+	remove_child(_armPart)
+	
+	var armNode = Constants.PartScenes[area.get_parent().get_part_id()].duplicate(true).instance()
+	add_child(armNode)
+	armNode.position = Vector2(1, -14)
+	_armPart = armNode
+	
+	area.get_parent().queue_free()
