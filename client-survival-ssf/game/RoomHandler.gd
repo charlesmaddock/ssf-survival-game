@@ -113,7 +113,7 @@ func generate_mobs(i) -> Array:
 	var spawn_same_only: bool = false #i % 3 == 0
 	var spawn_iterations: int = i + 1 
 	
-	if i == 1:
+	if i == 10000000:
 		Server.spawn_mob(Util.generate_id(), Constants.MobTypes.ROMANS_BOSS, Vector2(224, 66))
 #		mobs.append(Constants.MobTypes.ROMANS_BOSS)
 	else:

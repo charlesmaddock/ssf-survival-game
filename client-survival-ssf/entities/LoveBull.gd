@@ -32,7 +32,6 @@ enum behaviourState {
 func _ready():
 	_behaviour_state = behaviourState.AIMLESS_WALKING
 	entity.emit_signal("change_movement_speed", 60.0)
-	damage_node.init(entity.id, entity.team)
 	damage_node.deactivate_damage()
 	AI_node.motionless_behaviour()
 	_new_aimless_walking_path()

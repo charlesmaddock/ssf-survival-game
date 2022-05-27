@@ -21,6 +21,7 @@ signal knockback(dir)
 
 
 func _init(node: Node, entity_id: String, entity_team: int, pos: Vector2):
+
 	Server.connect("packet_received", self, "_on_packet_received")
 	entity_node = node
 	id = entity_id

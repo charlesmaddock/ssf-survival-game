@@ -13,12 +13,23 @@ onready var raycast_player_detection: Node2D = self.get_node("RayCastContainer")
 var entity: Entity
 var _strafe_center_pos
 
+var _behaviour_state = behaviourState.PASSIVE_MODE
+
+
+enum behaviourState {
+	PASSIVE_MODE,
+	FORWARD_CHARGE
+} 
+
+
 func _ready():
 	AI_node.motionless_behaviour()
-	_passive_moving()
+	_passive_mode()
 	pass 
 
 
-func _passive_moving() -> void:
+func _passive_mode() -> void:
+	_behaviour_state = behaviourState.PASSIVE_MODE
 	AI_node.strafe_custom_behaviour(passive_moving_distance, self.global_position)
 	pass
+

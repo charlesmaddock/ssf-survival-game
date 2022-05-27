@@ -36,7 +36,6 @@ func _ready():
 	stop_dashing_timer_node.set_wait_time(_dashing_time)
 	entity.emit_signal("change_movement_speed", _movement_speed)
 	AI_node.custom_behaviour()
-	damage_node.init(entity.id, entity.team)
 
 
 func get_closest_player() -> Object:
@@ -115,12 +114,12 @@ func _on_PlayerDetection_body_exited(body):
 
 
 func _on_TurretCrawler_tree_exiting():
-#	intact_turret_sprite.set_visible(false)
-#	broken_turret_sprite.set_visible(true)
-	
-#	if Lobby.is_host == true:
-#		for i in _spiders_to_spawn:
-#				Server.spawn_mob(Util.generate_id(), Constants.MobTypes.MINI_TURRET_CRAWLER, self.global_position + Vector2(0, 5))
-#
-#	yield(get_tree().create_timer(1), "timeout")
+	intact_turret_sprite.set_visible(false)
+	broken_turret_sprite.set_visible(true)
+
+	if Lobby.is_host == true:
+		for i in _spiders_to_spawn:
+				Server.spawn_mob(Util.generate_id(), Constants.MobTypes.MINI_TURRET_CRAWLER, self.global_position + Vector2(0, 5))
+
+	yield(get_tree().create_timer(1), "timeout")
 	pass

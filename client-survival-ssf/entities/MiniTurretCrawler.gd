@@ -8,9 +8,7 @@ export(float) var _dashing_multiplier: float = 300
 export(int) var _player_detection_radius: int = 48
 export(int) var _ray_cast_length_multiplier = 1
 
-export(float) var _jump_length: float = 50
-export(int) var _jump_time: int = 1
-export(int) var _jump_height: int = 48
+export(float) var _jump_speed: float = 50.0
 
 onready var intact_turret_sprite: Sprite = $IntactTurret
 onready var broken_turret_sprite: Sprite = $BrokenTurret
@@ -32,24 +30,21 @@ var _is_animal = true
 var _nearby_players: Array = []
 var _is_dashing: bool = false
 var _has_dashed: bool = false
-var _animation_ticks: int = 0
+var _is_jumping: bool = true
+var _random_jump_dir: Vector2 
+
 
 func _ready():
-	
 	health_node.set_invinsible(true)
 	AI_node.custom_behaviour()
 	damage_node.deactivate_damage()
 	randomize()
-	var random_direction: Vector2 = Vector2(rand_range(-1, 1), rand_range(-1, 1))
-	var random_pos = random_direction * _jump_length
-	AI_node.set_target_walking_path(random_pos)
-	AI_node.move_to_target()
-	print("rand_dir ", random_direction, "rand_dir * range ", random_pos)
-	animationPlayer.play("Jump", -1, _jump_time)
+	_random_jump_dir = Vector2(rand_range(-1, 1), rand_range(-1, 1)).normalized()
 
 
-
-
+func _process(delta):
+	if _is_jumping:
+		self.global_position += (_random_jump_dir * delta) * _jump_speed
 
 func get_closest_player() -> Object:
 	
@@ -132,25 +127,16 @@ func _on_PlayerDetection_body_exited(body):
 
 
 func _on_AnimationPlayer_animation_finished(anim_name):
-	
+	_is_jumping = false
 	yield(get_tree().create_timer(1), "timeout")
 	health_node.set_invinsible(false)
 	damage_node.activate_damage()
 	player_detection_node.get_node("CollisionShape2D").shape.set_radius(_player_detection_radius)
 	dash_timer_node.set_wait_time(_dashing_interval)
+	dash_timer_node.start()
 	stop_dashing_timer_node.set_wait_time(_dashing_time)
 	entity.emit_signal("change_movement_speed", _movement_speed)
-	damage_node.init(entity.id, entity.team)
 
-
-func _on_animation_player_tick() -> void:
-	
-	_animation_ticks += 1
-	var jump_difference = _jump_height / (_jump_time * 10)
-	if _animation_ticks <= 5:
-		intact_turret_sprite.offset -= Vector2(0, jump_difference)
-	else:
-		intact_turret_sprite.position += Vector2(0, jump_difference)
 
 
 #func _on_MiniTurretCrawler_tree_exiting():
