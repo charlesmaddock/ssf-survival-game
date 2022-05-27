@@ -13,19 +13,20 @@
 [node name="RomansBoss" type="KinematicBody2D"]
 collision_layer = 0
 script = ExtResource( 9 )
+hand_distance_from_head = Vector2( 130, 5 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PoolVector2Array( 0, -75, -9, -84, -20, -92, -34, -97, -49, -100, -61, -101, -79, -100, -90, -98, -100, -91, -106, -81, -107, -68, -106, -48, -101, -24, -95, -11, -84, -3, -68, 3, -57, 10, -49, 20, -42, 37, -31, 55, -24, 60, -10, 62, 8, 62, 22, 61, 31, 54, 40, 40, 46, 25, 56, 9, 68, 3, 85, -4, 97, -14, 101, -26, 106, -50, 107, -65, 106, -81, 100, -92, 89, -99, 68, -101, 44, -100, 22, -94, 9, -85 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 7 )
 hframes = 2
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-polygon = PoolVector2Array( 0, -75, -9, -84, -20, -92, -34, -97, -49, -100, -61, -101, -79, -100, -90, -98, -100, -91, -106, -81, -107, -68, -106, -48, -101, -24, -95, -11, -84, -3, -68, 3, -57, 10, -49, 20, -42, 37, -31, 55, -24, 60, -10, 62, 8, 62, 22, 61, 31, 54, 40, 40, 46, 25, 56, 9, 68, 3, 85, -4, 97, -14, 101, -26, 106, -50, 107, -65, 106, -81, 100, -92, 89, -99, 68, -101, 44, -100, 22, -94, 9, -85 )
-
 [node name="AI" parent="." instance=ExtResource( 2 )]
 
 [node name="Damage" type="Area2D" parent="."]
 position = Vector2( 0, -12 )
-collision_layer = 4
+collision_layer = 0
 collision_mask = 0
 script = ExtResource( 6 )
 _damage = 10.0
@@ -46,10 +47,10 @@ collision_mask = 4
 polygon = PoolVector2Array( 0, -75, -9, -84, -20, -92, -34, -97, -49, -100, -61, -101, -79, -100, -90, -98, -100, -91, -106, -81, -107, -68, -106, -48, -101, -24, -95, -11, -84, -3, -68, 3, -57, 10, -49, 20, -42, 37, -31, 55, -24, 60, -10, 62, 8, 62, 22, 61, 31, 54, 40, 40, 46, 25, 56, 9, 68, 3, 85, -4, 97, -14, 101, -26, 106, -50, 107, -65, 106, -81, 100, -92, 89, -99, 68, -101, 44, -100, 22, -94, 9, -85 )
 
 [node name="Bar" type="TextureProgress" parent="Health"]
-margin_left = -15.0
-margin_top = -36.0
-margin_right = 17.0
-margin_bottom = -32.0
+margin_left = -15.7143
+margin_top = -97.1429
+margin_right = 16.2857
+margin_bottom = -93.1429
 mouse_filter = 2
 value = 100.0
 texture_under = ExtResource( 8 )

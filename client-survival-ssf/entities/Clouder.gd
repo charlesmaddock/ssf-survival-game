@@ -23,7 +23,7 @@ var _has_dashed: bool = false
 
 func _ready():
 	entity.emit_signal("change_movement_speed", _movement_speed)
-	AI_node.strafe_behaviour(_strafe_distance)
+	AI_node.strafe_player_behaviour(_strafe_distance)
 	damage_node.init(entity.id, entity.team)
 
 
@@ -42,8 +42,7 @@ func _on_DashTimer_timeout():
 
 
 func _on_StopDashingTimer_timeout():
-	AI_node.reset_first_strafe_pos()
-	AI_node.strafe_behaviour(_strafe_distance)
+	AI_node.strafe_player_behaviour(_strafe_distance)
 	_is_dashing = false
 	_has_dashed = false
 	dash_timer_node.start()

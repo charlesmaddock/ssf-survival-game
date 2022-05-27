@@ -65,8 +65,8 @@ func _generate_rooms() -> void:
 	yield(get_tree().create_timer(1), "timeout")
 	for i in _number_of_rooms:
 		
-		if i == 0:
-			_spawn_pino(Vector2(100, 100))
+#		if i == 0:
+#			_spawn_pino(Vector2(100, 100))
 		
 		
 		var prev_room_data = null
@@ -113,8 +113,9 @@ func generate_mobs(i) -> Array:
 	var spawn_same_only: bool = false #i % 3 == 0
 	var spawn_iterations: int = i + 1 
 	
-	if i == 1000000000:
-		mobs.append(Constants.MobTypes.ROMANS_BOSS)
+	if i == 1:
+		Server.spawn_mob(Util.generate_id(), Constants.MobTypes.ROMANS_BOSS, Vector2(224, 66))
+#		mobs.append(Constants.MobTypes.ROMANS_BOSS)
 	else:
 		if !i >= mob_difficulties.keys().size():
 			for n in (mob_difficulties.keys().size() - i):

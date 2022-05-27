@@ -23,6 +23,7 @@ var attack_path = []
 var threshold = 16
 var _strafe_direction: int = 1
 var _is_first_strafe_position: bool = true
+var _custom_strafe_center_point: Vector2
 
 var room_point: Node2D = null
 var unchecked_room_points: Array = []
@@ -33,6 +34,7 @@ var current_movement_behaviour = movementBehaviour.MOTIONLESS
 enum movementBehaviour {
 	FOLLOW_PLAYER,
 	STRAFE,
+	CUSTOM_STRAFE,
 	MOTIONLESS,
 	CUSTOM
 }
@@ -44,10 +46,17 @@ func _physics_process(delta):
 			move_to_target()
 
 
-func strafe_behaviour(strafe_dist: int) -> void:
+func strafe_player_behaviour(strafe_dist: int) -> void:
 	current_movement_behaviour = movementBehaviour.STRAFE
 	_strafe_dist = strafe_dist
 
+
+func strafe_custom_behaviour(strafe_dist: int, custom_point: Vector2) -> void:
+	#Need to add a small difference to custom_point for special case of strafe on current global_pos, Vector will otherwise be 0
+	_custom_strafe_center_point = custom_point  + Vector2(0.1, 0.1)
+	_strafe_dist = strafe_dist
+	current_movement_behaviour = movementBehaviour.CUSTOM_STRAFE
+	
 
 func follow_player_behaviour(follow_player_dist) -> void:
 	current_movement_behaviour = movementBehaviour.FOLLOW_PLAYER
@@ -93,21 +102,30 @@ func _on_Damage_body_entered(body):
 
 
 func _get_strafe_position() -> Vector2:
-	if get_closest_player() != null:
-		var strafe_dir_normalized = get_closest_player().global_position.direction_to(self.global_position)
-		if _is_first_strafe_position:
-			randomize()
-			var nums = [-1, 1] 
-			_strafe_direction = nums[randi() % nums.size()]
-			var rand_rotation: float = deg2rad(rand_range(90, 270))
-			strafe_dir_normalized.rotated(rand_rotation)
-			_is_first_strafe_position = false
+	var strafe_center_point: Vector2 
+	if current_movement_behaviour == movementBehaviour.STRAFE:
+		if get_closest_player() != null:
+			strafe_center_point = get_closest_player().global_position
+			
+		else:
+			print("In AI._get_strafe_position() -> get_closest_player returning incorrectly.")
+			return parent_entity.global_position
+			
+	elif current_movement_behaviour == movementBehaviour.CUSTOM_STRAFE:
+		strafe_center_point = _custom_strafe_center_point
 		
-		var strafe_pos: Vector2  = get_closest_player().global_position + (strafe_dir_normalized.rotated(deg2rad(_strafe_direction * 40)) * _strafe_dist)
-		return strafe_pos
-	else:
-		print("In AI._get_strafe_position() -> get_closest_player returning incorrectly.")
-		return parent_entity.global_position
+	var strafe_dir_normalized = strafe_center_point.direction_to(self.global_position)
+	if _is_first_strafe_position:
+		randomize()
+		var nums = [-1, 1] 
+		_strafe_direction = nums[randi() % nums.size()]
+		var rand_rotation: float = deg2rad(rand_range(90, 270))
+		strafe_dir_normalized.rotated(rand_rotation)
+		_is_first_strafe_position = false
+	
+	var strafe_pos: Vector2  = strafe_center_point + (strafe_dir_normalized.rotated(deg2rad(_strafe_direction * 40)) * _strafe_dist)
+	print("Strafe dist: ", _strafe_dist, " strafe_pos ", strafe_pos, " strafe center point ", strafe_center_point)
+	return strafe_pos
 
 
 """
@@ -134,10 +152,15 @@ func get_closest_player() -> Object:
 func _on_MovementActionTimer_timeout():
 	if current_movement_behaviour != movementBehaviour.MOTIONLESS:
 		if current_movement_behaviour == movementBehaviour.FOLLOW_PLAYER:
+			_is_first_strafe_position = true
 			set_target_walking_path(parent_entity.direction_to(get_closest_player().global_position))
 		elif current_movement_behaviour == movementBehaviour.STRAFE:
 			set_target_walking_path(_get_strafe_position())
+		elif current_movement_behaviour == movementBehaviour.CUSTOM_STRAFE:
+			set_target_walking_path(_get_strafe_position())
 		elif current_movement_behaviour == movementBehaviour.CUSTOM:
+			_is_first_strafe_position = true
 			pass
 	elif current_movement_behaviour == movementBehaviour.MOTIONLESS:
+		_is_first_strafe_position = true
 		stop_moving()

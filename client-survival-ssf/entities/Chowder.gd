@@ -26,7 +26,7 @@ var _is_animal = true
 
 func _ready():
 	entity.emit_signal("change_movement_speed", _movement_speed)
-	AI_node.strafe_behaviour(distance_from_player)
+	AI_node.strafe_player_behaviour(distance_from_player)
 	attackTimer.start()
 	pass
 
@@ -74,6 +74,6 @@ func _on_AttackTimer_timeout():
 				yield(get_tree().create_timer(_flurry_attack_intervall_time), "timeout")
 			_create_attack(dir, i)
 		
-		AI_node.strafe_behaviour(distance_from_player)
+		AI_node.strafe_player_behaviour(distance_from_player)
 		attackTimer.start()
 

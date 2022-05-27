@@ -30,7 +30,7 @@ func _on_ShootTimer_timeout():
 
 
 func _on_DigTimer_timeout():
-	AI_node.strafe_behaviour(_strafe_distance)
+	AI_node.strafe_player_behaviour(_strafe_distance)
 	overundergroundSprite.set_visible(false)
 	undergroundSprite.set_visible(true)
 	surfaceTimer.start(_dig_time)

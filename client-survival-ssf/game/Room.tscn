@@ -39,6 +39,7 @@ script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="Door"]
 scale = Vector2( 2, 2 )
+z_index = -4096
 texture = ExtResource( 3 )
 centered = false
 
