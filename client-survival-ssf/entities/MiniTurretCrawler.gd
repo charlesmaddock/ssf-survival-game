@@ -3,8 +3,8 @@ extends KinematicBody2D
 
 export(int) var _movement_speed = 40
 export(float) var _dashing_interval = 2.5
-export(float) var _dashing_time = 0.2
-export(float) var _dashing_multiplier: float = 300
+export(float) var _dashing_time = 0.5
+export(float) var _dashing_multiplier: float = 150
 export(int) var _player_detection_radius: int = 48
 export(int) var _ray_cast_length_multiplier = 1
 
@@ -30,7 +30,7 @@ var _is_animal = true
 var _nearby_players: Array = []
 var _is_dashing: bool = false
 var _has_dashed: bool = false
-var _is_jumping: bool = true
+var _is_first_jumping: bool = true
 var _random_jump_dir: Vector2 
 
 
@@ -43,7 +43,7 @@ func _ready():
 
 
 func _process(delta):
-	if _is_jumping:
+	if _is_first_jumping:
 		self.global_position += (_random_jump_dir * delta) * _jump_speed
 
 func get_closest_player() -> Object:
@@ -102,17 +102,18 @@ func _on_DashTimer_timeout():
 		
 		var final_dir = initial_dir * _dashing_multiplier
 		
+		animationPlayer.play("Jump", -1, 1 / _dashing_time)
+		yield(self.get_tree().create_timer(0.05), "timeout")
 		entity.emit_signal("dashed", final_dir)
 		_has_dashed = true
-		stop_dashing_timer_node.start()
 
 
-func _on_StopDashingTimer_timeout():
-	
-	AI_node.stop_moving()
-	_is_dashing = false
-	_has_dashed = false
-	dash_timer_node.start()
+#func _on_StopDashingTimer_timeout():
+#
+#	AI_node.stop_moving()
+#	_is_dashing = false
+#	_has_dashed = false
+#	dash_timer_node.start()
 
 
 
@@ -127,15 +128,20 @@ func _on_PlayerDetection_body_exited(body):
 
 
 func _on_AnimationPlayer_animation_finished(anim_name):
-	_is_jumping = false
-	yield(get_tree().create_timer(1), "timeout")
-	health_node.set_invinsible(false)
-	damage_node.activate_damage()
-	player_detection_node.get_node("CollisionShape2D").shape.set_radius(_player_detection_radius)
-	dash_timer_node.set_wait_time(_dashing_interval)
-	dash_timer_node.start()
-	stop_dashing_timer_node.set_wait_time(_dashing_time)
-	entity.emit_signal("change_movement_speed", _movement_speed)
+	if _is_first_jumping == true:
+		_is_first_jumping = false
+		health_node.set_invinsible(false)
+		damage_node.activate_damage()
+		player_detection_node.get_node("CollisionShape2D").shape.set_radius(_player_detection_radius)
+		entity.emit_signal("change_movement_speed", _movement_speed)
+		dash_timer_node.set_wait_time(_dashing_interval)
+		yield(self.get_tree().create_timer(0.5), "timeout")
+		_on_DashTimer_timeout()
+	elif _is_first_jumping == false:
+		AI_node.stop_moving()
+		_is_dashing = false
+		_has_dashed = false
+		dash_timer_node.start()
 
 
 
