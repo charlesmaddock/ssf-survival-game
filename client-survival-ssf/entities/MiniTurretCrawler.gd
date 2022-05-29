@@ -43,8 +43,9 @@ func _ready():
 
 
 func _process(delta):
-	if _is_first_jumping:
+	if _is_first_jumping && Lobby.is_host():
 		self.global_position += (_random_jump_dir * delta) * _jump_speed
+
 
 func get_closest_player() -> Object:
 	

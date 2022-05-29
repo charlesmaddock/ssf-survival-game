@@ -11,7 +11,8 @@ var mob_type_scenes: Dictionary = {
 	Constants.MobTypes.LOVE_BULL: preload("res://entities/LoveBull.tscn"),
 	Constants.MobTypes.MINI_TURRET_CRAWLER: preload("res://entities/MiniTurretCrawler.tscn"),
 	Constants.MobTypes.ROMANS_BOSS: preload("res://entities/RomansBoss.tscn"),
-	Constants.MobTypes.ROMANS_BOSS_HAND: preload("res://entities/RomansBossHand.tscn")
+	Constants.MobTypes.LEFT_ROMANS_BOSS_HAND: preload("res://entities/LeftRomansBossHand.tscn"),
+	Constants.MobTypes.RIGHT_ROMANS_BOSS_HAND: preload("res://entities/RightRomansBossHand.tscn")
 }
 
 var environment_type_scenes: Dictionary = {

@@ -267,7 +267,9 @@ func rooms_generated(rooms: Array) -> void:
 	for room_data in modified_rooms:
 		for key in room_data.keys():
 			if typeof(room_data[key]) == TYPE_VECTOR2:
-				room_data[key] = {"x": room_data[key].x, "y": room_data[key].y, }
+				room_data[key] = {"x": room_data[key].x, "y": room_data[key].y}
+		for mob in room_data["mobs"]:
+			mob["pos"] = {"x": mob["pos"].x, "y": mob["pos"].y}
 	
 	var payload = {
 		"type": Constants.PacketTypes.ROOMS_GENERATED, 

@@ -108,7 +108,6 @@ func _get_strafe_position() -> Vector2:
 			strafe_center_point = get_closest_player().global_position
 			
 		else:
-			print("In AI._get_strafe_position() -> get_closest_player returning incorrectly.")
 			return parent_entity.global_position
 			
 	elif current_movement_behaviour == movementBehaviour.CUSTOM_STRAFE:
@@ -124,7 +123,6 @@ func _get_strafe_position() -> Vector2:
 		_is_first_strafe_position = false
 	
 	var strafe_pos: Vector2  = strafe_center_point + (strafe_dir_normalized.rotated(deg2rad(_strafe_direction * 40)) * _strafe_dist)
-	print("Strafe dist: ", _strafe_dist, " strafe_pos ", strafe_pos, " strafe center point ", strafe_center_point)
 	return strafe_pos
 
 

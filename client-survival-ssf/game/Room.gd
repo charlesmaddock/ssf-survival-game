@@ -6,7 +6,7 @@ export(NodePath) var _next_room_path: NodePath
 
 onready var _room_collision_shape: CollisionShape2D = $CollisionShape2D
 onready var _door: Node2D = $Door
-onready var room_center_position = self.global_position
+onready var room_center_position 
 onready var _next_room_spawn_pos = $NextRoomSpawnPos
 
 
@@ -36,6 +36,7 @@ func _ready():
 	if _next_room_data.empty() == false:
 		_next_room_spawn_pos.global_position = (Vector2(_next_room_data.enter_pos.x, _next_room_data.enter_pos.y) + Vector2.RIGHT + Vector2.DOWN * 3) * Constants.TILE_SIZE 
 	
+	room_center_position = self.global_position
 	print_mobs()
 	
 	if name == str(0):
@@ -44,8 +45,8 @@ func _ready():
 
 func print_mobs() -> void:
 	var mobs = ""
-	for mobt in _room_data.mobs:
-		mobs += Constants.MobTypes.keys()[mobt] + ", "
+	for mob in _room_data.mobs:
+		mobs += Constants.MobTypes.keys()[mob["mob_type"]] + ", "
 	print("Generated mobs: ", mobs)
 
 
@@ -86,15 +87,25 @@ func set_room_data(room_data: Dictionary, next_room_data: Dictionary) -> void:
 func _on_Room_body_entered(body):
 	if Lobby.is_host:
 		randomize()
-		if Util.is_entity(body) && body.get("_is_animal") == null && _room_completed == false && _mobs_entered_room == false:
-			for mob_type in _room_data.mobs:
-				var room_extents = _room_collision_shape.get_shape().extents
-				var global_spawn_points = get_available_spawn_points()
-				var id = Util.generate_id()
-				var pos = global_spawn_points[randi() % global_spawn_points.size()] + (Vector2.ONE * Constants.TILE_SIZE / 2)
-				Server.spawn_mob(id, mob_type, pos)
-				_mobs_in_room.append(id)
-				_mobs_entered_room = true
+		if Util.is_entity(body) && _room_completed == false && _mobs_entered_room == false:
+			if body.get("_is_animal") == null:
+				for mob in _room_data.mobs:
+					var mob_type = mob["mob_type"]
+					var room_extents = _room_collision_shape.get_shape().extents
+					var global_spawn_points = get_available_spawn_points()
+					var id = Util.generate_id()
+					var rel_mob_pos_given = Vector2(mob["pos"]["x"], mob["pos"]["y"])
+					var pos: Vector2
+					if rel_mob_pos_given == Vector2.ZERO:
+						pos = global_spawn_points[randi() % global_spawn_points.size()] + (Vector2.ONE * Constants.TILE_SIZE / 2)
+					else:
+						pos = room_center_position + rel_mob_pos_given
+					Server.spawn_mob(id, mob_type, pos)
+					_mobs_in_room.append(id)
+					_mobs_entered_room = true
+		elif Util.is_entity(body) && body.get("_is_animal") == true && _mobs_entered_room == true:
+			if _mobs_in_room.find(body.entity.id) == -1:
+				_mobs_in_room.append(body.entity.id)
 
 
 func _on_NextRoomDetector_body_entered(body) -> void:
