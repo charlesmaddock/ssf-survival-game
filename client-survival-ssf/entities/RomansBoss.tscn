@@ -36,6 +36,7 @@ polygon = PoolVector2Array( 0, -75, -9, -84, -20, -92, -34, -97, -49, -100, -61,
 
 [node name="Health" type="Node2D" parent="."]
 script = ExtResource( 1 )
+max_health = 1000.0
 knockbackable = false
 
 [node name="DamageArea" type="Area2D" parent="Health"]
