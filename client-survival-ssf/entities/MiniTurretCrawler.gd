@@ -30,7 +30,7 @@ var _is_animal = true
 var _nearby_players: Array = []
 var _is_dashing: bool = false
 var _has_dashed: bool = false
-var _is_first_jumping: bool = true
+var _is_first_jumping: bool
 var _random_jump_dir: Vector2 
 
 

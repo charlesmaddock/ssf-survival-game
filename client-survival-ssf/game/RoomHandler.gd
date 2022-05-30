@@ -114,7 +114,7 @@ func generate_mobs(i) -> Array:
 	var spawn_iterations: int = i + 1 
 	
 	if i == 1:
-		mobs.append({"mob_type": Constants.MobTypes.ROMANS_BOSS, "pos": Vector2(0, -70)})
+		mobs.append({"mob_type": Constants.MobTypes.ROMANS_BOSS, "pos": Vector2(0, -60)})
 	else:
 		if !i >= mob_difficulties.keys().size():
 			for n in (mob_difficulties.keys().size() - i):
