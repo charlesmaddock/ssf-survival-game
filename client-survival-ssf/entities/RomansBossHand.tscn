@@ -148,5 +148,5 @@ one_shot = true
 
 [connection signal="area_entered" from="Health/DamageArea" to="Health" method="_on_DamageArea_area_entered"]
 [connection signal="timeout" from="TimerToCharge" to="." method="_on_TimerToCharge_timeout"]
-[connection signal="timeout" from="TimerToChargeback" to="." method="_on_TimerToChargeback_timeout"]
 [connection signal="timeout" from="TimerToChargeback" to="." method="_on_TimerToCharge_timeout"]
+[connection signal="timeout" from="TimerToChargeback" to="." method="_on_TimerToChargeback_timeout"]

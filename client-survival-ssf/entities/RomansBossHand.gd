@@ -21,6 +21,7 @@ onready var timer_before_charge_is_available: Timer = self.get_node("TimerBefore
 
 
 var entity: Entity
+var boss_node: Node2D
 var _is_animal = true
 var _init_finished = false
 var _is_left_hand: bool = true
@@ -28,18 +29,21 @@ var _is_left_hand: bool = true
 var _passive_position: Vector2
 var _strafe_center_pos: Vector2
 var _strafe_direction: int = 1
+var _charge_destination_pos: Vector2 = Vector2.ZERO
 
-var _behaviour_state: int = behaviourState.HOVER
+var _behaviour_state: int = behaviourStates.HOVER
 
+signal hand_behaviour_changed(this_hand_node, behaviour_state)
 
-enum behaviourState {
+enum behaviourStates {
 	HOVER,
 	CHARGE,
 	CHARGEBACK
 } 
 
 
-func init(left_hand: bool, spawn_pos: Vector2):
+func init(left_hand: bool, spawn_pos: Vector2, parent_boss_node: Node2D):
+	boss_node = parent_boss_node
 	_passive_position = spawn_pos
 	_is_left_hand = left_hand
 	
@@ -63,20 +67,20 @@ func _ready():
 func _process(delta):
 	if Lobby.is_host == true && _init_finished: 
 		
-		if _behaviour_state == behaviourState.HOVER: 
+		if _behaviour_state == behaviourStates.HOVER: 
 			if raycast_player_detection.is_colliding_with_layers([Constants.collisionLayers.PLAYER]).size() != 0 && timer_before_charge_is_available.is_stopped():
 				print("Calling charge")
-				_charge_mode()
+				charge_mode(Vector2.ZERO)
 			else:
 				_hover_movement(delta)
 		
-		elif _behaviour_state == behaviourState.CHARGE:
+		elif _behaviour_state == behaviourStates.CHARGE:
 			if timer_to_charge.is_stopped():
 				if raycast_wall_detection.is_colliding_with_layers([Constants.collisionLayers.SOLID]):
 					print("calling chargeback")
 					_chargeback_mode()
 		
-		elif _behaviour_state == behaviourState.CHARGEBACK:
+		elif _behaviour_state == behaviourStates.CHARGEBACK:
 			if self.global_position.distance_to(_passive_position) <= 20:
 				print("calling hover mode")
 				timer_before_charge_is_available.start()
@@ -99,30 +103,38 @@ func _hover_movement(delta: float) -> void:
 
 
 func _hover_mode() -> void:
+	_behaviour_state = behaviourStates.HOVER
+	emit_signal("hand_behaviour_changed", Util.get_entity(self.entity.id), _behaviour_state)
+	
 	AI_node.motionless_behaviour()
-	_behaviour_state = behaviourState.HOVER
 
 
-func _charge_mode() -> void:
-	_behaviour_state = behaviourState.CHARGE
+func charge_mode(destination_pos) -> void:
+	_charge_destination_pos = destination_pos
+	_behaviour_state = behaviourStates.CHARGE
+	emit_signal("hand_behaviour_changed", Util.get_entity(self.entity.id), _behaviour_state)
+	
 	timer_to_charge.start()
 
 
 func _chargeback_mode() -> void:
+	_behaviour_state = behaviourStates.CHARGEBACK
+	emit_signal("hand_behaviour_changed", Util.get_entity(self.entity.id), _behaviour_state)
+	
 	AI_node.motionless_behaviour()
 	timer_to_chargeback.start()
-	_behaviour_state = behaviourState.CHARGEBACK
 
 
 func _on_TimerToCharge_timeout():
 	entity.emit_signal("change_movement_speed", _charge_speed)
 	AI_node.custom_behaviour()
-	AI_node.set_target_walking_path(self.global_position + Vector2(0, 1000))
-
+	if _charge_destination_pos == Vector2.ZERO:
+		AI_node.set_target_walking_path(self.global_position + Vector2(0, 1000))
+	else: 
+		AI_node.set_target_walking_path(self.global_position + _charge_destination_pos)
 
 func _on_TimerToChargeback_timeout():	
 	entity.emit_signal("change_movement_speed", _chargeback_speed)
-	print("This is the pos im moving to now! :", _passive_position)
 	AI_node.custom_behaviour()
 	yield(get_tree().create_timer(0.1), "timeout")
 	AI_node.set_target_walking_path(_passive_position)

@@ -36,6 +36,7 @@ max_health = 30.0
 
 [node name="Damage" parent="." instance=ExtResource( 9 )]
 position = Vector2( 0, -4 )
+_damage = 1.0
 
 [node name="CollisionShape2D" parent="Damage" index="0"]
 position = Vector2( 0, 0 )
