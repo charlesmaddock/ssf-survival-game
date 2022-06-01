@@ -12,6 +12,3 @@ offset = Vector2( 1.5, 4.5 )
 
 [node name="Sprite2" parent="." index="1"]
 offset = Vector2( 1.5, 4.5 )
-
-[node name="Timer" parent="." index="2"]
-wait_time = 0.2
