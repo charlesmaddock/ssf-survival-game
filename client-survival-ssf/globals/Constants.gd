@@ -150,18 +150,18 @@ enum Parts {
 
 
 var PartScenes: Dictionary = {
-	Parts.DefaultArm:  load("res://parts/arms/DefaultArm.tscn"),
-	Parts.DrillArm:    load("res://parts/arms/DrillArm.tscn"),
-	Parts.HammerArm:   load("res://parts/arms/HammerArm.tscn"),
-	Parts.HeartArm:    load("res://parts/arms/Heart Arm.tscn"),
+	Parts.DefaultArm:  preload("res://parts/arms/DefaultArm.tscn"),
+	Parts.DrillArm:    preload("res://parts/arms/DrillArm.tscn"),
+	Parts.HammerArm:   preload("res://parts/arms/HammerArm.tscn"),
+	Parts.HeartArm:    preload("res://parts/arms/Heart Arm.tscn"),
 	
-	Parts.DefaultBody: load("res://parts/bodies/DefaultBody.tscn"),
-	Parts.ExoSkeleton: load("res://parts/bodies/ExoSkeleton.tscn"),
-	Parts.FishBody:    load("res://parts/bodies/FishBody.tscn"),
+	Parts.DefaultBody: preload("res://parts/bodies/DefaultBody.tscn"),
+	Parts.ExoSkeleton: preload("res://parts/bodies/ExoSkeleton.tscn"),
+	Parts.FishBody:    preload("res://parts/bodies/FishBody.tscn"),
 	
-	Parts.DefaultLegs: load("res://parts/legs/Default Legs.tscn"),
-	Parts.BirdLegs:    load("res://parts/legs/BirdLegs.tscn"),
-	Parts.BlueShoes:   load("res://parts/legs/BlueShoes.tscn")
+	Parts.DefaultLegs: preload("res://parts/legs/BirdLegs.tscn"),
+	Parts.BirdLegs:    preload("res://parts/legs/BirdLegs.tscn"),
+	Parts.BlueShoes:   preload("res://parts/legs/BirdLegs.tscn")
 }
 
 

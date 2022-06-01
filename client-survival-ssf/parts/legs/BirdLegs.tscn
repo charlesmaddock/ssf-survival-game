@@ -1,20 +1,17 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://parts/partParents/legParent.tscn" type="PackedScene" id=1]
+[ext_resource path="res://parts/partParents/LegParent.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/sprites/birdLeg.png" type="Texture" id=2]
 
-[node name="Bird Legs" instance=ExtResource( 1 )]
-walk_speed = 40.0
+[node name="BirdLegs" instance=ExtResource( 1 )]
+walk_speed = 50.0
 leg_texture = ExtResource( 2 )
-sprite_offset = Vector2( 2, 3.5 )
-leg_separation = 7.0
+sprite_offset = Vector2( 2, 4.5 )
 
 [node name="Sprite1" parent="." index="0"]
-position = Vector2( 3.5, 1 )
 texture = ExtResource( 2 )
-offset = Vector2( 2, 3.5 )
+offset = Vector2( 2, 4.5 )
 
 [node name="Sprite2" parent="." index="1"]
-position = Vector2( -3.5, 1 )
 texture = ExtResource( 2 )
-offset = Vector2( 2, 3.5 )
+offset = Vector2( 2, 4.5 )

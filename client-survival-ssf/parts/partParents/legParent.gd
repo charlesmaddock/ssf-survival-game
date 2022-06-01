@@ -2,7 +2,6 @@ tool
 extends Node2D
 
 
-onready var parent_entity: Entity = get_parent().entity
 onready var sprite1: Node = get_node("Sprite1")
 onready var sprite2: Node = get_node("Sprite2")
 
@@ -15,13 +14,12 @@ export(Vector2) var sprite_offset: Vector2
 export(float) var leg_separation: float = 5
 
 
-
 func _ready():
 	var timer = get_node("Timer")
 	timer.wait_time = 0.3 - round(walk_speed/100)/10
 	timer.wait_time = clamp(timer.wait_time, 0.05, 10)
 	
-	if get_parent() != null:
+	if Util.is_entity(get_parent()):
 		movement_node = get_parent().get_node("Movement")
 		
 		if movement_node != null:
