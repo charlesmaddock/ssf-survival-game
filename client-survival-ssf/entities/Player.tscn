@@ -51,9 +51,6 @@ text = "name"
 align = 1
 valign = 1
 clip_text = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Aim Arrow" parent="." instance=ExtResource( 7 )]
 position = Vector2( 1, -13 )
@@ -63,7 +60,26 @@ collision_layer = 0
 collision_mask = 256
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Pickup"]
-position = Vector2( 1, -11 )
+position = Vector2( 2, 0 )
+rotation = 1.5708
 shape = SubResource( 2 )
 
+[node name="PickUpText" type="Label" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -29.0
+margin_top = -69.0
+margin_right = 32.0
+margin_bottom = -50.0
+theme = ExtResource( 8 )
+text = "Press E to
+pick up"
+align = 1
+valign = 1
+clip_text = true
+
 [connection signal="area_entered" from="Pickup" to="." method="_on_Pickup_area_entered"]
+[connection signal="area_exited" from="Pickup" to="." method="_on_Pickup_area_exited"]

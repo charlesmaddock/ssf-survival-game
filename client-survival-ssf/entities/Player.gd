@@ -65,12 +65,30 @@ func set_players_data(name: String, className: String) -> void:
 	Server.ping()
 
 
+func _input(event):
+	if Input.is_action_just_pressed("ui_pickup"):
+		var overlapped = get_node("Pickup").get_overlapping_areas()
+		
+		if not overlapped.empty():
+			_armPart.queue_free()
+			
+			var armNode = Constants.PartScenes[overlapped[0].get_parent().get_part_id()].duplicate(true).instance()
+			add_child_below_node(get_node("UsernameLabel"), armNode)
+			armNode.position = Vector2(1, -14)
+			_armPart = armNode
+			
+			overlapped[0].get_parent().queue_free()
+			
+			if overlapped.size() == 1:
+				get_node("PickUpText").visible = false
+
+
 func _on_Pickup_area_entered(area):
-	remove_child(_armPart)
+	get_node("PickUpText").visible = true
+
+
+func _on_Pickup_area_exited(area):
+	var overlapped = get_node("Pickup").get_overlapping_areas()
 	
-	var armNode = Constants.PartScenes[area.get_parent().get_part_id()].duplicate(true).instance()
-	add_child(armNode)
-	armNode.position = Vector2(1, -14)
-	_armPart = armNode
-	
-	area.get_parent().queue_free()
+	if overlapped.empty():
+		get_node("PickUpText").visible = false
