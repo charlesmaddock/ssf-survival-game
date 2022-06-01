@@ -113,28 +113,28 @@ func generate_mobs(i) -> Array:
 	var spawn_same_only: bool = false #i % 3 == 0
 	var spawn_iterations: int = i + 1 
 	
-	if i == 1:
-		mobs.append({"mob_type": Constants.MobTypes.ROMANS_BOSS, "pos": Vector2(0, -60)})
-	else:
-		if !i >= mob_difficulties.keys().size():
-			for n in (mob_difficulties.keys().size() - i):
+#	if i == 1:
+#		mobs.append({"mob_type": Constants.MobTypes.ROMANS_BOSS, "pos": Vector2(0, -60)})
+#	else:
+	if !i >= mob_difficulties.keys().size():
+		for n in (mob_difficulties.keys().size() - i):
+			mobs.append({"mob_type": mob_difficulties.keys()[5 - i], "pos": Vector2.ZERO})
+			if i == 4:
 				mobs.append({"mob_type": mob_difficulties.keys()[5 - i], "pos": Vector2.ZERO})
-				if i == 4:
-					mobs.append({"mob_type": mob_difficulties.keys()[5 - i], "pos": Vector2.ZERO})
-		else:
-			for amount in spawn_iterations:
-				for mob_diff_index in range(0, mob_difficulties.keys().size()):
-					var mob_type = mob_difficulties.keys()[mob_diff_index]
-					var spawn_cost = mob_difficulties.values()[mob_diff_index]
-					randomize()
-					if spawn_currency >= spawn_cost:
-						if spawn_same_only == true:
-							for x in i:
-								mobs.append({"mob_type": mob_type, "pos": Vector2.ZERO})
-							return mobs
-						else:
-							spawn_currency -= spawn_cost
+	else:
+		for amount in spawn_iterations:
+			for mob_diff_index in range(0, mob_difficulties.keys().size()):
+				var mob_type = mob_difficulties.keys()[mob_diff_index]
+				var spawn_cost = mob_difficulties.values()[mob_diff_index]
+				randomize()
+				if spawn_currency >= spawn_cost:
+					if spawn_same_only == true:
+						for x in i:
 							mobs.append({"mob_type": mob_type, "pos": Vector2.ZERO})
+						return mobs
+					else:
+						spawn_currency -= spawn_cost
+						mobs.append({"mob_type": mob_type, "pos": Vector2.ZERO})
 
 			var living_players: Array = Util.get_living_players()
 			var player_amount: int = 0
