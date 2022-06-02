@@ -304,3 +304,13 @@ func spawn_pickup(part: int, pos: Vector2) -> void:
 		"posY": pos.y
 	}
 	send_packet(payload)
+
+
+func knockback(id: String, dir: Vector2)  -> void:
+	var payload = {
+		"type": Constants.PacketTypes.KNOCKBACK, 
+		"id": id,
+		"dirX": dir.x,
+		"dirY": dir.y,
+	}
+	send_packet(payload)
