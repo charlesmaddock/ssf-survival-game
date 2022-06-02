@@ -84,9 +84,8 @@ func _on_Pickup_area_exited(area):
 
 	var pick_up_part_type: int = area.get_parent().get_part_id()
 	var armNode = Util.get_instanced_part(pick_up_part_type)
-	add_child(armNode)
+	add_child_below_node(get_node("UsernameLabel"), armNode)
 	armNode.position = Vector2(1, -14)
 	_armPart = armNode
 	
 	area.get_parent().queue_free()
-

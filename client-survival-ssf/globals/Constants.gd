@@ -43,7 +43,8 @@ enum PacketTypes {
   COMPLETE_ROOM,
   ROOMS_GENERATED,
   PING,
-  SPAWN_PART
+  SPAWN_PART,
+  KNOCKBACK
 }
 
 
