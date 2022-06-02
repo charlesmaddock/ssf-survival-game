@@ -82,10 +82,10 @@ func _on_Pickup_area_exited(area):
 	if overlapped.empty():
 		get_node("PickUpText").visible = false
 
-	var pick_up_part_type: int = area.get_parent().get_part_id()
-	var armNode = Util.get_instanced_part(pick_up_part_type)
-	add_child_below_node(get_node("UsernameLabel"), armNode)
-	armNode.position = Vector2(1, -14)
-	_armPart = armNode
-	
-	area.get_parent().queue_free()
+#	var pick_up_part_type: int = area.get_parent().get_part_id()
+#	var armNode = Util.get_instanced_part(pick_up_part_type)
+#	add_child_below_node(get_node("UsernameLabel"), armNode)
+#	armNode.position = Vector2(1, -14)
+#	_armPart = armNode
+#
+#	area.get_parent().queue_free()
