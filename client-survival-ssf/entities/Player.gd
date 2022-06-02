@@ -33,19 +33,19 @@ func set_players_data(name: String, className: String) -> void:
 	
 	var nameLength = name.length()
 	
-	var legPartType: int = _inital_leg_parts[randi() % _inital_leg_parts.size()]
+	var legPartType: int = _inital_leg_parts[nameLength % _inital_leg_parts.size()]
 	var legNode: Node = Util.get_instanced_part(legPartType)
 	add_child_below_node($UsernameLabel, legNode)
 	legNode.position = Vector2(1, -7)
 	_legPart = legNode
 	
-	var bodyPartType: int = _inital_body_parts[randi() % _inital_body_parts.size()]
+	var bodyPartType: int = _inital_body_parts[nameLength % _inital_body_parts.size()]
 	var bodyNode: Node = Util.get_instanced_part(bodyPartType)
 	add_child_below_node($UsernameLabel, bodyNode)
 	bodyNode.position = Vector2(1, -12)
 	_bodyPart = bodyNode
 	
-	var armPartType: int = _inital_arm_parts[randi() % _inital_arm_parts.size()]
+	var armPartType: int = _inital_arm_parts[nameLength % _inital_arm_parts.size()]
 	var armNode: Node = Util.get_instanced_part(armPartType)
 	add_child_below_node($UsernameLabel, armNode)
 	armNode.position = Vector2(1, -14)

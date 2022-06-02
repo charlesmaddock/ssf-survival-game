@@ -35,7 +35,7 @@ var _random_jump_dir: Vector2
 
 
 func _ready():
-	health_node.set_invinsible(true)
+#	health_node.set_invinsible(true)
 	AI_node.custom_behaviour()
 	damage_node.deactivate_damage()
 	randomize()
@@ -131,7 +131,7 @@ func _on_PlayerDetection_body_exited(body):
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if _is_first_jumping == true:
 		_is_first_jumping = false
-		health_node.set_invinsible(false)
+#		health_node.set_invinsible(false)
 		damage_node.activate_damage()
 		player_detection_node.get_node("CollisionShape2D").shape.set_radius(_player_detection_radius)
 		entity.emit_signal("change_movement_speed", _movement_speed)
