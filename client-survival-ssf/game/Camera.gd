@@ -11,7 +11,7 @@ func _ready():
 
 func _process(delta):
 	if Input.is_key_pressed(KEY_1) && Input.is_key_pressed(KEY_2):
-		zoom = Vector2(9, 9)
+		zoom = Vector2(15, 15)
 	else:
 		zoom = Vector2.ONE
 	

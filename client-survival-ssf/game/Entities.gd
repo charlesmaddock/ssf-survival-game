@@ -2,6 +2,8 @@ extends YSort
 
 
 var item_scene = preload("res://entities/Item.tscn")
+var pino_scene: PackedScene = preload("res://entities/Pino.tscn")
+
 
 var mob_type_scenes: Dictionary = {
 	Constants.MobTypes.CLOUDER: preload("res://entities/Clouder.tscn"),
@@ -21,6 +23,14 @@ var environment_type_scenes: Dictionary = {
 
 func _ready():
 	Server.connect("packet_received", self, "_on_packet_received")
+	_spawn_pino(Constants.TILE_SIZE * 4)
+
+
+func _spawn_pino(pino_global_position: Vector2) -> void:
+	var pino: Node2D = pino_scene.instance()
+	pino.global_position = pino_global_position
+	var entities: YSort = $"../Entities"
+	entities.add_child(pino)
 
 
 func get_entity(id: String) -> Node:

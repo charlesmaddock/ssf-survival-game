@@ -1,9 +1,8 @@
+tool
 extends Node2D
 
-var pino_scene: PackedScene = preload("res://entities/Pino.tscn")
 
-
-const ROOM_DIMENSIONS = Vector2(14, 8)
+const ROOM_DIMENSIONS = Vector2(14, 10)
 const CORRIDOR_DIMENSIONS = Vector2(2, 8)
 
 
@@ -49,47 +48,61 @@ var mob_difficulties = {
 	Constants.MobTypes.MOLE: 3,
 	Constants.MobTypes.TURRET_CRAWLER: 2,
 	Constants.MobTypes.CLOUDER: 1,
-
 }
-
-func _spawn_pino(pino_global_position: Vector2) -> void:
-	var pino: Node2D = pino_scene.instance()
-	pino.global_position = pino_global_position
-	var entities: YSort = $"../Entities"
-	entities.add_child(pino)
 
 
 func _generate_rooms() -> void:
-	var current_pos = Vector2.ZERO
 	var all_room_data = []
-	yield(get_tree().create_timer(1), "timeout")
+	yield(get_tree().create_timer(0.2), "timeout")
 	for i in _number_of_rooms:
-		
-#		if i == 0:
-#			_spawn_pino(Vector2(100, 100))
-		
-		
 		var prev_room_data = null
-		var enter_pos = Vector2.ZERO
 		var final_room = i == _number_of_rooms - 1
 		if i - 1 >= 0:
 			prev_room_data = all_room_data[i - 1]
-			enter_pos = prev_room_data.exit_pos + Vector2.UP * prev_room_data.corridor_rect_size.y 
+			var prev_corridor_size = prev_room_data.corridor_rect_size
 		
 		var mobs = generate_mobs(i + 1)
+		var env = generate_environment(i + 1)
 		
-		var exit_pos = current_pos + Vector2(ROOM_DIMENSIONS.x / 2, 0)  - Vector2(CORRIDOR_DIMENSIONS.x / 2, 0) 
-		var corridor_pos = exit_pos - Vector2(0, ROOM_DIMENSIONS.y)
+		var room_pos: Vector2 = Vector2.ZERO
+		
+		var prev_room_exit_direction = Constants.ExitDirections.NORTH
+		var enter_pos = Vector2.ZERO
+		
+		if prev_room_data != null:
+			prev_room_exit_direction = prev_room_data.exit_dir
+			match prev_room_exit_direction:
+				Constants.ExitDirections.NORTH:
+					enter_pos = prev_room_data.corridor_rect_pos + Vector2.UP
+					room_pos = prev_room_data.corridor_rect_pos + Vector2(prev_room_data.corridor_rect_size.x / 2, 0) - Vector2(ROOM_DIMENSIONS.x / 2, ROOM_DIMENSIONS.y) 
+				Constants.ExitDirections.EAST:
+					enter_pos = prev_room_data.corridor_rect_end + Vector2.RIGHT
+					room_pos = prev_room_data.corridor_rect_end - Vector2(0, prev_room_data.corridor_rect_size.y / 2) - Vector2(0, ROOM_DIMENSIONS.y / 2) 
+		
+		var room_rect = Rect2(room_pos, ROOM_DIMENSIONS)
+		var exit_dir: int = Constants.ExitDirections.EAST
+		var exit_pos: Vector2 = Vector2.ZERO
+		var corridor_dim = Vector2.ZERO
+		var corridor_pos: Vector2 = Vector2.ZERO
+		
+		match exit_dir:
+			Constants.ExitDirections.NORTH:
+				corridor_dim = Vector2(CORRIDOR_DIMENSIONS.x, CORRIDOR_DIMENSIONS.y)
+				exit_pos = room_pos + Vector2(ROOM_DIMENSIONS.x / 2, 0) - Vector2(corridor_dim.x / 2, 0)
+				corridor_pos = exit_pos - Vector2(0, corridor_dim.y)
+			Constants.ExitDirections.EAST:
+				corridor_dim = Vector2(CORRIDOR_DIMENSIONS.y, CORRIDOR_DIMENSIONS.x)
+				exit_pos = room_pos + Vector2(ROOM_DIMENSIONS.x, ROOM_DIMENSIONS.y / 2) - Vector2(0, corridor_dim.y / 2)
+				corridor_pos = exit_pos 
 		
 		# Temp just so there is no corridor:
 		if final_room:
 			exit_pos = Vector2(1000, 1000)
 			corridor_pos = Vector2(2000, 2000)
 		
-		var room_rect = Rect2(current_pos, ROOM_DIMENSIONS)
-		var corridor_rect = Rect2(corridor_pos, CORRIDOR_DIMENSIONS)
-		
+		var corridor_rect = Rect2(corridor_pos, corridor_dim)
 		var data = {
+			"exit_dir": exit_dir,
 			"room_rect_pos": room_rect.position,
 			"room_rect_end": room_rect.end,
 			"room_rect_size": room_rect.size,
@@ -99,12 +112,17 @@ func _generate_rooms() -> void:
 			"exit_pos": exit_pos,
 			"enter_pos": enter_pos,
 			"mobs": mobs,
+			"env": env,
 			"id": i
 		}
-		current_pos -= Vector2(0, ROOM_DIMENSIONS.y + CORRIDOR_DIMENSIONS.y) + Vector2.UP
 		all_room_data.append(data)
 	
 	Server.rooms_generated(all_room_data)
+
+
+func generate_environment(i) -> Array:
+	var environment = []
+	return environment
 
 
 func generate_mobs(i) -> Array:

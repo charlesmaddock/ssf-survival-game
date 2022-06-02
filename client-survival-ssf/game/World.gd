@@ -26,16 +26,24 @@ func _on_rooms_generated(all_room_data: Array) -> void:
 		
 		for y in range(rd.corridor_rect_pos.y, rd.corridor_rect_end.y):
 			for x in range(rd.corridor_rect_pos.x - 1, rd.corridor_rect_end.x + 1): 
-				if x == rd.corridor_rect_pos.x - 1 || x == rd.corridor_rect_end.x:
-					set_cell(x, y, 6)
+				if y == rd.corridor_rect_pos.y || x == rd.corridor_rect_pos.x || y == rd.corridor_rect_end.y - 1 || x == rd.corridor_rect_end.x - 1:
+					set_cell(x, y, 5)
 				else:
-					set_cell(x, y, 1)
+					set_cell(x, y, 2)
 		
-		for i in 2:
-			set_cell(exit_pos.x + i, exit_pos.y, 1)
+		if rd.exit_dir == Constants.ExitDirections.NORTH || rd.exit_dir == Constants.ExitDirections.SOUTH:
+			for i in 2:
+				set_cell(exit_pos.x + i, exit_pos.y, 4)
+		else:
+			for i in 2:
+				set_cell(exit_pos.x, exit_pos.y + i, 4)
 		
 		if enter_pos.x != 0 && enter_pos.y != 0:
-			for i in 2:
-				set_cell(enter_pos.x + i, enter_pos.y, 1)
+			if rd.exit_dir == Constants.ExitDirections.NORTH || rd.exit_dir == Constants.ExitDirections.SOUTH:
+				for i in 2:
+					set_cell(enter_pos.x + i, enter_pos.y, 3)
+			else:
+				for i in 2:
+					set_cell(enter_pos.x, enter_pos.y + i, 3)
 	
 	update_bitmask_region()

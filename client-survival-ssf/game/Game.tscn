@@ -6,8 +6,8 @@
 [ext_resource path="res://game/Camera.gd" type="Script" id=4]
 [ext_resource path="res://assets/tiles/tiles.tres" type="TileSet" id=5]
 [ext_resource path="res://game/grattisSigge.jpg" type="Texture" id=6]
+[ext_resource path="res://game/RoomHandler.tscn" type="PackedScene" id=7]
 [ext_resource path="res://ui/LeaveButton.gd" type="Script" id=8]
-[ext_resource path="res://game/RoomHandler.gd" type="Script" id=9]
 [ext_resource path="res://ui/RestartButton.gd" type="Script" id=10]
 [ext_resource path="res://game/World.gd" type="Script" id=11]
 [ext_resource path="res://ui/DeathScreen.gd" type="Script" id=13]
@@ -44,8 +44,7 @@ script = ExtResource( 11 )
 [node name="Entities" type="YSort" parent="Game"]
 script = ExtResource( 15 )
 
-[node name="RoomHandler" type="Node2D" parent="Game"]
-script = ExtResource( 9 )
+[node name="RoomHandler" parent="Game" instance=ExtResource( 7 )]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="Game"]
 

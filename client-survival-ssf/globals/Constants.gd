@@ -6,10 +6,17 @@ const TILE_SIZE = Vector2(32, 32)
 const RECONCILE_POSITION_RATE: float = 0.2
 
 
-
 enum AppMode {
 	DEVELOPMENT,
 	RELEASE
+}
+
+
+enum ExitDirections {
+	NORTH,
+	EAST,
+	SOUTH,
+	WEST,
 }
 
 
@@ -64,14 +71,6 @@ enum ItemTypes {
 enum EntityTypes {
 	PLAYER,
 	TREE
-}
-
-
-enum DoorDirectios {
-UP,
-DOWN,
-LEFT,
-RIGHT
 }
 
 
