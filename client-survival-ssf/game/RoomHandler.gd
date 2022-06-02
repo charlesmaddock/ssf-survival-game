@@ -138,10 +138,8 @@ func generate_mobs(i) -> Array:
 
 			var living_players: Array = Util.get_living_players()
 			var player_amount: int = 0
-			for player in living_players:
-				player_amount += 1
-				if player_amount % 2 == 0 && !player_amount > 4:
-					randomize()
+			for player in 3:
+				if mobs.size() < 6:
 					var random_mob = mob_difficulties.keys()[randi() % 3 + 2]
 					mobs.append({"mob_type": random_mob, "pos": Vector2.ZERO})
 #

@@ -13,8 +13,9 @@
 [node name="RomansBossHand" type="KinematicBody2D"]
 collision_layer = 0
 script = ExtResource( 8 )
-_charge_speed = 600.0
-_time_to_charge = 1.0
+_strafe_dist = 30.0
+_charge_speed = 550.0
+_time_before_charge = 1.0
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 24.4, -29 )
@@ -150,3 +151,4 @@ one_shot = true
 [connection signal="timeout" from="TimerToCharge" to="." method="_on_TimerToCharge_timeout"]
 [connection signal="timeout" from="TimerToChargeback" to="." method="_on_TimerToCharge_timeout"]
 [connection signal="timeout" from="TimerToChargeback" to="." method="_on_TimerToChargeback_timeout"]
+[connection signal="timeout" from="TimerBeforeChargeIsAvailable" to="." method="_on_TimerBeforeChargeIsAvailable_timeout"]
