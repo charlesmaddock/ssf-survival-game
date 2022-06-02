@@ -101,7 +101,6 @@ func _input(event):
 					Server.shoot_projectile(global_position, attack_dir, parent_entity.id, parent_entity.team)
 				
 				get_parent().entity.emit_signal("attack_freeze", freeze_time)
-				get_parent().entity.emit_signal("knockback", attack_dir * -knockback)
 				get_parent().entity.emit_signal("is_attacking", true)
 				animation.play("attack", -1, anim_speed)
 				attack_timer.start()
@@ -116,6 +115,7 @@ func _on_packet_recieved(packet: Dictionary):
 			var dir = Vector2(packet.dirX, packet.dirY)
 			attack.init(dir, packet.damage, packet.id, packet.team)
 			get_parent().add_child(attack)
+			get_parent().entity.emit_signal("knockback", attack_dir * -knockback)
 
 
 func _on_AttackTimer_timeout():
