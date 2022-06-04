@@ -24,14 +24,14 @@ func _on_rooms_generated(all_room_data: Array) -> void:
 				else:
 					set_cell(x, y, 1)
 		
-		for y in range(rd.corridor_rect_pos.y, rd.corridor_rect_end.y):
+		for y in range(rd.corridor_rect_pos.y - 1, rd.corridor_rect_end.y + 1):
 			for x in range(rd.corridor_rect_pos.x - 1, rd.corridor_rect_end.x + 1): 
-				if y == rd.corridor_rect_pos.y || x == rd.corridor_rect_pos.x || y == rd.corridor_rect_end.y - 1 || x == rd.corridor_rect_end.x - 1:
-					set_cell(x, y, 5)
+				if y == rd.corridor_rect_pos.y - 1 || x == rd.corridor_rect_pos.x - 1 || y == rd.corridor_rect_end.y || x == rd.corridor_rect_end.x:
+					set_cell(x, y, 6)
 				else:
-					set_cell(x, y, 2)
+					set_cell(x, y, 1)
 		
-		if rd.exit_dir == Constants.ExitDirections.NORTH || rd.exit_dir == Constants.ExitDirections.SOUTH:
+		if rd.exit_dir == Constants.ExitDirections.NORTH:
 			for i in 2:
 				set_cell(exit_pos.x + i, exit_pos.y, 4)
 		else:
@@ -39,7 +39,7 @@ func _on_rooms_generated(all_room_data: Array) -> void:
 				set_cell(exit_pos.x, exit_pos.y + i, 4)
 		
 		if enter_pos.x != 0 && enter_pos.y != 0:
-			if rd.exit_dir == Constants.ExitDirections.NORTH || rd.exit_dir == Constants.ExitDirections.SOUTH:
+			if rd.enter_dir == Constants.ExitDirections.NORTH :
 				for i in 2:
 					set_cell(enter_pos.x + i, enter_pos.y, 3)
 			else:

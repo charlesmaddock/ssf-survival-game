@@ -15,7 +15,6 @@ enum AppMode {
 enum ExitDirections {
 	NORTH,
 	EAST,
-	SOUTH,
 	WEST,
 }
 
@@ -159,9 +158,9 @@ var PartScenes: Dictionary = {
 	Parts.ExoSkeleton: preload("res://parts/bodies/ExoSkeleton.tscn"),
 	Parts.FishBody:    preload("res://parts/bodies/FishBody.tscn"),
 	
-	Parts.DefaultLegs: preload("res://parts/legs/BirdLegs.tscn"),
+	Parts.DefaultLegs: preload("res://parts/legs/DefaultLegs.tscn"),
 	Parts.BirdLegs:    preload("res://parts/legs/BirdLegs.tscn"),
-	Parts.BlueShoes:   preload("res://parts/legs/BirdLegs.tscn")
+	Parts.BlueShoes:   preload("res://parts/legs/BlueShoes.tscn")
 }
 
 

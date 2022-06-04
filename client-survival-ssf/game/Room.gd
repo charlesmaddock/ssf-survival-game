@@ -5,7 +5,9 @@ extends Area2D
 export(NodePath) var _next_room_path: NodePath
 
 onready var _room_collision_shape: CollisionShape2D = $CollisionShape2D
+onready var _next_room_detector: CollisionShape2D = $NextRoomDetector/CollisionShape2D
 onready var _door: Node2D = $Door
+onready var _enter_door: Node2D = $EnterDoor
 onready var room_center_position 
 onready var _next_room_spawn_pos = $NextRoomSpawnPos
 
@@ -31,10 +33,39 @@ var _next_room_data: Dictionary = {}
 func _ready():
 	Server.connect("packet_received", self, "_on_packet_received")
 	
+	var corridor_rect_size: Vector2 = Vector2(_room_data.corridor_rect_size.x, _room_data.corridor_rect_size.y)
+	
+	_room_collision_shape.shape.set_extents(Vector2(_room_data.room_rect_size.x, _room_data.room_rect_size.y) / 2 * Constants.TILE_SIZE)
+	_next_room_detector.shape.set_extents(corridor_rect_size / 2 * Constants.TILE_SIZE)
+	
+	
 	global_position = (Vector2(_room_data.room_rect_pos.x, _room_data.room_rect_pos.y) + Vector2(_room_data.room_rect_size.x, _room_data.room_rect_size.y) / 2) * Constants.TILE_SIZE.x
 	_door.global_position = Vector2(_room_data.exit_pos.x, _room_data.exit_pos.y) * Constants.TILE_SIZE
+	_enter_door.global_position = Vector2(_room_data.enter_pos.x, _room_data.enter_pos.y) * Constants.TILE_SIZE
+	
 	if _next_room_data.empty() == false:
-		_next_room_spawn_pos.global_position = (Vector2(_next_room_data.enter_pos.x, _next_room_data.enter_pos.y) + Vector2.RIGHT + Vector2.DOWN * 3) * Constants.TILE_SIZE 
+		var exit_direction: int = _room_data.exit_dir
+		var enter_direction: int = _room_data.enter_dir
+		
+		if exit_direction == Constants.ExitDirections.EAST || exit_direction == Constants.ExitDirections.WEST:
+			_door.rotation_degrees = 90
+			_door.global_position += Vector2.RIGHT * Constants.TILE_SIZE
+		
+		if enter_direction == Constants.ExitDirections.EAST || enter_direction == Constants.ExitDirections.WEST:
+			_enter_door.rotation_degrees = 90
+			_enter_door.global_position += Vector2.RIGHT * Constants.TILE_SIZE
+		
+		match(exit_direction):
+			Constants.ExitDirections.NORTH:
+				_next_room_detector.global_position = (Vector2(_room_data.exit_pos.x, _room_data.exit_pos.y) + Vector2(corridor_rect_size.x / 2, -corridor_rect_size.y / 2)) * Constants.TILE_SIZE
+				_next_room_spawn_pos.global_position = (Vector2(_next_room_data.enter_pos.x, _next_room_data.enter_pos.y) + Vector2(1, 0)) * Constants.TILE_SIZE
+			Constants.ExitDirections.EAST:
+				_next_room_detector.global_position = (Vector2(_room_data.exit_pos.x, _room_data.exit_pos.y) + corridor_rect_size / 2) * Constants.TILE_SIZE
+				_next_room_spawn_pos.global_position = (Vector2(_next_room_data.enter_pos.x, _next_room_data.enter_pos.y) + Vector2(1, 1)) * Constants.TILE_SIZE
+			Constants.ExitDirections.WEST:
+				_next_room_detector.global_position = (Vector2(_room_data.exit_pos.x, _room_data.exit_pos.y) + Vector2(-corridor_rect_size.x, corridor_rect_size.y) / 2) * Constants.TILE_SIZE
+				_next_room_spawn_pos.global_position = (Vector2(_next_room_data.enter_pos.x, _next_room_data.enter_pos.y) + Vector2(-1, 1)) * Constants.TILE_SIZE
+	
 	
 	room_center_position = self.global_position
 	print_mobs()
