@@ -21,6 +21,7 @@ height = 0.0
 collision_layer = 0
 collision_mask = 9
 script = ExtResource( 1 )
+_dig_time = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 2 )
@@ -53,6 +54,7 @@ margin_bottom = -30.0
 [node name="RoomVisibility" parent="." instance=ExtResource( 7 )]
 
 [node name="ShootTimer" type="Timer" parent="."]
+wait_time = 1.5
 autostart = true
 
 [node name="DigTimer" type="Timer" parent="."]

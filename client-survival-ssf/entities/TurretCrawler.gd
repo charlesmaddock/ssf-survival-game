@@ -88,7 +88,7 @@ func _on_DashTimer_timeout():
 			initial_dir = Vector2(rand_range(left_right.x, left_right.y), rand_range(up_down.x, up_down.y))
 		else:
 			var closest_player_pos = get_closest_player().global_position
-			initial_dir = self.global_position.direction_to(closest_player_pos) / 1.5
+			initial_dir = self.global_position.direction_to(closest_player_pos) / 1.3
 		
 		var final_dir = initial_dir * _dashing_multiplier
 		

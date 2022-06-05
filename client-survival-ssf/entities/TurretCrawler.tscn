@@ -32,6 +32,7 @@ collision_layer = 64
 collision_mask = 0
 script = ExtResource( 1 )
 _dashing_interval = 0.5
+_player_detection_radius = 60
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = 1.5708
@@ -53,7 +54,7 @@ position = Vector2( 0, -8 )
 shape = SubResource( 6 )
 
 [node name="Health" parent="." instance=ExtResource( 4 )]
-max_health = 50.0
+max_health = 25.0
 
 [node name="CollisionShape2D" parent="Health/DamageArea" index="0"]
 position = Vector2( 0, -9 )

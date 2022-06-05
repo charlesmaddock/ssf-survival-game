@@ -84,7 +84,7 @@ position = Vector2( 0, -2 )
 shape = SubResource( 6 )
 
 [node name="Health" parent="." instance=ExtResource( 6 )]
-max_health = 1.0
+max_health = 10.0
 
 [node name="CollisionShape2D" parent="Health/DamageArea" index="0"]
 position = Vector2( 0, -10 )

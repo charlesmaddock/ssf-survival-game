@@ -146,18 +146,15 @@ func generate_environment(i) -> Array:
 
 func generate_mobs(i) -> Array:
 	var mobs = []
-	var spawn_currency: float = i * 1.5 + floor(randf() * 2) * clamp(i, 0, 1)
-	var spawn_same_only: bool = false #i % 3 == 0
+	var spawn_currency: float = i * 1.5
 	var spawn_iterations: int = i + 1 
 	
 	if i == _number_of_rooms:
 		mobs.append({"mob_type": Constants.MobTypes.ROMANS_BOSS, "pos": Vector2(0, -60)})
 	elif i != 0:
-		if !i >= mob_difficulties.keys().size():
-			for n in (mob_difficulties.keys().size() - i):
-				mobs.append({"mob_type": mob_difficulties.keys()[5 - i], "pos": Vector2.ZERO})
-				if i == 4:
-					mobs.append({"mob_type": mob_difficulties.keys()[5 - i], "pos": Vector2.ZERO})
+		if i < mob_difficulties.keys().size():
+			for n in (mob_difficulties.keys().size() - (i - 1)):
+				mobs.append({"mob_type": mob_difficulties.keys()[mob_difficulties.keys().size() - i], "pos": Vector2.ZERO})
 		else:
 			for amount in spawn_iterations:
 				for mob_diff_index in range(0, mob_difficulties.keys().size()):
@@ -165,19 +162,6 @@ func generate_mobs(i) -> Array:
 					var spawn_cost = mob_difficulties.values()[mob_diff_index]
 					randomize()
 					if spawn_currency >= spawn_cost:
-						if spawn_same_only == true:
-							for x in i:
-								mobs.append({"mob_type": mob_type, "pos": Vector2.ZERO})
-							return mobs
-						else:
 							spawn_currency -= spawn_cost
 							mobs.append({"mob_type": mob_type, "pos": Vector2.ZERO})
-
-			var living_players: Array = Util.get_living_players()
-			var player_amount: int = 0
-			for player in 3:
-				if mobs.size() < 6:
-					var random_mob = mob_difficulties.keys()[randi() % 3 + 2]
-					mobs.append({"mob_type": random_mob, "pos": Vector2.ZERO})
-#
 	return mobs
