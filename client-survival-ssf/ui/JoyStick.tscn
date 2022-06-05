@@ -40,7 +40,7 @@ rotation = 3.14159
 scale = Vector2( 5.56422, 5.56422 )
 texture = ExtResource( 3 )
 
-[node name="Sprite4" type="Sprite" parent="InnerCircleSprite"]
+[node name="Dir4" type="Sprite" parent="InnerCircleSprite"]
 position = Vector2( -39.2435, -6.10352e-05 )
 rotation = -1.5708
 scale = Vector2( 5.56422, 5.56422 )

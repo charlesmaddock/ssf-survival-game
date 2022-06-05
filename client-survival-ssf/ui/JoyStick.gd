@@ -15,11 +15,11 @@ var inner_circle_offset: Vector2 = Vector2(10, 10)
 
 
 func _ready():
-	get_node("InnerCircleSprite/Attack").get_visible(show_attack_sprite)
-	get_node("InnerCircleSprite/Dir1").get_visible(show_move_sprite)
-	get_node("InnerCircleSprite/Dir2").get_visible(show_move_sprite)
-	get_node("InnerCircleSprite/Dir3").get_visible(show_move_sprite)
-	get_node("InnerCircleSprite/Dir4").get_visible(show_move_sprite)
+	get_node("InnerCircleSprite/Attack").set_visible(show_attack_sprite)
+	get_node("InnerCircleSprite/Dir1").set_visible(show_move_sprite)
+	get_node("InnerCircleSprite/Dir2").set_visible(show_move_sprite)
+	get_node("InnerCircleSprite/Dir3").set_visible(show_move_sprite)
+	get_node("InnerCircleSprite/Dir4").set_visible(show_move_sprite)
 	
 	var is_mobile = Util.is_mobile()
 	set_visible(false) 
