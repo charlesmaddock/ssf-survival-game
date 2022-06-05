@@ -97,7 +97,7 @@ func _on_attack_freeze(time):
 
 func get_input():
 	var velocity = Vector2.ZERO
-	var joy_stick_velocity = JoyStick.get_velocity()
+	var joy_stick_velocity = JoyStick.get_direction()
 	if Input.is_action_pressed("ui_right"):
 		velocity.x += 1
 	if Input.is_action_pressed("ui_left"):
@@ -162,6 +162,12 @@ func _physics_process(delta):
 		client_prediction_util.add_input((_velocity + _force) * delta)
 		test_body.move_and_slide(_velocity + _force)
 		test_body.global_position = test_body.global_position.linear_interpolate(test_body.global_position + client_prediction_util.get_adjust_vector(), delta * 0.8)
+		# If we are ever too far away, set pos to target pos
+		#print(test_body.global_position.distance_squared_to(target_pos))
+		var too_far_away: bool = test_body.global_position.distance_squared_to(target_pos) > 100
+		print("too_far_away: ", too_far_away)
+		client_prediction_util.set_test_body_enabled(!too_far_away)
+		
 		get_parent().global_position = test_body.global_position
 	else:
 		get_parent().global_position = get_parent().global_position.linear_interpolate(target_position, delta * 6)

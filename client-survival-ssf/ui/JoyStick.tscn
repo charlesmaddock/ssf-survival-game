@@ -1,0 +1,54 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://ui/JoyStick.gd" type="Script" id=1]
+[ext_resource path="res://assets/ui/circle.png" type="Texture" id=2]
+[ext_resource path="res://assets/sprites/arrow.png" type="Texture" id=3]
+[ext_resource path="res://assets/sprites/tempAttack.png" type="Texture" id=4]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 75.0
+
+[node name="JoyStick" type="TouchScreenButton"]
+position = Vector2( 35, 140 )
+scale = Vector2( 0.626667, 0.626667 )
+normal = ExtResource( 2 )
+shape = SubResource( 1 )
+shape_visible = false
+script = ExtResource( 1 )
+movement_path = NodePath("../../../..")
+
+[node name="InnerCircleSprite" type="Sprite" parent="."]
+modulate = Color( 0.180392, 0.188235, 0.72549, 0.835294 )
+position = Vector2( 74.9999, 76.5959 )
+scale = Vector2( 0.487952, 0.487952 )
+texture = ExtResource( 2 )
+
+[node name="Dir1" type="Sprite" parent="InnerCircleSprite"]
+position = Vector2( 0.635193, -39.8786 )
+scale = Vector2( 5.56422, 5.56422 )
+texture = ExtResource( 3 )
+
+[node name="Dir2" type="Sprite" parent="InnerCircleSprite"]
+position = Vector2( 39.2435, -6.10352e-05 )
+rotation = 1.5708
+scale = Vector2( 5.56422, 5.56422 )
+texture = ExtResource( 3 )
+
+[node name="Dir3" type="Sprite" parent="InnerCircleSprite"]
+position = Vector2( -0.00012207, 39.2433 )
+rotation = 3.14159
+scale = Vector2( 5.56422, 5.56422 )
+texture = ExtResource( 3 )
+
+[node name="Sprite4" type="Sprite" parent="InnerCircleSprite"]
+position = Vector2( -39.2435, -6.10352e-05 )
+rotation = -1.5708
+scale = Vector2( 5.56422, 5.56422 )
+texture = ExtResource( 3 )
+
+[node name="Attack" type="Sprite" parent="InnerCircleSprite"]
+modulate = Color( 100, 99.34, 100, 1 )
+self_modulate = Color( 100, 100, 100, 1 )
+position = Vector2( -3.27026, 6.54019 )
+scale = Vector2( 0.319274, 0.319274 )
+texture = ExtResource( 4 )

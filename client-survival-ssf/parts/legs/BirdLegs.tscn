@@ -4,7 +4,6 @@
 [ext_resource path="res://assets/sprites/birdLeg.png" type="Texture" id=2]
 
 [node name="BirdLegs" instance=ExtResource( 1 )]
-walk_speed = 50.0
 leg_texture = ExtResource( 2 )
 sprite_offset = Vector2( 2, 4.5 )
 

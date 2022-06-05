@@ -15,6 +15,7 @@
 [node name="RomansBoss" type="KinematicBody2D"]
 collision_layer = 0
 script = ExtResource( 9 )
+hand_distance_from_head = Vector2( 120, 10 )
 
 [node name="Eye" type="Sprite" parent="."]
 position = Vector2( -63, -44 )

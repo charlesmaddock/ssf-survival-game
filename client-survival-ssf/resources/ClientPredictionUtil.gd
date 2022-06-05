@@ -46,6 +46,10 @@ func _init(parent):
 		_test_body = test_body
 
 
+func set_test_body_enabled(enabled: bool) -> void:
+	_test_body.collision_layer = 0 if enabled == false else _entity_parent_node.collision_layer 
+
+
 func get_adjust_vector() -> Vector2:
 	return _host_client_pos_difference
 
@@ -180,9 +184,9 @@ func handle_reconciliation_from_host(position_iteration: int, server_pos: Vector
 	#print("Diff len: ", server_pos.distance_to(_predicted_positions[0].pos))
 	_predicted_positions = _predicted_positions.slice(slice_pos + 1, _predicted_positions.size() - 1, 1, true)
 	
-	print_arr = ""
-	for pos_hist_data in _predicted_positions:
-		print_arr += str(pos_hist_data.dt) + ", "
+	#print_arr = ""
+	#for pos_hist_data in _predicted_positions:
+	#	print_arr += str(pos_hist_data.dt) + ", "
 	
 	#print("New Predicted Positions: ")
 	#print(print_arr)

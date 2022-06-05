@@ -132,7 +132,7 @@ enum PartTypes {
 }
 
 
-enum Parts {
+enum PartNames {
 	DefaultArm,
 	DrillArm,
 	HammerArm,
@@ -149,18 +149,18 @@ enum Parts {
 
 
 var PartScenes: Dictionary = {
-	Parts.DefaultArm:  preload("res://parts/arms/DefaultArm.tscn"),
-	Parts.DrillArm:    preload("res://parts/arms/DrillArm.tscn"),
-	Parts.HammerArm:   preload("res://parts/arms/HammerArm.tscn"),
-	Parts.HeartArm:    preload("res://parts/arms/Heart Arm.tscn"),
+	PartNames.DefaultArm:  preload("res://parts/arms/DefaultArm.tscn"),
+	PartNames.DrillArm:    preload("res://parts/arms/DrillArm.tscn"),
+	PartNames.HammerArm:   preload("res://parts/arms/HammerArm.tscn"),
+	PartNames.HeartArm:    preload("res://parts/arms/Heart Arm.tscn"),
 	
-	Parts.DefaultBody: preload("res://parts/bodies/DefaultBody.tscn"),
-	Parts.ExoSkeleton: preload("res://parts/bodies/ExoSkeleton.tscn"),
-	Parts.FishBody:    preload("res://parts/bodies/FishBody.tscn"),
+	PartNames.DefaultBody: preload("res://parts/bodies/DefaultBody.tscn"),
+	PartNames.ExoSkeleton: preload("res://parts/bodies/ExoSkeleton.tscn"),
+	PartNames.FishBody:    preload("res://parts/bodies/FishBody.tscn"),
 	
-	Parts.DefaultLegs: preload("res://parts/legs/DefaultLegs.tscn"),
-	Parts.BirdLegs:    preload("res://parts/legs/BirdLegs.tscn"),
-	Parts.BlueShoes:   preload("res://parts/legs/BlueShoes.tscn")
+	PartNames.DefaultLegs: preload("res://parts/legs/DefaultLegs.tscn"),
+	PartNames.BirdLegs:    preload("res://parts/legs/BirdLegs.tscn"),
+	PartNames.BlueShoes:   preload("res://parts/legs/BlueShoes.tscn")
 }
 
 

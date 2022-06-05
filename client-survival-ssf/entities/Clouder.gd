@@ -20,7 +20,6 @@ var _is_dashing: bool = false
 var _has_dashed: bool = false
 
 
-
 func _ready():
 	entity.emit_signal("change_movement_speed", _movement_speed)
 	AI_node.strafe_player_behaviour(_strafe_distance)

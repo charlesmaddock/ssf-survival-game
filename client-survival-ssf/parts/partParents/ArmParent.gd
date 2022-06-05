@@ -1,5 +1,6 @@
 tool
 extends Node2D
+var part_type: int = Constants.PartTypes.ARM
 
 
 onready var parent_entity: Entity = get_parent().entity
@@ -10,7 +11,6 @@ onready var attack_timer: Node = get_node("AttackTimer")
 onready var delay_timer: Node = get_node("DelayTimer")
 
 var attack_scene: PackedScene = preload("res://entities/Attack.tscn")
-
 var able_to_attack: bool = true
 var is_dead: bool = false
 var attack_dir: Vector2 = Vector2(0, 0)
@@ -57,6 +57,22 @@ func _process(delta):
 		get_node("Sprite1").offset = sprite_offset
 		
 		update()
+	
+	if parent_entity.id == Lobby.my_id && is_dead == false:
+		if attack_dir != Vector2.ZERO:
+			if able_to_attack == true:
+				able_to_attack = false
+				#var dir = (get_global_mouse_position() - global_position).normalized()
+				
+				if melee == true:
+					Server.melee_attack(parent_entity.id, attack_dir, parent_entity.team, damage)
+				else:
+					Server.shoot_projectile(global_position, attack_dir, parent_entity.id, parent_entity.team)
+				
+				#get_parent().entity.emit_signal("attack_freeze", freeze_time)
+				get_parent().entity.emit_signal("is_attacking", true)
+				animation.play("attack", -1, anim_speed)
+				attack_timer.start()
 
 
 func _draw():
@@ -86,36 +102,14 @@ func _on_player_dead(id) -> void:
 		is_dead = true
 
 
-func _input(event):
-	if parent_entity.id == Lobby.my_id && is_dead == false:
-		#rotation = global_position.angle_to_point(get_global_mouse_position()) + PI
-		
-		if Input.is_action_just_pressed("aim_left") || Input.is_action_just_pressed("aim_right") || Input.is_action_just_pressed("aim_up") || Input.is_action_just_pressed("aim_down"):
-			if able_to_attack == true:
-				able_to_attack = false
-				#var dir = (get_global_mouse_position() - global_position).normalized()
-				
-				if melee == true:
-					Server.melee_attack(parent_entity.id, attack_dir, parent_entity.team, damage)
-				else:
-					Server.shoot_projectile(global_position, attack_dir, parent_entity.id, parent_entity.team)
-				
-				get_parent().entity.emit_signal("attack_freeze", freeze_time)
-				get_parent().entity.emit_signal("knockback", attack_dir * -knockback)
-				get_parent().entity.emit_signal("is_attacking", true)
-				animation.play("attack", -1, anim_speed)
-				attack_timer.start()
-
-
 func _on_packet_recieved(packet: Dictionary):
 	if packet.type == Constants.PacketTypes.MELEE_ATTACK:
-		print(get_parent())
-		
 		if packet.id == get_parent().entity.id:
 			var attack = attack_scene.instance()
 			var dir = Vector2(packet.dirX, packet.dirY)
 			attack.init(dir, packet.damage, packet.id, packet.team)
 			get_parent().add_child(attack)
+			get_parent().entity.emit_signal("knockback", attack_dir * -knockback)
 
 
 func _on_AttackTimer_timeout():

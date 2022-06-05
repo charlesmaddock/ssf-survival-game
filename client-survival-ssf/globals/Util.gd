@@ -7,8 +7,8 @@ onready var _room_scene: PackedScene = preload("res://game/Room.tscn")
 var has_used_touch: bool = false 
 
 
-func get_instanced_part(part_type: int) -> Node:
-	return Constants.PartScenes[part_type].instance()
+func get_instanced_part(part_name: int) -> Node:
+	return Constants.PartScenes[part_name].instance()
 
 
 func is_player(body) -> bool:

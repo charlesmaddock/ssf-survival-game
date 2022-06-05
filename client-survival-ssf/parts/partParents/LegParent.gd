@@ -1,5 +1,6 @@
 tool
 extends Node2D
+var part_type: int = Constants.PartTypes.LEG
 
 
 onready var sprite1: Node = get_node("Sprite1")

@@ -38,7 +38,6 @@ func _ready():
 	_room_collision_shape.shape.set_extents(Vector2(_room_data.room_rect_size.x, _room_data.room_rect_size.y) / 2 * Constants.TILE_SIZE)
 	_next_room_detector.shape.set_extents(corridor_rect_size / 2 * Constants.TILE_SIZE)
 	
-	
 	global_position = (Vector2(_room_data.room_rect_pos.x, _room_data.room_rect_pos.y) + Vector2(_room_data.room_rect_size.x, _room_data.room_rect_size.y) / 2) * Constants.TILE_SIZE.x
 	_door.global_position = Vector2(_room_data.exit_pos.x, _room_data.exit_pos.y) * Constants.TILE_SIZE
 	_enter_door.global_position = Vector2(_room_data.enter_pos.x, _room_data.enter_pos.y) * Constants.TILE_SIZE
@@ -66,12 +65,14 @@ func _ready():
 				_next_room_detector.global_position = (Vector2(_room_data.exit_pos.x, _room_data.exit_pos.y) + Vector2(-corridor_rect_size.x, corridor_rect_size.y) / 2) * Constants.TILE_SIZE
 				_next_room_spawn_pos.global_position = (Vector2(_next_room_data.enter_pos.x, _next_room_data.enter_pos.y) + Vector2(-1, 1)) * Constants.TILE_SIZE
 	
+	if _room_data.mobs.size() == 0:
+		Server.room_completed(self.name)
 	
 	room_center_position = self.global_position
 	print_mobs()
 	
 	if name == str(0):
-		Server.switch_rooms(global_position)
+		Server.switch_rooms(global_position, -1)
 
 
 func print_mobs() -> void:
@@ -144,7 +145,7 @@ func _on_NextRoomDetector_body_entered(body) -> void:
 		var next_room = get_next_room()
 		
 		if Lobby.is_host == true && next_room != null:
-			Server.switch_rooms(next_room.global_position)
+			Server.switch_rooms(next_room.global_position, _room_data.id + 1)
 			yield(get_tree().create_timer(0.6), "timeout")
 			var player_index: int
 			for player in Util.get_living_players(): 
@@ -158,15 +159,21 @@ func _on_NextRoomDetector_body_entered(body) -> void:
 func _on_packet_received(packet: Dictionary) -> void:
 	if packet.type == Constants.PacketTypes.COMPLETE_ROOM:
 		if packet.name == self.name:
+			_room_completed = true
 			if _final_room == true:
 				Events.emit_signal("game_over", true)
 			else:
 				_door._open()
+	
+	if packet.type == Constants.PacketTypes.SWITCH_ROOMS:
+		if packet.room_id == int(self.name):
+			_enter_door.set_visible(false)
+			yield(get_tree().create_timer(1), "timeout")
+			_enter_door.set_visible(true)
 	if packet.type == Constants.PacketTypes.DESPAWN_MOB:
 		var id_index =_mobs_in_room.find(packet.id)
 		if id_index != -1 && Lobby.is_host:
 			_mobs_in_room.remove(id_index)
 			if _mobs_in_room.size() == 0:
-				_room_completed = true
 				Server.room_completed(self.name)
 

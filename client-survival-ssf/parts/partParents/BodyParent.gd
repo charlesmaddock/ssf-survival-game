@@ -1,6 +1,6 @@
 tool
-
 extends Node2D
+var part_type: int = Constants.PartTypes.BODY
 
 
 onready var parent_entity: Entity = get_parent().entity

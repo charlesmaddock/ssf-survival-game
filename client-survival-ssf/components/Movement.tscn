@@ -1,12 +1,7 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://components/Movement.gd" type="Script" id=1]
-[ext_resource path="res://assets/ui/circle.png" type="Texture" id=2]
-[ext_resource path="res://ui/JoyStick.gd" type="Script" id=3]
-[ext_resource path="res://assets/sprites/arrow.png" type="Texture" id=4]
-
-[sub_resource type="CircleShape2D" id=1]
-radius = 75.0
+[ext_resource path="res://ui/JoyStick.tscn" type="PackedScene" id=2]
 
 [node name="Movement" type="Node2D"]
 script = ExtResource( 1 )
@@ -25,43 +20,8 @@ margin_right = 465.0
 margin_bottom = 272.0
 mouse_filter = 2
 
-[node name="JoyStick" type="TouchScreenButton" parent="CanvasLayer/CanvasModulate/Control"]
-position = Vector2( 35, 140 )
-scale = Vector2( 0.626667, 0.626667 )
-normal = ExtResource( 2 )
-shape = SubResource( 1 )
-shape_visible = false
-script = ExtResource( 3 )
-movement_path = NodePath("../../../..")
-
-[node name="InnerCircleSprite" type="Sprite" parent="CanvasLayer/CanvasModulate/Control/JoyStick"]
-modulate = Color( 0.180392, 0.188235, 0.72549, 0.835294 )
-position = Vector2( 74.9999, 76.5959 )
-scale = Vector2( 0.487952, 0.487952 )
-texture = ExtResource( 2 )
-
-[node name="Sprite" type="Sprite" parent="CanvasLayer/CanvasModulate/Control/JoyStick/InnerCircleSprite"]
-position = Vector2( 0.635193, -39.8786 )
-scale = Vector2( 5.56422, 5.56422 )
-texture = ExtResource( 4 )
-
-[node name="Sprite2" type="Sprite" parent="CanvasLayer/CanvasModulate/Control/JoyStick/InnerCircleSprite"]
-position = Vector2( 39.2435, -6.10352e-05 )
-rotation = 1.5708
-scale = Vector2( 5.56422, 5.56422 )
-texture = ExtResource( 4 )
-
-[node name="Sprite3" type="Sprite" parent="CanvasLayer/CanvasModulate/Control/JoyStick/InnerCircleSprite"]
-position = Vector2( -0.00012207, 39.2433 )
-rotation = 3.14159
-scale = Vector2( 5.56422, 5.56422 )
-texture = ExtResource( 4 )
-
-[node name="Sprite4" type="Sprite" parent="CanvasLayer/CanvasModulate/Control/JoyStick/InnerCircleSprite"]
-position = Vector2( -39.2435, -6.10352e-05 )
-rotation = -1.5708
-scale = Vector2( 5.56422, 5.56422 )
-texture = ExtResource( 4 )
+[node name="JoyStick" parent="CanvasLayer/CanvasModulate/Control" instance=ExtResource( 2 )]
+show_move_sprite = true
 
 [node name="FreezeTimer" type="Timer" parent="."]
 

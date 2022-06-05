@@ -4,11 +4,12 @@
 [ext_resource path="res://assets/sprites/robotLeg.png" type="Texture" id=2]
 
 [node name="DefaultLegs" instance=ExtResource( 1 )]
+walk_speed = 70.0
 leg_texture = ExtResource( 2 )
-sprite_offset = Vector2( 1.5, 4.5 )
+sprite_offset = Vector2( 1.5, 3.5 )
 
 [node name="Sprite1" parent="." index="0"]
-offset = Vector2( 1.5, 4.5 )
+offset = Vector2( 1.5, 3.5 )
 
 [node name="Sprite2" parent="." index="1"]
-offset = Vector2( 1.5, 4.5 )
+offset = Vector2( 1.5, 3.5 )

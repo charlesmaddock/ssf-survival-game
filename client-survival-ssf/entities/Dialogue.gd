@@ -138,14 +138,16 @@ func _delete_dialogue_then_bubble(tick_speed) -> void:
 
 
 func _on_DialogueArea2D_body_entered(body):
-	_is_player_in_area = true
-	_players_in_area.append(body.entity.id)
+	if Util.is_entity(body):
+		_is_player_in_area = true
+		_players_in_area.append(body.entity.id)
 
 
 func _on_DialogueArea2D_body_exited(body):
-	_players_in_area.erase(body.entity.id)
-	if _players_in_area.size() == 0:
-		_is_player_in_area = false
+	if Util.is_entity(body):
+		_players_in_area.erase(body.entity.id)
+		if _players_in_area.size() == 0:
+			_is_player_in_area = false
 
 
 func on_animation_finished() -> void:

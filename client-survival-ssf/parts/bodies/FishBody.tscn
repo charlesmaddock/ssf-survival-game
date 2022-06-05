@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://parts/partParents/RobotBody.tscn" type="PackedScene" id=1]
+[ext_resource path="res://parts/partParents/BodyParent.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/sprites/fishBody.png" type="Texture" id=2]
 
 [node name="Fish Body" instance=ExtResource( 1 )]

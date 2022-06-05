@@ -47,6 +47,8 @@ shape = SubResource( 2 )
 [node name="AI" parent="." instance=ExtResource( 3 )]
 
 [node name="Loot" parent="." instance=ExtResource( 6 )]
+drop_parts = [ 8, 3 ]
+drop_chance = [ 20, 40 ]
 
 [node name="RoomVisibility" parent="." instance=ExtResource( 7 )]
 
