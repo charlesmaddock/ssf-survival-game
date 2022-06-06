@@ -42,14 +42,20 @@ func _on_rooms_generated(all_room_data: Array) -> void:
 
 
 #From highest cost to lowest - otherwise generate_mobs() breaks
-var mob_difficulties = {
-	Constants.MobTypes.CHOWDER: 6,
+var mob_difficulties: Dictionary = {
+	Constants.MobTypes.CHOWDER: 5,
 	Constants.MobTypes.LOVE_BULL: 4,
 	Constants.MobTypes.MOLE: 3,
-	Constants.MobTypes.TURRET_CRAWLER: 2,
-	Constants.MobTypes.CLOUDER: 1,
+	Constants.MobTypes.CLOUDER: 2,
+	Constants.MobTypes.TURRET_CRAWLER: 1,
 }
 
+var mob_level_templates: Dictionary = {
+	1: [[Constants.MobTypes.CLOUDER, Constants.MobTypes.MOLE], [Constants.MobTypes.CLOUDER, Constants.MobTypes.LOVE_BULL]],
+	2: [[Constants.MobTypes.TURRET_CRAWLER, Constants.MobTypes.MOLE], [Constants.MobTypes.TURRET_CRAWLER, Constants.MobTypes.LOVE_BULL]],
+	3: [[Constants.MobTypes.MOLE, Constants.MobTypes.LOVE_BULL], [Constants.MobTypes.TURRET_CRAWLER, Constants.MobTypes.CHOWDER]],
+	4: [[Constants.MobTypes.MOLE, Constants.MobTypes.CHOWDER], [Constants.MobTypes.LOVE_BULL, Constants.MobTypes.CHOWDER]]
+}
 
 func _generate_rooms() -> void:
 	var all_room_data = []
@@ -147,21 +153,36 @@ func generate_environment(i) -> Array:
 func generate_mobs(i) -> Array:
 	var mobs = []
 	var spawn_currency: float = i * 1.5
-	var spawn_iterations: int = i + 1 
+	randomize()
 	
-	if i == _number_of_rooms:
+	if i == _number_of_rooms - 1:
 		mobs.append({"mob_type": Constants.MobTypes.ROMANS_BOSS, "pos": Vector2(0, -60)})
+		
 	elif i != 0:
 		if i < mob_difficulties.keys().size():
 			for n in (mob_difficulties.keys().size() - (i - 1)):
 				mobs.append({"mob_type": mob_difficulties.keys()[mob_difficulties.keys().size() - i], "pos": Vector2.ZERO})
+			
 		else:
-			for amount in spawn_iterations:
-				for mob_diff_index in range(0, mob_difficulties.keys().size()):
-					var mob_type = mob_difficulties.keys()[mob_diff_index]
-					var spawn_cost = mob_difficulties.values()[mob_diff_index]
-					randomize()
-					if spawn_currency >= spawn_cost:
-							spawn_currency -= spawn_cost
-							mobs.append({"mob_type": mob_type, "pos": Vector2.ZERO})
+			var this_level_templates: Array = mob_level_templates[int(clamp((i - mob_difficulties.keys().size() + 1), 1, 4))]
+			var random_level_template: Array = this_level_templates[randi() % this_level_templates.size()]
+			var spendable_currency: float = spawn_currency
+			
+			while(spendable_currency > 0):
+				var mob_type: int
+				if spendable_currency > (spawn_currency / 2):
+					mob_type = random_level_template[0]
+				else:
+					mob_type = random_level_template[1]
+				
+				mobs.append({"mob_type": mob_type, "pos": Vector2.ZERO})
+				
+				var spawn_cost = mob_difficulties[mob_type]
+				spendable_currency -= spawn_cost
+				
+#			var mob_type = mob_difficulties.keys()[mob_diff_index]
+#			var spawn_cost = mob_difficulties.values()[mob_diff_index]
+			
+#			if spawn_currency >= spawn_cost:
+#					spawn_currency -= spawn_cost
 	return mobs

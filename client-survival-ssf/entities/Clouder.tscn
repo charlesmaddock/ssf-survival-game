@@ -58,7 +58,6 @@ walk_speed = 60.0
 [node name="DashTimer" type="Timer" parent="."]
 wait_time = 2.5
 one_shot = true
-autostart = true
 
 [node name="StopDashingTimer" type="Timer" parent="."]
 wait_time = 0.2
