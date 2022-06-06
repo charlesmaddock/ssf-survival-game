@@ -28,7 +28,6 @@ func _ready():
 	$MyPlayerIndicator.set_visible(entity.id == Lobby.my_id)
 	
 	if entity.id == Lobby.my_id: 
-		
 		Events.emit_signal("follow_w_camera", self)
 
 
@@ -37,6 +36,13 @@ func _on_packet_received(packet: Dictionary) -> void:
 		Constants.PacketTypes.ROOM_LEFT:
 			if entity.id == packet.id:
 				queue_free()
+		Constants.PacketTypes.PICK_UP_PART:
+			if packet.player_id == entity.id:
+				add_part(packet.part_name)
+				
+				var overlapped = get_node("Pickup").get_overlapping_areas()
+				if overlapped.size() == 1:
+					get_node("PickUpText").visible = false
 
 
 func set_players_data(name: String, className: String) -> void:
@@ -57,13 +63,7 @@ func _input(event):
 		var overlapped = get_node("Pickup").get_overlapping_areas()
 		
 		if not overlapped.empty():
-			var picked_up_part_name = overlapped[0].get_parent().get_part_name()
-			add_part(picked_up_part_name)
-			
-			overlapped[0].get_parent().queue_free()
-			
-			if overlapped.size() == 1:
-				get_node("PickUpText").visible = false
+			Server.pick_up_part(overlapped[0].get_parent().get_id(), entity.id, overlapped[0].get_parent().get_part_name())
 
 
 func add_part(part_name: int) -> void:

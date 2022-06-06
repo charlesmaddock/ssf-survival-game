@@ -17,7 +17,8 @@ var mob_type_scenes: Dictionary = {
 }
 
 var environment_type_scenes: Dictionary = {
-	Constants.EntityTypes.TREE: preload("res://entities/Tree.tscn")
+	Constants.EnvironmentTypes.SPIKES: preload("res://entities/Spikes.tscn"),
+	Constants.EnvironmentTypes.CHIP: preload("res://entities/Chip.tscn")
 }
 
 
@@ -63,7 +64,7 @@ func _on_packet_received(packet: Dictionary) -> void:
 			var entity_type = int(packet.environment_type)
 			var scene = environment_type_scenes[entity_type] 
 			var entity = scene.instance()
-			entity.entity = Entity.new(entity, packet.id, Constants.Teams.NONE, spawn_pos)
+			entity.entity = Entity.new(entity, packet.id, Constants.Teams.BAD_GUYS, spawn_pos)
 			add_child(entity)
 		Constants.PacketTypes.SPAWN_ITEM:
 			var spawn_pos = Vector2(packet.posX, packet.posY)
@@ -78,5 +79,5 @@ func _on_packet_received(packet: Dictionary) -> void:
 			var spawn_pos = Vector2(packet.posX, packet.posY)
 			var drop_scene = preload("res://entities/PartDrop.tscn")
 			var drop = drop_scene.instance()
-			drop.init(spawn_pos, int(packet.part))
+			drop.init(packet.id, spawn_pos, int(packet.part))
 			add_child(drop)

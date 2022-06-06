@@ -33,17 +33,17 @@ func _on_rooms_generated(all_room_data: Array) -> void:
 		
 		if rd.exit_dir == Constants.ExitDirections.NORTH:
 			for i in 2:
-				set_cell(exit_pos.x + i, exit_pos.y, 4)
+				set_cell(exit_pos.x + i, exit_pos.y, 1)
 		else:
 			for i in 2:
-				set_cell(exit_pos.x, exit_pos.y + i, 4)
+				set_cell(exit_pos.x, exit_pos.y + i, 1)
 		
 		if enter_pos.x != 0 && enter_pos.y != 0:
 			if rd.enter_dir == Constants.ExitDirections.NORTH :
 				for i in 2:
-					set_cell(enter_pos.x + i, enter_pos.y, 3)
+					set_cell(enter_pos.x + i, enter_pos.y, 1)
 			else:
 				for i in 2:
-					set_cell(enter_pos.x, enter_pos.y + i, 3)
+					set_cell(enter_pos.x, enter_pos.y + i, 1)
 	
 	update_bitmask_region()

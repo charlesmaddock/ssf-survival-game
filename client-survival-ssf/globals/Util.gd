@@ -15,6 +15,11 @@ func is_player(body) -> bool:
 	return body.get("is_player") != null
 
 
+func reparent(parent: Node, new_parent: Node, child: Node) -> void:
+	parent.remove_child(child)
+	new_parent.add_child(child)
+
+
 func is_dead(body) -> bool:
 	if is_entity(body):
 		var health_node = body.get_node("Health")

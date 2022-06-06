@@ -62,27 +62,27 @@ func _generate_rooms() -> void:
 			var prev_corridor_size = prev_room_data.corridor_rect_size
 		
 		var mobs = generate_mobs(i)
-		var env = generate_environment(i + 1)
 		
 		var room_pos: Vector2 = Vector2.ZERO
 		
 		var prev_room_exit_direction = Constants.ExitDirections.NORTH
 		var enter_pos = Vector2.ZERO
+		var new_room_size = Vector2(ROOM_DIMENSIONS.x, ROOM_DIMENSIONS.y) + (Vector2.ONE * (clamp(mobs.size(), 3, 10) - 3) * 2)
 		
 		if prev_room_data != null:
 			prev_room_exit_direction = prev_room_data.exit_dir
 			match prev_room_exit_direction:
 				Constants.ExitDirections.NORTH:
 					enter_pos = prev_room_data.corridor_rect_pos + Vector2.UP
-					room_pos = prev_room_data.corridor_rect_pos + Vector2(prev_room_data.corridor_rect_size.x / 2, 0) - Vector2(ROOM_DIMENSIONS.x / 2, ROOM_DIMENSIONS.y) 
+					room_pos = prev_room_data.corridor_rect_pos + Vector2(prev_room_data.corridor_rect_size.x / 2, 0) - Vector2(new_room_size.x / 2, new_room_size.y) 
 				Constants.ExitDirections.EAST:
 					enter_pos = prev_room_data.corridor_rect_end - Vector2(0, CORRIDOR_DIMENSIONS.x) 
-					room_pos = prev_room_data.corridor_rect_end - Vector2(0, prev_room_data.corridor_rect_size.y / 2) - Vector2(0, ROOM_DIMENSIONS.y / 2) 
+					room_pos = prev_room_data.corridor_rect_end - Vector2(0, prev_room_data.corridor_rect_size.y / 2) - Vector2(0, new_room_size.y / 2) 
 				Constants.ExitDirections.WEST:
 					enter_pos = prev_room_data.corridor_rect_pos + Vector2.LEFT
-					room_pos = prev_room_data.corridor_rect_pos + Vector2(0, prev_room_data.corridor_rect_size.y / 2) - Vector2(ROOM_DIMENSIONS.x, ROOM_DIMENSIONS.y / 2) 
+					room_pos = prev_room_data.corridor_rect_pos + Vector2(0, prev_room_data.corridor_rect_size.y / 2) - Vector2(new_room_size.x, new_room_size.y / 2) 
 		
-		var room_rect = Rect2(room_pos, ROOM_DIMENSIONS)
+		var room_rect = Rect2(room_pos, new_room_size)
 		randomize()
 		var available_directions = [Constants.ExitDirections.NORTH, Constants.ExitDirections.WEST, Constants.ExitDirections.EAST]
 		if prev_room_data != null:
@@ -102,24 +102,32 @@ func _generate_rooms() -> void:
 		match exit_dir:
 			Constants.ExitDirections.NORTH:
 				corridor_dim = Vector2(CORRIDOR_DIMENSIONS.x, CORRIDOR_DIMENSIONS.y)
-				exit_pos = room_pos + Vector2(ROOM_DIMENSIONS.x / 2, 0) - Vector2(corridor_dim.x / 2, 0)
+				exit_pos = room_pos + Vector2(new_room_size.x / 2, 0) - Vector2(corridor_dim.x / 2, 0)
 				corridor_pos = exit_pos - Vector2(0, corridor_dim.y)
 			Constants.ExitDirections.EAST:
 				corridor_dim = Vector2(CORRIDOR_DIMENSIONS.y, CORRIDOR_DIMENSIONS.x)
-				exit_pos = room_pos + Vector2(ROOM_DIMENSIONS.x, ROOM_DIMENSIONS.y / 2) - Vector2(0, corridor_dim.y / 2) + Vector2.LEFT
+				exit_pos = room_pos + Vector2(new_room_size.x, new_room_size.y / 2) - Vector2(0, corridor_dim.y / 2) + Vector2.LEFT
 				corridor_pos = exit_pos + Vector2.RIGHT
 			Constants.ExitDirections.WEST:
 				corridor_dim = Vector2(CORRIDOR_DIMENSIONS.y, CORRIDOR_DIMENSIONS.x)
-				exit_pos = room_pos + Vector2(0, ROOM_DIMENSIONS.y / 2) - Vector2(0, corridor_dim.y / 2)
-				corridor_pos = room_pos + Vector2(0, ROOM_DIMENSIONS.y / 2) - Vector2(corridor_dim.x, corridor_dim.y / 2)
+				exit_pos = room_pos + Vector2(0, new_room_size.y / 2) - Vector2(0, corridor_dim.y / 2)
+				corridor_pos = room_pos + Vector2(0, new_room_size.y / 2) - Vector2(corridor_dim.x, corridor_dim.y / 2)
 		
 		# Temp just so there is no corridor:
 		if final_room:
 			exit_pos = Vector2(1000, 1000)
 			corridor_pos = Vector2(2000, 2000)
+		if i == 0:
+			enter_pos = Vector2(1000, 1000)
+		
+		var room_type = Constants.RoomTypes.START
+		if i > 0:
+			var room_types = [Constants.RoomTypes.SPIKES, Constants.RoomTypes.CHIP]
+			room_type = room_types[randi() % room_types.size()]
 		
 		var corridor_rect = Rect2(corridor_pos, corridor_dim)
 		var data = {
+			"room_type": room_type,
 			"exit_dir": exit_dir,
 			"enter_dir": prev_room_exit_direction,
 			"room_rect_pos": room_rect.position,
@@ -131,17 +139,12 @@ func _generate_rooms() -> void:
 			"exit_pos": exit_pos,
 			"enter_pos": enter_pos,
 			"mobs": mobs,
-			"env": env,
 			"id": i
 		}
 		all_room_data.append(data)
 	
 	Server.rooms_generated(all_room_data)
 
-
-func generate_environment(i) -> Array:
-	var environment = []
-	return environment
 
 
 func generate_mobs(i) -> Array:

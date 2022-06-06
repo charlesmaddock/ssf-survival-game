@@ -43,6 +43,8 @@ enum PacketTypes {
   PING,
   SPAWN_PART,
   KNOCKBACK,
+  PICK_UP_PART,
+  DROP_PART,
 }
 type PacketType = PacketTypes;
 
@@ -235,6 +237,12 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
             break;
           case PacketTypes.KNOCKBACK:
             handleKnockback(ws, data);
+            break;
+          case PacketTypes.PICK_UP_PART:
+            handlePickUpPart(ws, data);
+            break;
+          case PacketTypes.DROP_PART:
+            handleDropPart(ws, data);
             break;
           default:
             console.error("Unhandled packet type.");
@@ -605,6 +613,18 @@ const handleSpawnPart = (ws: WebSocket, packet: any) => {
 };
 
 const handleKnockback = (ws: WebSocket, packet: any) => {
+  let client = getClientFromWs(ws);
+  let room: Room = getClientsRoom(client);
+  broadcastToRoom(room, packet);
+};
+
+const handlePickUpPart = (ws: WebSocket, packet: any) => {
+  let client = getClientFromWs(ws);
+  let room: Room = getClientsRoom(client);
+  broadcastToRoom(room, packet);
+};
+
+const handleDropPart = (ws: WebSocket, packet: any) => {
   let client = getClientFromWs(ws);
   let room: Room = getClientsRoom(client);
   broadcastToRoom(room, packet);
