@@ -174,9 +174,7 @@ func handle_reconciliation_from_host(position_iteration: int, server_pos: Vector
 		var predicted_between: Vector2 = _predicted_positions[0].pos.direction_to(_predicted_positions[1].pos) 
 		var server_between: Vector2 = server_pos.direction_to(_predicted_positions[1].pos) 
 		var dot = predicted_between.normalized().dot(server_between.normalized()) 
-		if dot > -0.1 || dot < 0.1:
-			_latency_adjuster = 0
-		elif dot >= 0.1:
+		if dot > 0:
 			_latency_adjuster = -0.01
 		else:
 			_latency_adjuster = 0.01

@@ -28,8 +28,5 @@ texture_under = ExtResource( 1 )
 texture_progress = ExtResource( 1 )
 tint_under = Color( 0.317647, 0.317647, 0.317647, 1 )
 tint_progress = Color( 0.921569, 0.0901961, 0.0901961, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [connection signal="area_entered" from="DamageArea" to="." method="_on_DamageArea_area_entered"]

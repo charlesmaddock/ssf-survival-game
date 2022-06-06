@@ -50,13 +50,17 @@ enum PacketTypes {
   ROOMS_GENERATED,
   PING,
   SPAWN_PART,
-  KNOCKBACK
+  KNOCKBACK,
+  PICK_UP_PART,
+  DROP_PART,
 }
 
 
 enum RoomTypes {
-	MOB_ROOM,
-	PUZZLE_ROOM,
+	START,
+	SPIKES,
+	CHIP,
+	QUESTION,
 }
 
 
@@ -68,9 +72,9 @@ enum ItemTypes {
 }
 
 
-enum EntityTypes {
-	PLAYER,
-	TREE
+enum EnvironmentTypes {
+	SPIKES,
+	CHIP
 }
 
 
@@ -97,7 +101,7 @@ enum Teams {
 
 
 enum collisionLayers {
-	PLAYER,
+	PLAYER = 0,
 	ITEM,
 	DAMAGE,
 	SOLID,

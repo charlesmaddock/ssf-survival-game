@@ -3,6 +3,7 @@ extends Node2D
 
 export(float) var max_health = 100
 export var knockbackable: bool = true
+export var show_health_bar: bool = true
 
 
 onready var Bar = $Bar
@@ -24,6 +25,7 @@ func _ready():
 		_default_parent_collision_layer = get_parent().collision_layer
 	Bar.max_value = max_health
 	Bar.value = max_health
+	Bar.set_visible(show_health_bar)
 	health = max_health 
 	get_parent().entity.connect("take_damage", self, "_on_damage_taken")
 	Server.connect("packet_received", self, "_on_packet_received")

@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://components/AI.gd" type="Script" id=1]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 47.0425
 
 [node name="AI" type="Node2D"]
 script = ExtResource( 1 )
@@ -10,4 +13,13 @@ movement_component_path = NodePath("../Movement")
 wait_time = 0.05
 autostart = true
 
+[node name="SolidDetector" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SolidDetector"]
+shape = SubResource( 1 )
+
 [connection signal="timeout" from="MovementActionTimer" to="." method="_on_MovementActionTimer_timeout"]
+[connection signal="body_entered" from="SolidDetector" to="." method="_on_SolidDetector_body_entered"]
+[connection signal="body_exited" from="SolidDetector" to="." method="_on_SolidDetector_body_exited"]

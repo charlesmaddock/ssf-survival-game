@@ -9,12 +9,15 @@
 script = ExtResource( 1 )
 
 [node name="OutSpikes" type="Sprite" parent="."]
+position = Vector2( 16, 16 )
 texture = ExtResource( 3 )
 
 [node name="InSpikes" type="Sprite" parent="."]
+position = Vector2( 16, 16 )
 texture = ExtResource( 2 )
 
 [node name="Damage" parent="." instance=ExtResource( 4 )]
+position = Vector2( 16, 16 )
 
 [node name="InOutTimer" type="Timer" parent="."]
 wait_time = 2.0

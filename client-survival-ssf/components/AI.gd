@@ -24,9 +24,7 @@ var threshold = 16
 var _strafe_direction: int = 1
 var _is_first_strafe_position: bool = true
 var _custom_strafe_center_point: Vector2
-
-var room_point: Node2D = null
-var unchecked_room_points: Array = []
+var _nearby_solids: Array
 
 var players_in_view: Array = []
 var current_movement_behaviour = movementBehaviour.MOTIONLESS
@@ -80,6 +78,11 @@ func move_to_target():
 	if global_position.distance_to(move_path[0]) < threshold:
 		move_path.remove(0)
 	else:
+		var move_away_from_solids: Vector2 = Vector2.ZERO
+		for nearby_solid in _nearby_solids:
+			move_away_from_solids += (nearby_solid.global_position.direction_to(get_parent().global_position) * nearby_solid.global_position.distance_to(get_parent().global_position))
+		
+		
 		var direction = global_position.direction_to(move_path[0])
 		Movement.set_velocity(direction)
 
@@ -162,3 +165,11 @@ func _on_MovementActionTimer_timeout():
 	elif current_movement_behaviour == movementBehaviour.MOTIONLESS:
 		_is_first_strafe_position = true
 		stop_moving()
+
+
+func _on_SolidDetector_body_entered(body):
+	_nearby_solids.append(body)
+
+
+func _on_SolidDetector_body_exited(body):
+	_nearby_solids.erase(body)

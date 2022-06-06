@@ -15,7 +15,6 @@ var _force: Vector2 = Vector2.ZERO
 var _prev_input: Vector2 = Vector2.ZERO
 var _prev_pos: Vector2
 
-
 var _time_since_last_input: float = Constants.RECONCILE_POSITION_RATE
 
 var walking: bool = false
@@ -151,21 +150,13 @@ func _physics_process(delta):
 			#only works for host
 	elif entity_id == Lobby.my_id:
 		# Local client side prediction 
-		var prediction_target_pos = client_prediction_util.get_target_pos()
 		var test_body = client_prediction_util.get_test_body()
-		#test_body.move_and_slide(_velocity + _force)
-		var target_pos = client_prediction_util.get_target_pos()
-		#var target = test_body.global_position + client_prediction_util._host_client_pos_difference
-		#print("client_prediction_util._host_client_pos_difference: ", client_prediction_util._host_client_pos_difference)
-		#var move_amount = Vector2(move_toward(test_body.global_position.x, target.x, 12 * delta), move_toward(test_body.global_position.x, target.y, 12  * delta))
-		#est_body.move_and_slide(move_amount)
 		client_prediction_util.add_input((_velocity + _force) * delta)
 		test_body.move_and_slide(_velocity + _force)
 		test_body.global_position = test_body.global_position.linear_interpolate(test_body.global_position + client_prediction_util.get_adjust_vector(), delta * 0.8)
 		# If we are ever too far away, set pos to target pos
 		#print(test_body.global_position.distance_squared_to(target_pos))
-		var too_far_away: bool = test_body.global_position.distance_squared_to(target_pos) > 100
-		print("too_far_away: ", too_far_away)
+		var too_far_away: bool = test_body.global_position.distance_squared_to(test_body.global_position + client_prediction_util.get_adjust_vector()) > 1000
 		client_prediction_util.set_test_body_enabled(!too_far_away)
 		
 		get_parent().global_position = test_body.global_position
