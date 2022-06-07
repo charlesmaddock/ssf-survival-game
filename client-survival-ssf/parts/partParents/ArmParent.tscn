@@ -38,6 +38,7 @@ tracks/0/keys = {
 script = ExtResource( 2 )
 arm_texture = ExtResource( 1 )
 sprite_offset = Vector2( 4, -6 )
+arm_separation = null
 cooldown = null
 freeze_time = null
 anim_speed = null

@@ -42,4 +42,8 @@ func _on_packet_received(packet: Dictionary) -> void:
 func on_damage_taken(health, dir) -> void:
 	if health <= 0 && Util.is_player(entity_node) == false:
 		if Lobby.is_host == true:
+			if entity_node is KinematicBody:
+				entity_node.rotation_degrees = 90
+				yield(entity_node.get_tree().create_timer(0.4), "timeout")
+			
 			Server.despawn_mob(id)

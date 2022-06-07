@@ -6,7 +6,7 @@ const ROOM_DIMENSIONS = Vector2(14, 8)
 const CORRIDOR_DIMENSIONS = Vector2(2, 8)
 
 
-export(int) var _number_of_rooms: int = 10
+export(int) var _number_of_rooms: int = 2
 
 
 var room_data = []
@@ -50,6 +50,8 @@ var mob_difficulties: Dictionary = {
 	Constants.MobTypes.TURRET_CRAWLER: 1,
 }
 
+var test_spawn: int = -1
+
 var mob_level_templates: Dictionary = {
 	1: [[Constants.MobTypes.CLOUDER, Constants.MobTypes.MOLE], [Constants.MobTypes.CLOUDER, Constants.MobTypes.LOVE_BULL]],
 	2: [[Constants.MobTypes.TURRET_CRAWLER, Constants.MobTypes.MOLE], [Constants.MobTypes.TURRET_CRAWLER, Constants.MobTypes.LOVE_BULL]],
@@ -73,7 +75,10 @@ func _generate_rooms() -> void:
 		
 		var prev_room_exit_direction = Constants.ExitDirections.NORTH
 		var enter_pos = Vector2.ZERO
-		var new_room_size = Vector2(ROOM_DIMENSIONS.x, ROOM_DIMENSIONS.y) + (Vector2.ONE * (clamp(mobs.size(), 3, 10) - 3) * 2)
+		var new_room_size = Vector2(ROOM_DIMENSIONS.x, ROOM_DIMENSIONS.y) + (Vector2.ONE * ((clamp(mobs.size(), 3, 10) - 3) / 2) * 2)
+		
+		if final_room:
+			new_room_size = Vector2(16, 12)
 		
 		if prev_room_data != null:
 			prev_room_exit_direction = prev_room_data.exit_dir
@@ -131,6 +136,9 @@ func _generate_rooms() -> void:
 			var room_types = [Constants.RoomTypes.SPIKES, Constants.RoomTypes.CHIP]
 			room_type = room_types[randi() % room_types.size()]
 		
+		if final_room:
+			room_type = Constants.RoomTypes.BOSS
+		
 		var corridor_rect = Rect2(corridor_pos, corridor_dim)
 		var data = {
 			"room_type": room_type,
@@ -158,8 +166,11 @@ func generate_mobs(i) -> Array:
 	var spawn_currency: float = i * 1.5
 	randomize()
 	
+	if i == 0 && test_spawn != -1:
+		mobs.append({"mob_type": test_spawn, "pos": Vector2.ZERO})
+	
 	if i == _number_of_rooms - 1:
-		mobs.append({"mob_type": Constants.MobTypes.ROMANS_BOSS, "pos": Vector2(0, -60)})
+		mobs.append({"mob_type": Constants.MobTypes.ROMANS_BOSS, "pos": Vector2(0, -100)})
 		
 	elif i != 0:
 		if i < mob_difficulties.keys().size():

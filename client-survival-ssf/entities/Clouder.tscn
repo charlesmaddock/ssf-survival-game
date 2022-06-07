@@ -54,6 +54,7 @@ drop_chance = [ 20, 40 ]
 
 [node name="RobotLegs" parent="." instance=ExtResource( 8 )]
 walk_speed = 60.0
+leg_separation = null
 
 [node name="DashTimer" type="Timer" parent="."]
 wait_time = 2.5

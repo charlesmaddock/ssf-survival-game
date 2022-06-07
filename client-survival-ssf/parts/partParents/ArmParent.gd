@@ -1,6 +1,7 @@
 tool
 extends Node2D
 var part_type: int = Constants.PartTypes.ARM
+var part_name: int = Constants.PartNames.DefaultArm
 
 
 onready var parent_entity: Entity = get_parent().entity
@@ -10,11 +11,14 @@ onready var animation: Node = get_node("AnimationPlayer")
 onready var attack_timer: Node = get_node("AttackTimer")
 onready var delay_timer: Node = get_node("DelayTimer")
 
+
 var attack_scene: PackedScene = preload("res://entities/Attack.tscn")
 var able_to_attack: bool = true
 var is_dead: bool = false
 var _input_attack_dir: Vector2 = Vector2(0, 0)
 
+
+var projectile_type: int = Constants.ProjectileTypes.RED_BULLET
 export(Texture) var arm_texture: Texture
 export(Vector2) var sprite_offset: Vector2
 export(float) var arm_separation: float = 0.0
@@ -66,7 +70,7 @@ func _process(delta):
 				if melee == true:
 					Server.melee_attack(parent_entity.id, _input_attack_dir, parent_entity.team, damage)
 				else:
-					Server.shoot_projectile(global_position, _input_attack_dir, parent_entity.id, parent_entity.team)
+					Server.shoot_projectile(global_position, _input_attack_dir, parent_entity.id, parent_entity.team, projectile_type)
 				
 				#get_parent().entity.emit_signal("attack_freeze", freeze_time)
 				get_parent().entity.emit_signal("is_attacking", true)

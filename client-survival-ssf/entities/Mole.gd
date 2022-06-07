@@ -29,7 +29,7 @@ func _on_ShootTimer_timeout():
 	_targeted_player = AI_node.get_closest_player()
 	if _targeted_player != null && _underground == true:
 		var dir = (_targeted_player.global_position - self.global_position).normalized()
-		Server.shoot_projectile(global_position, dir, entity.id, entity.team)
+		Server.shoot_projectile(global_position, dir, entity.id, entity.team, Constants.ProjectileTypes.KISS)
 
 
 func _on_DigTimer_timeout():

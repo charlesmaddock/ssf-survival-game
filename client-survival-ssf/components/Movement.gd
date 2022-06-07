@@ -32,6 +32,8 @@ func _ready():
 	
 	_prev_pos = get_parent().global_position
 	get_parent().entity.connect("dashed", self, "_on_dashed")
+	
+	JoyStick.init(get_parent().entity.id == Lobby.my_id)
 
 
 func _on_dashed(dir) -> void:

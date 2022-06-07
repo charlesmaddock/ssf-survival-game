@@ -191,7 +191,7 @@ func melee_attack(id: String, dir: Vector2, team: int, damage: int)  -> void:
 	send_packet(payload)
 
 
-func shoot_projectile(start_pos: Vector2, dir: Vector2, id: String, team: int)  -> void:
+func shoot_projectile(start_pos: Vector2, dir: Vector2, id: String, team: int, projectile_type: int)  -> void:
 	var payload = {
 		"type": Constants.PacketTypes.SHOOT_PROJECTILE, 
 		"posX": start_pos.x,
@@ -199,6 +199,7 @@ func shoot_projectile(start_pos: Vector2, dir: Vector2, id: String, team: int)  
 		"dirX": dir.x,
 		"dirY": dir.y,
 		"id": id,
+		"p_type": projectile_type,
 		"team": team,
 	}
 	send_packet(payload)

@@ -61,6 +61,7 @@ enum RoomTypes {
 	SPIKES,
 	CHIP,
 	QUESTION,
+	BOSS
 }
 
 
@@ -75,6 +76,12 @@ enum ItemTypes {
 enum EnvironmentTypes {
 	SPIKES,
 	CHIP
+}
+
+
+enum ProjectileTypes {
+	RED_BULLET,
+	KISS
 }
 
 
@@ -141,6 +148,7 @@ enum PartNames {
 	DrillArm,
 	HammerArm,
 	HeartArm,
+	DefaultShooter,
 	
 	DefaultBody,
 	ExoSkeleton,
@@ -153,18 +161,19 @@ enum PartNames {
 
 
 var PartScenes: Dictionary = {
-	PartNames.DefaultArm:  preload("res://parts/arms/DefaultArm.tscn"),
-	PartNames.DrillArm:    preload("res://parts/arms/DrillArm.tscn"),
-	PartNames.HammerArm:   preload("res://parts/arms/HammerArm.tscn"),
-	PartNames.HeartArm:    preload("res://parts/arms/Heart Arm.tscn"),
+	PartNames.DefaultArm:  		preload("res://parts/arms/DefaultArm.tscn"),
+	PartNames.DrillArm:    		preload("res://parts/arms/DrillArm.tscn"),
+	PartNames.HammerArm:   		preload("res://parts/arms/HammerArm.tscn"),
+	PartNames.HeartArm:    		preload("res://parts/arms/Heart Arm.tscn"),
+	PartNames.DefaultShooter:	preload("res://parts/arms/DefaultShooter.tscn"),
 	
-	PartNames.DefaultBody: preload("res://parts/bodies/DefaultBody.tscn"),
-	PartNames.ExoSkeleton: preload("res://parts/bodies/ExoSkeleton.tscn"),
-	PartNames.FishBody:    preload("res://parts/bodies/FishBody.tscn"),
+	PartNames.DefaultBody: 		preload("res://parts/bodies/DefaultBody.tscn"),
+	PartNames.ExoSkeleton: 		preload("res://parts/bodies/ExoSkeleton.tscn"),
+	PartNames.FishBody:    		preload("res://parts/bodies/FishBody.tscn"),
 	
-	PartNames.DefaultLegs: preload("res://parts/legs/DefaultLegs.tscn"),
-	PartNames.BirdLegs:    preload("res://parts/legs/BirdLegs.tscn"),
-	PartNames.BlueShoes:   preload("res://parts/legs/BlueShoes.tscn")
+	PartNames.DefaultLegs: 		preload("res://parts/legs/DefaultLegs.tscn"),
+	PartNames.BirdLegs:    		preload("res://parts/legs/BirdLegs.tscn"),
+	PartNames.BlueShoes:   		preload("res://parts/legs/BlueShoes.tscn")
 }
 
 

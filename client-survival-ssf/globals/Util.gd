@@ -4,11 +4,13 @@ extends Node
 onready var _room_scene: PackedScene = preload("res://game/Room.tscn")
 
 
-var has_used_touch: bool = false 
+var has_used_touch: bool = true 
 
 
 func get_instanced_part(part_name: int) -> Node:
-	return Constants.PartScenes[part_name].instance()
+	var instanced_part = Constants.PartScenes[part_name].instance()
+	instanced_part.part_name = part_name
+	return instanced_part
 
 
 func is_player(body) -> bool:

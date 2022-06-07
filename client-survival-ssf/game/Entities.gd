@@ -5,6 +5,12 @@ var item_scene = preload("res://entities/Item.tscn")
 var pino_scene: PackedScene = preload("res://entities/Pino.tscn")
 
 
+var projectile_scenes: Dictionary = {
+	Constants.ProjectileTypes.RED_BULLET: preload("res://entities/RedBullet.tscn"),
+	Constants.ProjectileTypes.KISS: preload("res://entities/KissProjectile.tscn"),
+}
+
+
 var mob_type_scenes: Dictionary = {
 	Constants.MobTypes.CLOUDER: preload("res://entities/Clouder.tscn"),
 	Constants.MobTypes.CHOWDER: preload("res://entities/Chowder.tscn"),
@@ -48,7 +54,7 @@ func _on_packet_received(packet: Dictionary) -> void:
 		Constants.PacketTypes.SHOOT_PROJECTILE:
 			var spawn_pos = Vector2(packet.posX, packet.posY)
 			var dir = Vector2(packet.dirX, packet.dirY)
-			var projectile_scene = preload("res://entities/Projectile.tscn")
+			var projectile_scene = projectile_scenes[int(packet.p_type)]
 			var projectile = projectile_scene.instance()
 			projectile.init(spawn_pos, dir, 10, packet.id, packet.team)
 			add_child(projectile)

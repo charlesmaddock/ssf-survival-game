@@ -97,7 +97,6 @@ func _hover_movement(delta: float) -> void:
 		var up_or_down_start: Vector2
 		
 		if _is_left_hand:
-			print("Calling hover movement!!!!")
 			up_or_down_start = Vector2(0.0, 0.1)
 		else:
 			up_or_down_start = -Vector2(0.0, 0.1)
@@ -120,12 +119,14 @@ func _charge_movement(delta: float) -> void:
 			
 		self.global_position += _charge_destination_pos.normalized() * delta *_charge_speed
 
+
 func _chargeback_movement(delta: float) -> void:
 	if Lobby.is_host == true:
 		var chargeback_speed = _chargeback_speed
 		if self.global_position.distance_to(_passive_position) <= 80:
 			chargeback_speed = chargeback_speed / 2
 		self.global_position += self.global_position.direction_to(_charge_initial_pos).normalized() * delta * chargeback_speed
+
 
 func _hover_mode() -> void:
 	_charge_initial_pos = Vector2.ZERO

@@ -3,5 +3,10 @@
 [ext_resource path="res://parts/partParents/ArmParent.tscn" type="PackedScene" id=1]
 
 [node name="DefaultArm" instance=ExtResource( 1 )]
+arm_separation = 0.0
+cooldown = 1.0
 freeze_time = 0.1
+anim_speed = 1.0
+knockback = 0.0
+melee = false
 damage = 10.0

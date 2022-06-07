@@ -3,7 +3,7 @@ extends Node2D
 
 export(float) var max_health = 100
 export var knockbackable: bool = true
-export var show_health_bar: bool = true
+export var show_health_bar: bool = false
 
 
 onready var Bar = $Bar

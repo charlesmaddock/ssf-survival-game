@@ -1,8 +1,14 @@
-extends Control
+extends CanvasModulate
 
 
 onready var JoyStick: TouchScreenButton = $JoyStick
+onready var _player = get_parent().get_parent()
+
 var _key_input: Vector2 = Vector2.ZERO
+
+
+func _ready():
+	JoyStick.init(_player.entity.id == Lobby.my_id)
 
 
 func _input(event):
@@ -20,4 +26,4 @@ func _input(event):
 
 
 func _process(delta):
-	get_parent().entity.emit_signal("aim_dir", (JoyStick.get_direction() + _key_input).normalized())
+	_player.entity.emit_signal("aim_dir", (JoyStick.get_direction() + _key_input).normalized())
