@@ -63,8 +63,8 @@ one_shot = true
 one_shot = true
 
 [node name="Loot" parent="." instance=ExtResource( 8 )]
-drop_parts = [ 1, 6 ]
-drop_chance = [ 30, 50 ]
+drop_parts = [ 3, 8 ]
+drop_chance = [ 30, 40 ]
 
 [connection signal="timeout" from="ShootTimer" to="." method="_on_ShootTimer_timeout"]
 [connection signal="timeout" from="DigTimer" to="." method="_on_DigTimer_timeout"]

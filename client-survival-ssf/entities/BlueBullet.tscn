@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/sprites/largePoint.png" type="Texture" id=1]
+[ext_resource path="res://entities/Projectile.tscn" type="PackedScene" id=2]
+
+[node name="RedBullet" instance=ExtResource( 2 )]
+_damage = 4.0
+_speed = 200.0
+
+[node name="Sprite" parent="." index="0"]
+modulate = Color( 0.0901961, 0.054902, 0.670588, 1 )
+scale = Vector2( 0.7, 0.7 )
+texture = ExtResource( 1 )

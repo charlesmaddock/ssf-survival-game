@@ -1,6 +1,7 @@
 extends Node2D
 
-export(float) var _charge_speed: float = 150.0 
+
+export(float) var _charge_speed: float = 140.0 
 
 
 onready var sprite_node = $Sprite

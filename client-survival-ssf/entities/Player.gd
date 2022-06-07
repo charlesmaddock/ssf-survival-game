@@ -20,7 +20,7 @@ var _body_child_index: int = 2
 
 var _inital_leg_parts = [Constants.PartNames.DefaultLegs]
 var _inital_body_parts = [Constants.PartNames.DefaultBody]
-var _inital_arm_parts = [Constants.PartNames.DefaultShooter]
+var _inital_arm_parts = [Constants.PartNames.MiniGun]
 
 
 func _ready():

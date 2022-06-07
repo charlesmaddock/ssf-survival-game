@@ -7,6 +7,7 @@ var pino_scene: PackedScene = preload("res://entities/Pino.tscn")
 
 var projectile_scenes: Dictionary = {
 	Constants.ProjectileTypes.RED_BULLET: preload("res://entities/RedBullet.tscn"),
+	Constants.ProjectileTypes.BLUE_BULLET: preload("res://entities/BlueBullet.tscn"),
 	Constants.ProjectileTypes.KISS: preload("res://entities/KissProjectile.tscn"),
 }
 

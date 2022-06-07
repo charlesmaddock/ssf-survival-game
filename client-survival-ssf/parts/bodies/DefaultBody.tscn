@@ -3,3 +3,4 @@
 [ext_resource path="res://parts/partParents/BodyParent.tscn" type="PackedScene" id=1]
 
 [node name="Default Body" instance=ExtResource( 1 )]
+weight = 100.0

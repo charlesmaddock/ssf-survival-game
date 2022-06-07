@@ -15,24 +15,40 @@ onready var health_for_entity_team: int = get_parent().entity.team
 
 var _is_dead: bool
 var _default_parent_collision_layer: int
+var _weight: float = 0
 
 
 func _ready():
 	# Temp: 20% more health for each player in room
-	max_health += max_health * Lobby.players_data.size() * 0.2
+	if Util.is_player(get_parent()) == false:
+		set_max_health(max_health * Lobby.players_data.size() * 0.2)
 	
 	if get_parent().get("collision_layer") != null:
 		_default_parent_collision_layer = get_parent().collision_layer
-	Bar.max_value = max_health
 	Bar.value = max_health
 	Bar.set_visible(show_health_bar)
 	health = max_health 
 	get_parent().entity.connect("take_damage", self, "_on_damage_taken")
+	get_parent().entity.connect("change_weight", self, "_on_change_weight")
+	
 	Server.connect("packet_received", self, "_on_packet_received")
+
+
+func set_max_health(val: float) -> void:
+	max_health = val
+	Bar.max_value = max_health
 
 
 func get_is_dead() -> bool:
 	return _is_dead
+
+
+func _on_change_weight(weight: float) -> void:
+	# Remove old weight mod
+	set_max_health(max_health - ((_weight / 100) * 10))
+	_weight = weight
+	set_max_health(max_health + ((_weight / 100) * 10))
+	print("max_health: ", max_health)
 
 
 func _on_damage_taken(damage, dir: Vector2) -> void:

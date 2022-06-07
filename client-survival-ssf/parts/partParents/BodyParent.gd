@@ -14,10 +14,8 @@ export(float) var weight: float = 100
 
 func _ready():
 	if get_parent() != null:
-		movement_node = get_parent().get_node("Movement")
-		
-		if movement_node != null:
-			get_parent().entity.emit_signal("change_weight", weight)
+		yield(get_tree(), "idle_frame")
+		get_parent().entity.emit_signal("change_weight", weight)
 	
 	if body_texture != null:
 		get_node("Sprite").texture = body_texture

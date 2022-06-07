@@ -139,7 +139,7 @@ collision_layer = 0
 shape = SubResource( 3 )
 
 [node name="Loot" parent="." instance=ExtResource( 10 )]
-drop_parts = [ 9, 1 ]
+drop_parts = [ 10, 7 ]
 drop_chance = [ 20, 40 ]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

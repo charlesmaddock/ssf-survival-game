@@ -8,5 +8,5 @@ cooldown = 1.0
 freeze_time = 0.1
 anim_speed = 1.0
 knockback = 0.0
-melee = false
-damage = 10.0
+melee = true
+damage = 20.0

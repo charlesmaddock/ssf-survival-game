@@ -18,7 +18,7 @@ var is_dead: bool = false
 var _input_attack_dir: Vector2 = Vector2(0, 0)
 
 
-var projectile_type: int = Constants.ProjectileTypes.RED_BULLET
+export(int) var projectile_type: int 
 export(Texture) var arm_texture: Texture
 export(Vector2) var sprite_offset: Vector2
 export(float) var arm_separation: float = 0.0

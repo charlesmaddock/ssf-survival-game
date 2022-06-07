@@ -18,7 +18,7 @@ var walking: bool = false
 var attack_freeze: bool = false
 var speed: float = 80.0
 var speed_modifier: float = 1.0
-var weight: float = 0.0
+var weight: float = 100
 
 
 func _ready():
@@ -61,7 +61,7 @@ func set_speed(speed: float) -> void:
 
 
 func set_velocity(dir: Vector2) -> void:
-	_velocity = dir.normalized() * speed * speed_modifier
+	_velocity = dir.normalized() * speed * speed_modifier * (100 / weight)
 
 
 func _on_packet_received(packet: Dictionary) -> void:

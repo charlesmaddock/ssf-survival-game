@@ -80,8 +80,9 @@ enum EnvironmentTypes {
 
 
 enum ProjectileTypes {
-	RED_BULLET,
-	KISS
+	RED_BULLET = 0,
+	BLUE_BULLET = 1,
+	KISS = 2
 }
 
 
@@ -149,6 +150,7 @@ enum PartNames {
 	HammerArm,
 	HeartArm,
 	DefaultShooter,
+	MiniGun,
 	
 	DefaultBody,
 	ExoSkeleton,
@@ -166,6 +168,7 @@ var PartScenes: Dictionary = {
 	PartNames.HammerArm:   		preload("res://parts/arms/HammerArm.tscn"),
 	PartNames.HeartArm:    		preload("res://parts/arms/Heart Arm.tscn"),
 	PartNames.DefaultShooter:	preload("res://parts/arms/DefaultShooter.tscn"),
+	PartNames.MiniGun		:	preload("res://parts/arms/MiniGun.tscn"),
 	
 	PartNames.DefaultBody: 		preload("res://parts/bodies/DefaultBody.tscn"),
 	PartNames.ExoSkeleton: 		preload("res://parts/bodies/ExoSkeleton.tscn"),

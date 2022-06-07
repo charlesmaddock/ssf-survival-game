@@ -103,6 +103,8 @@ shape = SubResource( 3 )
 [node name="AI" parent="." instance=ExtResource( 4 )]
 
 [node name="Loot" parent="." instance=ExtResource( 5 )]
+drop_parts = [ 11 ]
+drop_chance = [ 30 ]
 
 [node name="Movement" parent="." instance=ExtResource( 6 )]
 
