@@ -164,7 +164,6 @@ func _on_Room_body_entered(body):
 					var id = Util.generate_id()
 					var rel_mob_pos_given = Vector2(mob["pos"]["x"], mob["pos"]["y"])
 					var pos: Vector2
-					print("rel_mob_pos_given: ", rel_mob_pos_given)
 					if rel_mob_pos_given == Vector2.ZERO:
 						pos = global_spawn_points[randi() % global_spawn_points.size()] + (Vector2.ONE * Constants.TILE_SIZE / 2)
 					else:

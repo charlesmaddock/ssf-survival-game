@@ -106,7 +106,6 @@ func _detect_walls() -> Array:
 
 
 func _on_DashTimer_timeout():
-	print("dash timer has times out")
 	_start_dash()
 
 

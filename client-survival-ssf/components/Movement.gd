@@ -3,7 +3,6 @@ extends Node2D
 
 onready var JoyStick = $CanvasLayer/CanvasModulate/Control/JoyStick
 onready var entity_id = get_parent().entity.id
-onready var client_prediction_util: ClientPredictionUtil = ClientPredictionUtil.new(get_parent())
 onready var freeze_timer: Node = get_node("FreezeTimer")
 
 
@@ -14,8 +13,6 @@ var _velocity = Vector2.ZERO
 var _force: Vector2 = Vector2.ZERO
 var _prev_input: Vector2 = Vector2.ZERO
 var _prev_pos: Vector2
-
-var _time_since_last_input: float = Constants.RECONCILE_POSITION_RATE
 
 var walking: bool = false
 var attack_freeze: bool = false
@@ -67,9 +64,6 @@ func set_velocity(dir: Vector2) -> void:
 
 func _on_packet_received(packet: Dictionary) -> void:
 	match(packet.type):
-		Constants.PacketTypes.REQUEST_RECONCILIATION:
-			if entity_id == packet.id:
-				client_prediction_util.host_handle_client_input(packet)
 		Constants.PacketTypes.SET_INPUT:
 			if entity_id == packet.id:
 				_velocity = Vector2(packet.x, packet.y).normalized() * speed
@@ -79,13 +73,7 @@ func _on_packet_received(packet: Dictionary) -> void:
 				if Lobby.is_host == true && entity_id == Lobby.my_id:
 					return
 				
-				if entity_id != Lobby.my_id:
-					target_position = Vector2(packet.x, packet.y)
-		Constants.PacketTypes.RECONCILE_PLAYER_POS:
-			if packet.id == entity_id: 
-				var position_iteration: int = packet.i
-				var server_pos: Vector2 = Vector2(packet.x, packet.y)
-				client_prediction_util.handle_reconciliation_from_host(position_iteration, server_pos)
+				target_position = Vector2(packet.x, packet.y)
 
 
 func _on_attack_freeze(time):
@@ -108,25 +96,6 @@ func get_input():
 	return velocity.normalized() + joy_stick_velocity
 
 
-func _process(delta):
-	#var test_body = client_prediction_util.get_test_body()
-	#if test_body != null:
-	#print("test_body.global_position: ", test_body.global_position)
-
-	if entity_id == Lobby.my_id:
-		var test_body = client_prediction_util.get_test_body()
-		if test_body != null:
-			client_prediction_util.add_prediction(test_body.global_position, delta)
-		
-		_time_since_last_input += delta
-		if _time_since_last_input >= Constants.RECONCILE_POSITION_RATE:
-			#if Lobby.is_host == false:
-			#	print("1. Sending Input: ", _send_pos_iteration)
-			client_prediction_util.update(delta)
-			_time_since_last_input = 0.0
-			Server.client_request_reconciliation()
-
-
 func _physics_process(delta):
 	_send_pos_iteration += 1
 	
@@ -140,26 +109,13 @@ func _physics_process(delta):
 	
 	if Lobby.is_host == true:
 		var vel = get_parent().move_and_slide(_velocity + _force)
-		if _send_pos_iteration % client_prediction_util.POSITION_UPDATE_DIVISOR == 0:
+		if _send_pos_iteration % 6:
 			Server.send_pos(entity_id, global_position + (vel * delta))
 			
 			if vel == Vector2.ZERO:
 				walking = false
 			else:
 				walking = true
-			#only works for host
-	elif entity_id == Lobby.my_id:
-		# Local client side prediction 
-		var test_body = client_prediction_util.get_test_body()
-		client_prediction_util.add_input((_velocity + _force) * delta)
-		test_body.move_and_slide(_velocity + _force)
-		test_body.global_position = test_body.global_position.linear_interpolate(test_body.global_position + client_prediction_util.get_adjust_vector(), delta * 0.8)
-		# If we are ever too far away, set pos to target pos
-		#print(test_body.global_position.distance_squared_to(target_pos))
-		var too_far_away: bool = test_body.global_position.distance_squared_to(test_body.global_position + client_prediction_util.get_adjust_vector()) > 1000
-		client_prediction_util.set_test_body_enabled(!too_far_away)
-		
-		get_parent().global_position = test_body.global_position
 	else:
 		get_parent().global_position = get_parent().global_position.linear_interpolate(target_position, delta * 6)
 	

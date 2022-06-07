@@ -3,6 +3,7 @@ extends Camera2D
 
 var destined_position: Vector2
 var _follow: Node2D = null
+var _lerp_toward_follow: bool = true
 
 
 func _ready():
@@ -10,7 +11,7 @@ func _ready():
 	Events.connect("follow_w_camera", self, "_on_follow_w_camera")
 
 
-func _on_follow_w_camera(follow: Node2D) -> void:
+func _on_follow_w_camera(follow) -> void:
 	_follow = follow
 
 
@@ -20,7 +21,7 @@ func _process(delta):
 	else:
 		zoom = Vector2.ONE
 	
-	if is_instance_valid(_follow):
+	if is_instance_valid(_follow) && _lerp_toward_follow == true:
 		position = position.linear_interpolate(_follow.global_position, delta * 4)
 	if self.global_position != destined_position:
 		position = position.linear_interpolate(destined_position, delta * 4)
@@ -29,8 +30,7 @@ func _process(delta):
 func _on_packet_received(packet: Dictionary) -> void:
 	if packet.type == Constants.PacketTypes.SWITCH_ROOMS:
 		destined_position = Vector2(packet.x, packet.y)
-		var prev_follow = _follow
-		_follow = null
+		_lerp_toward_follow = false
 		yield(get_tree().create_timer(1), "timeout")
-		_follow = prev_follow
+		_lerp_toward_follow = true
 		

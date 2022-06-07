@@ -38,6 +38,12 @@ tracks/0/keys = {
 script = ExtResource( 2 )
 arm_texture = ExtResource( 1 )
 sprite_offset = Vector2( 4, -6 )
+cooldown = null
+freeze_time = null
+anim_speed = null
+knockback = null
+melee = null
+damage = null
 
 [node name="Sprite1" type="Sprite" parent="."]
 show_behind_parent = true
