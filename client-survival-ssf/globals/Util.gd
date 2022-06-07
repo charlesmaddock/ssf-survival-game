@@ -4,7 +4,7 @@ extends Node
 onready var _room_scene: PackedScene = preload("res://game/Room.tscn")
 
 
-var has_used_touch: bool = true 
+var has_used_touch: bool = false 
 
 
 func get_instanced_part(part_name: int) -> Node:
