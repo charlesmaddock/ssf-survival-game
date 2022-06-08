@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://parts/partParents/LegParent.tscn" type="PackedScene" id=1]
+[ext_resource path="res://assets/sprites/sLegPink.png" type="Texture" id=2]
+
+[node name="PinkLegs" instance=ExtResource( 1 )]
+walk_speed = 90.0
+leg_texture = ExtResource( 2 )
+sprite_offset = Vector2( 3, 7 )
+leg_scale = 0.5
+
+[node name="Sprite1" parent="." index="0"]
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 2 )
+offset = Vector2( 3, 7 )
+
+[node name="Sprite2" parent="." index="1"]
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 2 )
+offset = Vector2( 3, 7 )
