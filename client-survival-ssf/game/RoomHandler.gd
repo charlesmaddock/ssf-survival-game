@@ -61,7 +61,7 @@ var mob_level_templates: Dictionary = {
 
 func _generate_rooms() -> void:
 	var all_room_data = []
-	yield(get_tree().create_timer(0.2), "timeout")
+	yield(get_tree().create_timer(1), "timeout")
 	for i in _number_of_rooms:
 		var prev_room_data = null
 		var final_room = i == _number_of_rooms - 1
