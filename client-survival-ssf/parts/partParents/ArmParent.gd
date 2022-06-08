@@ -21,7 +21,7 @@ var _input_attack_dir: Vector2 = Vector2(0, 0)
 export(int) var projectile_type: int 
 export(Texture) var arm_texture: Texture
 export(Vector2) var sprite_offset: Vector2
-export(float) var arm_separation: float
+export(float) var arm_separation: float = 5.0
 export(float) var arm_scale: float = 1
 export(float) var angle_offset: float = 0
 export(float) var cooldown: float = 1
@@ -65,8 +65,7 @@ func _process(delta):
 		get_node("Sprite1").scale = Vector2(arm_scale, arm_scale)
 		
 		update()
-	
-	if parent_entity.id == Lobby.my_id && is_dead == false:
+	elif parent_entity.id == Lobby.my_id && is_dead == false:
 		if _input_attack_dir != Vector2.ZERO:
 			if able_to_attack == true:
 				able_to_attack = false

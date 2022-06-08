@@ -11,7 +11,7 @@ var is_player: bool = true
 var _armPart:  Node
 var _legPart:  Node
 var _bodyPart: Node
-var _arm_offset: Vector2 = Vector2(1, -17)
+var _arm_offset: Vector2 = Vector2(1, -16)
 var _leg_offset: Vector2 = Vector2(1, -7)
 var _body_offset: Vector2 = Vector2(1, -12)
 var _arm_child_index: int = 0
