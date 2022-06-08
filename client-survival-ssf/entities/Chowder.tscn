@@ -58,7 +58,7 @@ one_shot = true
 
 [node name="Health" parent="." instance=ExtResource( 4 )]
 position = Vector2( 0, -29 )
-max_health = 150.0
+max_health = 120.0
 
 [node name="DamageArea" parent="Health" index="0"]
 position = Vector2( 0, 29 )
