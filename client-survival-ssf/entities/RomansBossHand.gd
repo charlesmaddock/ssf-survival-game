@@ -79,7 +79,7 @@ func _process(delta):
 func _phase_2_process(delta) -> void:
 	if _behaviour_state == behaviourStates.HOVER: 
 		if raycast_player_detection.is_colliding_with_layers([Constants.collisionLayers.PLAYER]).size() != 0 && timer_before_charge_is_available.is_stopped():
-			print("Calling charge")
+#			print("Calling charge")
 			charge_mode(Vector2.ZERO)
 		else:
 			_hover_movement(delta)
@@ -87,14 +87,14 @@ func _phase_2_process(delta) -> void:
 	elif _behaviour_state == behaviourStates.CHARGE:
 		if timer_to_charge.is_stopped():
 			if raycast_wall_detection.is_colliding_with_layers([Constants.collisionLayers.SOLID]):
-				print("calling chargeback")
+#				print("calling chargeback")
 				_chargeback_mode()
 			else: 
 				_charge_movement(delta)
 	
 	elif _behaviour_state == behaviourStates.CHARGEBACK:
 		if self.global_position.distance_to(_passive_position) <= 40:
-			print("calling hover mode")
+#			print("calling hover mode")
 			timer_before_charge_is_available.start()
 			_hover_mode()
 		else:
@@ -128,7 +128,7 @@ func _charge_movement(delta: float) -> void:
 	if Lobby.is_host == true:
 		if _charge_initial_pos == Vector2.ZERO:
 			_charge_initial_pos = self.global_position
-			print("This is the initial pos for the charge: ", _charge_initial_pos)
+#			print("This is the initial pos for the charge: ", _charge_initial_pos)
 			
 		if _charge_destination_pos == Vector2.ZERO:
 			_charge_destination_pos = Vector2.DOWN

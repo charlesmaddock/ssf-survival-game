@@ -1,6 +1,8 @@
 extends KinematicBody2D
 
 onready var health_node: Node2D = $Health
+onready var AI_node: Node2D = $AI
+onready var movement_node: Node2D = $Movement
 onready var sprite: Sprite = $Sprite
 onready var tongue_node: Area2D = $Tongue
 onready var ray_cast_solid_detection: Node2D = $RayCastSolidDetection
@@ -11,10 +13,13 @@ onready var timer_before_PHASE_2_LIGHT_ATTACKs_instanced: Timer = $TimerBeforeLi
 onready var timer_between_PHASE_2_LIGHT_ATTACKs: Timer = $TimerBetweenLightAttacks
 onready var timer_between_big_attacks: Timer = $TimerBetweenBigAttacks
 
+onready var _target_walk_destination: Vector2 = self.global_position
 
 export(Vector2) var head_scale: Vector2 = Vector2(0.7, 0.7)
 export(Vector2) var hand_scale: Vector2 = Vector2(0.7, 0.7)
 export(Vector2) var hand_distance_from_head: Vector2 = Vector2(140, 10)
+export(int) var _movement_speed: int = 70
+export(float) var _walk_distance: float = 100
 export(float) var _time_before_phase_1_new_walk: float = 2.8
 export(float) var _time_before_phase_1_attacks: float = 4
 export(float) var _time_before_PHASE_2_LIGHT_ATTACKs_instanced: float = 1.1
@@ -31,11 +36,14 @@ var _is_animal = true
 var leftHand: Node
 var rightHand: Node
 
+var _light_attack_started: bool = false
+
 var players_in_tongue_area_array: Array = []
 var _hand_nodes_in_hover_state_array: Array = []
 
-var _phase = phases.PHASE_2
-var _behaviour_state: int = behaviourStates.PHASE_2_MOB_SPIT
+
+var _phase = phases.PHASE_1
+var _behaviour_state: int = behaviourStates.PHASE_1_NEUTRAL
 
 enum phases {
 	PHASE_1,
@@ -59,18 +67,19 @@ enum handBehaviourState {
 
 
 func _ready():
-	_behaviour_state = behaviourStates.PHASE_2_MOB_SPIT
+	entity.emit_signal("change_movement_speed", _movement_speed)
+	AI_node.motionless_behaviour()
+	
 	tongue_node.deactivate_damage()
 	self.set_scale(head_scale)
 	_spawn_hands()
 	
+	timer_before_phase_1_new_walk.set_wait_time(_time_before_phase_1_new_walk)
 	timer_before_phase_1_attacks.set_wait_time(_time_before_phase_1_attacks)
 	timer_before_PHASE_2_LIGHT_ATTACKs_instanced.set_wait_time(_time_before_PHASE_2_LIGHT_ATTACKs_instanced)
 	timer_between_PHASE_2_LIGHT_ATTACKs.set_wait_time(time_between_PHASE_2_LIGHT_ATTACKs)
 	timer_between_big_attacks.set_wait_time(time_between_big_attacks)
 	yield(get_tree().create_timer(1), "timeout")
-	_on_TimerBetweenBigAttacks_timeout()
-	timer_between_PHASE_2_LIGHT_ATTACKs.start()
 
 
 func _process(delta):
@@ -82,9 +91,18 @@ func _process(delta):
 
 func _phase_1_process(delta) -> void:
 	if _behaviour_state == behaviourStates.PHASE_1_NEUTRAL:
-		pass
+		if _target_walk_destination != Vector2.ZERO:
+#			leftHand.global_position += self.global_position - hand_distance_from_head
+#			rightHand.global_position += self.global_position + hand_distance_from_head
+			if self.global_position.distance_to(_target_walk_destination) < 10:
+				print("I am close to my target and ")
+				_target_walk_destination = Vector2.ZERO
+				AI_node.motionless_behaviour()
+				timer_before_phase_1_new_walk.start()
 	elif _behaviour_state == behaviourStates.PHASE_1_LIGHT_ATTACK:
-		pass
+		if !_light_attack_started:
+			_light_attack_started = true
+			timer_before_phase_1_attacks.start()
 
 
 func _phase_2_process(delta) -> void:
@@ -97,12 +115,38 @@ func _phase_2_process(delta) -> void:
 		pass
 
 
+func _set_to_phase_1() -> void:
+	_target_walk_destination = self.global_position
+	_phase = phases.PHASE_1
+	behaviourStates.PHASE_1_NEUTRAL
+
+func _set_to_phase_2() -> void:
+	_on_TimerBetweenBigAttacks_timeout()
+	timer_between_PHASE_2_LIGHT_ATTACKs.start()
+
 func _walk_to_random_destination() -> void:
-	var possible_y_range: Vector2
+	var possible_y_range: Vector2 = Vector2(-1, 1)
+	var possible_x_range: Vector2 = Vector2(-1, 1)
 	var wall_data = ray_cast_solid_detection.is_colliding_with_layers([Constants.collisionLayers.SOLID])
 	if wall_data != []:
 		for raycast in wall_data:
-			pass
+			match(raycast["ray_cast_name"]):
+				"Up":
+					possible_y_range.x += 1
+				"Down":
+					possible_y_range.y -= 1
+				"Left":
+					possible_x_range.x += 1
+				"Right":
+					possible_x_range.y -= 1
+	var random_direction: Vector2 = Vector2(rand_range(possible_x_range.x, possible_x_range.y), rand_range(possible_y_range.x, possible_y_range.y)).normalized()
+	var random_destination: Vector2 = global_position + random_direction * _walk_distance
+	_target_walk_destination = random_destination
+	AI_node.custom_behaviour()
+	print("New walking destination for RomansBoss: ", random_destination)
+	yield(get_tree().create_timer(0.1), "timeout")
+	AI_node.set_target_walking_path(random_destination)
+	
 
 func _randomize_PHASE_2_LIGHT_ATTACK() -> void:
 	_behaviour_state = behaviourStates.PHASE_2_LIGHT_ATTACK
@@ -226,7 +270,7 @@ func _on_TongueAreaDetection_body_exited(body):
 
 
 func _on_hand_behaviour_changed(hand, behaviour_state) -> void:
-	print("New signal to change hand state of ", hand, " and to this state ", behaviour_state)
+#	print("New signal to change hand state of ", hand, " and to this state ", behaviour_state)
 	
 	if behaviour_state == handBehaviourState.HOVER:
 		if _hand_nodes_in_hover_state_array.find(hand) == -1:
@@ -237,7 +281,7 @@ func _on_hand_behaviour_changed(hand, behaviour_state) -> void:
 	else:
 		if _hand_nodes_in_hover_state_array.find(hand):
 			_hand_nodes_in_hover_state_array.erase(hand)
-	print("Current hands hovering in array: ", _hand_nodes_in_hover_state_array.size())
+#	print("Current hands hovering in array: ", _hand_nodes_in_hover_state_array.size())
 
 
 func _on_TimerBetweenBigAttacks_timeout():
@@ -246,8 +290,9 @@ func _on_TimerBetweenBigAttacks_timeout():
 
 
 func _on_TimerBeforePhase1NewWalk_timeout():
-	if _behaviour_state == behaviourStates.PHASE_1_NEUTRAL
-		
+	print("timerbeforenewwalk timeout, this is the behaviour state: ", _behaviour_state)
+	if _behaviour_state == behaviourStates.PHASE_1_NEUTRAL:
+		_walk_to_random_destination()
 
 
 func _on_TimerBeforePhase1Attacks_timeout():
