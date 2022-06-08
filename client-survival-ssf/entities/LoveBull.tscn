@@ -92,7 +92,7 @@ _damage = 30.0
 shape = SubResource( 2 )
 
 [node name="Health" parent="." instance=ExtResource( 2 )]
-max_health = 70.0
+max_health = 120.0
 knockbackable = false
 
 [node name="CollisionShape2D" parent="Health/DamageArea" index="0"]

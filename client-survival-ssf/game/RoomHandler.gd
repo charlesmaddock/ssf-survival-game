@@ -75,7 +75,7 @@ func _generate_rooms() -> void:
 		
 		var prev_room_exit_direction = Constants.ExitDirections.NORTH
 		var enter_pos = Vector2.ZERO
-		var new_room_size = Vector2(ROOM_DIMENSIONS.x, ROOM_DIMENSIONS.y) + (Vector2.ONE * ((clamp(mobs.size(), 3, 10) - 3) / 2) * 2)
+		var new_room_size = Vector2(ROOM_DIMENSIONS.x, ROOM_DIMENSIONS.y) + (Vector2.ONE * (clamp(mobs.size(), 3, 10) - 3) * 2)
 		
 		if final_room:
 			new_room_size = Vector2(16, 12)
