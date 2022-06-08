@@ -11,7 +11,7 @@ var is_player: bool = true
 var _armPart:  Node
 var _legPart:  Node
 var _bodyPart: Node
-var _arm_offset: Vector2 = Vector2(1, -14)
+var _arm_offset: Vector2 = Vector2(1, -16)
 var _leg_offset: Vector2 = Vector2(1, -7)
 var _body_offset: Vector2 = Vector2(1, -12)
 var _arm_child_index: int = 0
@@ -47,7 +47,7 @@ func _on_packet_received(packet: Dictionary) -> void:
 
 func set_players_data(name: String, className: String) -> void:
 	$UsernameLabel.text = name
-	get_node("Sprite").texture = Util.get_sprite_for_class(className)
+	#get_node("Sprite").texture = Util.get_sprite_for_class(className)
 	
 	var nameLength = name.length()
 	
