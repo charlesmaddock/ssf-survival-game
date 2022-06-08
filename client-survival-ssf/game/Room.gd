@@ -1,14 +1,13 @@
 extends Area2D
 
 
-
 export(NodePath) var _next_room_path: NodePath
+
 
 onready var _room_collision_shape: CollisionShape2D = $CollisionShape2D
 onready var _next_room_detector: CollisionShape2D = $NextRoomDetector/CollisionShape2D
 onready var _door: Node2D = $Door
 onready var _enter_door: Node2D = $EnterDoor
-onready var room_center_position 
 onready var _next_room_spawn_pos = $NextRoomSpawnPos
 
 
@@ -21,6 +20,13 @@ export(preload("res://globals/Constants.gd").MobTypes) var mob_type_3: int
 export(int) var mob_type_3_amount: int = 0
 
 
+var spike_pattern1_scene = preload("res://patterns/SpikesPattern1.tscn")
+var spike_pattern2_scene = preload("res://patterns/SpikesPattern2.tscn")
+var spike_pattern3_scene = preload("res://patterns/SpikesPattern3.tscn")
+var chip_pattern1_scene = preload("res://patterns/ChipPattern1.tscn")
+var chip_pattern2_scene = preload("res://patterns/ChipPattern2.tscn")
+
+var _room_center_position: Vector2
 var _mobs_in_room: Array = [] 
 var _mobs_entered_room: bool = false
 var _room_completed: bool = false
@@ -33,14 +39,22 @@ var _next_room_data: Dictionary = {}
 func _ready():
 	Server.connect("packet_received", self, "_on_packet_received")
 	
+	var room_type: int = _room_data.room_type
 	var corridor_rect_size: Vector2 = Vector2(_room_data.corridor_rect_size.x, _room_data.corridor_rect_size.y)
+	var room_rect_size: Vector2 = Vector2(_room_data.room_rect_size.x, _room_data.room_rect_size.y)
 	
-	_room_collision_shape.shape.set_extents(Vector2(_room_data.room_rect_size.x, _room_data.room_rect_size.y) / 2 * Constants.TILE_SIZE)
+	_room_collision_shape.shape.set_extents(room_rect_size / 2 * Constants.TILE_SIZE)
 	_next_room_detector.shape.set_extents(corridor_rect_size / 2 * Constants.TILE_SIZE)
 	
 	global_position = (Vector2(_room_data.room_rect_pos.x, _room_data.room_rect_pos.y) + Vector2(_room_data.room_rect_size.x, _room_data.room_rect_size.y) / 2) * Constants.TILE_SIZE.x
+	
+	var entities_ysort = Util.get_game_node().get_node("Entities")
+	Util.reparent(self, entities_ysort, _door)
+	Util.reparent(self, entities_ysort, _enter_door)
 	_door.global_position = Vector2(_room_data.exit_pos.x, _room_data.exit_pos.y) * Constants.TILE_SIZE
 	_enter_door.global_position = Vector2(_room_data.enter_pos.x, _room_data.enter_pos.y) * Constants.TILE_SIZE
+	
+	generate_environment(room_type)
 	
 	if _next_room_data.empty() == false:
 		var exit_direction: int = _room_data.exit_dir
@@ -68,11 +82,11 @@ func _ready():
 	if _room_data.mobs.size() == 0:
 		Server.room_completed(self.name)
 	
-	room_center_position = self.global_position
+	_room_center_position  = self.global_position + room_rect_size 
 	print_mobs()
 	
 	if name == str(0):
-		Server.switch_rooms(global_position, -1)
+		Server.switch_rooms(_room_center_position, -1)
 
 
 func print_mobs() -> void:
@@ -80,6 +94,10 @@ func print_mobs() -> void:
 	for mob in _room_data.mobs:
 		mobs += Constants.MobTypes.keys()[mob["mob_type"]] + ", "
 	print("Generated mobs: ", mobs)
+
+
+func get_room_center_position() -> Vector2:
+	return _room_center_position
 
 
 func get_next_room() -> Node:
@@ -91,8 +109,9 @@ func get_available_spawn_points() -> Array:
 	for y in range(_room_data.room_rect_pos.y + 1, _room_data.room_rect_end.y - 1):
 		for x in range(_room_data.room_rect_pos.x + 1, _room_data.room_rect_end.x - 1):
 			var space_state = get_world_2d().direct_space_state
-			var result: Dictionary = space_state.intersect_ray(Vector2(x, y) * Constants.TILE_SIZE, (Vector2(x, y) + Vector2.ONE) * Constants.TILE_SIZE, [])
-			if result.empty() == false:
+			var result: Dictionary = space_state.intersect_ray(Vector2(x, y) * Constants.TILE_SIZE, (Vector2(x, y) + Vector2.ONE) * Constants.TILE_SIZE, [], pow(2, Constants.collisionLayers.SOLID))
+			
+			if result.empty() == true:
 				spawn_points.append(Vector2(x, y) * Constants.TILE_SIZE)
 	
 	return spawn_points
@@ -116,6 +135,23 @@ func set_room_data(room_data: Dictionary, next_room_data: Dictionary) -> void:
 		_final_room = true
 
 
+func generate_environment(room_type: int) -> void:
+	match room_type:
+		Constants.RoomTypes.START:
+			$Tutorial.set_visible(true)
+		Constants.RoomTypes.SPIKES:
+			var spike_patterns = [spike_pattern1_scene, spike_pattern2_scene, spike_pattern3_scene]
+			var pattern_scene = spike_patterns[randi() % spike_patterns.size()]
+			var pattern = pattern_scene.instance()
+			add_child(pattern)
+		Constants.RoomTypes.CHIP:
+			var chip_patterns = [chip_pattern1_scene, chip_pattern2_scene]
+			var pattern_scene = chip_patterns[randi() % chip_patterns.size()]
+			var pattern = pattern_scene.instance()
+			add_child(pattern)
+		
+
+
 func _on_Room_body_entered(body):
 	if Lobby.is_host:
 		randomize()
@@ -131,7 +167,7 @@ func _on_Room_body_entered(body):
 					if rel_mob_pos_given == Vector2.ZERO:
 						pos = global_spawn_points[randi() % global_spawn_points.size()] + (Vector2.ONE * Constants.TILE_SIZE / 2)
 					else:
-						pos = room_center_position + rel_mob_pos_given
+						pos = _room_center_position + rel_mob_pos_given
 					Server.spawn_mob(id, mob_type, pos)
 					_mobs_in_room.append(id)
 					_mobs_entered_room = true
@@ -145,7 +181,7 @@ func _on_NextRoomDetector_body_entered(body) -> void:
 		var next_room = get_next_room()
 		
 		if Lobby.is_host == true && next_room != null:
-			Server.switch_rooms(next_room.global_position, _room_data.id + 1)
+			Server.switch_rooms(next_room.get_room_center_position(), _room_data.id + 1)
 			yield(get_tree().create_timer(0.6), "timeout")
 			var player_index: int
 			for player in Util.get_living_players(): 

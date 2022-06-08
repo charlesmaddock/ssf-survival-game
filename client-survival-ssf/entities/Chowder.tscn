@@ -21,12 +21,15 @@ height = 28.0
 collision_layer = 64
 collision_mask = 0
 script = ExtResource( 2 )
-_movement_speed = 80
-distance_from_player = 50
+_movement_speed = 85
+distance_from_player = 30
+_attack_damage = 20
 _attack_scale = Vector2( 0.5, 1 )
 _pause_before_attack = 0.7
+_number_of_attacks = 2
 _flurry_attack_intervall_time = 0.5
 _triple_attack = true
+_triple_attack_angle = 50.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = 1.5708
@@ -44,8 +47,8 @@ texture = ExtResource( 1 )
 
 [node name="Loot" type="Node2D" parent="."]
 script = ExtResource( 6 )
-drop_parts = [ 2, 5 ]
-drop_chance = [ 30, 60 ]
+drop_parts = [ 2, 5, 1, 11 ]
+drop_chance = [ 30, 50, 70, 90 ]
 
 [node name="Combat" parent="." instance=ExtResource( 7 )]
 
@@ -55,6 +58,7 @@ one_shot = true
 
 [node name="Health" parent="." instance=ExtResource( 4 )]
 position = Vector2( 0, -29 )
+max_health = 150.0
 
 [node name="DamageArea" parent="Health" index="0"]
 position = Vector2( 0, 29 )

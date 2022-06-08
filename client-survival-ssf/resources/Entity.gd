@@ -21,7 +21,6 @@ signal knockback(dir)
 
 
 func _init(node: Node, entity_id: String, entity_team: int, pos: Vector2):
-
 	Server.connect("packet_received", self, "_on_packet_received")
 	entity_node = node
 	id = entity_id
@@ -41,6 +40,10 @@ func _on_packet_received(packet: Dictionary) -> void:
 
 
 func on_damage_taken(health, dir) -> void:
-	if health <= 0:
+	if health <= 0 && Util.is_player(entity_node) == false:
 		if Lobby.is_host == true:
+			if entity_node is KinematicBody:
+				entity_node.rotation_degrees = 90
+				yield(entity_node.get_tree().create_timer(0.4), "timeout")
+			
 			Server.despawn_mob(id)

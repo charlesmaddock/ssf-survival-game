@@ -20,7 +20,7 @@ var _body_child_index: int = 2
 
 var _inital_leg_parts = [Constants.PartNames.DefaultLegs]
 var _inital_body_parts = [Constants.PartNames.DefaultBody]
-var _inital_arm_parts = [Constants.PartNames.DefaultArm]
+var _inital_arm_parts = [Constants.PartNames.DefaultShooter]
 
 
 func _ready():
@@ -28,7 +28,6 @@ func _ready():
 	$MyPlayerIndicator.set_visible(entity.id == Lobby.my_id)
 	
 	if entity.id == Lobby.my_id: 
-		
 		Events.emit_signal("follow_w_camera", self)
 
 
@@ -37,6 +36,13 @@ func _on_packet_received(packet: Dictionary) -> void:
 		Constants.PacketTypes.ROOM_LEFT:
 			if entity.id == packet.id:
 				queue_free()
+		Constants.PacketTypes.PICK_UP_PART:
+			if packet.player_id == entity.id:
+				add_part(packet.part_name)
+				
+				var overlapped = get_node("Pickup").get_overlapping_areas()
+				if overlapped.size() == 1:
+					get_node("PickUpText").visible = false
 
 
 func set_players_data(name: String, className: String) -> void:
@@ -57,17 +63,12 @@ func _input(event):
 		var overlapped = get_node("Pickup").get_overlapping_areas()
 		
 		if not overlapped.empty():
-			var picked_up_part_name = overlapped[0].get_parent().get_part_name()
-			add_part(picked_up_part_name)
-			
-			overlapped[0].get_parent().queue_free()
-			
-			if overlapped.size() == 1:
-				get_node("PickUpText").visible = false
+			Server.pick_up_part(overlapped[0].get_parent().get_id(), entity.id, overlapped[0].get_parent().get_part_name())
 
 
 func add_part(part_name: int) -> void:
 	var part: Node = Util.get_instanced_part(part_name)
+	_drop_old_part(part.part_type)
 	add_child(part)
 	if part.part_type == Constants.PartTypes.ARM:
 		if is_instance_valid(_armPart):
@@ -87,6 +88,16 @@ func add_part(part_name: int) -> void:
 		move_child(part, _body_child_index)
 		part.position = _body_offset
 		_bodyPart = part
+
+
+func _drop_old_part(part_type: int) -> void:
+	if Lobby.is_host:
+		if part_type == Constants.PartTypes.ARM && is_instance_valid(_armPart):
+			Server.spawn_pickup(Util.generate_id(), _armPart.part_name, global_position)
+		elif part_type == Constants.PartTypes.LEG && is_instance_valid(_legPart):
+			Server.spawn_pickup(Util.generate_id(), _legPart.part_name, global_position)
+		elif part_type == Constants.PartTypes.BODY && is_instance_valid(_bodyPart):
+			Server.spawn_pickup(Util.generate_id(), _bodyPart.part_name, global_position)
 
 
 func _on_Pickup_area_entered(area):

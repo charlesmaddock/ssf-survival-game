@@ -8,11 +8,18 @@ var has_used_touch: bool = false
 
 
 func get_instanced_part(part_name: int) -> Node:
-	return Constants.PartScenes[part_name].instance()
+	var instanced_part = Constants.PartScenes[part_name].instance()
+	instanced_part.part_name = part_name
+	return instanced_part
 
 
 func is_player(body) -> bool:
 	return body.get("is_player") != null
+
+
+func reparent(parent: Node, new_parent: Node, child: Node) -> void:
+	parent.remove_child(child)
+	new_parent.add_child(child)
 
 
 func is_dead(body) -> bool:

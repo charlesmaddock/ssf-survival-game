@@ -36,7 +36,7 @@ max_health = 30.0
 
 [node name="Damage" parent="." instance=ExtResource( 9 )]
 position = Vector2( 0, -4 )
-_damage = 1.0
+_damage = 8.0
 
 [node name="CollisionShape2D" parent="Damage" index="0"]
 position = Vector2( 0, 0 )
@@ -47,8 +47,8 @@ shape = SubResource( 2 )
 [node name="AI" parent="." instance=ExtResource( 3 )]
 
 [node name="Loot" parent="." instance=ExtResource( 6 )]
-drop_parts = [ 8, 3 ]
-drop_chance = [ 20, 40 ]
+drop_parts = [ 0 ]
+drop_chance = [ 20 ]
 
 [node name="RoomVisibility" parent="." instance=ExtResource( 7 )]
 
@@ -58,10 +58,9 @@ walk_speed = 60.0
 [node name="DashTimer" type="Timer" parent="."]
 wait_time = 2.5
 one_shot = true
-autostart = true
 
 [node name="StopDashingTimer" type="Timer" parent="."]
-wait_time = 0.2
+wait_time = 0.4
 one_shot = true
 
 [connection signal="timeout" from="DashTimer" to="." method="_on_DashTimer_timeout"]

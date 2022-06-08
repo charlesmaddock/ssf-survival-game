@@ -1,8 +1,10 @@
 extends KinematicBody2D
 
 export(int) var _strafe_distance: int = 180
-export(int) var _dig_time: float = 4
-export(int) var _surface_time: float = 3
+export(float) var _dig_time: float = 3.5
+export(float) var _dig_time_variability = 0.5
+export(float) var _surface_time: float = 3
+
 
 var entity: Entity
 var _is_animal = true
@@ -19,6 +21,7 @@ var _underground: bool
 
 
 func _ready():
+	undergroundTimer.set_wait_time(_dig_time)
 	_on_SurfaceTimer_timeout()
 
 
@@ -26,7 +29,7 @@ func _on_ShootTimer_timeout():
 	_targeted_player = AI_node.get_closest_player()
 	if _targeted_player != null && _underground == true:
 		var dir = (_targeted_player.global_position - self.global_position).normalized()
-		Server.shoot_projectile(global_position, dir, entity.id, entity.team)
+		Server.shoot_projectile(global_position, dir, entity.id, entity.team, Constants.ProjectileTypes.KISS)
 
 
 func _on_DigTimer_timeout():
@@ -43,9 +46,14 @@ func _on_SurfaceTimer_timeout():
 	AI_node.motionless_behaviour()
 	overundergroundSprite.set_visible(true)
 	undergroundSprite.set_visible(false)
-	undergroundTimer.start(_surface_time)
+	_start_dig_timer()
 	_underground = true
 	get_node("Health").set_invinsible(false) 
 	get_node("Movement").set_physics_process(false)
-	
-	
+
+
+func _start_dig_timer() -> void:
+	randomize()
+	var dig_time: float = _dig_time
+	dig_time += rand_range(-_dig_time_variability, _dig_time_variability)
+	undergroundTimer.start(dig_time)

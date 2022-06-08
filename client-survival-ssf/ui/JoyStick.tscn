@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://ui/JoyStick.gd" type="Script" id=1]
-[ext_resource path="res://assets/ui/circle.png" type="Texture" id=2]
+[ext_resource path="res://assets/sprites/circle.png" type="Texture" id=2]
 [ext_resource path="res://assets/sprites/arrow.png" type="Texture" id=3]
 [ext_resource path="res://assets/sprites/tempAttack.png" type="Texture" id=4]
 
@@ -9,6 +9,7 @@
 radius = 75.0
 
 [node name="JoyStick" type="TouchScreenButton"]
+self_modulate = Color( 1, 1, 1, 0.454902 )
 position = Vector2( 35, 140 )
 scale = Vector2( 0.626667, 0.626667 )
 normal = ExtResource( 2 )
@@ -19,6 +20,7 @@ movement_path = NodePath("../../../..")
 
 [node name="InnerCircleSprite" type="Sprite" parent="."]
 modulate = Color( 0.180392, 0.188235, 0.72549, 0.835294 )
+self_modulate = Color( 1, 1, 1, 0.690196 )
 position = Vector2( 74.9999, 76.5959 )
 scale = Vector2( 0.487952, 0.487952 )
 texture = ExtResource( 2 )

@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://parts/partParents/ArmParent.tscn" type="PackedScene" id=1]
+[ext_resource path="res://assets/sprites/minigun.png" type="Texture" id=2]
+
+[node name="DefaultShooter" instance=ExtResource( 1 )]
+projectile_type = 1
+arm_texture = ExtResource( 2 )
+arm_separation = 2.0
+cooldown = 0.15
+freeze_time = 0.1
+anim_speed = 1.0
+knockback = 0.2
+melee = false
+damage = 10.0
+
+[node name="Sprite1" parent="." index="0"]
+position = Vector2( 2, 0 )
+texture = ExtResource( 2 )

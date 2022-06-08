@@ -50,13 +50,18 @@ enum PacketTypes {
   ROOMS_GENERATED,
   PING,
   SPAWN_PART,
-  KNOCKBACK
+  KNOCKBACK,
+  PICK_UP_PART,
+  DROP_PART,
 }
 
 
 enum RoomTypes {
-	MOB_ROOM,
-	PUZZLE_ROOM,
+	START,
+	SPIKES,
+	CHIP,
+	QUESTION,
+	BOSS
 }
 
 
@@ -68,9 +73,16 @@ enum ItemTypes {
 }
 
 
-enum EntityTypes {
-	PLAYER,
-	TREE
+enum EnvironmentTypes {
+	SPIKES,
+	CHIP
+}
+
+
+enum ProjectileTypes {
+	RED_BULLET = 0,
+	BLUE_BULLET = 1,
+	KISS = 2
 }
 
 
@@ -97,7 +109,7 @@ enum Teams {
 
 
 enum collisionLayers {
-	PLAYER,
+	PLAYER = 0,
 	ITEM,
 	DAMAGE,
 	SOLID,
@@ -137,6 +149,8 @@ enum PartNames {
 	DrillArm,
 	HammerArm,
 	HeartArm,
+	DefaultShooter,
+	MiniGun,
 	
 	DefaultBody,
 	ExoSkeleton,
@@ -149,18 +163,20 @@ enum PartNames {
 
 
 var PartScenes: Dictionary = {
-	PartNames.DefaultArm:  preload("res://parts/arms/DefaultArm.tscn"),
-	PartNames.DrillArm:    preload("res://parts/arms/DrillArm.tscn"),
-	PartNames.HammerArm:   preload("res://parts/arms/HammerArm.tscn"),
-	PartNames.HeartArm:    preload("res://parts/arms/Heart Arm.tscn"),
+	PartNames.DefaultArm:  		preload("res://parts/arms/DefaultArm.tscn"),
+	PartNames.DrillArm:    		preload("res://parts/arms/DrillArm.tscn"),
+	PartNames.HammerArm:   		preload("res://parts/arms/HammerArm.tscn"),
+	PartNames.HeartArm:    		preload("res://parts/arms/Heart Arm.tscn"),
+	PartNames.DefaultShooter:	preload("res://parts/arms/DefaultShooter.tscn"),
+	PartNames.MiniGun		:	preload("res://parts/arms/MiniGun.tscn"),
 	
-	PartNames.DefaultBody: preload("res://parts/bodies/DefaultBody.tscn"),
-	PartNames.ExoSkeleton: preload("res://parts/bodies/ExoSkeleton.tscn"),
-	PartNames.FishBody:    preload("res://parts/bodies/FishBody.tscn"),
+	PartNames.DefaultBody: 		preload("res://parts/bodies/DefaultBody.tscn"),
+	PartNames.ExoSkeleton: 		preload("res://parts/bodies/ExoSkeleton.tscn"),
+	PartNames.FishBody:    		preload("res://parts/bodies/FishBody.tscn"),
 	
-	PartNames.DefaultLegs: preload("res://parts/legs/DefaultLegs.tscn"),
-	PartNames.BirdLegs:    preload("res://parts/legs/BirdLegs.tscn"),
-	PartNames.BlueShoes:   preload("res://parts/legs/BlueShoes.tscn")
+	PartNames.DefaultLegs: 		preload("res://parts/legs/DefaultLegs.tscn"),
+	PartNames.BirdLegs:    		preload("res://parts/legs/BirdLegs.tscn"),
+	PartNames.BlueShoes:   		preload("res://parts/legs/BlueShoes.tscn")
 }
 
 

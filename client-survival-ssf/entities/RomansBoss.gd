@@ -203,3 +203,4 @@ func _on_hand_behaviour_changed(hand, behaviour_state) -> void:
 
 func _on_TimerBetweenBigAttacks_timeout():
 	_spawn_mob_attack()
+

@@ -191,18 +191,18 @@ func melee_attack(id: String, dir: Vector2, team: int, damage: int)  -> void:
 	send_packet(payload)
 
 
-func shoot_projectile(start_pos: Vector2, dir: Vector2, id: String, team: int)  -> void:
-	if Lobby.is_host:
-		var payload = {
-			"type": Constants.PacketTypes.SHOOT_PROJECTILE, 
-			"posX": start_pos.x,
-			"posY": start_pos.y,
-			"dirX": dir.x,
-			"dirY": dir.y,
-			"id": id,
-			"team": team,
-		}
-		send_packet(payload)
+func shoot_projectile(start_pos: Vector2, dir: Vector2, id: String, team: int, projectile_type: int)  -> void:
+	var payload = {
+		"type": Constants.PacketTypes.SHOOT_PROJECTILE, 
+		"posX": start_pos.x,
+		"posY": start_pos.y,
+		"dirX": dir.x,
+		"dirY": dir.y,
+		"id": id,
+		"p_type": projectile_type,
+		"team": team,
+	}
+	send_packet(payload)
 
 
 func spawn_mob(id: String, type: int, pos: Vector2) -> void:
@@ -297,12 +297,23 @@ func ping() -> void:
 	print("Ping!")
 
 
-func spawn_pickup(part: int, pos: Vector2) -> void:
+func spawn_pickup(id: String, part: int, pos: Vector2) -> void:
 	var payload = {
 		"type": Constants.PacketTypes.SPAWN_PART,
+		"id": id,
 		"part": part,
 		"posX": pos.x,
 		"posY": pos.y
+	}
+	send_packet(payload)
+
+
+func pick_up_part(part_id: String, player_id: String, part_name: int) -> void:
+	var payload = {
+		"type": Constants.PacketTypes.PICK_UP_PART,
+		"part_id": part_id,
+		"player_id": player_id,
+		"part_name": part_name
 	}
 	send_packet(payload)
 

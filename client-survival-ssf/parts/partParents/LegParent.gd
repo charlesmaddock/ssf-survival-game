@@ -1,6 +1,7 @@
 tool
 extends Node2D
 var part_type: int = Constants.PartTypes.LEG
+var part_name: int = Constants.PartNames.DefaultLegs
 
 
 onready var sprite1: Node = get_node("Sprite1")

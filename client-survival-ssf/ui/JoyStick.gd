@@ -12,6 +12,11 @@ onready var InnerCircleSprite = $InnerCircleSprite
 var direction = Vector2.ZERO
 var joy_stick_active: bool = false
 var inner_circle_offset: Vector2 = Vector2(10, 10)
+var _is_mine: bool 
+
+
+func init(is_mine: bool) -> void:
+	_is_mine = is_mine
 
 
 func _ready():
@@ -23,11 +28,9 @@ func _ready():
 	
 	var is_mobile = Util.is_mobile()
 	set_visible(false) 
-	
 	yield(get_tree(), "idle_frame")
-	var use_joy_stick = is_mobile && get_node(movement_path).entity_id == Lobby.my_id
-	set_visible(use_joy_stick) 
-	set_physics_process(use_joy_stick)
+	set_visible(is_mobile && _is_mine) 
+	set_physics_process(is_mobile && _is_mine)
 
 
 func _input(event):

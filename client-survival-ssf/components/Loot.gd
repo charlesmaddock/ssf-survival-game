@@ -28,4 +28,4 @@ func _on_damage_taken(health, _dir) -> void:
 	if Lobby.is_host == true:
 		if health <= 0 && dropped == false:
 			dropped = true
-			Server.spawn_pickup(part, global_position)
+			Server.spawn_pickup(Util.generate_id(), part, global_position)

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://entities/Projectile.tscn" type="PackedScene" id=1]
+
+[node name="KissProjectile" instance=ExtResource( 1 )]
+_speed = 140.0

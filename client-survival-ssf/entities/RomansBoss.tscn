@@ -16,6 +16,8 @@
 collision_layer = 0
 script = ExtResource( 9 )
 hand_distance_from_head = Vector2( 120, 10 )
+time_between_big_attacks = 20.0
+clouders_spawned = 3
 
 [node name="Eye" type="Sprite" parent="."]
 position = Vector2( -63, -44 )
@@ -111,6 +113,7 @@ one_shot = true
 one_shot = true
 
 [node name="TimerBetweenBigAttacks" type="Timer" parent="."]
+wait_time = 30.0
 one_shot = true
 
 [connection signal="area_entered" from="Health/DamageArea" to="Health" method="_on_DamageArea_area_entered"]

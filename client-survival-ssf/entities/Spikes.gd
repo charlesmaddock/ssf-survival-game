@@ -1,6 +1,9 @@
 extends Node2D
 
 
+var entity: Entity
+
+
 export(bool) var retract = true
 export(bool) var start_retracted = false
 
