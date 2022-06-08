@@ -18,6 +18,8 @@ var attack_dir: Vector2 = Vector2(0, 0)
 export(Texture) var arm_texture: Texture
 export(Vector2) var sprite_offset: Vector2
 export(float) var arm_separation: float
+export(float) var arm_scale: float = 1
+export(float) var angle_offset: float = 0
 export(float) var cooldown: float = 1
 export(float) var freeze_time: float = 0.2
 export(float) var anim_speed: float = 1
@@ -40,6 +42,7 @@ func _ready():
 		sprite1.texture = arm_texture
 	sprite1.offset = sprite_offset
 	sprite1.position.x = arm_separation
+	sprite1.scale = Vector2(arm_scale, arm_scale)
 	
 	attack_timer.wait_time = cooldown
 	#delay_timer.wait_time = attack_delay
@@ -55,6 +58,8 @@ func _process(delta):
 		get_node("Sprite1").position.x = arm_separation
 		
 		get_node("Sprite1").offset = sprite_offset
+		
+		get_node("Sprite1").scale = Vector2(arm_scale, arm_scale)
 		
 		update()
 	
