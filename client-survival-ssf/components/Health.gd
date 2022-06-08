@@ -19,9 +19,9 @@ var _weight: float = 0
 
 
 func _ready():
-	# Temp: 20% more health for each player in room
+	# Temp: More health for each player in room
 	if Util.is_player(get_parent()) == false:
-		set_max_health(max_health * Lobby.players_data.size() * 0.3)
+		set_max_health(max_health * Lobby.players_data.size() * 1.2)
 	
 	if get_parent().get("collision_layer") != null:
 		_default_parent_collision_layer = get_parent().collision_layer
