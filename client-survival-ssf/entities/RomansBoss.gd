@@ -3,18 +3,24 @@ extends KinematicBody2D
 onready var health_node: Node2D = $Health
 onready var sprite: Sprite = $Sprite
 onready var tongue_node: Area2D = $Tongue
+onready var ray_cast_solid_detection: Node2D = $RayCastSolidDetection
 
-onready var timer_before_light_attacks_instanced: Timer = $TimerBeforeLightAttacksInstanced
-onready var timer_between_light_attacks: Timer = $TimerBetweenLightAttacks
+onready var timer_before_phase_1_new_walk: Timer = $TimerBeforePhase1NewWalk
+onready var timer_before_phase_1_attacks: Timer = $TimerBeforePhase1Attacks
+onready var timer_before_PHASE_2_LIGHT_ATTACKs_instanced: Timer = $TimerBeforeLightAttacksInstanced
+onready var timer_between_PHASE_2_LIGHT_ATTACKs: Timer = $TimerBetweenLightAttacks
 onready var timer_between_big_attacks: Timer = $TimerBetweenBigAttacks
 
 
 export(Vector2) var head_scale: Vector2 = Vector2(0.7, 0.7)
 export(Vector2) var hand_scale: Vector2 = Vector2(0.7, 0.7)
 export(Vector2) var hand_distance_from_head: Vector2 = Vector2(140, 10)
-export(float) var _time_before_light_attacks_instanced: float = 1.1
-export(float) var time_between_light_attacks: float = 4.0
+export(float) var _time_before_phase_1_new_walk: float = 2.8
+export(float) var _time_before_phase_1_attacks: float = 4
+export(float) var _time_before_PHASE_2_LIGHT_ATTACKs_instanced: float = 1.1
+export(float) var time_between_PHASE_2_LIGHT_ATTACKs: float = 4.0
 export(float) var time_between_big_attacks: float = 10.0
+
 
 export(int) var clouders_spawned: int = 4
 export(int) var chowders_spawned: int = 1
@@ -28,14 +34,21 @@ var rightHand: Node
 var players_in_tongue_area_array: Array = []
 var _hand_nodes_in_hover_state_array: Array = []
 
-var _behaviour_state: int = behaviourState.MOB_SPIT
+var _phase = phases.PHASE_2
+var _behaviour_state: int = behaviourStates.PHASE_2_MOB_SPIT
 
+enum phases {
+	PHASE_1,
+	PHASE_2
+}
 
-enum behaviourState {
-	NEUTRAL,
-	LIGHT_ATTACK,
-	MOB_SPIT,
-	PROJECTILE_RAIN_SPIT
+enum behaviourStates {
+	PHASE_1_NEUTRAL,
+	PHASE_1_LIGHT_ATTACK,
+	PHASE_2_NEUTRAL,
+	PHASE_2_LIGHT_ATTACK,
+	PHASE_2_MOB_SPIT,
+	PHASE_2_PROJECTILE_RAIN_SPIT
 } 
 
 enum handBehaviourState {
@@ -46,31 +59,53 @@ enum handBehaviourState {
 
 
 func _ready():
-	_behaviour_state = behaviourState.MOB_SPIT
+	_behaviour_state = behaviourStates.PHASE_2_MOB_SPIT
 	tongue_node.deactivate_damage()
 	self.set_scale(head_scale)
 	_spawn_hands()
 	
-	timer_before_light_attacks_instanced.set_wait_time(_time_before_light_attacks_instanced)
-	timer_between_light_attacks.set_wait_time(time_between_light_attacks)
+	timer_before_phase_1_attacks.set_wait_time(_time_before_phase_1_attacks)
+	timer_before_PHASE_2_LIGHT_ATTACKs_instanced.set_wait_time(_time_before_PHASE_2_LIGHT_ATTACKs_instanced)
+	timer_between_PHASE_2_LIGHT_ATTACKs.set_wait_time(time_between_PHASE_2_LIGHT_ATTACKs)
 	timer_between_big_attacks.set_wait_time(time_between_big_attacks)
 	yield(get_tree().create_timer(1), "timeout")
 	_on_TimerBetweenBigAttacks_timeout()
-	timer_between_light_attacks.start()
+	timer_between_PHASE_2_LIGHT_ATTACKs.start()
 
 
 func _process(delta):
-	if _behaviour_state == behaviourState.NEUTRAL:
-		if timer_between_light_attacks.is_stopped():
-			_randomize_light_attack()
-	elif _behaviour_state == behaviourState.LIGHT_ATTACK:
+	if _phase == phases.PHASE_1:
+		_phase_1_process(delta)
+	elif _phase == phases.PHASE_2:
+		_phase_2_process(delta)
+
+
+func _phase_1_process(delta) -> void:
+	if _behaviour_state == behaviourStates.PHASE_1_NEUTRAL:
 		pass
-	elif _behaviour_state == behaviourState.MOB_SPIT:
+	elif _behaviour_state == behaviourStates.PHASE_1_LIGHT_ATTACK:
 		pass
 
 
-func _randomize_light_attack() -> void:
-	_behaviour_state = behaviourState.LIGHT_ATTACK
+func _phase_2_process(delta) -> void:
+	if _behaviour_state == behaviourStates.PHASE_2_NEUTRAL:
+		if timer_between_PHASE_2_LIGHT_ATTACKs.is_stopped():
+			_randomize_PHASE_2_LIGHT_ATTACK()
+	elif _behaviour_state == behaviourStates.PHASE_2_LIGHT_ATTACK:
+		pass
+	elif _behaviour_state == behaviourStates.PHASE_2_MOB_SPIT:
+		pass
+
+
+func _walk_to_random_destination() -> void:
+	var possible_y_range: Vector2
+	var wall_data = ray_cast_solid_detection.is_colliding_with_layers([Constants.collisionLayers.SOLID])
+	if wall_data != []:
+		for raycast in wall_data:
+			pass
+
+func _randomize_PHASE_2_LIGHT_ATTACK() -> void:
+	_behaviour_state = behaviourStates.PHASE_2_LIGHT_ATTACK
 	randomize()
 	
 	var attack_choices = [] 
@@ -81,8 +116,8 @@ func _randomize_light_attack() -> void:
 		
 	if attack_choices.size() > 0:
 		print("Have to chose from new light attack now: ", attack_choices)
-		timer_before_light_attacks_instanced.start()
-		yield(timer_before_light_attacks_instanced, "timeout")
+		timer_before_PHASE_2_LIGHT_ATTACKs_instanced.start()
+		yield(timer_before_PHASE_2_LIGHT_ATTACKs_instanced, "timeout")
 		var rand_attack = attack_choices[randi() % attack_choices.size()]
 		
 		if rand_attack == 1:
@@ -90,7 +125,7 @@ func _randomize_light_attack() -> void:
 		elif rand_attack == 2:
 			_hand_diagonal_attack()
 	else:
-		_behaviour_state = behaviourState.NEUTRAL
+		_behaviour_state = behaviourStates.PHASE_2_NEUTRAL
 
 
 func _tongue_attack() -> void:
@@ -100,14 +135,14 @@ func _tongue_attack() -> void:
 	yield(get_tree().create_timer(0.4), "timeout")
 	sprite.set_frame(0)
 	tongue_node.deactivate_damage()
-	timer_between_light_attacks.start()
-	_behaviour_state = behaviourState.NEUTRAL
+	timer_between_PHASE_2_LIGHT_ATTACKs.start()
+	_behaviour_state = behaviourStates.PHASE_2_NEUTRAL
 	pass
 
 
 func _hand_diagonal_attack():
 	if _hand_nodes_in_hover_state_array.size() > 0:
-		timer_between_light_attacks.start()
+		timer_between_PHASE_2_LIGHT_ATTACKs.start()
 		var rand_hand = _hand_nodes_in_hover_state_array[randi() % _hand_nodes_in_hover_state_array.size()]
 		match(rand_hand):
 			leftHand:
@@ -117,11 +152,11 @@ func _hand_diagonal_attack():
 				rightHand.charge_mode(Vector2(-300, 200))
 				print("I did the diagonal slam for RIGHT hand!")
 	
-	_behaviour_state = behaviourState.NEUTRAL
+	_behaviour_state = behaviourStates.PHASE_2_NEUTRAL
 
 
 func _spawn_mob_attack() -> void:
-	_behaviour_state = behaviourState.MOB_SPIT
+	_behaviour_state = behaviourStates.PHASE_2_MOB_SPIT
 	var mob_type: int = Constants.MobTypes.CLOUDER
 	var spawn_amount: int = 2
 	
@@ -143,7 +178,7 @@ func _spawn_mob_attack() -> void:
 	
 	yield(get_tree().create_timer(1), "timeout")
 	timer_between_big_attacks.start()
-	_behaviour_state = behaviourState.NEUTRAL
+	_behaviour_state = behaviourStates.PHASE_2_NEUTRAL
 
 
 func _spawn_hands():
@@ -173,6 +208,10 @@ func _spawn_hands():
 	
 	leftHand.connect("hand_behaviour_changed", self, "_on_hand_behaviour_changed")
 	rightHand.connect("hand_behaviour_changed", self, "_on_hand_behaviour_changed")
+	
+	
+	leftHand.set_phase(phases.PHASE_2)
+	rightHand.set_phase(phases.PHASE_2)
 	
 	_on_hand_behaviour_changed(leftHand, handBehaviourState.HOVER)
 	_on_hand_behaviour_changed(rightHand, handBehaviourState.HOVER)
@@ -204,3 +243,12 @@ func _on_hand_behaviour_changed(hand, behaviour_state) -> void:
 func _on_TimerBetweenBigAttacks_timeout():
 	_spawn_mob_attack()
 
+
+
+func _on_TimerBeforePhase1NewWalk_timeout():
+	if _behaviour_state == behaviourStates.PHASE_1_NEUTRAL
+		
+
+
+func _on_TimerBeforePhase1Attacks_timeout():
+	pass # Replace with function body.

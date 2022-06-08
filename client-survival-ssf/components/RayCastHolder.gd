@@ -42,7 +42,7 @@ func set_individual_ray_casts_length(ray_cast_names: Array, length_multiplier: i
 				raycast.set_cast_to(raycast.get_cast_to() * length_multiplier)
 
 
-func is_colliding_with_layers(collision_layers) -> Array:
+func is_colliding_with_layers(collision_layers: Array) -> Array:
 	var array_of_colliding_ray_casts: Array = []
 	
 	for ray_cast in _array_of_raycasts:
@@ -64,3 +64,4 @@ func is_colliding_with_layers(collision_layers) -> Array:
 	
 	return array_of_colliding_ray_casts
 #Return an array of the names of the RayCasts with the layers they collide with
+

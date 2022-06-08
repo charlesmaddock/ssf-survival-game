@@ -32,9 +32,15 @@ var _strafe_direction: int = 1
 var _charge_initial_pos: Vector2 = Vector2.ZERO
 var _charge_destination_pos: Vector2 = Vector2.ZERO
 
+var _phase: int
 var _behaviour_state: int = behaviourStates.HOVER
 
 signal hand_behaviour_changed(this_hand_node, behaviour_state)
+
+enum phases {
+	PHASE_1,
+	PHASE_2
+}
 
 enum behaviourStates {
 	HOVER,
@@ -61,36 +67,46 @@ func _ready():
 	timer_to_charge.set_wait_time(_time_before_charge)
 	timer_to_chargeback.set_wait_time(_time_before_chargeback)
 	
-	AI_node.motionless_behaviour()
-	_hover_mode()
 
 
 func _process(delta):
 	if Lobby.is_host == true && _init_finished: 
-		
-		if _behaviour_state == behaviourStates.HOVER: 
-			if raycast_player_detection.is_colliding_with_layers([Constants.collisionLayers.PLAYER]).size() != 0 && timer_before_charge_is_available.is_stopped():
-				print("Calling charge")
-				charge_mode(Vector2.ZERO)
-			else:
-				_hover_movement(delta)
-		
-		elif _behaviour_state == behaviourStates.CHARGE:
-			if timer_to_charge.is_stopped():
-				if raycast_wall_detection.is_colliding_with_layers([Constants.collisionLayers.SOLID]):
-					print("calling chargeback")
-					_chargeback_mode()
-				else: 
-					_charge_movement(delta)
-		
-		elif _behaviour_state == behaviourStates.CHARGEBACK:
-			if self.global_position.distance_to(_passive_position) <= 40:
-				print("calling hover mode")
-				timer_before_charge_is_available.start()
-				_hover_mode()
-			else:
-				_chargeback_movement(delta)
+		if _phase == phases.PHASE_1:
+			pass
+		elif _phase == phases.PHASE_2:
+			_phase_2_process(delta)
 
+func _phase_2_process(delta) -> void:
+	if _behaviour_state == behaviourStates.HOVER: 
+		if raycast_player_detection.is_colliding_with_layers([Constants.collisionLayers.PLAYER]).size() != 0 && timer_before_charge_is_available.is_stopped():
+			print("Calling charge")
+			charge_mode(Vector2.ZERO)
+		else:
+			_hover_movement(delta)
+	
+	elif _behaviour_state == behaviourStates.CHARGE:
+		if timer_to_charge.is_stopped():
+			if raycast_wall_detection.is_colliding_with_layers([Constants.collisionLayers.SOLID]):
+				print("calling chargeback")
+				_chargeback_mode()
+			else: 
+				_charge_movement(delta)
+	
+	elif _behaviour_state == behaviourStates.CHARGEBACK:
+		if self.global_position.distance_to(_passive_position) <= 40:
+			print("calling hover mode")
+			timer_before_charge_is_available.start()
+			_hover_mode()
+		else:
+			_chargeback_movement(delta)
+
+func set_phase(phase: int) -> void:
+	if phase == phases.PHASE_1:
+		pass
+	elif phase == phases.PHASE_2:
+		AI_node.motionless_behaviour()
+		_hover_mode()
+	_phase = phase
 
 func _hover_movement(delta: float) -> void:
 	if Lobby.is_host == true:
