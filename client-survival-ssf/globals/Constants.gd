@@ -61,21 +61,23 @@ enum RoomTypes {
 	SPIKES,
 	CHIP,
 	QUESTION,
+	REVIVE,
+	LOOT,
 	BOSS
 }
 
 
 enum ItemTypes {
-	PINK_FLUFF,
-	FLUFF_BALL,
-	FLUFF_ARROW,
-	CLOUDER
+	HEART
 }
 
 
 enum EnvironmentTypes {
 	SPIKES,
-	CHIP
+	CHIP,
+	HEART_CHEST,
+	PART_CHEST,
+	REVIVE_DISK
 }
 
 
@@ -188,10 +190,7 @@ var DialogueSpeeds: Dictionary = {
 
 
 var item_textures = {
-	ItemTypes.FLUFF_BALL: preload("res://assets/sprites/largePoint.png"),
-	ItemTypes.PINK_FLUFF: preload("res://assets/sprites/fluff.png"),
-	ItemTypes.FLUFF_ARROW: preload("res://assets/sprites/arrow.png"),
-	ItemTypes.CLOUDER: preload("res://assets/sprites/clouder.png"),
+	ItemTypes.HEART: preload("res://assets/sprites/heart.png"),
 }
 
 

@@ -9,6 +9,7 @@ var entity_node: Node
 
 signal take_damage(damage, dir)
 signal damage_taken(health, dir)
+signal heal(amount)
 signal request_attack()
 signal change_movement_speed(speed)
 signal change_weight(weight)

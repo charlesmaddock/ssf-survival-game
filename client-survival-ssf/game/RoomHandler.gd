@@ -61,15 +61,20 @@ var mob_level_templates: Dictionary = {
 
 func _generate_rooms() -> void:
 	var all_room_data = []
+	var mob_i = 0
 	yield(get_tree().create_timer(1), "timeout")
 	for i in _number_of_rooms:
+		
 		var prev_room_data = null
 		var final_room = i == _number_of_rooms - 1
 		if i - 1 >= 0:
 			prev_room_data = all_room_data[i - 1]
 			var prev_corridor_size = prev_room_data.corridor_rect_size
 		
-		var mobs = generate_mobs(i)
+		var mobs = []
+		if i % 3 != 0:
+			mob_i += 1
+			mobs = generate_mobs(mob_i)
 		
 		var room_pos: Vector2 = Vector2.ZERO
 		
@@ -132,7 +137,10 @@ func _generate_rooms() -> void:
 			enter_pos = Vector2(1000, 1000)
 		
 		var room_type = Constants.RoomTypes.START
-		if i > 0:
+		if i > 0 && i % 3 == 0:
+			var room_types = [Constants.RoomTypes.REVIVE, Constants.RoomTypes.LOOT]
+			room_type = room_types[randi() % room_types.size()]
+		elif i > 0:
 			var room_types = [Constants.RoomTypes.SPIKES, Constants.RoomTypes.CHIP]
 			room_type = room_types[randi() % room_types.size()]
 		

@@ -20,7 +20,7 @@ radius = 8.0
 height = 3.0
 
 [sub_resource type="CapsuleShape2D" id=5]
-radius = 13.0
+radius = 15.0
 height = 0.0
 
 [sub_resource type="CapsuleShape2D" id=3]
@@ -92,7 +92,7 @@ shape = SubResource( 6 )
 max_health = 25.0
 
 [node name="CollisionShape2D" parent="Health/DamageArea" index="0"]
-position = Vector2( 0, -9 )
+position = Vector2( 0, -5 )
 shape = SubResource( 5 )
 
 [node name="Bar" parent="Health" index="1"]

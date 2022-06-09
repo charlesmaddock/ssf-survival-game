@@ -37,7 +37,7 @@ func _on_packet_received(packet: Dictionary) -> void:
 
 
 func set_lobby(packet: Dictionary) -> void:
-	CodeLabel.text = "Rooms code: " + str(packet.code)
+	CodeLabel.text = "Kod: " + str(packet.code)
 	_lobby_client_data = packet.clientData
 	
 	StartButton.set_visible(Lobby.is_host)
@@ -75,3 +75,19 @@ func _on_StartButton_pressed():
 
 func _on_CopyCodeButton_pressed():
 	OS.set_clipboard(Lobby.room_code)
+
+
+func _on_MonsterLootDropCheckBox_toggled(button_pressed):
+	Lobby.monsters_drop_loot = button_pressed
+
+
+func _on_AutoAimCheckBox_toggled(button_pressed):
+	Lobby.auto_aim = button_pressed
+
+
+func _on_RegenerateHealthCheckBox_toggled(button_pressed):
+	Lobby.regen_health_and_revive = button_pressed
+
+
+func _on_FindRoomButton_pressed():
+	Server.join("find room")
