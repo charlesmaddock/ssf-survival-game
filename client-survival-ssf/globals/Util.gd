@@ -64,8 +64,9 @@ func get_living_players() -> Array:
 	var entities = get_node("/root/GameWrapper/Game/Entities").get_children()
 	var players = []
 	for e in entities:
-		if e.get("is_player") != null && e.visible == true:
-			players.append(e)
+		if e.get("is_player") != null:
+			if Lobby.dead_player_ids.find(e.entity.id) == -1:
+				players.append(e)
 	return players
 
 

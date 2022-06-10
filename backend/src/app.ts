@@ -135,7 +135,7 @@ const getRoomsClient = (room: Room): Client => {
 
 const getRoomWithCode = (code: string): Room => {
   for (let i = 0; i < rooms.length; i++) {
-    if (rooms[i].code == code) return rooms[i];
+    if (rooms[i].code.toLowerCase() == code.toLowerCase()) return rooms[i];
   }
   return null;
 };
@@ -340,11 +340,11 @@ const handleJoinRoom = (
   packet: { type: number; code: string }
 ) => {
   let room = null;
-  if (packet.code === "") {
+  if (packet.code === "" || packet.code === "find room") {
     if (rooms.length > 0) {
       room = rooms[rooms.length - 1];
     } else {
-      sendError(ws, "No rooms available, host one yourself!");
+      sendError(ws, "Det finns inga rum. Skapa ett eget.");
     }
   } else {
     room = getRoomWithCode(packet.code);
@@ -381,7 +381,7 @@ const handleLeaveRoom = (ws: WebSocket) => {
 
       // Remove room if we are the host
       if (clientsRoom.hostId == leavingClient.id) {
-        broadcastError(clientsRoom, "Host disconnected, room closed.", true);
+        broadcastError(clientsRoom, "Rummets ägare lämnade. ", true);
         for (let i = clientsRoom.clients.length - 1; i >= 0; i--) {
           leaveRoom(clientsRoom, clientsRoom.clients[i]);
         }

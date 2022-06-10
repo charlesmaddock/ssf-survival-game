@@ -25,6 +25,8 @@ var spike_pattern2_scene = preload("res://patterns/SpikesPattern2.tscn")
 var spike_pattern3_scene = preload("res://patterns/SpikesPattern3.tscn")
 var chip_pattern1_scene = preload("res://patterns/ChipPattern1.tscn")
 var chip_pattern2_scene = preload("res://patterns/ChipPattern2.tscn")
+var loot_scene = preload("res://patterns/LootPattern1.tscn")
+var revive_scene = preload("res://patterns/RevivePattern1.tscn")
 
 var _room_center_position: Vector2
 var _mobs_in_room: Array = [] 
@@ -149,7 +151,12 @@ func generate_environment(room_type: int) -> void:
 			var pattern_scene = chip_patterns[randi() % chip_patterns.size()]
 			var pattern = pattern_scene.instance()
 			add_child(pattern)
-		
+		Constants.RoomTypes.LOOT:
+			var pattern = loot_scene.instance()
+			add_child(pattern)
+		Constants.RoomTypes.REVIVE:
+			var pattern = revive_scene.instance()
+			add_child(pattern)
 
 
 func _on_Room_body_entered(body):

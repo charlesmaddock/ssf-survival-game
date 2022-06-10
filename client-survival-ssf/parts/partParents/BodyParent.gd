@@ -10,6 +10,7 @@ var movement_node: Node
 
 export(Texture) var body_texture: Texture
 export(float) var weight: float = 100
+export(float) var body_scale: float = 1
 
 
 func _ready():
@@ -19,12 +20,15 @@ func _ready():
 	
 	if body_texture != null:
 		get_node("Sprite").texture = body_texture
+	
+	get_node("Sprite").scale = Vector2(body_scale, body_scale)
 
 
 func _process(delta):
 	if Engine.editor_hint:
 		if body_texture != null:
 			get_node("Sprite").texture = body_texture
+			get_node("Sprite").scale = Vector2(body_scale, body_scale)
 
 
 func get_sprite():

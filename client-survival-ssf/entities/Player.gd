@@ -11,7 +11,7 @@ var is_player: bool = true
 var _armPart:  Node
 var _legPart:  Node
 var _bodyPart: Node
-var _arm_offset: Vector2 = Vector2(1, -14)
+var _arm_offset: Vector2 = Vector2(1, -16)
 var _leg_offset: Vector2 = Vector2(1, -7)
 var _body_offset: Vector2 = Vector2(1, -12)
 var _arm_child_index: int = 0
@@ -25,10 +25,16 @@ var _inital_arm_parts = [Constants.PartNames.DefaultShooter]
 
 func _ready():
 	Server.connect("packet_received", self, "_on_packet_received")
+	Events.connect("player_dead", self, "_on_player_dead")
 	$MyPlayerIndicator.set_visible(entity.id == Lobby.my_id)
 	
 	if entity.id == Lobby.my_id: 
 		Events.emit_signal("follow_w_camera", self)
+
+
+func _on_player_dead(id) -> void:
+	if id == entity.id:
+		_set_default_parts()
 
 
 func _on_packet_received(packet: Dictionary) -> void:
@@ -47,15 +53,17 @@ func _on_packet_received(packet: Dictionary) -> void:
 
 func set_players_data(name: String, className: String) -> void:
 	$UsernameLabel.text = name
-	get_node("Sprite").texture = Util.get_sprite_for_class(className)
+	#get_node("Sprite").texture = Util.get_sprite_for_class(className)
+	_set_default_parts()
 	
+	Server.ping()
+
+
+func _set_default_parts() -> void:
 	var nameLength = name.length()
-	
 	add_part(_inital_leg_parts[nameLength % _inital_leg_parts.size()])
 	add_part(_inital_body_parts[nameLength % _inital_body_parts.size()])
 	add_part(_inital_arm_parts[nameLength % _inital_arm_parts.size()])
-	
-	Server.ping()
 
 
 func _input(event):

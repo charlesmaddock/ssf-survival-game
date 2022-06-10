@@ -14,6 +14,7 @@ export(float) var walk_speed: float = 80
 export(Texture) var leg_texture: Texture
 export(Vector2) var sprite_offset: Vector2
 export(float) var leg_separation: float = 5
+export(float) var leg_scale: float = 1
 
 
 func _ready():
@@ -38,6 +39,9 @@ func _ready():
 	
 	sprite1.position.x =  leg_separation/2
 	sprite2.position.x = -leg_separation/2
+	
+	sprite1.scale = Vector2(leg_scale, leg_scale)
+	sprite2.scale = Vector2(leg_scale, leg_scale)
 
 
 func _process(delta):
@@ -51,6 +55,9 @@ func _process(delta):
 		
 		get_node("Sprite1").position.x =  leg_separation/2
 		get_node("Sprite2").position.x = -leg_separation/2
+		
+		get_node("Sprite1").scale = Vector2(leg_scale, leg_scale)
+		get_node("Sprite2").scale = Vector2(leg_scale, leg_scale)
 		
 		update()
 

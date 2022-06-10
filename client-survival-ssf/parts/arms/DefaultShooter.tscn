@@ -6,7 +6,7 @@
 [node name="DefaultShooter" instance=ExtResource( 1 )]
 arm_texture = ExtResource( 2 )
 arm_separation = 4.0
-cooldown = 0.3
+cooldown = 0.4
 freeze_time = 0.1
 anim_speed = 1.0
 knockback = 0.1

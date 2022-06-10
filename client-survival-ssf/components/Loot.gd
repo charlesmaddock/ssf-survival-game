@@ -26,6 +26,6 @@ func _ready():
 
 func _on_damage_taken(health, _dir) -> void:
 	if Lobby.is_host == true:
-		if health <= 0 && dropped == false:
+		if health <= 0 && dropped == false && Lobby.monsters_drop_loot == true:
 			dropped = true
 			Server.spawn_pickup(Util.generate_id(), part, global_position)

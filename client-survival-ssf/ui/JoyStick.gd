@@ -35,7 +35,7 @@ func _ready():
 
 func _input(event):
 	if is_visible_in_tree() && visible == true:
-		if event is InputEventScreenTouch or event is InputEventScreenDrag:
+		if (event is InputEventScreenTouch or event is InputEventScreenDrag) && in_range(event.position):
 			if is_pressed():
 				direction = calc_move_dir(event.position)
 		
@@ -49,8 +49,14 @@ func _physics_process(delta):
 	InnerCircleSprite.global_position = centre + (direction * (shape.radius / 2))
 
 
+func in_range(pos: Vector2) -> bool:
+	return (global_position + (Vector2.ONE * get_shape().radius)).distance_squared_to(pos) < 10000
+
+
 func calc_move_dir(event_pos: Vector2) -> Vector2:
 	var centre = global_position + Vector2(shape.radius / 2, shape.radius / 2) + inner_circle_offset
+	if centre.distance_squared_to(event_pos) < 300:
+		return Vector2.ZERO
 	return ((event_pos - centre) / (shape.radius / 2)).clamped(1)
 
 

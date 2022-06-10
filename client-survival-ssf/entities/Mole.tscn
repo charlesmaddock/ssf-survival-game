@@ -1,11 +1,11 @@
 [gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://entities/Mole.gd" type="Script" id=1]
-[ext_resource path="res://assets/sprites/mole2.png" type="Texture" id=2]
+[ext_resource path="res://assets/sprites/sMole.png" type="Texture" id=2]
 [ext_resource path="res://components/AI.tscn" type="PackedScene" id=3]
 [ext_resource path="res://components/Health.tscn" type="PackedScene" id=4]
 [ext_resource path="res://components/Movement.tscn" type="PackedScene" id=5]
-[ext_resource path="res://assets/sprites/moleUnderground.png" type="Texture" id=6]
+[ext_resource path="res://assets/sprites/sMoleUnder.png" type="Texture" id=6]
 [ext_resource path="res://components/RoomVisibility.tscn" type="PackedScene" id=7]
 [ext_resource path="res://components/Loot.tscn" type="PackedScene" id=8]
 
@@ -29,10 +29,12 @@ shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 0, -10 )
+scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 2 )
 
 [node name="UndergroundSprite" type="Sprite" parent="."]
 position = Vector2( 0, -10 )
+scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 6 )
 
 [node name="Health" parent="." instance=ExtResource( 4 )]

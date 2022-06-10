@@ -21,7 +21,9 @@ var _input_attack_dir: Vector2 = Vector2(0, 0)
 export(int) var projectile_type: int 
 export(Texture) var arm_texture: Texture
 export(Vector2) var sprite_offset: Vector2
-export(float) var arm_separation: float = 0.0
+export(float) var arm_separation: float = 5.0
+export(float) var arm_scale: float = 1
+export(float) var angle_offset: float = 0
 export(float) var cooldown: float = 1
 export(float) var freeze_time: float = 0.2
 export(float) var anim_speed: float = 1
@@ -44,6 +46,7 @@ func _ready():
 		sprite1.texture = arm_texture
 	sprite1.offset = sprite_offset
 	sprite1.position.x = arm_separation
+	sprite1.scale = Vector2(arm_scale, arm_scale)
 	
 	attack_timer.wait_time = cooldown
 	#delay_timer.wait_time = attack_delay
@@ -59,9 +62,10 @@ func _process(delta):
 		get_node("Sprite1").position.x = arm_separation
 		get_node("Sprite1").offset = sprite_offset
 		
+		get_node("Sprite1").scale = Vector2(arm_scale, arm_scale)
+		
 		update()
-	
-	if parent_entity.id == Lobby.my_id && is_dead == false:
+	elif parent_entity.id == Lobby.my_id && is_dead == false:
 		if _input_attack_dir != Vector2.ZERO:
 			if able_to_attack == true:
 				able_to_attack = false
@@ -70,7 +74,7 @@ func _process(delta):
 				if melee == true:
 					Server.melee_attack(parent_entity.id, _input_attack_dir, parent_entity.team, damage)
 				else:
-					Server.shoot_projectile(global_position, _input_attack_dir, parent_entity.id, parent_entity.team, projectile_type)
+					Server.shoot_projectile(get_parent().global_position + (Vector2.UP * 6), _input_attack_dir, parent_entity.id, parent_entity.team, projectile_type)
 				
 				#get_parent().entity.emit_signal("attack_freeze", freeze_time)
 				get_parent().entity.emit_signal("is_attacking", true)

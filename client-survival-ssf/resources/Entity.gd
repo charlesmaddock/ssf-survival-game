@@ -10,6 +10,7 @@ var residing_room_center_pos: Vector2 = Vector2(0, 0)
 
 signal take_damage(damage, dir)
 signal damage_taken(health, dir)
+signal heal(amount)
 signal request_attack()
 signal change_movement_speed(speed)
 signal change_weight(weight)

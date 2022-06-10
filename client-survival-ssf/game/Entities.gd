@@ -25,7 +25,10 @@ var mob_type_scenes: Dictionary = {
 
 var environment_type_scenes: Dictionary = {
 	Constants.EnvironmentTypes.SPIKES: preload("res://entities/Spikes.tscn"),
-	Constants.EnvironmentTypes.CHIP: preload("res://entities/Chip.tscn")
+	Constants.EnvironmentTypes.CHIP: preload("res://entities/Chip.tscn"),
+	Constants.EnvironmentTypes.HEART_CHEST: preload("res://entities/Chest.tscn"),
+	Constants.EnvironmentTypes.PART_CHEST: preload("res://entities/PartChest.tscn"),
+	Constants.EnvironmentTypes.REVIVE_DISK: preload("res://entities/BackupDisk.tscn"),
 }
 
 
