@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://parts/partParents/BodyParent.tscn" type="PackedScene" id=1]
-[ext_resource path="res://assets/sprites/sRobotBody.png" type="Texture" id=2]
+[ext_resource path="res://assets/sprites/partSprites/sVpnBody.png" type="Texture" id=2]
 
 [node name="Default Body" instance=ExtResource( 1 )]
 body_texture = ExtResource( 2 )

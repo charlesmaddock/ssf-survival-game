@@ -153,10 +153,15 @@ enum PartNames {
 	HeartArm,
 	DefaultShooter,
 	MiniGun,
+	HttpsKeyArm,
+	TwoFactorArm,
 	
 	DefaultBody,
 	ExoSkeleton,
 	FishBody,
+	CookieBlockerBody,
+	FireWallBody,
+	VPNBody,
 	
 	DefaultLegs,
 	BirdLegs,
@@ -171,10 +176,15 @@ var PartScenes: Dictionary = {
 	PartNames.HeartArm:    		preload("res://parts/arms/Heart Arm.tscn"),
 	PartNames.DefaultShooter:	preload("res://parts/arms/DefaultShooter.tscn"),
 	PartNames.MiniGun		:	preload("res://parts/arms/MiniGun.tscn"),
+	PartNames.HttpsKeyArm:		preload("res://parts/arms/HttpsKeyArm.tscn"),
+	PartNames.TwoFactorArm:		preload("res://parts/arms/TwoFactorArm.tscn"),
 	
 	PartNames.DefaultBody: 		preload("res://parts/bodies/DefaultBody.tscn"),
 	PartNames.ExoSkeleton: 		preload("res://parts/bodies/ExoSkeleton.tscn"),
 	PartNames.FishBody:    		preload("res://parts/bodies/FishBody.tscn"),
+	PartNames.CookieBlockerBody:preload("res://parts/bodies/CookieBlockerBody.tscn"),
+	PartNames.FireWallBody:		preload("res://parts/bodies/FireWallBody.tscn"),
+	PartNames.VPNBody:			preload("res://parts/bodies/VPNBody.tscn"),
 	
 	PartNames.DefaultLegs: 		preload("res://parts/legs/DefaultLegs.tscn"),
 	PartNames.BirdLegs:    		preload("res://parts/legs/BirdLegs.tscn"),
