@@ -136,8 +136,7 @@ mouse_filter = 2
 alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Lobby/HBoxContainer"]
-margin_left = 5.0
-margin_right = 313.0
+margin_right = 308.0
 margin_bottom = 272.0
 alignment = 1
 
@@ -219,24 +218,24 @@ rect_min_size = Vector2( 0, 20 )
 text = "Starta Spelet!"
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="Lobby/HBoxContainer"]
-margin_left = 317.0
-margin_right = 460.0
+margin_left = 312.0
+margin_right = 464.0
 margin_bottom = 272.0
 
 [node name="RegenerateHealthCheckBox" type="CheckBox" parent="Lobby/HBoxContainer/VBoxContainer2"]
-margin_right = 143.0
+margin_right = 152.0
 margin_bottom = 24.0
 text = "Regenerera hälsa"
 
 [node name="MonsterLootDropCheckBox" type="CheckBox" parent="Lobby/HBoxContainer/VBoxContainer2"]
 margin_top = 28.0
-margin_right = 143.469
+margin_right = 152.0
 margin_bottom = 52.0
 text = "Monster släpper delar"
 
 [node name="AutoAimCheckBox" type="CheckBox" parent="Lobby/HBoxContainer/VBoxContainer2"]
 margin_top = 56.0
-margin_right = 143.0
+margin_right = 152.0
 margin_bottom = 80.0
 text = "Sikta automatiskt"
 
