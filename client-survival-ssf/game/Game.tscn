@@ -1,17 +1,22 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://game/Game.gd" type="Script" id=1]
+[ext_resource path="res://assets/sprites/target.png" type="Texture" id=2]
 [ext_resource path="res://assets/theme/theme.tres" type="Theme" id=3]
 [ext_resource path="res://game/Camera.gd" type="Script" id=4]
 [ext_resource path="res://assets/tiles/tiles.tres" type="TileSet" id=5]
 [ext_resource path="res://game/grattisSigge.jpg" type="Texture" id=6]
 [ext_resource path="res://game/RoomHandler.tscn" type="PackedScene" id=7]
 [ext_resource path="res://ui/LeaveButton.gd" type="Script" id=8]
+[ext_resource path="res://game/Target.gd" type="Script" id=9]
 [ext_resource path="res://ui/RestartButton.gd" type="Script" id=10]
 [ext_resource path="res://game/World.gd" type="Script" id=11]
 [ext_resource path="res://ui/DeathScreen.gd" type="Script" id=13]
 [ext_resource path="res://ui/LoseScreen.gd" type="Script" id=14]
 [ext_resource path="res://game/Entities.gd" type="Script" id=15]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 56.0
 
 [node name="GameWrapper" type="Control"]
 margin_right = 40.0
@@ -33,6 +38,18 @@ collision_layer = 8
 collision_mask = 65
 format = 1
 script = ExtResource( 11 )
+
+[node name="Target" type="Sprite" parent="Game"]
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 2 )
+script = ExtResource( 9 )
+
+[node name="MonsterDetector" type="Area2D" parent="Game/Target"]
+collision_layer = 0
+collision_mask = 89
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game/Target/MonsterDetector"]
+shape = SubResource( 1 )
 
 [node name="Entities" type="YSort" parent="Game"]
 script = ExtResource( 15 )
@@ -164,6 +181,8 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[connection signal="body_entered" from="Game/Target/MonsterDetector" to="Game/Target" method="_on_MonsterDetector_body_entered"]
+[connection signal="body_exited" from="Game/Target/MonsterDetector" to="Game/Target" method="_on_MonsterDetector_body_exited"]
 [connection signal="pressed" from="Game/CanvasLayer/LoseScreen/RestartButton" to="Game/CanvasLayer/LoseScreen/RestartButton" method="_on_RestartButton_pressed"]
 [connection signal="pressed" from="Game/CanvasLayer/LoseScreen/LeaveButton" to="Game/CanvasLayer/LoseScreen/LeaveButton" method="_on_LeaveButton_pressed"]
 [connection signal="pressed" from="Game/EscPanel/LeaveButton" to="Game/EscPanel/LeaveButton" method="_on_LeaveButton_pressed"]

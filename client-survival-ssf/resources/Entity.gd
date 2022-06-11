@@ -5,6 +5,7 @@ class_name Entity
 var id: String = ""
 var team: int = Constants.Teams.NONE
 var entity_node: Node
+var target_sprite: Sprite
 
 
 signal take_damage(damage, dir)
@@ -24,10 +25,24 @@ signal knockback(dir)
 func _init(node: Node, entity_id: String, entity_team: int, pos: Vector2):
 	Server.connect("packet_received", self, "_on_packet_received")
 	entity_node = node
+	
+	target_sprite = Sprite.new()
+	target_sprite.texture = load("res://assets/sprites/largePoint.png")
+	target_sprite.scale = Vector2(4, 1.5)
+	target_sprite.offset = Vector2(0, 6)
+	target_sprite.modulate = Color.red
+	entity_node.add_child(target_sprite)
+	entity_node.move_child(target_sprite, 0)
+	set_is_target(false)
+	
 	id = entity_id
 	node.global_position = pos
 	team = entity_team
 	connect("damage_taken", self, "on_damage_taken")
+
+
+func set_is_target(val: bool) -> void:
+	target_sprite.set_visible(val)
 
 
 func _on_packet_received(packet: Dictionary) -> void:
