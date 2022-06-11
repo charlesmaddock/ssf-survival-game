@@ -64,7 +64,7 @@ func _process(delta):
 
 
 func _on_MonsterDetector_body_entered(body):
-	if Util.is_entity(body) && Util.is_player(body) == false:
+	if (Util.is_entity(body) or Util.is_entity(body.get_parent())) && Util.is_player(body) == false:
 		_monsters_in_area.append(body)
 
 

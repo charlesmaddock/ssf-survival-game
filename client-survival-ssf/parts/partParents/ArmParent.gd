@@ -109,7 +109,7 @@ func _process(delta):
 			if _aim_pos != Vector2.ZERO:
 				_input_attack_dir = global_position.direction_to(_aim_pos)
 		
-		if _input_attack_dir != Vector2.ZERO:
+		if _input_attack_dir != Vector2.ZERO && is_dead == false:
 			if able_to_attack == true:
 				able_to_attack = false
 				#var dir = (get_global_mouse_position() - global_position).normalized()

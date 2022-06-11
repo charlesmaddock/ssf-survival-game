@@ -55,8 +55,6 @@ func in_range(pos: Vector2) -> bool:
 
 func calc_move_dir(event_pos: Vector2) -> Vector2:
 	var centre = global_position + Vector2(shape.radius / 2, shape.radius / 2) + inner_circle_offset
-	if centre.distance_squared_to(event_pos) < 300:
-		return Vector2.ZERO
 	return ((event_pos - centre) / (shape.radius / 2)).clamped(1)
 
 
