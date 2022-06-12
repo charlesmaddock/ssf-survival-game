@@ -13,6 +13,7 @@ var direction = Vector2.ZERO
 var joy_stick_active: bool = false
 var inner_circle_offset: Vector2 = Vector2(10, 10)
 var _is_mine: bool 
+var _touch_index: int = -1
 
 
 func init(is_mine: bool) -> void:
@@ -36,12 +37,22 @@ func _ready():
 func _input(event):
 	if is_visible_in_tree() && visible == true:
 		if (event is InputEventScreenTouch or event is InputEventScreenDrag):
+			
+			yield(get_tree(), "idle_frame")
 			if is_pressed():
-				direction = calc_move_dir(event.position)
+				if event is InputEventScreenTouch && _touch_index == -1:
+					_touch_index = event.get_index()
+					print("_touch_index: ", _touch_index)
+				
+				if event.get_index() == _touch_index:
+					direction = calc_move_dir(event.position)
 		
 		if event is InputEventScreenTouch:
-			if event.pressed == false:
+			if event.pressed == false && event.get_index() == _touch_index:
+				_touch_index = -1
 				direction = Vector2.ZERO
+		
+
 
 
 func _physics_process(delta):
