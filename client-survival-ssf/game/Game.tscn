@@ -150,9 +150,6 @@ rect_min_size = Vector2( 100, 0 )
 theme = ExtResource( 3 )
 text = "Lämna Rummet"
 script = ExtResource( 8 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="GrattisSigge" type="Sprite" parent="Game/CanvasLayer/LoseScreen"]
 visible = false

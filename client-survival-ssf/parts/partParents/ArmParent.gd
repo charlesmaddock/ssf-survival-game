@@ -18,6 +18,7 @@ var is_dead: bool = false
 var _input_attack_dir: Vector2 = Vector2(0, 0)
 var _aim_at_target: Node = null
 var _aim_pos: Vector2
+var _aiming_manually: bool
 var _auto_switch_to_closest: bool = true
 var _nearby_monsters: Array = []
 var _attacking_input: bool = false
@@ -43,6 +44,7 @@ func _ready():
 	Events.connect("player_revived", self, "_on_player_revived")
 	Events.connect("target_entity", self, "_on_target_entity")
 	Events.connect("update_target_pos", self, "_on_update_target_pos")
+	Events.connect("manual_aim", self, "_on_manual_aim")
 	Server.connect("packet_received", self, "_on_packet_recieved")
 	
 	if get_parent() != null:
@@ -66,6 +68,10 @@ func _on_target_entity(entity_body: Node, manually_targeted: bool) -> void:
 
 func _on_update_target_pos(pos: Vector2) -> void:
 	_aim_pos = pos
+
+
+func _on_manual_aim(val: bool) -> void:
+	_aiming_manually = val
 
 
 func _process(delta):
@@ -110,7 +116,7 @@ func _process(delta):
 			if _aim_pos != Vector2.ZERO:
 				_input_attack_dir = global_position.direction_to(_aim_pos)
 		
-		if _input_attack_dir != Vector2.ZERO && is_dead == false && (_attacking_input == true || Input.is_action_pressed("attack")):
+		if _input_attack_dir != Vector2.ZERO && is_dead == false && (_attacking_input == true || _aiming_manually == true):
 			if able_to_attack == true:
 				able_to_attack = false
 				#var dir = (get_global_mouse_position() - global_position).normalized()
@@ -181,9 +187,9 @@ func _on_MonsterDetector_body_exited(body):
 	_nearby_monsters.erase(body)
 
 
-func _on_AttackButton_pressed():
+func _on_AttackButton_button_down():
 	_attacking_input = true
 
 
-func _on_AttackButton_released():
+func _on_AttackButton_button_up():
 	_attacking_input = false

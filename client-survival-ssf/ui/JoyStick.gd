@@ -35,7 +35,7 @@ func _ready():
 
 func _input(event):
 	if is_visible_in_tree() && visible == true:
-		if (event is InputEventScreenTouch or event is InputEventScreenDrag) && in_range(event.position):
+		if (event is InputEventScreenTouch or event is InputEventScreenDrag):
 			if is_pressed():
 				direction = calc_move_dir(event.position)
 		
