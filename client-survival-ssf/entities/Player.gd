@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 
 onready var Sprite = $Sprite
+onready var PickUpButton = $CanvasLayer/PickUpButton
 
 
 var entity: Entity
@@ -17,6 +18,7 @@ var _body_offset: Vector2 = Vector2(1, -12)
 var _arm_child_index: int = 0
 var _leg_child_index: int = 1
 var _body_child_index: int = 2
+var _pickup_cooldown: float
 
 var _inital_leg_parts = [Constants.PartNames.DefaultLegs]
 var _inital_body_parts = [Constants.PartNames.DefaultBody]
@@ -27,6 +29,8 @@ func _ready():
 	Server.connect("packet_received", self, "_on_packet_received")
 	Events.connect("player_dead", self, "_on_player_dead")
 	$MyPlayerIndicator.set_visible(entity.id == Lobby.my_id)
+	
+	PickUpButton.visible = false
 	
 	if entity.id == Lobby.my_id: 
 		Events.emit_signal("follow_w_camera", self)
@@ -49,6 +53,11 @@ func _on_packet_received(packet: Dictionary) -> void:
 				var overlapped = get_node("Pickup").get_overlapping_areas()
 				if overlapped.size() == 1:
 					get_node("PickUpText").visible = false
+					PickUpButton.visible = false
+
+
+func _process(delta):
+	_pickup_cooldown += delta
 
 
 func set_players_data(name: String, className: String) -> void:
@@ -67,7 +76,14 @@ func _set_default_parts() -> void:
 
 
 func _input(event):
-	if Input.is_action_just_pressed("ui_pickup"):
+	if Input.is_action_just_pressed("ui_pickup") && entity.id == Lobby.my_id:
+		try_pick_up()
+
+
+func try_pick_up() -> void:
+	if _pickup_cooldown > 0.2:
+		_pickup_cooldown = 0.0
+		
 		var overlapped = get_node("Pickup").get_overlapping_areas()
 		
 		if not overlapped.empty():
@@ -109,14 +125,18 @@ func _drop_old_part(part_type: int) -> void:
 
 
 func _on_Pickup_area_entered(area):
-	get_node("PickUpText").visible = true
+	if entity.id == Lobby.my_id:
+		get_node("PickUpText").visible = true
+		PickUpButton.visible = true
 
 
 func _on_Pickup_area_exited(area):
-	var overlapped = get_node("Pickup").get_overlapping_areas()
-	
-	if overlapped.empty():
-		get_node("PickUpText").visible = false
+	if entity.id == Lobby.my_id:
+		var overlapped = get_node("Pickup").get_overlapping_areas()
+		
+		if overlapped.empty():
+			get_node("PickUpText").visible = false
+			PickUpButton.visible = false
 	
 #	var pick_up_part_type: int = area.get_parent().get_part_name()
 #	var armNode = Util.get_instanced_part(pick_up_part_type)
@@ -125,3 +145,7 @@ func _on_Pickup_area_exited(area):
 #	_armPart = armNode
 #
 #	area.get_parent().queue_free()
+
+
+func _on_PickUpButton_pressed():
+	try_pick_up()

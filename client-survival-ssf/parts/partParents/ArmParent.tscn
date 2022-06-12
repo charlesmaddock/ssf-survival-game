@@ -1,7 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://assets/sprites/robotArm.png" type="Texture" id=1]
 [ext_resource path="res://parts/partParents/ArmParent.gd" type="Script" id=2]
+[ext_resource path="res://assets/sprites/circle.png" type="Texture" id=3]
+[ext_resource path="res://assets/sprites/tempAttack.png" type="Texture" id=4]
 
 [sub_resource type="Animation" id=1]
 length = 0.001
@@ -34,11 +36,24 @@ tracks/0/keys = {
 "values": [ 45.0, -45.0, 108.0, 45.0 ]
 }
 
+[sub_resource type="CircleShape2D" id=3]
+radius = 117.0
+
 [node name="Arm Name" type="Node2D"]
+position = Vector2( 0, -1 )
 script = ExtResource( 2 )
+projectile_type = null
 arm_texture = ExtResource( 1 )
 sprite_offset = Vector2( 4, -6 )
 arm_separation = 0.0
+arm_scale = null
+angle_offset = null
+cooldown = null
+freeze_time = null
+anim_speed = null
+knockback = null
+melee = null
+damage = null
 
 [node name="Sprite1" type="Sprite" parent="."]
 show_behind_parent = true
@@ -55,5 +70,33 @@ one_shot = true
 anims/RESET = SubResource( 1 )
 anims/attack = SubResource( 2 )
 
+[node name="MonsterDetector" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 64
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MonsterDetector"]
+modulate = Color( 1, 1, 1, 0.309804 )
+shape = SubResource( 3 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="AttackButton" type="TextureButton" parent="CanvasLayer"]
+modulate = Color( 1, 1, 1, 0.509804 )
+margin_left = 355.0
+margin_top = 163.0
+margin_right = 505.0
+margin_bottom = 313.0
+rect_scale = Vector2( 0.5, 0.5 )
+texture_normal = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="CanvasLayer/AttackButton"]
+position = Vector2( 74, 77 )
+scale = Vector2( 0.215789, 0.21579 )
+texture = ExtResource( 4 )
+
 [connection signal="timeout" from="AttackTimer" to="." method="_on_AttackTimer_timeout"]
 [connection signal="timeout" from="DelayTimer" to="." method="_on_DelayTimer_timeout"]
+[connection signal="body_entered" from="MonsterDetector" to="." method="_on_MonsterDetector_body_entered"]
+[connection signal="body_exited" from="MonsterDetector" to="." method="_on_MonsterDetector_body_exited"]
+[connection signal="button_down" from="CanvasLayer/AttackButton" to="." method="_on_AttackButton_button_down"]
+[connection signal="button_up" from="CanvasLayer/AttackButton" to="." method="_on_AttackButton_button_up"]

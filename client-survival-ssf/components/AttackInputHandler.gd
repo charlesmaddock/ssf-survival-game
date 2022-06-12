@@ -8,7 +8,7 @@ var _key_input: Vector2 = Vector2.ZERO
 
 
 func _ready():
-	JoyStick.init(_player.entity.id == Lobby.my_id)
+	JoyStick.init(_player.entity.id == Lobby.my_id && Lobby.auto_aim == false)
 
 
 func _input(event):

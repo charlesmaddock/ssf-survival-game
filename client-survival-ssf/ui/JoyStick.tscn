@@ -12,11 +12,14 @@ radius = 75.0
 self_modulate = Color( 1, 1, 1, 0.454902 )
 position = Vector2( 35, 140 )
 scale = Vector2( 0.626667, 0.626667 )
-normal = ExtResource( 2 )
 shape = SubResource( 1 )
-shape_visible = false
 script = ExtResource( 1 )
 movement_path = NodePath("../../../..")
+
+[node name="TextureButton" type="TextureButton" parent="."]
+margin_right = 150.0
+margin_bottom = 150.0
+texture_normal = ExtResource( 2 )
 
 [node name="InnerCircleSprite" type="Sprite" parent="."]
 modulate = Color( 0.180392, 0.188235, 0.72549, 0.835294 )

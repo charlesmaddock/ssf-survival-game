@@ -237,6 +237,7 @@ text = "Monster släpper delar"
 margin_top = 56.0
 margin_right = 152.0
 margin_bottom = 80.0
+pressed = true
 text = "Sikta automatiskt"
 
 [connection signal="text_changed" from="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/NameInput" to="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/NameInput" method="_on_NameInput_text_changed"]

@@ -16,13 +16,19 @@ var attack_scene: PackedScene = preload("res://entities/Attack.tscn")
 var able_to_attack: bool = true
 var is_dead: bool = false
 var _input_attack_dir: Vector2 = Vector2(0, 0)
+var _aim_at_target: Node = null
+var _aim_pos: Vector2
+var _aiming_manually: bool
+var _auto_switch_to_closest: bool = true
+var _nearby_monsters: Array = []
+var _attacking_input: bool = false
 
 
 export(int) var projectile_type: int 
 export(Texture) var arm_texture: Texture
 export(Vector2) var sprite_offset: Vector2
 export(float) var arm_separation: float = 5.0
-export(float) var arm_scale: float = 1
+export(float) var arm_scale: float = 1.0
 export(float) var angle_offset: float = 0
 export(float) var cooldown: float = 1
 export(float) var freeze_time: float = 0.2
@@ -36,6 +42,9 @@ export(float) var damage: float = 20
 func _ready():
 	Events.connect("player_dead", self, "_on_player_dead")
 	Events.connect("player_revived", self, "_on_player_revived")
+	Events.connect("target_entity", self, "_on_target_entity")
+	Events.connect("update_target_pos", self, "_on_update_target_pos")
+	Events.connect("manual_aim", self, "_on_manual_aim")
 	Server.connect("packet_received", self, "_on_packet_recieved")
 	
 	if get_parent() != null:
@@ -50,8 +59,19 @@ func _ready():
 	
 	attack_timer.wait_time = cooldown
 	#delay_timer.wait_time = attack_delay
-	
-	print(get_parent().get_name())
+
+
+func _on_target_entity(entity_body: Node, manually_targeted: bool) -> void:
+	_aim_at_target = entity_body
+	_auto_switch_to_closest = !manually_targeted
+
+
+func _on_update_target_pos(pos: Vector2) -> void:
+	_aim_pos = pos
+
+
+func _on_manual_aim(val: bool) -> void:
+	_aiming_manually = val
 
 
 func _process(delta):
@@ -66,7 +86,37 @@ func _process(delta):
 		
 		update()
 	elif parent_entity.id == Lobby.my_id && is_dead == false:
-		if _input_attack_dir != Vector2.ZERO:
+		
+		if Lobby.auto_aim == true:
+			
+			if is_instance_valid(_aim_at_target) == false && _auto_switch_to_closest == false:
+				_auto_switch_to_closest = true
+			
+			if _auto_switch_to_closest == true:
+				var closest_monster: Node = null
+				var closest_dist: float = 999999.0
+				
+				for monster in _nearby_monsters:
+					var dist: float = monster.global_position.distance_to(global_position)
+					if dist < closest_dist:
+						closest_monster = monster
+						closest_dist = dist
+				
+				if closest_monster != null:
+					var prev_closest_dist: float = 1000
+					if is_instance_valid(_aim_at_target):
+						prev_closest_dist = global_position.distance_to(_aim_at_target.global_position)
+					
+					if closest_monster != _aim_at_target && prev_closest_dist > 200:
+						Events.emit_signal("target_entity", closest_monster, false)
+			
+			if is_instance_valid(_aim_at_target):
+				_input_attack_dir = global_position.direction_to(_aim_at_target.global_position + (Vector2.UP * 6))
+			
+			if _aim_pos != Vector2.ZERO:
+				_input_attack_dir = global_position.direction_to(_aim_pos)
+		
+		if _input_attack_dir != Vector2.ZERO && is_dead == false && (_attacking_input == true || _aiming_manually == true):
 			if able_to_attack == true:
 				able_to_attack = false
 				#var dir = (get_global_mouse_position() - global_position).normalized()
@@ -126,3 +176,20 @@ func _on_AttackTimer_timeout():
 
 func get_sprite():
 	return(arm_texture)
+
+
+func _on_MonsterDetector_body_entered(body):
+	if Util.is_entity(body):
+		_nearby_monsters.append(body)
+
+
+func _on_MonsterDetector_body_exited(body):
+	_nearby_monsters.erase(body)
+
+
+func _on_AttackButton_button_down():
+	_attacking_input = true
+
+
+func _on_AttackButton_button_up():
+	_attacking_input = false
