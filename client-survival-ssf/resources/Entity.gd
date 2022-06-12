@@ -5,11 +5,7 @@ class_name Entity
 var id: String = ""
 var team: int = Constants.Teams.NONE
 var entity_node: Node
-<<<<<<< HEAD
-var residing_room_center_pos: Vector2 = Vector2(0, 0)
-=======
 var target_sprite: Sprite
->>>>>>> main
 
 
 signal take_damage(damage, dir)
