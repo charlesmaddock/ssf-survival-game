@@ -89,6 +89,13 @@ clip_text = true
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 2
 
+[node name="PickUpButton" type="Button" parent="CanvasLayer"]
+margin_left = 136.0
+margin_top = 211.0
+margin_right = 241.0
+margin_bottom = 231.0
+text = "Plocka upp del"
+
 [node name="AttackInputHandler" type="CanvasModulate" parent="CanvasLayer"]
 position = Vector2( 29, 43 )
 color = Color( 1, 1, 1, 0.752941 )
@@ -101,3 +108,4 @@ show_attack_sprite = true
 
 [connection signal="area_entered" from="Pickup" to="." method="_on_Pickup_area_entered"]
 [connection signal="area_exited" from="Pickup" to="." method="_on_Pickup_area_exited"]
+[connection signal="pressed" from="CanvasLayer/PickUpButton" to="." method="_on_PickUpButton_pressed"]

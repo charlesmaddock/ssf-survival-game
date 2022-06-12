@@ -1,8 +1,9 @@
 extends Node2D
 
 
-var entity: Entity = Entity.new(self, Util.generate_id(), Constants.Teams.NONE, global_position)
+var entity: Entity 
 var _dropped: bool
+
 
 func _ready():
 	entity.connect("damage_taken", self, "_on_damage_taken")

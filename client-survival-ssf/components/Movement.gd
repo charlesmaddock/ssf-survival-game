@@ -1,7 +1,7 @@
 extends Node2D
 
 
-onready var JoyStick = $CanvasLayer/CanvasModulate/Control/JoyStick
+onready var JoyStick = $CanvasLayer/Control/JoyStick
 onready var entity_id = get_parent().entity.id
 onready var freeze_timer: Node = get_node("FreezeTimer")
 
