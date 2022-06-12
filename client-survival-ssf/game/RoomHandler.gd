@@ -178,7 +178,7 @@ func generate_mobs(i) -> Array:
 		mobs.append({"mob_type": test_spawn, "pos": Vector2.ZERO})
 	
 	if i == 1:
-		mobs.append({"mob_type": Constants.MobTypes.ROMANS_BOSS, "pos": Vector2(-10, -100)})
+		mobs.append({"mob_type": Constants.MobTypes.ROMANS_BOSS_FAS_2, "pos": Vector2(-10, -100)})
 		
 	elif i != 0:
 		if i < mob_difficulties.keys().size():
