@@ -38,7 +38,7 @@ script = ExtResource( 11 )
 script = ExtResource( 15 )
 
 [node name="RoomHandler" parent="Game" instance=ExtResource( 7 )]
-_number_of_rooms = 12
+_number_of_rooms = 2
 
 [node name="CanvasLayer" type="CanvasLayer" parent="Game"]
 

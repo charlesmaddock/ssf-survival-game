@@ -92,8 +92,6 @@ func _process(delta):
 func _phase_1_process(delta) -> void:
 	if _behaviour_state == behaviourStates.PHASE_1_NEUTRAL:
 		if _target_walk_destination != Vector2.ZERO:
-#			leftHand.global_position += self.global_position - hand_distance_from_head
-#			rightHand.global_position += self.global_position + hand_distance_from_head
 			if self.global_position.distance_to(_target_walk_destination) < 10:
 				print("I am close to my target and ")
 				_target_walk_destination = Vector2.ZERO
