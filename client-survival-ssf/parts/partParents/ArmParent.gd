@@ -20,13 +20,14 @@ var _aim_at_target: Node = null
 var _aim_pos: Vector2
 var _auto_switch_to_closest: bool = true
 var _nearby_monsters: Array = []
+var _attacking_input: bool = false
 
 
 export(int) var projectile_type: int 
 export(Texture) var arm_texture: Texture
 export(Vector2) var sprite_offset: Vector2
 export(float) var arm_separation: float = 5.0
-export(float) var arm_scale: float = 1
+export(float) var arm_scale: float = 1.0
 export(float) var angle_offset: float = 0
 export(float) var cooldown: float = 1
 export(float) var freeze_time: float = 0.2
@@ -109,7 +110,7 @@ func _process(delta):
 			if _aim_pos != Vector2.ZERO:
 				_input_attack_dir = global_position.direction_to(_aim_pos)
 		
-		if _input_attack_dir != Vector2.ZERO && is_dead == false:
+		if _input_attack_dir != Vector2.ZERO && is_dead == false && (_attacking_input == true || Input.is_action_pressed("attack")):
 			if able_to_attack == true:
 				able_to_attack = false
 				#var dir = (get_global_mouse_position() - global_position).normalized()
@@ -178,3 +179,11 @@ func _on_MonsterDetector_body_entered(body):
 
 func _on_MonsterDetector_body_exited(body):
 	_nearby_monsters.erase(body)
+
+
+func _on_AttackButton_pressed():
+	_attacking_input = true
+
+
+func _on_AttackButton_released():
+	_attacking_input = false

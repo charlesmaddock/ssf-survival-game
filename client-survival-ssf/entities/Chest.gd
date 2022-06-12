@@ -1,7 +1,7 @@
 extends Node2D
 
 
-var entity: Entity = Entity.new(self, Util.generate_id(), Constants.Teams.NONE, global_position)
+var entity: Entity 
 var _dropped: bool
 
 

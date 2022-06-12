@@ -19,13 +19,13 @@ func _on_target_entity(node: Node, manually_targeted: bool) -> void:
 	_target_node = node
 
 
-func _input(event):
-	if event.is_action_pressed("attack"):
+func _unhandled_input(event):
+	if event.is_action_pressed("aim_and_shoot") || (event is InputEventScreenTouch && event.is_pressed()):
 		_aiming = true
 		_target_pos = get_global_mouse_position()
 		global_position =  get_global_mouse_position()
 	
-	if event.is_action_released("attack"):
+	if event.is_action_released("aim_and_shoot") || (event is InputEventScreenTouch && event.is_pressed() == false):
 		_aim_at_closest_monster()
 		_aiming = false
 

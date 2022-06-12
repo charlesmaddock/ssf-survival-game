@@ -39,9 +39,18 @@ radius = 117.0
 
 [node name="Arm Name" type="Node2D"]
 script = ExtResource( 2 )
+projectile_type = null
 arm_texture = ExtResource( 1 )
 sprite_offset = Vector2( 4, -6 )
 arm_separation = 0.0
+arm_scale = null
+angle_offset = null
+cooldown = null
+freeze_time = null
+anim_speed = null
+knockback = null
+melee = null
+damage = null
 
 [node name="Sprite1" type="Sprite" parent="."]
 show_behind_parent = true

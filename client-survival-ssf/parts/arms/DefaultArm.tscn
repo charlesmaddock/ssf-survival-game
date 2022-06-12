@@ -4,17 +4,11 @@
 [ext_resource path="res://assets/sprites/sRobotArm.png" type="Texture" id=2]
 
 [node name="DefaultArm" instance=ExtResource( 1 )]
-projectile_type = null
 arm_texture = ExtResource( 2 )
 sprite_offset = Vector2( 13.069, -14.385 )
 arm_separation = 4.0
 arm_scale = 0.5
-angle_offset = null
-cooldown = null
 freeze_time = 0.1
-anim_speed = null
-knockback = null
-melee = null
 damage = 10.0
 
 [node name="Sprite1" parent="." index="0"]
