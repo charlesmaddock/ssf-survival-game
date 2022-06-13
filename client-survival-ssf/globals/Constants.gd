@@ -155,6 +155,7 @@ enum PartNames {
 	MiniGun,
 	HttpsKeyArm,
 	TwoFactorArm,
+	PasswordArm,
 	
 	DefaultBody,
 	ExoSkeleton,
@@ -192,6 +193,7 @@ var PartScenes: Dictionary = {
 	PartNames.MiniGun		:	preload("res://parts/arms/MiniGun.tscn"),
 	PartNames.HttpsKeyArm:		preload("res://parts/arms/HttpsKeyArm.tscn"),
 	PartNames.TwoFactorArm:		preload("res://parts/arms/TwoFactorArm.tscn"),
+	PartNames.PasswordArm:		preload("res://parts/arms/PasswordArm.tscn"),
 	
 	PartNames.DefaultBody: 		preload("res://parts/bodies/DefaultBody.tscn"),
 	PartNames.ExoSkeleton: 		preload("res://parts/bodies/ExoSkeleton.tscn"),
