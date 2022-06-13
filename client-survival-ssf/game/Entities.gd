@@ -69,19 +69,19 @@ func _on_packet_received(packet: Dictionary) -> void:
 			var entity_type = int(packet.mob_type)
 			var scene = mob_type_scenes[entity_type] 
 			var entity = scene.instance()
-			entity.entity = Entity.new(entity, packet.id, Constants.Teams.BAD_GUYS, spawn_pos)
+			entity.entity = Entity.new(entity, packet.id, Constants.Teams.BAD_GUYS, spawn_pos, packet.room_id)
 			add_child(entity)
 		Constants.PacketTypes.SPAWN_ENVIRONMENT:
 			var spawn_pos = Vector2(packet.posX, packet.posY)
 			var entity_type = int(packet.environment_type)
 			var scene = environment_type_scenes[entity_type] 
 			var entity = scene.instance()
-			entity.entity = Entity.new(entity, packet.id, Constants.Teams.BAD_GUYS, spawn_pos)
+			entity.entity = Entity.new(entity, packet.id, Constants.Teams.BAD_GUYS, spawn_pos, packet.room_id)
 			add_child(entity)
 		Constants.PacketTypes.SPAWN_ITEM:
 			var spawn_pos = Vector2(packet.posX, packet.posY)
 			var item = item_scene.instance()
-			item.entity = Entity.new(item, packet.id, Constants.Teams.NONE, spawn_pos)
+			item.entity = Entity.new(item, packet.id, Constants.Teams.NONE, spawn_pos, -1)
 			item.init(int(packet.item_type)) 
 			add_child(item)
 		Constants.PacketTypes.PING:

@@ -6,6 +6,7 @@ var id: String = ""
 var team: int = Constants.Teams.NONE
 var entity_node: Node
 var target_sprite: Sprite
+var room_id: int
 
 
 signal take_damage(damage, dir)
@@ -22,7 +23,7 @@ signal attack_freeze(time)
 signal knockback(dir)
 
 
-func _init(node: Node, entity_id: String, entity_team: int, pos: Vector2):
+func _init(node: Node, entity_id: String, entity_team: int, pos: Vector2, r_id: int):
 	Server.connect("packet_received", self, "_on_packet_received")
 	entity_node = node
 	
@@ -38,6 +39,7 @@ func _init(node: Node, entity_id: String, entity_team: int, pos: Vector2):
 	id = entity_id
 	node.global_position = pos
 	team = entity_team
+	room_id = r_id
 	connect("damage_taken", self, "on_damage_taken")
 
 

@@ -158,6 +158,7 @@ enum PartNames {
 	MiniGun,
 	HttpsKeyArm,
 	TwoFactorArm,
+	PasswordArm,
 	
 	DefaultBody,
 	ExoSkeleton,
@@ -172,6 +173,20 @@ enum PartNames {
 }
 
 
+enum RoomDifficulties {
+	EASY,
+	MEDIUM,
+	HARD
+}
+
+
+var part_difficulties: Dictionary = {
+	RoomDifficulties.EASY: [PartNames.DefaultArm, PartNames.HttpsKeyArm, PartNames.ExoSkeleton, PartNames.CookieBlockerBody, PartNames.BirdLegs, PartNames.VPNBody],
+	RoomDifficulties.MEDIUM: [PartNames.HeartArm, PartNames.HammerArm, PartNames.FireWallBody, PartNames.BlueShoes, PartNames.TwoFactorArm],
+	RoomDifficulties.HARD: [PartNames.FishBody, PartNames.MiniGun, PartNames.DrillArm]
+}
+
+
 var PartScenes: Dictionary = {
 	PartNames.DefaultArm:  		preload("res://parts/arms/DefaultArm.tscn"),
 	PartNames.DrillArm:    		preload("res://parts/arms/DrillArm.tscn"),
@@ -181,6 +196,7 @@ var PartScenes: Dictionary = {
 	PartNames.MiniGun		:	preload("res://parts/arms/MiniGun.tscn"),
 	PartNames.HttpsKeyArm:		preload("res://parts/arms/HttpsKeyArm.tscn"),
 	PartNames.TwoFactorArm:		preload("res://parts/arms/TwoFactorArm.tscn"),
+	PartNames.PasswordArm:		preload("res://parts/arms/PasswordArm.tscn"),
 	
 	PartNames.DefaultBody: 		preload("res://parts/bodies/DefaultBody.tscn"),
 	PartNames.ExoSkeleton: 		preload("res://parts/bodies/ExoSkeleton.tscn"),

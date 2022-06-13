@@ -72,7 +72,7 @@ func _generate_rooms() -> void:
 			var prev_corridor_size = prev_room_data.corridor_rect_size
 		
 		var mobs = []
-		if i % 3 != 0:
+		if i % 4 != 0:
 			mob_i += 1
 			mobs = generate_mobs(mob_i)
 		
@@ -137,7 +137,7 @@ func _generate_rooms() -> void:
 			enter_pos = Vector2(1000, 1000)
 		
 		var room_type = Constants.RoomTypes.START
-		if i > 0:# && i % 3 == 0:
+		if i > 0 && i % 4 == 0:
 			var room_types = [Constants.RoomTypes.REVIVE, Constants.RoomTypes.LOOT]
 			room_type = room_types[randi() % room_types.size()]
 		elif i > 0:

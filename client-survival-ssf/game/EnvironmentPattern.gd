@@ -5,6 +5,13 @@ export(preload("res://globals/Constants.gd").EnvironmentTypes) var environment_t
 export(float) var chest_spawn_change: float = 0.3
 
 
+var _room_id: int
+
+
+func init(room_id: int) -> void:
+	_room_id = room_id
+
+
 func _ready():
 	if Lobby.is_host:
 		yield(get_tree(), "idle_frame")
@@ -14,7 +21,7 @@ func _ready():
 				if randf() > chest_spawn_change:
 					continue
 			
-			Server.spawn_environment(Util.generate_id(), environment_type, child.global_position)
+			Server.spawn_environment(Util.generate_id(), environment_type, child.global_position, _room_id)
 	
 	queue_free()
 

@@ -205,13 +205,14 @@ func shoot_projectile(start_pos: Vector2, dir: Vector2, id: String, team: int, p
 	send_packet(payload)
 
 
-func spawn_mob(id: String, type: int, pos: Vector2) -> void:
+func spawn_mob(id: String, type: int, pos: Vector2, room_id: int) -> void:
 	var payload = {
 		"type": Constants.PacketTypes.SPAWN_MOB, 
 		"id": id,
 		"mob_type": type,
 		"posX": pos.x,
 		"posY": pos.y,
+		"room_id": room_id
 	}
 	send_packet(payload)
 
@@ -232,13 +233,14 @@ func despawn_environment(id: String) -> void:
 	send_packet(payload)
 
 
-func spawn_environment(id: String, type: int, pos: Vector2) -> void:
+func spawn_environment(id: String, type: int, pos: Vector2, room_id: int) -> void:
 	var payload = {
 		"type": Constants.PacketTypes.SPAWN_ENVIRONMENT, 
 		"id": id,
 		"environment_type": type,
 		"posX": pos.x,
 		"posY": pos.y,
+		"room_id": room_id
 	}
 	send_packet(payload)
 

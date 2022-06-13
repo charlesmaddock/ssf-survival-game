@@ -21,11 +21,7 @@ func init(is_mine: bool) -> void:
 
 
 func _ready():
-	get_node("InnerCircleSprite/Attack").set_visible(show_attack_sprite)
-	get_node("InnerCircleSprite/Dir1").set_visible(show_move_sprite)
-	get_node("InnerCircleSprite/Dir2").set_visible(show_move_sprite)
-	get_node("InnerCircleSprite/Dir3").set_visible(show_move_sprite)
-	get_node("InnerCircleSprite/Dir4").set_visible(show_move_sprite)
+	get_node("InnerCircleSprite/Sprite").set_visible(show_attack_sprite)
 	
 	var is_mobile = Util.is_mobile()
 	set_visible(false) 
@@ -42,7 +38,6 @@ func _input(event):
 			if is_pressed():
 				if event is InputEventScreenTouch && _touch_index == -1:
 					_touch_index = event.get_index()
-					print("_touch_index: ", _touch_index)
 				
 				if event.get_index() == _touch_index:
 					direction = calc_move_dir(event.position)
@@ -51,13 +46,10 @@ func _input(event):
 			if event.pressed == false && event.get_index() == _touch_index:
 				_touch_index = -1
 				direction = Vector2.ZERO
-		
-
 
 
 func _physics_process(delta):
-	var centre = global_position + Vector2(shape.radius / 2, shape.radius / 2) + inner_circle_offset
-	InnerCircleSprite.global_position = centre + (direction * (shape.radius / 2))
+	InnerCircleSprite.global_position = global_position + (direction * (shape.radius / 2))
 
 
 func in_range(pos: Vector2) -> bool:
@@ -65,7 +57,7 @@ func in_range(pos: Vector2) -> bool:
 
 
 func calc_move_dir(event_pos: Vector2) -> Vector2:
-	var centre = global_position + Vector2(shape.radius / 2, shape.radius / 2) + inner_circle_offset
+	var centre = global_position
 	return ((event_pos - centre) / (shape.radius / 2)).clamped(1)
 
 
