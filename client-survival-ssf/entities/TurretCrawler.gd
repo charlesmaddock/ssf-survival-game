@@ -6,7 +6,6 @@ export(float) var _dashing_interval = 2.5
 export(float) var _dashing_interval_variability = 0.5
 export(float) var _dashing_time = 0.5
 export(float) var _dashing_multiplier: float = 150
-export(int) var _player_detection_radius: int = 80
 export(int) var _ray_cast_length_multiplier = 1
 
 
@@ -33,8 +32,6 @@ var _random_jump_dir: Vector2
 
 
 func _ready():
-	player_detection_node.get_node("CollisionShape2D").shape.set_radius(_player_detection_radius)
-	
 	if _is_mini:
 		_is_first_jumping = true
 		player_detection_node.get_node("CollisionShape2D").set_disabled(true)
@@ -44,8 +41,10 @@ func _ready():
 	else: 
 		_start_dash_timer()
 
+
 func _process(delta):
 	health_node.global_position = intact_turret_sprite.global_position
+
 
 func _start_dash() -> void:
 	if Lobby.is_host:

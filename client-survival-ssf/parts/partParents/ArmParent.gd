@@ -50,9 +50,13 @@ func _ready():
 	if get_parent() != null:
 		get_parent().entity.connect("turned_around", self, "_on_turned_around")
 		get_parent().entity.connect("aim_dir", self, "_on_aim_dir")
+		
+		var attack_button_vis = get_parent().entity.id == Lobby.my_id && Lobby.auto_aim
+		get_node("CanvasLayer/AttackButton").set_visible(attack_button_vis) 
 	
 	if arm_texture != null:
 		sprite1.texture = arm_texture
+	
 	sprite1.offset = sprite_offset
 	sprite1.position.x = arm_separation
 	sprite1.scale = Vector2(arm_scale, arm_scale)
@@ -94,7 +98,7 @@ func _process(delta):
 			
 			if _auto_switch_to_closest == true:
 				var closest_monster: Node = null
-				var closest_dist: float = 999999.0
+				var closest_dist: float = 999.0
 				
 				for monster in _nearby_monsters:
 					var dist: float = monster.global_position.distance_to(global_position)
@@ -107,7 +111,7 @@ func _process(delta):
 					if is_instance_valid(_aim_at_target):
 						prev_closest_dist = global_position.distance_to(_aim_at_target.global_position)
 					
-					if closest_monster != _aim_at_target && prev_closest_dist > 200:
+					if closest_monster != _aim_at_target && prev_closest_dist > 200 && parent_entity.id == Lobby.my_id:
 						Events.emit_signal("target_entity", closest_monster, false)
 			
 			if is_instance_valid(_aim_at_target):
@@ -116,7 +120,7 @@ func _process(delta):
 			if _aim_pos != Vector2.ZERO:
 				_input_attack_dir = global_position.direction_to(_aim_pos)
 		
-		if _input_attack_dir != Vector2.ZERO && is_dead == false && (_attacking_input == true || _aiming_manually == true):
+		if _input_attack_dir != Vector2.ZERO && is_dead == false && ((_attacking_input == true || _aiming_manually == true) || Lobby.auto_aim == false):
 			if able_to_attack == true:
 				able_to_attack = false
 				#var dir = (get_global_mouse_position() - global_position).normalized()

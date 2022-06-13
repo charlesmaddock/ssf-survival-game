@@ -24,7 +24,7 @@ radius = 15.0
 height = 0.0
 
 [sub_resource type="CapsuleShape2D" id=3]
-radius = 168.0
+radius = 188.0
 height = 0.0
 
 [sub_resource type="Animation" id=7]
@@ -60,13 +60,13 @@ tracks/0/keys = {
 }
 
 [node name="TurretCrawler" type="KinematicBody2D"]
+position = Vector2( 0, -1 )
 collision_layer = 64
 collision_mask = 0
 script = ExtResource( 1 )
 _spiders_to_spawn = 2
 _dashing_interval = 1.0
 _dashing_multiplier = 300.0
-_player_detection_radius = 70
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 8 )
