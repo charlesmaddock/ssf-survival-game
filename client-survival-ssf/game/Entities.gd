@@ -21,7 +21,8 @@ var mob_type_scenes: Dictionary = {
 	Constants.MobTypes.ROMANS_BOSS_FAS_1: preload("res://entities/RomansBossFas1.tscn"),
 	Constants.MobTypes.ROMANS_BOSS_FAS_2: preload("res://entities/RomansBossFas2.tscn"),
 	Constants.MobTypes.ROMANS_BOSS_HAND_FAS_1: preload("res://entities/RomansBossHandFas1.tscn"),
-	Constants.MobTypes.ROMANS_BOSS_SLAP_HAND_FAS_2: preload("res://entities/RomansBossSlapHandFas2.tscn")
+	Constants.MobTypes.ROMANS_BOSS_SLAP_HAND_FAS_2: preload("res://entities/RomansBossSlapHandFas2.tscn"),
+	Constants.MobTypes.SPINDELHAND: preload("res://entities/SpindelHand.tscn")
 }
 
 var environment_type_scenes: Dictionary = {
