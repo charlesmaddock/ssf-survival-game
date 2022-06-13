@@ -135,7 +135,7 @@ func _spawn_mob_attack() -> void:
 	for i in spawn_amount:
 		sprite.set_frame(1)
 		tongue_node.activate_damage()
-		Server.spawn_mob(Util.generate_id(), mob_type, self.global_position + Vector2(0, 40))
+		Server.spawn_mob(Util.generate_id(), mob_type, self.global_position + Vector2(0, 40), entity.room_id)
 		yield(get_tree().create_timer(0.3), "timeout")
 		tongue_node.deactivate_damage()
 		sprite.set_frame(0)
@@ -157,8 +157,8 @@ func _spawn_hands():
 		left_hand_position = Vector2((self.global_position.x - hand_distance_from_head.x), (self.global_position.y + hand_distance_from_head.y))
 		right_hand_position = Vector2((self.global_position.x + hand_distance_from_head.x), (self.global_position.y + hand_distance_from_head.y))
 		
-		Server.spawn_mob(left_hand_id, Constants.MobTypes.ROMANS_BOSS_HAND, left_hand_position)
-		Server.spawn_mob(right_hand_id, Constants.MobTypes.ROMANS_BOSS_HAND, right_hand_position)
+		Server.spawn_mob(left_hand_id, Constants.MobTypes.ROMANS_BOSS_HAND, left_hand_position, entity.room_id)
+		Server.spawn_mob(right_hand_id, Constants.MobTypes.ROMANS_BOSS_HAND, right_hand_position, entity.room_id)
 	
 	yield(get_tree().create_timer(0.1), "timeout")
 	

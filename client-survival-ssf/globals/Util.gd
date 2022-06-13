@@ -60,6 +60,10 @@ func get_entity(id: String) -> Node:
 	return get_node("/root/GameWrapper/Game/Entities").get_entity(id)
 
 
+func get_room(id: int) -> Node:
+	return get_node("/root/GameWrapper/Game/RoomHandler").get_node(str(id))
+
+
 func get_living_players() -> Array:
 	var entities = get_node("/root/GameWrapper/Game/Entities").get_children()
 	var players = []

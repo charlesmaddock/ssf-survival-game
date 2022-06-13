@@ -33,6 +33,8 @@ var _mobs_in_room: Array = []
 var _mobs_entered_room: bool = false
 var _room_completed: bool = false
 var _final_room: bool = false
+var _difficulty: int = Constants.RoomDifficulties.EASY
+var _room_id: int
 
 var _room_data: Dictionary = {}
 var _next_room_data: Dictionary = {}
@@ -106,6 +108,10 @@ func get_next_room() -> Node:
 	return get_parent().get_node(str(_room_data.id + 1))
 
 
+func get_difficulty() -> int:
+	return _difficulty
+
+
 func get_available_spawn_points() -> Array:
 	var spawn_points = []
 	for y in range(_room_data.room_rect_pos.y + 1, _room_data.room_rect_end.y - 1):
@@ -129,12 +135,24 @@ func get_available_spawn_points() -> Array:
 
 
 func set_room_data(room_data: Dictionary, next_room_data: Dictionary) -> void:
+	_room_id = room_data.id
 	name = str(room_data.id)
+	
+	set_difficulty(room_data.id)
 	_room_data = room_data
 	_next_room_data = next_room_data
 	
 	if _next_room_data.empty() == true:
 		_final_room = true
+
+
+func set_difficulty(id: int) -> void:
+	if id <= 3:
+		_difficulty = Constants.RoomDifficulties.EASY
+	elif id <= 6:
+		_difficulty = Constants.RoomDifficulties.MEDIUM
+	else:
+		_difficulty = Constants.RoomDifficulties.HARD
 
 
 func generate_environment(room_type: int) -> void:
@@ -145,17 +163,25 @@ func generate_environment(room_type: int) -> void:
 			var spike_patterns = [spike_pattern1_scene, spike_pattern2_scene, spike_pattern3_scene]
 			var pattern_scene = spike_patterns[randi() % spike_patterns.size()]
 			var pattern = pattern_scene.instance()
+			for child in pattern.get_children():
+				child.init(_room_id)
 			add_child(pattern)
 		Constants.RoomTypes.CHIP:
 			var chip_patterns = [chip_pattern1_scene, chip_pattern2_scene]
 			var pattern_scene = chip_patterns[randi() % chip_patterns.size()]
 			var pattern = pattern_scene.instance()
+			for child in pattern.get_children():
+				child.init(_room_id)
 			add_child(pattern)
 		Constants.RoomTypes.LOOT:
 			var pattern = loot_scene.instance()
+			for child in pattern.get_children():
+				child.init(_room_id)
 			add_child(pattern)
 		Constants.RoomTypes.REVIVE:
 			var pattern = revive_scene.instance()
+			for child in pattern.get_children():
+				child.init(_room_id)
 			add_child(pattern)
 
 
@@ -175,7 +201,7 @@ func _on_Room_body_entered(body):
 						pos = global_spawn_points[randi() % global_spawn_points.size()] + (Vector2.ONE * Constants.TILE_SIZE / 2)
 					else:
 						pos = _room_center_position + rel_mob_pos_given
-					Server.spawn_mob(id, mob_type, pos)
+					Server.spawn_mob(id, mob_type, pos, _room_id)
 					_mobs_in_room.append(id)
 					_mobs_entered_room = true
 		elif Util.is_entity(body) && body.get("_is_animal") == true && _mobs_entered_room == true:

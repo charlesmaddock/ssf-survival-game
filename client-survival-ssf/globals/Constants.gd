@@ -169,6 +169,20 @@ enum PartNames {
 }
 
 
+enum RoomDifficulties {
+	EASY,
+	MEDIUM,
+	HARD
+}
+
+
+var part_difficulties: Dictionary = {
+	RoomDifficulties.EASY: [PartNames.DefaultArm, PartNames.HttpsKeyArm, PartNames.ExoSkeleton, PartNames.CookieBlockerBody, PartNames.BirdLegs, PartNames.VPNBody],
+	RoomDifficulties.MEDIUM: [PartNames.HeartArm, PartNames.HammerArm, PartNames.FireWallBody, PartNames.BlueShoes, PartNames.TwoFactorArm],
+	RoomDifficulties.HARD: [PartNames.FishBody, PartNames.MiniGun, PartNames.DrillArm]
+}
+
+
 var PartScenes: Dictionary = {
 	PartNames.DefaultArm:  		preload("res://parts/arms/DefaultArm.tscn"),
 	PartNames.DrillArm:    		preload("res://parts/arms/DrillArm.tscn"),

@@ -133,5 +133,5 @@ func _on_TurretCrawler_tree_exiting():
 
 	if Lobby.is_host && !_is_mini:
 		for i in _spiders_to_spawn:
-				Server.spawn_mob(Util.generate_id(), Constants.MobTypes.MINI_TURRET_CRAWLER, self.global_position + Vector2(0, 5))
+			Server.spawn_mob(Util.generate_id(), Constants.MobTypes.MINI_TURRET_CRAWLER, self.global_position + Vector2(0, 5), entity.room_id)
 
