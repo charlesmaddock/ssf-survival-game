@@ -17,7 +17,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ 45.0 ]
+"values": [ 0.0 ]
 }
 
 [sub_resource type="Animation" id=2]
@@ -33,7 +33,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.1, 0.3, 0.6 ),
 "transitions": PoolRealArray( 1, 0.3, 3.7, 0.07 ),
 "update": 0,
-"values": [ 45.0, -45.0, 108.0, 45.0 ]
+"values": [ 0.0, -90.0, 65.0, 0.0 ]
 }
 
 [sub_resource type="CircleShape2D" id=3]
@@ -56,7 +56,6 @@ damage = null
 
 [node name="Sprite1" type="Sprite" parent="."]
 show_behind_parent = true
-rotation = 0.785398
 texture = ExtResource( 1 )
 offset = Vector2( 4, -6 )
 
