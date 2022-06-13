@@ -6,6 +6,7 @@
 [node name="Hammer Arm" instance=ExtResource( 1 )]
 arm_texture = ExtResource( 2 )
 sprite_offset = Vector2( 5.5, -6 )
+arm_scale = null
 cooldown = 1.5
 anim_speed = 0.5
 knockback = 400.0
