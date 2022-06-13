@@ -1,10 +1,12 @@
 extends KinematicBody2D
 
+
 onready var health_node: Node2D = $Health
 onready var AI_node: Node2D = $AI
 onready var movement_node: Node2D = $Movement
 onready var sprite: Sprite = $Sprite
 onready var ray_cast_solid_detection: Node2D = $RayCastSolidDetection
+onready var slap_range_detection: Node2D = $SlapRangeDetection
 
 onready var timer_before_phase_1_new_walk: Timer = $TimerBeforePhase1NewWalk
 onready var timer_before_phase_1_attacks: Timer = $TimerBeforePhase1Attacks
@@ -16,14 +18,10 @@ onready var _target_walk_destination: Vector2 = self.global_position
 
 export(Vector2) var head_scale: Vector2 = Vector2(0.7, 0.7)
 export(Vector2) var hand_scale: Vector2 = Vector2(0.7, 0.7)
-export(Vector2) var hand_distance_from_head: Vector2 = Vector2(140, 10)
+export(float) var _hand_distance_from_head: float = 120
 export(int) var _movement_speed: int = 70
 export(float) var _walk_distance: float = 100
-export(float) var _time_before_phase_1_new_walk: float = 2.8
-export(float) var _time_before_phase_1_attacks: float = 4
-export(float) var _time_before_PHASE_2_LIGHT_ATTACKs_instanced: float = 1.1
-export(float) var time_between_PHASE_2_LIGHT_ATTACKs: float = 4.0
-export(float) var time_between_big_attacks: float = 10.0
+export(float) var _time_before_new_walk: float = 2.8
 
 
 export(int) var clouders_spawned: int = 4
@@ -36,9 +34,7 @@ var slapHand: Node
 var rightHand: Node
 
 var _light_attack_started: bool = false
-
-var players_in_tongue_area_array: Array = []
-var _hand_nodes_in_hover_state_array: Array = []
+var _is_slapping: bool = false
 
 var _behaviour_state: int = behaviourStates.NEUTRAL
 
@@ -48,9 +44,8 @@ enum behaviourStates {
 } 
 
 enum handBehaviourState {
-	HOVER,
-	CHARGE,
-	CHARGEBACK
+	HOVER_AROUND_HEAD,
+	SLAP,
 } 
 
 
@@ -61,11 +56,7 @@ func _ready():
 	self.set_scale(head_scale)
 	_spawn_hands()
 	
-	timer_before_phase_1_new_walk.set_wait_time(_time_before_phase_1_new_walk)
-	timer_before_phase_1_attacks.set_wait_time(_time_before_phase_1_attacks)
-	timer_before_PHASE_2_LIGHT_ATTACKs_instanced.set_wait_time(_time_before_PHASE_2_LIGHT_ATTACKs_instanced)
-	timer_between_PHASE_2_LIGHT_ATTACKs.set_wait_time(time_between_PHASE_2_LIGHT_ATTACKs)
-	timer_between_big_attacks.set_wait_time(time_between_big_attacks)
+	timer_before_phase_1_new_walk.set_wait_time(_time_before_new_walk)
 	yield(get_tree().create_timer(1), "timeout")
 
 
@@ -73,15 +64,21 @@ func _process(delta):
 	if _behaviour_state == behaviourStates.NEUTRAL:
 		if _target_walk_destination != Vector2.ZERO:
 			if self.global_position.distance_to(_target_walk_destination) < 10:
-				print("I am close to my target and ")
-				_target_walk_destination = Vector2.ZERO
 				AI_node.motionless_behaviour()
+#				if !_is_slapping:
+#					if slap_range_detection.is_colliding():
+#						_is_slapping = true
+#						_slap_nearby_player()
+#					elif _target_walk_destination != Vector2.ZERO:
+				_target_walk_destination = Vector2.ZERO
 				timer_before_phase_1_new_walk.start()
 	elif _behaviour_state == behaviourStates.LIGHT_ATTACK:
 		if !_light_attack_started:
 			_light_attack_started = true
 			timer_before_phase_1_attacks.start()
 
+func _slap_nearby_player() -> void:
+	pass
 
 func _walk_to_random_destination() -> void:
 	var possible_y_range: Vector2 = Vector2(-1, 1)
@@ -115,40 +112,20 @@ func _spawn_hands():
 #	var right_hand_position: Vector2
 	
 	if Lobby.is_host == true:
-		slap_hand_position = Vector2((self.global_position.x - hand_distance_from_head.x), (self.global_position.y + hand_distance_from_head.y))
-#		right_hand_position = Vector2((self.global_position.x + hand_distance_from_head.x), (self.global_position.y + hand_distance_from_head.y))
-		
+		slap_hand_position = Vector2((self.global_position.x - _hand_distance_from_head), self.global_position.y)
 		Server.spawn_mob(slap_hand_id, Constants.MobTypes.ROMANS_BOSS_SLAP_HAND_FAS_2, slap_hand_position)
-#		Server.spawn_mob(right_hand_id, Constants.MobTypes.ROMANS_BOSS_HAND, right_hand_position)
 	
 	yield(get_tree().create_timer(0.1), "timeout")
 	
 	slapHand = Util.get_entity(slap_hand_id)
-#	rightHand = Util.get_entity(right_hand_id)
-	
 	slapHand.set_scale(hand_scale)
-#	rightHand.set_scale(Vector2(-hand_scale.x, hand_scale.y))
-	
-	slapHand.init(true, hand_distance_from_head, self)
-#	rightHand.init(false, right_hand_position, self)
-	
-	slapHand.connect("hand_behaviour_changed", self, "_on_hand_behaviour_changed")
-#	rightHand.connect("hand_behaviour_changed", self, "_on_hand_behaviour_changed")
+	slapHand.init(slap_hand_position.distance_to(self.global_position), entity.id)
+	slapHand.connect("slapping_done", self, "_on_slapping_done")
 
 
-func _on_hand_behaviour_changed(hand, behaviour_state) -> void:
-#	print("New signal to change hand state of ", hand, " and to this state ", behaviour_state)
-	
-	if behaviour_state == handBehaviourState.HOVER:
-		if _hand_nodes_in_hover_state_array.find(hand) == -1:
-			if hand == slapHand:
-				_hand_nodes_in_hover_state_array.append(slapHand)
-			elif hand == rightHand:
-				_hand_nodes_in_hover_state_array.append(rightHand)
-	else:
-		if _hand_nodes_in_hover_state_array.find(hand):
-			_hand_nodes_in_hover_state_array.erase(hand)
-#	print("Current hands hovering in array: ", _hand_nodes_in_hover_state_array.size())
+func _on_slapping_done(hand, behaviour_state) -> void:
+	yield(get_tree().create_timer(0.8), "timeout")
+	_walk_to_random_destination()
 
 
 func _on_TimerBeforePhase1NewWalk_timeout():
@@ -156,6 +133,3 @@ func _on_TimerBeforePhase1NewWalk_timeout():
 	if _behaviour_state == behaviourStates.NEUTRAL:
 		_walk_to_random_destination()
 
-
-func _on_TimerBeforePhase1Attacks_timeout():
-	pass # Replace with function body.

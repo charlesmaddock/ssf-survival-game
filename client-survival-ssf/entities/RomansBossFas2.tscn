@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://parts/legs/DefaultLegs.tscn" type="PackedScene" id=1]
 [ext_resource path="res://components/Movement.tscn" type="PackedScene" id=2]
@@ -12,6 +12,9 @@
 [ext_resource path="res://assets/sprites/RomansBoss-Head.png" type="Texture" id=10]
 [ext_resource path="res://assets/sprites/freeProgress.png" type="Texture" id=11]
 [ext_resource path="res://assets/sprites/RomansBoss-Öga.png" type="Texture" id=12]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 234.009
 
 [node name="RomansBossFas2" type="KinematicBody2D"]
 collision_layer = 0
@@ -94,20 +97,6 @@ position = Vector2( 0, 57 )
 wait_time = 2.8
 one_shot = true
 
-[node name="TimerBeforePhase1Attacks" type="Timer" parent="."]
-wait_time = 4.0
-one_shot = true
-
-[node name="TimerBeforeLightAttacksInstanced" type="Timer" parent="."]
-one_shot = true
-
-[node name="TimerBetweenLightAttacks" type="Timer" parent="."]
-one_shot = true
-
-[node name="TimerBetweenBigAttacks" type="Timer" parent="."]
-wait_time = 30.0
-one_shot = true
-
 [node name="RayCastSolidDetection" parent="." instance=ExtResource( 4 )]
 layers_to_be_detected = [ 3 ]
 _raycast_length = 100
@@ -136,7 +125,11 @@ cast_to = Vector2( 0, 100 )
 collision_mask = 8
 collide_with_areas = true
 
+[node name="SlapRangeDetection" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SlapRangeDetection"]
+shape = SubResource( 1 )
+
 [connection signal="area_entered" from="Health/DamageArea" to="Health" method="_on_DamageArea_area_entered"]
 [connection signal="timeout" from="TimerBeforePhase1NewWalk" to="." method="_on_TimerBeforePhase1NewWalk_timeout"]
-[connection signal="timeout" from="TimerBeforePhase1Attacks" to="." method="_on_TimerBeforePhase1Attacks_timeout"]
-[connection signal="timeout" from="TimerBetweenBigAttacks" to="." method="_on_TimerBetweenBigAttacks_timeout"]

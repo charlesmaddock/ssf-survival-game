@@ -1,6 +1,5 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://components/RayCastContainer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://components/AI.tscn" type="PackedScene" id=2]
 [ext_resource path="res://components/Movement.tscn" type="PackedScene" id=3]
 [ext_resource path="res://components/RoomVisibility.tscn" type="PackedScene" id=4]
@@ -70,82 +69,4 @@ __meta__ = {
 [node name="Movement" parent="." instance=ExtResource( 3 )]
 position = Vector2( 6.4, 0 )
 
-[node name="RayCastPlayerDetection" parent="." instance=ExtResource( 1 )]
-position = Vector2( 6.4, 0 )
-layers_to_be_detected = [ 0 ]
-
-[node name="RayCast2D" type="RayCast2D" parent="RayCastPlayerDetection"]
-position = Vector2( 0, 1 )
-enabled = true
-cast_to = Vector2( 0, 400 )
-
-[node name="RayCast2D2" type="RayCast2D" parent="RayCastPlayerDetection"]
-position = Vector2( 19, 0 )
-enabled = true
-cast_to = Vector2( 0, 400 )
-
-[node name="RayCast2D3" type="RayCast2D" parent="RayCastPlayerDetection"]
-position = Vector2( 39, 0 )
-enabled = true
-cast_to = Vector2( 0, 400 )
-
-[node name="RayCast2D4" type="RayCast2D" parent="RayCastPlayerDetection"]
-position = Vector2( -35, 0 )
-enabled = true
-cast_to = Vector2( 0, 400 )
-
-[node name="RayCast2D5" type="RayCast2D" parent="RayCastPlayerDetection"]
-position = Vector2( -15, 0 )
-enabled = true
-cast_to = Vector2( 0, 400 )
-
-[node name="RayCastWallDetection" parent="." instance=ExtResource( 1 )]
-position = Vector2( 6.4, 0 )
-layers_to_be_detected = [ 3 ]
-_set_raycast_length = true
-_raycast_length = 65
-
-[node name="RayCast2D" type="RayCast2D" parent="RayCastWallDetection"]
-position = Vector2( 0, 1 )
-enabled = true
-cast_to = Vector2( 0, 400 )
-collision_mask = 0
-
-[node name="RayCast2D2" type="RayCast2D" parent="RayCastWallDetection"]
-position = Vector2( 19, 0 )
-enabled = true
-cast_to = Vector2( 0, 400 )
-collision_mask = 0
-
-[node name="RayCast2D3" type="RayCast2D" parent="RayCastWallDetection"]
-position = Vector2( 39, 0 )
-enabled = true
-cast_to = Vector2( 0, 400 )
-collision_mask = 0
-
-[node name="RayCast2D4" type="RayCast2D" parent="RayCastWallDetection"]
-position = Vector2( -35, 0 )
-enabled = true
-cast_to = Vector2( 0, 400 )
-collision_mask = 0
-
-[node name="RayCast2D5" type="RayCast2D" parent="RayCastWallDetection"]
-position = Vector2( -15, 0 )
-enabled = true
-cast_to = Vector2( 0, 400 )
-collision_mask = 0
-
-[node name="TimerToCharge" type="Timer" parent="."]
-one_shot = true
-
-[node name="TimerToChargeback" type="Timer" parent="."]
-one_shot = true
-
-[node name="TimerBeforeChargeIsAvailable" type="Timer" parent="."]
-one_shot = true
-
 [connection signal="area_entered" from="Health/DamageArea" to="Health" method="_on_DamageArea_area_entered"]
-[connection signal="timeout" from="TimerToCharge" to="." method="_on_TimerToCharge_timeout"]
-[connection signal="timeout" from="TimerToChargeback" to="." method="_on_TimerToCharge_timeout"]
-[connection signal="timeout" from="TimerToChargeback" to="." method="_on_TimerToChargeback_timeout"]
-[connection signal="timeout" from="TimerBeforeChargeIsAvailable" to="." method="_on_TimerBeforeChargeIsAvailable_timeout"]
