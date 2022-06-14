@@ -90,13 +90,6 @@ clip_text = true
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 2
 
-[node name="PickUpButton" type="TextureButton" parent="CanvasLayer"]
-margin_left = 116.0
-margin_top = 217.0
-margin_right = 293.0
-margin_bottom = 259.0
-texture_normal = ExtResource( 7 )
-
 [node name="AttackInputHandler" type="CanvasModulate" parent="CanvasLayer"]
 position = Vector2( 29, 43 )
 color = Color( 1, 1, 1, 0.752941 )
@@ -106,6 +99,10 @@ script = ExtResource( 9 )
 position = Vector2( 363, 156 )
 movement_path = NodePath("../../../../..")
 show_attack_sprite = true
+
+[node name="PickUpButton" type="TouchScreenButton" parent="CanvasLayer"]
+position = Vector2( 160, 217 )
+normal = ExtResource( 7 )
 
 [connection signal="area_entered" from="Pickup" to="." method="_on_Pickup_area_entered"]
 [connection signal="area_exited" from="Pickup" to="." method="_on_Pickup_area_exited"]

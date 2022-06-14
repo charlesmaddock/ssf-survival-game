@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://assets/sprites/robotArm.png" type="Texture" id=1]
 [ext_resource path="res://parts/partParents/ArmParent.gd" type="Script" id=2]
@@ -39,6 +39,9 @@ tracks/0/keys = {
 [sub_resource type="CircleShape2D" id=3]
 radius = 117.0
 
+[sub_resource type="CircleShape2D" id=4]
+radius = 25.0
+
 [node name="Arm Name" type="Node2D"]
 position = Vector2( 0, -1 )
 script = ExtResource( 2 )
@@ -71,16 +74,21 @@ shape = SubResource( 3 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="AttackButton" type="TextureButton" parent="CanvasLayer"]
+[node name="AttackButton" type="TouchScreenButton" parent="CanvasLayer"]
+position = Vector2( 397, 214 )
+shape = SubResource( 4 )
+shape_centered = false
+
+[node name="AttackButton" type="TextureButton" parent="CanvasLayer/AttackButton"]
 modulate = Color( 1, 1, 1, 0.509804 )
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -86.0
-margin_top = -86.0
-margin_right = 64.0
-margin_bottom = 64.0
+margin_left = -23.0
+margin_top = -23.0
+margin_right = 127.0
+margin_bottom = 127.0
 texture_normal = ExtResource( 4 )
 texture_pressed = ExtResource( 3 )
 
@@ -88,5 +96,5 @@ texture_pressed = ExtResource( 3 )
 [connection signal="timeout" from="DelayTimer" to="." method="_on_DelayTimer_timeout"]
 [connection signal="body_entered" from="MonsterDetector" to="." method="_on_MonsterDetector_body_entered"]
 [connection signal="body_exited" from="MonsterDetector" to="." method="_on_MonsterDetector_body_exited"]
-[connection signal="button_down" from="CanvasLayer/AttackButton" to="." method="_on_AttackButton_button_down"]
-[connection signal="button_up" from="CanvasLayer/AttackButton" to="." method="_on_AttackButton_button_up"]
+[connection signal="pressed" from="CanvasLayer/AttackButton" to="." method="_on_AttackButton_pressed"]
+[connection signal="released" from="CanvasLayer/AttackButton" to="." method="_on_AttackButton_released"]

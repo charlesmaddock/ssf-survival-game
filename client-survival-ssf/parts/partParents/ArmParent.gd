@@ -195,9 +195,9 @@ func _on_MonsterDetector_body_exited(body):
 	_nearby_monsters.erase(body)
 
 
-func _on_AttackButton_button_down():
+func _on_AttackButton_pressed():
 	_attacking_input = true
 
 
-func _on_AttackButton_button_up():
+func _on_AttackButton_released():
 	_attacking_input = false
