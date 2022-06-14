@@ -6,9 +6,6 @@ const ROOM_DIMENSIONS = Vector2(14, 8)
 const CORRIDOR_DIMENSIONS = Vector2(2, 8)
 
 
-export(int) var _number_of_rooms: int = 2
-
-
 var room_data = []
 var _room_coordinates: PoolVector2Array = [Vector2(0, 0)]
 #generate_rooms generar datan, emittar sedan signal till saker som ska göra allt som behövs
@@ -63,10 +60,15 @@ func _generate_rooms() -> void:
 	var all_room_data = []
 	var mob_i = 0
 	yield(get_tree().create_timer(1), "timeout")
+<<<<<<< HEAD
 	for i in _number_of_rooms:
 		print("this is the number of the current generated room: ", i)
+=======
+	for i in Constants.NUMBER_OF_ROOMS:
+		
+>>>>>>> main
 		var prev_room_data = null
-		var final_room = i == _number_of_rooms - 1
+		var final_room = i == Constants.NUMBER_OF_ROOMS - 1
 		if i - 1 >= 0:
 			prev_room_data = all_room_data[i - 1]
 			var prev_corridor_size = prev_room_data.corridor_rect_size
@@ -107,7 +109,11 @@ func _generate_rooms() -> void:
 			elif prev_room_data.exit_dir == Constants.ExitDirections.EAST:
 				available_directions.erase(Constants.ExitDirections.WEST)
 		
+<<<<<<< HEAD
 		if i == _number_of_rooms - 1:
+=======
+		if i == Constants.NUMBER_OF_ROOMS - 2:
+>>>>>>> main
 			available_directions = [Constants.ExitDirections.NORTH]
 		
 		var exit_dir: int = available_directions[randi() % available_directions.size()]
@@ -177,8 +183,8 @@ func generate_mobs(i) -> Array:
 	if i == 0 && test_spawn != -1:
 		mobs.append({"mob_type": test_spawn, "pos": Vector2.ZERO})
 	
-	if i == 1:
-		mobs.append({"mob_type": Constants.MobTypes.ROMANS_BOSS_FAS_2, "pos": Vector2(-10, -100)})
+	if Constants.NUMBER_OF_ROOMS - 1:
+		mobs.append({"mob_type": Constants.MobTypes.ROMANS_BOSS_FAS_2, "pos": Vector2(0, -100)})
 		
 	elif i != 0:
 		if i < mob_difficulties.keys().size():
