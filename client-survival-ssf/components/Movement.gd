@@ -16,7 +16,7 @@ var _prev_pos: Vector2
 
 var walking: bool = false
 var attack_freeze: bool = false
-var speed: float = 80.0
+var speed: float = 160.0
 var speed_modifier: float = 1.0
 var weight: float = 100
 
@@ -91,14 +91,15 @@ func _on_attack_freeze(time):
 func get_input():
 	var velocity = Vector2.ZERO
 	var joy_stick_velocity = JoyStick.get_direction()
-	if Input.is_action_pressed("ui_right"):
+	if Input.is_action_pressed("ui_right") || (Lobby.auto_aim == true && Input.is_key_pressed(KEY_RIGHT)):
 		velocity.x += 1
-	if Input.is_action_pressed("ui_left"):
+	if Input.is_action_pressed("ui_left") || (Lobby.auto_aim == true && Input.is_key_pressed(KEY_LEFT)):
 		velocity.x -= 1
-	if Input.is_action_pressed("ui_down"):
+	if Input.is_action_pressed("ui_down") || (Lobby.auto_aim == true && Input.is_key_pressed(KEY_DOWN)):
 		velocity.y += 1
-	if Input.is_action_pressed("ui_up"):
+	if Input.is_action_pressed("ui_up") || (Lobby.auto_aim == true && Input.is_key_pressed(KEY_UP)):
 		velocity.y -= 1
+	
 	return velocity.normalized() + joy_stick_velocity
 
 

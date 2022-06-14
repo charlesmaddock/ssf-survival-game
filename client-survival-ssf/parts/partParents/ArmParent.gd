@@ -106,7 +106,7 @@ func _process(delta):
 			
 			if _auto_switch_to_closest == true:
 				var closest_monster: Node = null
-				var closest_dist: float = 150.0
+				var closest_dist: float = 300.0
 				
 				for monster in _nearby_monsters:
 					var dist: float = monster.global_position.distance_to(global_position)

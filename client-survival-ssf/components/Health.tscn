@@ -4,7 +4,7 @@
 [ext_resource path="res://components/Health.gd" type="Script" id=2]
 
 [sub_resource type="CapsuleShape2D" id=2]
-radius = 13.0
+radius = 30.0
 height = 0.0
 
 [node name="Health" type="Node2D"]
@@ -16,13 +16,14 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea"]
 modulate = Color( 1, 0, 0, 0.564706 )
+position = Vector2( 0, -14 )
 shape = SubResource( 2 )
 
 [node name="Bar" type="TextureProgress" parent="."]
-margin_left = -15.0
-margin_top = -36.0
-margin_right = 17.0
-margin_bottom = -32.0
+margin_left = -32.0
+margin_top = -70.0
+margin_bottom = -66.0
+rect_scale = Vector2( 2, 2 )
 mouse_filter = 2
 value = 100.0
 texture_under = ExtResource( 1 )

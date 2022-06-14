@@ -4,7 +4,6 @@ extends KinematicBody2D
 export(int) var _strafe_distance: int = 85
 export(int) var _strafe_distance_variability: int = 10
 export(int) var _dashing_multiplier: int = 350
-export(int) var _movement_speed: int = 100
 export(float) var _time_before_dashing = 2.5
 export(float) var _time_before_dashing_variability_intervall = 0.3
 export(float) var _time_before_stop_dashing = 0.2
@@ -25,7 +24,6 @@ var _has_dashed: bool = false
 
 
 func _ready():
-	entity.emit_signal("change_movement_speed", _movement_speed)
 	_start_strafe()
 	dash_timer_node.set_wait_time(_time_before_dashing)
 	stop_dashing_timer_node.set_wait_time(_time_before_stop_dashing)

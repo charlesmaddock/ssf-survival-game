@@ -157,8 +157,6 @@ func set_difficulty(id: int) -> void:
 
 func generate_environment(room_type: int) -> void:
 	match room_type:
-		Constants.RoomTypes.START:
-			$Tutorial.set_visible(true)
 		Constants.RoomTypes.SPIKES:
 			var spike_patterns = [spike_pattern1_scene, spike_pattern2_scene, spike_pattern3_scene]
 			var pattern_scene = spike_patterns[randi() % spike_patterns.size()]

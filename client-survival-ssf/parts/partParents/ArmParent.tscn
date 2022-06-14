@@ -37,7 +37,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="CircleShape2D" id=3]
-radius = 150.0
+radius = 300.0
 
 [sub_resource type="CircleShape2D" id=4]
 radius = 25.0
@@ -79,12 +79,14 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -54.0
-margin_top = -54.0
-margin_right = -14.0
-margin_bottom = -14.0
+margin_left = -134.0
+margin_top = -142.0
+margin_right = -81.0
+margin_bottom = -84.0
+rect_scale = Vector2( 2, 2 )
 
 [node name="AttackButton" type="TouchScreenButton" parent="CanvasLayer/Container"]
+position = Vector2( 26, 26 )
 shape = SubResource( 4 )
 shape_centered = false
 
@@ -96,8 +98,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = -23.0
 margin_top = -23.0
-margin_right = 127.0
-margin_bottom = 127.0
+margin_right = 25.0
+margin_bottom = 26.0
 texture_normal = ExtResource( 4 )
 texture_pressed = ExtResource( 3 )
 

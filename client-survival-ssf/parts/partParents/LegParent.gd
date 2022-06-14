@@ -10,7 +10,7 @@ onready var sprite2: Node = get_node("Sprite2")
 var walk_state: bool = false
 var movement_node: Node
 
-export(float) var walk_speed: float = 80
+export(float) var walk_speed: float = 160
 export(Texture) var leg_texture: Texture
 export(Vector2) var sprite_offset: Vector2
 export(float) var leg_separation: float = 5
