@@ -109,14 +109,14 @@ environment_type = 3
 chest_spawn_change = 1.0
 
 [node name="Point" type="Node2D" parent="Treasure3"]
-position = Vector2( -48, -16 )
+position = Vector2( -60, -28 )
 
 [node name="Sprite" type="Sprite" parent="Treasure3/Point"]
 position = Vector2( 16, 16 )
 texture = ExtResource( 1 )
 
 [node name="Point4" type="Node2D" parent="Treasure3"]
-position = Vector2( -48, 16 )
+position = Vector2( -60, 4 )
 
 [node name="Sprite" type="Sprite" parent="Treasure3/Point4"]
 position = Vector2( 16, 16 )

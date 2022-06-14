@@ -58,10 +58,10 @@ shape = SubResource( 1 )
 [node name="Tutorial" type="Control" parent="Game"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 547.0
-margin_top = 304.0
-margin_right = 547.0
-margin_bottom = 304.0
+margin_left = 404.0
+margin_top = 203.0
+margin_right = 404.0
+margin_bottom = 203.0
 mouse_filter = 2
 theme = ExtResource( 3 )
 
