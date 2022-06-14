@@ -51,7 +51,7 @@ func _ready():
 		get_parent().entity.connect("turned_around", self, "_on_turned_around")
 		get_parent().entity.connect("aim_dir", self, "_on_aim_dir")
 		
-		var attack_button_vis = get_parent().entity.id == Lobby.my_id && Lobby.auto_aim
+		var attack_button_vis = get_parent().entity.id == Lobby.my_id && Lobby.auto_aim && Util.is_mobile()
 		get_node("CanvasLayer/AttackButton").set_visible(attack_button_vis) 
 	
 	if arm_texture != null:
@@ -111,7 +111,7 @@ func _process(delta):
 					if is_instance_valid(_aim_at_target):
 						prev_closest_dist = global_position.distance_to(_aim_at_target.global_position)
 					
-					if closest_monster != _aim_at_target && prev_closest_dist > 50 && parent_entity.id == Lobby.my_id:
+					if closest_monster != _aim_at_target && prev_closest_dist > 100 && parent_entity.id == Lobby.my_id:
 						Events.emit_signal("target_entity", closest_monster, false)
 			
 			if is_instance_valid(_aim_at_target):

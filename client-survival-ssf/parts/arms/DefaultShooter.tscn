@@ -4,10 +4,8 @@
 [ext_resource path="res://assets/sprites/defaultShooter.png" type="Texture" id=2]
 
 [node name="DefaultShooter" instance=ExtResource( 1 )]
-projectile_type = null
 arm_texture = ExtResource( 2 )
 arm_separation = 4.0
-angle_offset = null
 cooldown = 0.6
 freeze_time = 0.1
 knockback = 0.1

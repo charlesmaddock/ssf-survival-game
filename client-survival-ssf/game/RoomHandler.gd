@@ -56,7 +56,62 @@ var mob_level_templates: Dictionary = {
 	4: [[Constants.MobTypes.MOLE, Constants.MobTypes.CHOWDER], [Constants.MobTypes.LOVE_BULL, Constants.MobTypes.CHOWDER]]
 }
 
+var mob_levels: Dictionary = {
+	Constants.RoomDifficulties.EASY: [
+		[
+			{"mob": Constants.MobTypes.CLOUDER, "amount": 2, "more_per_player": 1}
+		], 
+		[
+			{"mob": Constants.MobTypes.TURRET_CRAWLER, "amount": 3, "more_per_player": 1}
+		], 
+		[
+			{"mob": Constants.MobTypes.MOLE, "amount": 2, "more_per_player": 1}
+		],
+	],
+	Constants.RoomDifficulties.MEDIUM: [
+		[
+			{"mob": Constants.MobTypes.TURRET_CRAWLER, "amount": 3, "more_per_player": 1},
+			{"mob": Constants.MobTypes.MOLE, "amount": 2, "more_per_player": 1}
+		], 
+		[
+			{"mob": Constants.MobTypes.TURRET_CRAWLER, "amount": 3, "more_per_player": 1},
+			{"mob": Constants.MobTypes.LOVE_BULL, "amount": 2, "more_per_player": 1}
+		], 
+		[
+			{"mob": Constants.MobTypes.MOLE, "amount": 3, "more_per_player": 1},
+			{"mob": Constants.MobTypes.LOVE_BULL, "amount": 3, "more_per_player": 0.5}
+		], 
+		[
+			{"mob": Constants.MobTypes.CLOUDER, "amount": 2, "more_per_player": 1},
+			{"mob": Constants.MobTypes.MOLE, "amount": 3, "more_per_player": 0.1},
+			{"mob": Constants.MobTypes.CHOWDER, "amount": 1, "more_per_player": 0.1}
+		], 
+		[
+			{"mob": Constants.MobTypes.CHOWDER, "amount": 2, "more_per_player": 0.5},
+		], 
+	],
+	Constants.RoomDifficulties.HARD: [
+		[
+			{"mob": Constants.MobTypes.CLOUDER, "amount": 2, "more_per_player": 0.5},
+			{"mob": Constants.MobTypes.MOLE, "amount": 3, "more_per_player": 0.5},
+			{"mob": Constants.MobTypes.CHOWDER, "amount": 1, "more_per_player": 0.1}
+		], 
+		[
+			{"mob": Constants.MobTypes.CHOWDER, "amount": 2, "more_per_player": 1},
+			{"mob": Constants.MobTypes.LOVE_BULL, "amount": 3, "more_per_player": 0.5},
+		], 
+		[
+			{"mob": Constants.MobTypes.MOLE, "amount": 3, "more_per_player": 1},
+			{"mob": Constants.MobTypes.CHOWDER, "amount": 3, "more_per_player": 0.5},
+		], 
+	]
+}
+
+var temp_mob_levels: Dictionary
+
+
 func _generate_rooms() -> void:
+	temp_mob_levels = mob_levels.duplicate(true) 
 	var all_room_data = []
 	var mob_i = 0
 	yield(get_tree().create_timer(1), "timeout")
@@ -168,7 +223,12 @@ func _generate_rooms() -> void:
 
 func generate_mobs(i) -> Array:
 	var mobs = []
-	var spawn_currency: float = i * 1.5
+	var difficulty = Constants.RoomDifficulties.HARD
+	if i <= 3:
+		difficulty = Constants.RoomDifficulties.EASY
+	elif i <= 8:
+		difficulty = Constants.RoomDifficulties.MEDIUM
+	
 	randomize()
 	
 	if i == 0 && test_spawn != -1:
@@ -178,30 +238,18 @@ func generate_mobs(i) -> Array:
 		mobs.append({"mob_type": Constants.MobTypes.ROMANS_BOSS, "pos": Vector2(0, -100)})
 		
 	elif i != 0:
-		if i < mob_difficulties.keys().size():
-			for n in (mob_difficulties.keys().size() - (i - 1)):
-				mobs.append({"mob_type": mob_difficulties.keys()[mob_difficulties.keys().size() - i], "pos": Vector2.ZERO})
+		if temp_mob_levels[difficulty].size() == 0:
+			temp_mob_levels[difficulty] = mob_levels[difficulty].duplicate(true)
+		
+		var index = randi() % temp_mob_levels[difficulty].size()
+		var mob_data_array: Array = temp_mob_levels[difficulty][index]
+		
+		temp_mob_levels[difficulty].remove(index)
+		
+		for mob_data in mob_data_array:
+			var amount = mob_data.amount + ((Lobby.players_data.size() - 1) * mob_data.more_per_player)
+			for i in amount:
+				mobs.append({"mob_type": mob_data.mob, "pos": Vector2.ZERO})
 			
-		else:
-			var this_level_templates: Array = mob_level_templates[int(clamp((i - mob_difficulties.keys().size() + 1), 1, 4))]
-			var random_level_template: Array = this_level_templates[randi() % this_level_templates.size()]
-			var spendable_currency: float = spawn_currency
-			
-			while(spendable_currency > 0):
-				var mob_type: int
-				if spendable_currency > (spawn_currency / 2):
-					mob_type = random_level_template[0]
-				else:
-					mob_type = random_level_template[1]
-				
-				mobs.append({"mob_type": mob_type, "pos": Vector2.ZERO})
-				
-				var spawn_cost = mob_difficulties[mob_type]
-				spendable_currency -= spawn_cost
-				
-#			var mob_type = mob_difficulties.keys()[mob_diff_index]
-#			var spawn_cost = mob_difficulties.values()[mob_diff_index]
-			
-#			if spawn_currency >= spawn_cost:
-#					spawn_currency -= spawn_cost
+	
 	return mobs

@@ -55,5 +55,5 @@ func _on_SurfaceTimer_timeout():
 func _start_dig_timer() -> void:
 	randomize()
 	var dig_time: float = _dig_time
-	dig_time += rand_range(-_dig_time_variability, _dig_time_variability)
+	#dig_time += rand_range(-_dig_time_variability, _dig_time_variability)
 	undergroundTimer.start(dig_time)
