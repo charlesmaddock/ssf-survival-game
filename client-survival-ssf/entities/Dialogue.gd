@@ -24,25 +24,20 @@ var _is_animaton_to_stop: bool = false
 var _dialogue_index = 0
 var dialogues: Array = [
 	{
-	"text": "Hello there Hero!\nWe are in much need of you.",
+	"text": "Hjälp mig! Min telefon har blivit erövrad av romansbedragare!",
 	"text_speed": "Fast",
 	"animation": "Talking_Neutral"
 	},
-	
 	{
-	"text": "There's a lovely monstrosity down the road.",
+	"text": "Säkerhetshjältarna, kan ni bekämpa dem!?",
 	"text_speed": "Fast",
-	"animation": "Talking_Neutral"},
-	
+	"animation": "Talking_Neutral"
+	},
 	{
-	"text": "Would you please defeat it?",
+	"text": "Ta er genom alla rum och besegra bossen i det sista rummet, lycka till!",
 	"text_speed": "Fast",
-	"animation": "Talking_Neutral"},
-	
-	{
-	"text": "And remember: do not succumb to it's allure!",
-	"text_speed": "Fast",
-	"animation": "Talking_Neutral"},
+	"animation": "Talking_Neutral"
+	},
 ]
 
 

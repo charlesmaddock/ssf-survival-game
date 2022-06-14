@@ -97,6 +97,9 @@ func _on_packet_received(packet: Dictionary) -> void:
 					movement_component.set_process(false)
 					movement_component.set_physics_process(false)
 				
+				if health_for_entity_w_id == Lobby.my_id: 
+					Events.emit_signal("follow_w_camera", null)
+				
 				if Util.is_player(get_parent()):
 					Events.emit_signal("player_dead", get_parent().entity.id)
 			
@@ -104,9 +107,6 @@ func _on_packet_received(packet: Dictionary) -> void:
 				_is_dead = false
 				get_parent().rotation_degrees = 0
 				get_parent().collision_layer = _default_parent_collision_layer
-				
-				if health_for_entity_w_id == Lobby.my_id: 
-					Events.emit_signal("follow_w_camera", null)
 				
 				var movement_component = get_parent().get_node("Movement")
 				if movement_component != null:

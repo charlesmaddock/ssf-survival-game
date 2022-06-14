@@ -55,7 +55,6 @@ shape = SubResource( 1 )
 script = ExtResource( 15 )
 
 [node name="RoomHandler" parent="Game" instance=ExtResource( 7 )]
-_number_of_rooms = 12
 
 [node name="CanvasLayer" type="CanvasLayer" parent="Game"]
 

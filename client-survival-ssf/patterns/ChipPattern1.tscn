@@ -81,13 +81,6 @@ position = Vector2( -192, -48 )
 position = Vector2( 16, 16 )
 texture = ExtResource( 1 )
 
-[node name="Point" type="Node2D" parent="Treasure1"]
-position = Vector2( -48, 16 )
-
-[node name="Sprite" type="Sprite" parent="Treasure1/Point"]
-position = Vector2( 16, 16 )
-texture = ExtResource( 1 )
-
 [node name="Point3" type="Node2D" parent="Treasure1"]
 position = Vector2( -192, 80 )
 
@@ -106,5 +99,25 @@ texture = ExtResource( 1 )
 position = Vector2( 97, 80 )
 
 [node name="Sprite" type="Sprite" parent="Treasure1/Point5"]
+position = Vector2( 16, 16 )
+texture = ExtResource( 1 )
+
+[node name="Treasure3" type="Node2D" parent="."]
+position = Vector2( 44, -20 )
+script = ExtResource( 2 )
+environment_type = 3
+chest_spawn_change = 1.0
+
+[node name="Point" type="Node2D" parent="Treasure3"]
+position = Vector2( -48, -16 )
+
+[node name="Sprite" type="Sprite" parent="Treasure3/Point"]
+position = Vector2( 16, 16 )
+texture = ExtResource( 1 )
+
+[node name="Point4" type="Node2D" parent="Treasure3"]
+position = Vector2( -48, 16 )
+
+[node name="Sprite" type="Sprite" parent="Treasure3/Point4"]
 position = Vector2( 16, 16 )
 texture = ExtResource( 1 )
