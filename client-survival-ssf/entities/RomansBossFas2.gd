@@ -8,6 +8,9 @@ onready var ray_cast_solid_detection: Node2D = $RayCastSolidDetection
 onready var slap_range_detection: Node2D = $SlapRangeDetection
 
 onready var timer_before_phase_1_new_walk: Timer = $TimerBeforePhase1NewWalk
+onready var timer_if_walk_never_ends: Timer = $TimerIfWalkNeverEnds
+onready var timer_before_knocked_out_finished: Timer = $TimerBeforeKnockedOutFinished
+onready var timer_between_mob_spit: Timer = $TimerBetweenMobSpit
 
 onready var _target_walk_destination: Vector2 = self.global_position
 
@@ -17,25 +20,32 @@ export(float) var _hand_distance_from_head: float = 180
 export(int) var _movement_speed: int = 70
 export(float) var _walk_distance: float = 100
 export(float) var _time_before_new_walk: float = 1
-
+export(float) var _time_if_walk_never_ends: float = 2
+export(float) var _knocked_out_time: float = 3.2
+export(float) var _time_between_mob_spits: float = 10
 
 export(int) var clouders_spawned: int = 4
 export(int) var chowders_spawned: int = 1
+var _health = 3
 
 
 var entity: Entity
 var _is_animal = true
 var slapHand: Node
 var spindelhand: Node
+var slap_hand_id = "RomansBossSlapHand"
+var spindelhand_id = "SpindelHand"
 
 var _players_in_slapping_range: Array = []
 var _is_slapping: bool = false
+var _is_spitting: bool = false
 
 var _behaviour_state: int = behaviourStates.NEUTRAL
 
 enum behaviourStates {
 	NEUTRAL,
-	SLAPPING
+	SLAPPING,
+	KNOCKED_OUT
 } 
 
 
@@ -46,14 +56,28 @@ func _ready():
 	self.set_scale(head_scale)
 	_spawn_hands()
 	
+	timer_between_mob_spit.set_wait_time(_time_between_mob_spits)
+	timer_before_knocked_out_finished.set_wait_time(_knocked_out_time)
 	timer_before_phase_1_new_walk.set_wait_time(_time_before_new_walk)
-	yield(get_tree().create_timer(1), "timeout")
+	timer_if_walk_never_ends.set_wait_time(_time_if_walk_never_ends)
+	
+	yield(get_tree().create_timer(10), "timeout")
+	spawn_mob_spit()
 
 
 func _process(delta):
+	sprite.set_frame(0)
 	if _behaviour_state == behaviourStates.NEUTRAL:
+		if timer_between_mob_spit.is_stopped() && !_is_spitting:
+			match(_health):
+				3:
+					timer_between_mob_spit.start(_time_between_mob_spits)
+				2:
+					timer_between_mob_spit.start(_time_between_mob_spits * 2)
+				1:
+					timer_between_mob_spit.start(_time_between_mob_spits * 3)
 		if _target_walk_destination != Vector2.ZERO:
-			if self.global_position.distance_to(_target_walk_destination) < 10:
+			if self.global_position.distance_to(_target_walk_destination) < 10 or timer_if_walk_never_ends.is_stopped():
 				_target_walk_destination = Vector2.ZERO
 				AI_node.motionless_behaviour()
 				if _players_in_slapping_range.size() > 0:
@@ -62,9 +86,33 @@ func _process(delta):
 					slapHand.set_slapping_behaviour(slap_target)
 				else:
 					timer_before_phase_1_new_walk.start()
+	elif _behaviour_state == behaviourStates.KNOCKED_OUT:
+		sprite.set_frame(2)
 
-func _slap_nearby_player() -> void:
-	pass
+
+func spawn_mob_spit():
+	_is_spitting = true
+	var mob_type: int
+	var spawn_amount = _health
+	var mob_spit_time
+	match(_health):
+		3:
+			mob_type = Constants.MobTypes.CLOUDER
+			mob_spit_time = _time_between_mob_spits
+		2:
+			mob_type = Constants.MobTypes.MOLE
+			mob_spit_time = _time_between_mob_spits + 10
+		1:
+			mob_type = Constants.MobTypes.CHOWDER
+			mob_spit_time = _time_between_mob_spits + 20
+		
+	for i in spawn_amount:
+		sprite.set_frame(1)
+		Server.spawn_mob(Util.generate_id(), mob_type, self.global_position + Vector2(0, 40), -1)
+		yield(get_tree().create_timer(0.3), "timeout")
+		sprite.set_frame(0)
+		yield(get_tree().create_timer(0.3), "timeout")
+
 
 func _walk_to_random_destination() -> void:
 #	print("calling new walk!")
@@ -89,11 +137,10 @@ func _walk_to_random_destination() -> void:
 	AI_node.custom_behaviour()
 	yield(get_tree().create_timer(0.1), "timeout")
 	AI_node.set_target_walking_path(random_destination)
+	timer_if_walk_never_ends.start()
 
 
 func _spawn_hands():
-	var slap_hand_id = "RomansBossSlapHand"
-	var spindelhand_id = "SpindelHand"
 	
 	var slap_hand_position: Vector2
 	var spindehand_position: Vector2
@@ -114,6 +161,7 @@ func _spawn_hands():
 	spindelhand = Util.get_entity(spindelhand_id)
 	spindelhand.set_scale(hand_scale)
 	spindelhand.init(self.entity.id)
+	spindelhand.connect("collided_with_boss", self, "_on_collided_with_boss")
 #	spindelhand.connect()
 
 func _on_slapping_done() -> void:
@@ -122,6 +170,21 @@ func _on_slapping_done() -> void:
 	slapHand.set_hovering_behaviour()
 	_walk_to_random_destination()
 	_behaviour_state = behaviourStates.NEUTRAL
+
+
+
+func _on_collided_with_boss() -> void:
+	timer_before_knocked_out_finished.start()
+	_behaviour_state = behaviourStates.KNOCKED_OUT
+	slapHand.set_knocked_out_behaviour()
+	
+	_health -= -1
+	if _health <= 0:
+		Server.despawn_mob(slap_hand_id)
+		Server.despawn_mob(spindelhand_id)
+		Server.despawn_mob(self.entity.id)
+
+
 
 func _on_TimerBeforePhase1NewWalk_timeout():
 	if _behaviour_state == behaviourStates.NEUTRAL:
@@ -135,3 +198,14 @@ func _on_SlapRangeDetection_body_entered(body):
 func _on_SlapRangeDetection_body_exited(body):
 	if _players_in_slapping_range.find(body) != -1:
 		_players_in_slapping_range.erase(body)
+
+
+func _on_TimerBeforeKnockedOutFinished_timeout():
+	sprite.set_frame(0)
+	_behaviour_state = behaviourStates.NEUTRAL
+	slapHand.set_hovering_behaviour()
+
+
+func _on_TimerBetweenMobSpit_timeout():
+	spawn_mob_spit()
+

@@ -5,7 +5,7 @@
 [ext_resource path="res://components/RayCastContainer.tscn" type="PackedScene" id=3]
 
 [sub_resource type="CapsuleShape2D" id=1]
-radius = 24.0
+radius = 23.0
 height = 0.0
 
 [sub_resource type="Animation" id=3]
@@ -40,7 +40,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="CircleShape2D" id=2]
-radius = 149.0
+radius = 292.207
 
 [node name="SpindelHand" type="KinematicBody2D"]
 collision_layer = 64
@@ -48,7 +48,7 @@ collision_mask = 73
 script = ExtResource( 1 )
 _walk_distance = 150
 _walk_speed = 120
-_charge_max_speed = 240.0
+_charge_max_speed = 300.0
 _friction = 200.0
 _friction_time_multiplier = 0.6
 
@@ -110,6 +110,10 @@ one_shot = true
 one_shot = true
 
 [node name="TimerIfWalkNeverEnds" type="Timer" parent="."]
+one_shot = true
+
+[node name="TimerForIfCollidedDowntime" type="Timer" parent="."]
+one_shot = true
 
 [connection signal="body_entered" from="PlayerDetectionArea" to="." method="_on_PlayerDetectionArea_body_entered"]
 [connection signal="body_exited" from="PlayerDetectionArea" to="." method="_on_PlayerDetectionArea_body_exited"]

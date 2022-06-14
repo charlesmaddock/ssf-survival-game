@@ -11,6 +11,7 @@ export var _slapp_count: int = 2
 
 onready var health_node: Node2D = self.get_node("Health")
 onready var movement_node: Node2D = self.get_node("Movement")
+onready var sprite: Sprite = $Sprite
 
 onready var timer_before_slap: Timer = $TimerBeforeSlap
 
@@ -34,6 +35,7 @@ signal slapping_done()
 
 enum behaviourStates {
 	MOTIONLESS,
+	KNOCKED_OUT,
 	HOVER_AROUND_HEAD,
 	SLAP,
 } 
@@ -98,11 +100,16 @@ func _next_slap_movement() -> void:
 
 func set_motionless_behaviour() -> void:
 	_behaviour_state = behaviourStates.MOTIONLESS
+	sprite.set_frame(0)
 
-
+func set_knocked_out_behaviour() -> void:
+	_behaviour_state = behaviourStates.KNOCKED_OUT
+	sprite.set_frame(1)
+	
 func set_hovering_behaviour() -> void:
 	_staging_slap = false
 	_behaviour_state = behaviourStates.HOVER_AROUND_HEAD
+	sprite.set_frame(0)
 
 func set_slapping_behaviour(slap_target) -> void:
 	_staging_slap = true
@@ -111,3 +118,5 @@ func set_slapping_behaviour(slap_target) -> void:
 
 func _on_TimerBeforeSlap_timeout():
 	_behaviour_state = behaviourStates.SLAP
+	sprite.set_frame(0)
+
