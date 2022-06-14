@@ -4,7 +4,7 @@
 [ext_resource path="res://entities/Item.gd" type="Script" id=2]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 7.07107
+radius = 12.0416
 
 [sub_resource type="Animation" id=2]
 length = 0.001
@@ -62,7 +62,6 @@ tracks/1/keys = {
 }
 
 [node name="Item" type="Area2D"]
-scale = Vector2( 0.5, 0.5 )
 collision_layer = 2
 script = ExtResource( 2 )
 

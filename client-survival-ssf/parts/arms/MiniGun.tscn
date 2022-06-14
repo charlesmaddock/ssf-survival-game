@@ -7,13 +7,14 @@
 projectile_type = 1
 arm_texture = ExtResource( 2 )
 arm_separation = 2.0
+arm_scale = 2.0
 cooldown = 0.15
 freeze_time = 0.1
-anim_speed = 1.0
 knockback = 0.2
 melee = false
 damage = 10.0
 
 [node name="Sprite1" parent="." index="0"]
 position = Vector2( 2, 0 )
+scale = Vector2( 2, 2 )
 texture = ExtResource( 2 )

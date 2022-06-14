@@ -5,7 +5,7 @@
 
 [node name="RedBullet" instance=ExtResource( 2 )]
 _damage = 4.0
-_speed = 200.0
+_speed = 410.0
 
 [node name="Sprite" parent="." index="0"]
 modulate = Color( 0.0901961, 0.054902, 0.670588, 1 )

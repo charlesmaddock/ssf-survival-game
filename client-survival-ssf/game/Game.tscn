@@ -18,7 +18,7 @@
 [ext_resource path="res://game/Walls.gd" type="Script" id=16]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 56.0
+radius = 69.0
 
 [node name="GameWrapper" type="Control"]
 margin_right = 40.0
@@ -31,21 +31,20 @@ script = ExtResource( 1 )
 
 [node name="Navigation2D" type="Navigation2D" parent="Game"]
 
-[node name="Walls" type="TileMap" parent="Game/Navigation2D"]
-tile_set = ExtResource( 12 )
-collision_layer = 8
-collision_mask = 0
-format = 1
-script = ExtResource( 16 )
-
 [node name="Ground" type="TileMap" parent="Game/Navigation2D"]
 tile_set = ExtResource( 5 )
 format = 1
 tile_data = PoolIntArray( 0, 1, 0 )
 script = ExtResource( 11 )
 
+[node name="Walls" type="TileMap" parent="Game/Navigation2D"]
+tile_set = ExtResource( 12 )
+collision_layer = 8
+collision_mask = 65
+format = 1
+script = ExtResource( 16 )
+
 [node name="Target" type="Sprite" parent="Game"]
-scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 2 )
 script = ExtResource( 9 )
 
@@ -55,6 +54,43 @@ collision_mask = 89
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Game/Target/MonsterDetector"]
 shape = SubResource( 1 )
+
+[node name="Tutorial" type="Control" parent="Game"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 404.0
+margin_top = 203.0
+margin_right = 404.0
+margin_bottom = 203.0
+mouse_filter = 2
+theme = ExtResource( 3 )
+
+[node name="Move" type="Label" parent="Game/Tutorial"]
+margin_left = -57.0
+margin_top = -23.0
+margin_right = -10.0
+margin_bottom = -4.0
+custom_colors/font_color = Color( 0.0627451, 0.368627, 0.0823529, 1 )
+text = "Spring med
+Piltangenterna"
+
+[node name="Move2" type="Label" parent="Game/Tutorial"]
+margin_left = 108.0
+margin_top = -21.0
+margin_right = 248.0
+margin_bottom = 28.0
+custom_colors/font_color = Color( 0.0627451, 0.368627, 0.0823529, 1 )
+text = "Attackera med
+mellanslag"
+
+[node name="Move3" type="Label" parent="Game/Tutorial"]
+margin_left = -57.0
+margin_top = 48.0
+margin_right = 83.0
+margin_bottom = 97.0
+custom_colors/font_color = Color( 0.0627451, 0.368627, 0.0823529, 1 )
+text = "Sikta genom
+att klicka"
 
 [node name="Entities" type="YSort" parent="Game"]
 script = ExtResource( 15 )
@@ -130,9 +166,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -49.5
-margin_top = 13.0
+margin_top = 20.0
 margin_right = 50.5
-margin_bottom = 27.0
+margin_bottom = 49.0
 rect_min_size = Vector2( 100, 0 )
 theme = ExtResource( 3 )
 text = "Börja om"
@@ -143,10 +179,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -50.0
-margin_top = 33.0
-margin_right = 50.0
-margin_bottom = 47.0
+margin_left = -66.0
+margin_top = 54.0
+margin_right = 66.0
+margin_bottom = 83.0
 rect_min_size = Vector2( 100, 0 )
 theme = ExtResource( 3 )
 text = "Lämna Rummet"
@@ -168,10 +204,10 @@ layer = 10
 [node name="LeaveButton" type="Button" parent="Game/EscPanel"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -61.0
-margin_top = 3.0
-margin_right = -3.0
-margin_bottom = 17.0
+margin_left = -67.0
+margin_top = 7.0
+margin_right = -5.0
+margin_bottom = 36.0
 theme = ExtResource( 3 )
 text = "Lämna"
 script = ExtResource( 8 )

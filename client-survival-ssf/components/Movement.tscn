@@ -10,13 +10,12 @@ script = ExtResource( 1 )
 
 [node name="Control" type="Control" parent="CanvasLayer"]
 modulate = Color( 1, 1, 1, 0.509804 )
-anchor_top = 1.0
+anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = -272.0
-margin_right = 465.0
 mouse_filter = 2
 
 [node name="JoyStick" parent="CanvasLayer/Control" instance=ExtResource( 2 )]
+position = Vector2( 125, 386 )
 movement_path = NodePath("../../..")
 show_move_sprite = true
 

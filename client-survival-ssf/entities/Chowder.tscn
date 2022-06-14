@@ -12,17 +12,17 @@
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 6.99999
-height = 10.0
+height = 24.0
 
 [sub_resource type="CapsuleShape2D" id=2]
-radius = 12.0
+radius = 14.0
 height = 28.0
 
 [node name="Chowder" type="KinematicBody2D"]
 collision_layer = 64
 collision_mask = 64
 script = ExtResource( 2 )
-_movement_speed = 85
+_movement_speed = 100
 distance_from_player = 30
 _attack_damage = 20
 _attack_scale = Vector2( 0.5, 1 )
@@ -38,12 +38,10 @@ rotation = 1.5708
 shape = SubResource( 1 )
 
 [node name="PinkLegs" parent="." instance=ExtResource( 1 )]
-position = Vector2( 0.25, -6.089 )
-leg_separation = 8.971
+position = Vector2( 0.249435, -12.0834 )
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( -0.499435, -33.0056 )
-scale = Vector2( 0.5, 0.5 )
+position = Vector2( -2.5, -64 )
 texture = ExtResource( 9 )
 
 [node name="RoomVisibility" parent="." instance=ExtResource( 8 )]
@@ -69,16 +67,13 @@ wait_time = 2.0
 one_shot = true
 
 [node name="Health" parent="." instance=ExtResource( 4 )]
-visible = false
 position = Vector2( 0, -29 )
 max_health = 120.0
 
 [node name="DamageArea" parent="Health" index="0"]
-visible = false
 position = Vector2( 0, 29 )
 
 [node name="CollisionShape2D" parent="Health/DamageArea" index="0"]
-visible = false
 position = Vector2( 0, -23 )
 shape = SubResource( 2 )
 

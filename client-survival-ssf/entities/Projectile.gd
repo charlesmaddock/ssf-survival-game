@@ -2,7 +2,7 @@ extends Area2D
 
 
 export(float) var _damage = 50
-export(float) var _speed = 100
+export(float) var _speed = 360
 
 
 var _velocity: Vector2 

@@ -6,6 +6,7 @@
 [node name="DefaultShooter" instance=ExtResource( 1 )]
 arm_texture = ExtResource( 2 )
 arm_separation = 4.0
+arm_scale = 2.0
 cooldown = 0.6
 freeze_time = 0.1
 knockback = 0.1
@@ -14,4 +15,5 @@ damage = 10.0
 
 [node name="Sprite1" parent="." index="0"]
 position = Vector2( 4, 0 )
+scale = Vector2( 2, 2 )
 texture = ExtResource( 2 )
