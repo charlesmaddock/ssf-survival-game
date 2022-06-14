@@ -2,7 +2,7 @@
 
 [ext_resource path="res://game/Room.gd" type="Script" id=1]
 [ext_resource path="res://game/Door.gd" type="Script" id=2]
-[ext_resource path="res://assets/sprites/Door.png" type="Texture" id=3]
+[ext_resource path="res://assets/sprites/sDoor.png" type="Texture" id=3]
 [ext_resource path="res://assets/theme/theme.tres" type="Theme" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
@@ -11,7 +11,7 @@ extents = Vector2( 192, 96 )
 
 [sub_resource type="RectangleShape2D" id=2]
 resource_local_to_scene = true
-extents = Vector2( 32, 17 )
+extents = Vector2( 64.0753, 32.3407 )
 
 [sub_resource type="RectangleShape2D" id=3]
 resource_local_to_scene = true
@@ -34,12 +34,11 @@ collision_mask = 65
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="Door"]
-scale = Vector2( 2, 2 )
 texture = ExtResource( 3 )
 centered = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Door"]
-position = Vector2( 32, 17 )
+position = Vector2( 64, 32 )
 shape = SubResource( 2 )
 
 [node name="EnterDoor" type="StaticBody2D" parent="."]
@@ -48,12 +47,11 @@ collision_mask = 65
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="EnterDoor"]
-scale = Vector2( 2, 2 )
 texture = ExtResource( 3 )
 centered = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnterDoor"]
-position = Vector2( 32, 17 )
+position = Vector2( 64, 32 )
 shape = SubResource( 2 )
 
 [node name="NextRoomDetector" type="Area2D" parent="."]
