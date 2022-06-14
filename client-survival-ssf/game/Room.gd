@@ -218,7 +218,7 @@ func _on_NextRoomDetector_body_entered(body) -> void:
 			yield(get_tree().create_timer(0.6), "timeout")
 			var player_index: int
 			for player in Util.get_living_players(): 
-				player.global_position = _next_room_spawn_pos.global_position + (Vector2.DOWN * player_index * Constants.TILE_SIZE)
+				Server.teleport_entity(player.entity.id, _next_room_spawn_pos.global_position + (Vector2.DOWN * player_index * Constants.TILE_SIZE))
 				#player_index += 1
 		elif Lobby.is_host == true && next_room == null:
 			printerr("Room was null.")

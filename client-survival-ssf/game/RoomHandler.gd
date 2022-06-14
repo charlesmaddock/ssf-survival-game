@@ -62,7 +62,7 @@ var mob_levels: Dictionary = {
 			{"mob": Constants.MobTypes.CLOUDER, "amount": 2, "more_per_player": 1}
 		], 
 		[
-			{"mob": Constants.MobTypes.TURRET_CRAWLER, "amount": 3, "more_per_player": 1}
+			{"mob": Constants.MobTypes.TURRET_CRAWLER, "amount": 2, "more_per_player": 1}
 		], 
 		[
 			{"mob": Constants.MobTypes.MOLE, "amount": 2, "more_per_player": 1}
@@ -71,19 +71,19 @@ var mob_levels: Dictionary = {
 	Constants.RoomDifficulties.MEDIUM: [
 		[
 			{"mob": Constants.MobTypes.TURRET_CRAWLER, "amount": 3, "more_per_player": 1},
-			{"mob": Constants.MobTypes.MOLE, "amount": 2, "more_per_player": 1}
+			{"mob": Constants.MobTypes.MOLE, "amount": 2, "more_per_player": 0.5}
 		], 
 		[
-			{"mob": Constants.MobTypes.TURRET_CRAWLER, "amount": 3, "more_per_player": 1},
-			{"mob": Constants.MobTypes.LOVE_BULL, "amount": 2, "more_per_player": 1}
+			{"mob": Constants.MobTypes.TURRET_CRAWLER, "amount": 2, "more_per_player": 1},
+			{"mob": Constants.MobTypes.LOVE_BULL, "amount": 2, "more_per_player": 0.5}
 		], 
 		[
-			{"mob": Constants.MobTypes.MOLE, "amount": 3, "more_per_player": 1},
-			{"mob": Constants.MobTypes.LOVE_BULL, "amount": 3, "more_per_player": 0.5}
+			{"mob": Constants.MobTypes.MOLE, "amount": 2, "more_per_player": 1},
+			{"mob": Constants.MobTypes.LOVE_BULL, "amount": 2, "more_per_player": 0.5}
 		], 
 		[
 			{"mob": Constants.MobTypes.CLOUDER, "amount": 2, "more_per_player": 1},
-			{"mob": Constants.MobTypes.MOLE, "amount": 3, "more_per_player": 0.1},
+			{"mob": Constants.MobTypes.MOLE, "amount": 2, "more_per_player": 0.1},
 			{"mob": Constants.MobTypes.CHOWDER, "amount": 1, "more_per_player": 0.1}
 		], 
 		[
@@ -92,8 +92,8 @@ var mob_levels: Dictionary = {
 	],
 	Constants.RoomDifficulties.HARD: [
 		[
-			{"mob": Constants.MobTypes.CLOUDER, "amount": 2, "more_per_player": 0.5},
-			{"mob": Constants.MobTypes.MOLE, "amount": 3, "more_per_player": 0.5},
+			{"mob": Constants.MobTypes.CLOUDER, "amount": 2, "more_per_player": 1},
+			{"mob": Constants.MobTypes.MOLE, "amount": 2, "more_per_player": 0.5},
 			{"mob": Constants.MobTypes.CHOWDER, "amount": 1, "more_per_player": 0.1}
 		], 
 		[

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://game/Game.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/target.png" type="Texture" id=2]
@@ -11,9 +11,11 @@
 [ext_resource path="res://game/Target.gd" type="Script" id=9]
 [ext_resource path="res://ui/RestartButton.gd" type="Script" id=10]
 [ext_resource path="res://game/World.gd" type="Script" id=11]
+[ext_resource path="res://assets/tiles/chipTiles.tres" type="TileSet" id=12]
 [ext_resource path="res://ui/DeathScreen.gd" type="Script" id=13]
 [ext_resource path="res://ui/LoseScreen.gd" type="Script" id=14]
 [ext_resource path="res://game/Entities.gd" type="Script" id=15]
+[ext_resource path="res://game/Walls.gd" type="Script" id=16]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 56.0
@@ -29,14 +31,17 @@ script = ExtResource( 1 )
 
 [node name="Navigation2D" type="Navigation2D" parent="Game"]
 
-[node name="World" type="TileMap" parent="Game/Navigation2D"]
-tile_set = ExtResource( 5 )
-cell_size = Vector2( 32, 32 )
-cell_quadrant_size = 32
-cell_custom_transform = Transform2D( 0, 0, 0, 0, 0, 0 )
+[node name="Walls" type="TileMap" parent="Game/Navigation2D"]
+tile_set = ExtResource( 12 )
 collision_layer = 8
-collision_mask = 65
+collision_mask = 0
 format = 1
+script = ExtResource( 16 )
+
+[node name="Ground" type="TileMap" parent="Game/Navigation2D"]
+tile_set = ExtResource( 5 )
+format = 1
+tile_data = PoolIntArray( 0, 1, 0 )
 script = ExtResource( 11 )
 
 [node name="Target" type="Sprite" parent="Game"]
@@ -132,9 +137,6 @@ rect_min_size = Vector2( 100, 0 )
 theme = ExtResource( 3 )
 text = "Börja om"
 script = ExtResource( 10 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="LeaveButton" type="Button" parent="Game/CanvasLayer/LoseScreen"]
 anchor_left = 0.5

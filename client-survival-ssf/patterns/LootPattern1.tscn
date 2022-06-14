@@ -70,3 +70,15 @@ position = Vector2( 0, 32 )
 [node name="Sprite" type="Sprite" parent="EnvironmentPattern6/Point3"]
 position = Vector2( 16, 16 )
 texture = ExtResource( 1 )
+
+[node name="EnvironmentPattern7" type="Node2D" parent="."]
+position = Vector2( -16, 32 )
+script = ExtResource( 2 )
+environment_type = 4
+chest_spawn_change = 0.6
+
+[node name="Point" type="Node2D" parent="EnvironmentPattern7"]
+
+[node name="Sprite" type="Sprite" parent="EnvironmentPattern7/Point"]
+position = Vector2( 16, 16 )
+texture = ExtResource( 1 )

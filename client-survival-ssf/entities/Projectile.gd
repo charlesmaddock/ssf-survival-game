@@ -11,13 +11,13 @@ var _damage_creator_team: int
 var _destroyed: bool
 
 
-func init(pos: Vector2, dir: Vector2, val: float, creator_id: String, creator_team: int) -> void:
+func init(pos: Vector2, dir: Vector2, val: float, creator_id: String, creator_team: int, add_dir: Vector2) -> void:
 	_damage = val
 	_damage_creator_id = creator_id
 	_damage_creator_team = creator_team
 	
 	global_position = pos
-	_velocity = dir.normalized() * _speed
+	_velocity = (dir.normalized() * _speed) + add_dir
 
 
 func same_creator_or_team(id: String, team: int) -> bool:

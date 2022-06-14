@@ -45,7 +45,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 0.5, 0.5 ) ]
+"values": [ Vector2( 1, 1 ) ]
 }
 
 [sub_resource type="Animation" id=4]
@@ -73,25 +73,26 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 0.2, 0.4 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0.5, 0.5 ), Vector2( 0.4, 1 ), Vector2( 0.5, 0.5 ) ]
+"values": [ Vector2( 0.5, 0.5 ), Vector2( 0.3, 1 ), Vector2( 0.5, 0.5 ) ]
 }
 
 [node name="LoveBull" type="KinematicBody2D"]
 collision_layer = 64
-collision_mask = 0
+collision_mask = 64
 script = ExtResource( 7 )
-_charge_speed = 350.0
+_charge_speed = 310.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
 
 [node name="Damage" parent="." instance=ExtResource( 3 )]
-_damage = 30.0
+_damage = 25.0
 
 [node name="CollisionShape2D" parent="Damage" index="0"]
 shape = SubResource( 2 )
 
 [node name="Health" parent="." instance=ExtResource( 2 )]
+max_health = 70.0
 knockbackable = false
 
 [node name="CollisionShape2D" parent="Health/DamageArea" index="0"]
@@ -108,13 +109,13 @@ drop_chance = [ 30 ]
 [node name="Movement" parent="." instance=ExtResource( 6 )]
 
 [node name="Sprite" type="Sprite" parent="."]
-scale = Vector2( 0.5, 0.5 )
+position = Vector2( 0, -14 )
 texture = ExtResource( 1 )
 hframes = 4
 frame = 1
 
 [node name="ChargeBuildupTimer" type="Timer" parent="."]
-wait_time = 0.4
+wait_time = 0.8
 one_shot = true
 
 [node name="AimlessWalkingTimer" type="Timer" parent="."]
@@ -154,7 +155,7 @@ collision_layer = 0
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="DetectPlayerArea"]
 position = Vector2( -25, 80 )
-polygon = PoolVector2Array( -18, 225, 13, -88, 35, -88, 67, 223 )
+polygon = PoolVector2Array( -18, 200, 13, -88, 35, -88, 66, 200 )
 
 [connection signal="timeout" from="ChargeBuildupTimer" to="." method="_on_ChargeBuildupTimer_timeout"]
 [connection signal="timeout" from="AimlessWalkingTimer" to="." method="_on_AimlessWalkingTimer_timeout"]

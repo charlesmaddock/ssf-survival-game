@@ -18,7 +18,7 @@ height = 4.0
 
 [node name="Clouder" type="KinematicBody2D"]
 collision_layer = 64
-collision_mask = 0
+collision_mask = 64
 script = ExtResource( 2 )
 _dashing_multiplier = 500
 

@@ -25,6 +25,7 @@ enum PacketTypes {
   GAME_STARTED,
   SET_INPUT,
   SET_PLAYER_POS,
+  TELEPORT_ENTITY,
   REQUEST_RECONCILIATION,
   RECONCILE_PLAYER_POS,
   SET_HEALTH,
@@ -181,6 +182,9 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
           case PacketTypes.SET_PLAYER_POS:
             handleSetPos(ws, data);
             break;
+            case PacketTypes.TELEPORT_ENTITY:
+              handleTeleportEntity(ws, data);
+              break;
           case PacketTypes.REQUEST_RECONCILIATION:
               handleRequestReconcilation(ws, data);
               break;
@@ -459,6 +463,16 @@ const handleSetInput = (
     };
     hostClient.socket.send(JSON.stringify(payload));
   }
+};
+
+const handleTeleportEntity = (
+  ws: WebSocket,
+  packet: { type: number; id: string; x: number; y: number }
+) => {
+  let client = getClientFromWs(ws);
+  let room: Room = getClientsRoom(client);
+ 
+  broadcastToRoom(room, packet);
 };
 
 const handleSetPos = (

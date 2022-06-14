@@ -37,7 +37,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="CircleShape2D" id=3]
-radius = 117.0
+radius = 150.0
 
 [sub_resource type="CircleShape2D" id=4]
 radius = 25.0
@@ -74,12 +74,21 @@ shape = SubResource( 3 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="AttackButton" type="TouchScreenButton" parent="CanvasLayer"]
-position = Vector2( 397, 214 )
+[node name="Container" type="Control" parent="CanvasLayer"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -54.0
+margin_top = -54.0
+margin_right = -14.0
+margin_bottom = -14.0
+
+[node name="AttackButton" type="TouchScreenButton" parent="CanvasLayer/Container"]
 shape = SubResource( 4 )
 shape_centered = false
 
-[node name="AttackButton" type="TextureButton" parent="CanvasLayer/AttackButton"]
+[node name="AttackButton" type="TextureButton" parent="CanvasLayer/Container/AttackButton"]
 modulate = Color( 1, 1, 1, 0.509804 )
 anchor_left = 1.0
 anchor_top = 1.0
@@ -96,5 +105,5 @@ texture_pressed = ExtResource( 3 )
 [connection signal="timeout" from="DelayTimer" to="." method="_on_DelayTimer_timeout"]
 [connection signal="body_entered" from="MonsterDetector" to="." method="_on_MonsterDetector_body_entered"]
 [connection signal="body_exited" from="MonsterDetector" to="." method="_on_MonsterDetector_body_exited"]
-[connection signal="pressed" from="CanvasLayer/AttackButton" to="." method="_on_AttackButton_pressed"]
-[connection signal="released" from="CanvasLayer/AttackButton" to="." method="_on_AttackButton_released"]
+[connection signal="pressed" from="CanvasLayer/Container/AttackButton" to="." method="_on_AttackButton_pressed"]
+[connection signal="released" from="CanvasLayer/Container/AttackButton" to="." method="_on_AttackButton_released"]

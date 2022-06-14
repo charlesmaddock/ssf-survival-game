@@ -30,7 +30,7 @@ func _ready():
 	Events.connect("player_dead", self, "_on_player_dead")
 	$MyPlayerIndicator.set_visible(entity.id == Lobby.my_id)
 	
-	PickUpButton.visible = false
+	set_visible_pickup(false)
 	
 	if entity.id == Lobby.my_id: 
 		Events.emit_signal("follow_w_camera", self)
@@ -53,7 +53,7 @@ func _on_packet_received(packet: Dictionary) -> void:
 				var overlapped = get_node("Pickup").get_overlapping_areas()
 				if overlapped.size() == 1:
 					get_node("PickUpText").visible = false
-					PickUpButton.visible = false
+					set_visible_pickup(false)
 
 
 func _process(delta):
@@ -124,10 +124,14 @@ func _drop_old_part(part_type: int) -> void:
 			Server.spawn_pickup(Util.generate_id(), _bodyPart.part_name, global_position)
 
 
+func set_visible_pickup(val: bool) -> void:
+	PickUpButton.visible = val && Util.is_dead(self) == false
+
+
 func _on_Pickup_area_entered(area):
 	if entity.id == Lobby.my_id:
 		get_node("PickUpText").visible = true
-		PickUpButton.visible = true
+		set_visible_pickup(true)
 
 
 func _on_Pickup_area_exited(area):
@@ -136,7 +140,7 @@ func _on_Pickup_area_exited(area):
 		
 		if overlapped.empty():
 			get_node("PickUpText").visible = false
-			PickUpButton.visible = false
+			set_visible_pickup(false)
 	
 #	var pick_up_part_type: int = area.get_parent().get_part_name()
 #	var armNode = Util.get_instanced_part(pick_up_part_type)

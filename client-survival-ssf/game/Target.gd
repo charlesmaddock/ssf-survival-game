@@ -34,7 +34,7 @@ func _unhandled_input(event):
 
 func _aim_at_closest_monster() -> void:
 	var closest_monster: Node = null
-	var closest_dist: float = 300
+	var closest_dist: float = 150
 	
 	for monster in _monsters_in_area:
 		var dist: float = monster.global_position.distance_to(global_position)

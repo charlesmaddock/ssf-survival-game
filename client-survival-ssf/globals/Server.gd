@@ -38,6 +38,10 @@ func _connected(proto = ""):
 	send_packet({"type": Constants.PacketTypes.CONNECTED})
 
 
+var packets: Dictionary = {}
+var i: int = 0
+
+
 func _on_data():
 	# Print the received packet, you MUST always use get_peer(1).get_packet
 	# to receive data from server, and not get_packet directly when not
@@ -46,6 +50,16 @@ func _on_data():
 	var jsonRes: JSONParseResult = JSON.parse(packet)
 	var res = jsonRes.result
 	res.type = int(res.type)
+	
+	#if packets.has(Constants.PacketTypes.keys()[res.type]):
+	#	packets[Constants.PacketTypes.keys()[res.type]] += 1
+	#else:
+	#	packets[Constants.PacketTypes.keys()[res.type]] = 1
+	
+	#i += 1
+	#if i % 100 == 0:
+	#	print("packets: ", packets)
+	
 	emit_signal("packet_received", res)
 
 
@@ -119,7 +133,7 @@ func send_free_node(id: String) -> void:
 		"type": Constants.PacketTypes.FREE_NODE, 
 		"id": id
 	}
-	send_packet(payload)	
+	send_packet(payload)
 
 
 func switch_rooms(new_pos: Vector2, room_id: int) -> void:
@@ -143,6 +157,16 @@ func room_completed(name: String) -> void:
 func send_pos(id: String, pos: Vector2) -> void:
 	var payload = {
 		"type": Constants.PacketTypes.SET_PLAYER_POS, 
+		"id": id,
+		"x": pos.x,
+		"y": pos.y
+	}
+	send_packet(payload)
+
+
+func teleport_entity(id: String, pos: Vector2) -> void:
+	var payload = {
+		"type": Constants.PacketTypes.TELEPORT_ENTITY, 
 		"id": id,
 		"x": pos.x,
 		"y": pos.y
@@ -191,13 +215,15 @@ func melee_attack(id: String, dir: Vector2, team: int, damage: int)  -> void:
 	send_packet(payload)
 
 
-func shoot_projectile(start_pos: Vector2, dir: Vector2, id: String, team: int, projectile_type: int)  -> void:
+func shoot_projectile(start_pos: Vector2, dir: Vector2, id: String, team: int, projectile_type: int, add_dir: Vector2 = Vector2.ZERO)  -> void:
 	var payload = {
 		"type": Constants.PacketTypes.SHOOT_PROJECTILE, 
 		"posX": start_pos.x,
 		"posY": start_pos.y,
 		"dirX": dir.x,
 		"dirY": dir.y,
+		"add_dirX": add_dir.x,
+		"add_dirY": add_dir.y,
 		"id": id,
 		"p_type": projectile_type,
 		"team": team,

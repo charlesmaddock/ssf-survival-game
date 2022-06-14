@@ -22,7 +22,7 @@ var _underground: bool
 
 func _ready():
 	undergroundTimer.set_wait_time(_dig_time)
-	_on_SurfaceTimer_timeout()
+	_on_DigTimer_timeout()
 
 
 func _on_ShootTimer_timeout():
@@ -39,7 +39,8 @@ func _on_DigTimer_timeout():
 	surfaceTimer.start(_dig_time)
 	_underground = false
 	get_node("Health").set_invinsible(true) 
-	get_node("Movement").set_physics_process(true)
+	if Lobby.is_host == true:
+		get_node("Movement").set_physics_process(true)
 
 
 func _on_SurfaceTimer_timeout():
@@ -49,7 +50,8 @@ func _on_SurfaceTimer_timeout():
 	_start_dig_timer()
 	_underground = true
 	get_node("Health").set_invinsible(false) 
-	get_node("Movement").set_physics_process(false)
+	if Lobby.is_host == true:
+		get_node("Movement").set_physics_process(false)
 
 
 func _start_dig_timer() -> void:
