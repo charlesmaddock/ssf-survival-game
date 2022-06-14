@@ -60,13 +60,8 @@ func _generate_rooms() -> void:
 	var all_room_data = []
 	var mob_i = 0
 	yield(get_tree().create_timer(1), "timeout")
-<<<<<<< HEAD
-	for i in _number_of_rooms:
-		print("this is the number of the current generated room: ", i)
-=======
+
 	for i in Constants.NUMBER_OF_ROOMS:
-		
->>>>>>> main
 		var prev_room_data = null
 		var final_room = i == Constants.NUMBER_OF_ROOMS - 1
 		if i - 1 >= 0:
@@ -109,11 +104,7 @@ func _generate_rooms() -> void:
 			elif prev_room_data.exit_dir == Constants.ExitDirections.EAST:
 				available_directions.erase(Constants.ExitDirections.WEST)
 		
-<<<<<<< HEAD
-		if i == _number_of_rooms - 1:
-=======
 		if i == Constants.NUMBER_OF_ROOMS - 2:
->>>>>>> main
 			available_directions = [Constants.ExitDirections.NORTH]
 		
 		var exit_dir: int = available_directions[randi() % available_directions.size()]

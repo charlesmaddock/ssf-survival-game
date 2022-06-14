@@ -100,9 +100,9 @@ func _spawn_hands():
 	
 	if Lobby.is_host == true:
 		slap_hand_position = Vector2((self.global_position.x - _hand_distance_from_head), self.global_position.y)
-		Server.spawn_mob(slap_hand_id, Constants.MobTypes.ROMANS_BOSS_SLAP_HAND_FAS_2, slap_hand_position)
+		Server.spawn_mob(slap_hand_id, Constants.MobTypes.ROMANS_BOSS_SLAP_HAND_FAS_2, slap_hand_position, -1)
 		spindehand_position = self.global_position + Vector2(100, 100)
-		Server.spawn_mob(spindelhand_id, Constants.MobTypes.SPINDELHAND, spindehand_position)
+		Server.spawn_mob(spindelhand_id, Constants.MobTypes.SPINDELHAND, spindehand_position, -1)
 	
 	yield(get_tree().create_timer(0.1), "timeout")
 	
