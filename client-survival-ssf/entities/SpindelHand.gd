@@ -51,11 +51,10 @@ func init(boss_node_id: String):
 	boss_node = Util.get_entity(boss_node_id)
 
 
-func _process(delta) -> void:
+func _physics_process(delta) -> void:
 	if behaviourState == behaviourStates.AIMLESS_WANDERING:
 		if _array_of_detected_players.size() > 0:
 			behaviourState = behaviourStates.MOTIONLESS
-			_target_charge_direction = self.global_position.direction_to(_get_closest_nearby_player().global_position.normalized())
 			print("am in aimless and this is my future target dir: ", _target_charge_direction)
 			timer_before_charge.start()
 			
@@ -63,13 +62,15 @@ func _process(delta) -> void:
 			if timer_before_new_walk.is_stopped():
 				
 				if _target_walk_destination == Vector2.ZERO:
+					print("calling new walk anim")
 					_walk_to_random_destination()
 				else:
 					if !animationPlayer.is_playing():
 						print("telling animation to play in aimless_wandering")
 						animationPlayer.play("Walking", -1, 1)
-					
-					self.global_position += self.global_position.direction_to(_target_walk_destination).normalized() * _walk_speed * delta
+					self.move_and_slide(self.global_position.direction_to(_target_walk_destination).normalized() * _walk_speed)
+					if self.get_slide_collision(0):
+						timer_before_new_walk.start() 
 					if self.global_position.distance_to(_target_walk_destination) < 15:
 						timer_before_new_walk.start()
 			else:
@@ -87,10 +88,15 @@ func _process(delta) -> void:
 		
 		_current_friction -= clamp((delta / _friction_time_multiplier), 0, 1) * _friction
 		_current_friction = clamp(_current_friction, 0, 99999)
-		print("Current fric: ", _current_friction, " and this the subtraction of it next: ", clamp((delta / _friction_time_multiplier), 0, 1) * _friction)
+#		print("Current fric: ", _current_friction, " and this the subtraction of it next: ", clamp((delta / _friction_time_multiplier), 0, 1) * _friction)
 		var velocity: float = _charge_max_speed - _current_friction 
 #		var velocity: float = _charge_max_speed 
-		self.global_position += _target_charge_direction * velocity * delta
+		self.move_and_slide(_target_charge_direction * velocity)
+		if self.get_slide_collision(0):
+			behaviourState = behaviourStates.KNOCKED_OUT
+			animationPlayer.stop()
+			sprite.set_frame(2)
+			timer_before_knockdown_stopped.start()
 		
 	if behaviourState == behaviourStates.MOTIONLESS:
 		if animationPlayer.is_playing():
@@ -124,7 +130,7 @@ func _get_closest_nearby_player() -> Object:
 	var closest_player
 	var distance_to_closest_player = 99999
 	
-	for player in _array_of_detected_players:
+	for player in Util.get_living_players():
 		var distance_between_positions = self.global_position.distance_to(player.global_position)
 		
 		if distance_between_positions < distance_to_closest_player:
@@ -146,13 +152,14 @@ func _on_PlayerDetectionArea_body_exited(body):
 
 
 func _on_TimeBeforeCharging_timeout():
+	_target_charge_direction = self.global_position.direction_to(_get_closest_nearby_player().global_position.normalized())
 	print("Time to charge - timer is up!")
 	timer_before_new_walk.stop()
 	behaviourState = behaviourStates.CHARGE
 
 
 func _on_TimerBeforeKnockdownStop_timeout():
-	pass # Replace with function body.
+	behaviourState = behaviourStates.AIMLESS_WANDERING
 
 
 func _on_TimerIfWalkNeverEnds_timeout():
