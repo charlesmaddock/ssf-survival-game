@@ -18,7 +18,7 @@ func _ready():
 		for child in get_children():
 			if environment_type == Constants.EnvironmentTypes.HEART_CHEST || environment_type == Constants.EnvironmentTypes.PART_CHEST:
 				randomize()
-				if randf() > chest_spawn_change:
+				if randf() > chest_spawn_change + (Lobby.players_data.size() * 0.2) :
 					continue
 			
 			Server.spawn_environment(Util.generate_id(), environment_type, child.global_position, _room_id)

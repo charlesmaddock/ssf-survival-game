@@ -111,7 +111,7 @@ func _process(delta):
 					if is_instance_valid(_aim_at_target):
 						prev_closest_dist = global_position.distance_to(_aim_at_target.global_position)
 					
-					if closest_monster != _aim_at_target && prev_closest_dist > 200 && parent_entity.id == Lobby.my_id:
+					if closest_monster != _aim_at_target && prev_closest_dist > 50 && parent_entity.id == Lobby.my_id:
 						Events.emit_signal("target_entity", closest_monster, false)
 			
 			if is_instance_valid(_aim_at_target):
@@ -120,15 +120,19 @@ func _process(delta):
 			if _aim_pos != Vector2.ZERO:
 				_input_attack_dir = global_position.direction_to(_aim_pos)
 		
-		if _input_attack_dir != Vector2.ZERO && is_dead == false && ((_attacking_input == true || _aiming_manually == true) || Lobby.auto_aim == false):
+		
+		var aim_dir: Vector2 = _input_attack_dir
+		if Lobby.auto_aim == true && _input_attack_dir == Vector2.ZERO:
+			aim_dir = Vector2.RIGHT
+		if aim_dir != Vector2.ZERO && is_dead == false && ((_attacking_input == true || _aiming_manually == true) || Lobby.auto_aim == false):
 			if able_to_attack == true:
 				able_to_attack = false
 				#var dir = (get_global_mouse_position() - global_position).normalized()
 				
 				if melee == true:
-					Server.melee_attack(parent_entity.id, _input_attack_dir, parent_entity.team, damage)
+					Server.melee_attack(parent_entity.id, aim_dir, parent_entity.team, damage)
 				else:
-					Server.shoot_projectile(get_parent().global_position + (Vector2.UP * 6), _input_attack_dir, parent_entity.id, parent_entity.team, projectile_type)
+					Server.shoot_projectile(get_parent().global_position + (Vector2.UP * 6), aim_dir, parent_entity.id, parent_entity.team, projectile_type)
 				
 				#get_parent().entity.emit_signal("attack_freeze", freeze_time)
 				get_parent().entity.emit_signal("is_attacking", true)

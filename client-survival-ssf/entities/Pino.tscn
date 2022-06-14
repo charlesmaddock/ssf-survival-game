@@ -73,3 +73,13 @@ collision_layer = 0
 position = Vector2( -2.18557e-08, -4.5 )
 rotation = 1.5708
 shape = SubResource( 3 )
+
+[node name="Label" type="Label" parent="."]
+modulate = Color( 0.258824, 0.12549, 0.427451, 1 )
+margin_left = -37.0
+margin_top = 11.0
+margin_right = 38.0
+margin_bottom = 42.0
+text = "Tryck enter 
+för att prata"
+align = 1

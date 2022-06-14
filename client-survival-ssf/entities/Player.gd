@@ -22,7 +22,7 @@ var _pickup_cooldown: float
 
 var _inital_leg_parts = [Constants.PartNames.DefaultLegs]
 var _inital_body_parts = [Constants.PartNames.DefaultBody]
-var _inital_arm_parts = [Constants.PartNames.TwoFactorArm]
+var _inital_arm_parts = [Constants.PartNames.DefaultShooter]
 
 
 func _ready():

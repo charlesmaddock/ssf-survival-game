@@ -55,9 +55,9 @@ func _instantiate_new_dialogue() -> void:
 	_bubble_text_length = _bubble_text.length()
 
 
-func _start_timer(tick_speed) -> void:
+func _start_timer(tick_speed, modifier = 1) -> void:
 	var new_tick_speed = Constants.DialogueSpeeds[tick_speed]
-	timer.start(new_tick_speed)
+	timer.start(new_tick_speed * modifier)
 
 
 func delete_dialogue_then_bubble(tick_speed) -> void:
@@ -75,6 +75,7 @@ func delete_bubble() -> void:
 
 func _type_character() -> void:
 	emit_signal("changed_talking_state", true)
+
 	_current_text += _bubble_text[_bubble_text_index]
 	var letter_typed = _current_text[-1]
 	emit_signal("letter_typed", letter_typed)
@@ -91,7 +92,7 @@ func _delete_character() -> void:
 		_bubble_text_length -= 1
 		_bubble_text_index -= 1
 		emit_signal("changed_talking_state", false)
-	_start_timer(_tick_time)
+	_start_timer(_tick_time, 0.5)
 
 
 func _on_Timer_timeout():
