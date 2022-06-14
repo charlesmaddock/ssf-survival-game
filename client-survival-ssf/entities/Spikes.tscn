@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://entities/Spikes.gd" type="Script" id=1]
-[ext_resource path="res://assets/sprites/spikesRetracted.png" type="Texture" id=2]
-[ext_resource path="res://assets/sprites/spikes.png" type="Texture" id=3]
+[ext_resource path="res://assets/sprites/sSpikes.png" type="Texture" id=2]
+[ext_resource path="res://assets/sprites/sSpikesRetracted.png" type="Texture" id=3]
 [ext_resource path="res://components/Damage.tscn" type="PackedScene" id=4]
 
 [node name="Spikes" type="Node2D"]
@@ -10,14 +10,15 @@ script = ExtResource( 1 )
 
 [node name="OutSpikes" type="Sprite" parent="."]
 position = Vector2( 16, 16 )
-texture = ExtResource( 3 )
+texture = ExtResource( 2 )
 
 [node name="InSpikes" type="Sprite" parent="."]
 position = Vector2( 16, 16 )
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 
 [node name="Damage" parent="." instance=ExtResource( 4 )]
-position = Vector2( 16, 16 )
+position = Vector2( 16, 21.6632 )
+scale = Vector2( 2.074, 2.109 )
 
 [node name="InOutTimer" type="Timer" parent="."]
 wait_time = 2.0
