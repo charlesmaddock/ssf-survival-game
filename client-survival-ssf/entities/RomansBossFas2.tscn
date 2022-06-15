@@ -1,0 +1,123 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://parts/legs/DefaultLegs.tscn" type="PackedScene" id=1]
+[ext_resource path="res://components/Movement.tscn" type="PackedScene" id=2]
+[ext_resource path="res://components/AI.tscn" type="PackedScene" id=3]
+[ext_resource path="res://components/RayCastContainer.tscn" type="PackedScene" id=4]
+[ext_resource path="res://components/RoomVisibility.tscn" type="PackedScene" id=5]
+[ext_resource path="res://components/Damage.gd" type="Script" id=7]
+[ext_resource path="res://entities/RomansBossFas2.gd" type="Script" id=8]
+[ext_resource path="res://entities/Eye.gd" type="Script" id=9]
+[ext_resource path="res://assets/sprites/RomansBoss-Head.png" type="Texture" id=10]
+[ext_resource path="res://assets/sprites/RomansBoss-Öga.png" type="Texture" id=12]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 234.009
+
+[node name="RomansBossFas2" type="KinematicBody2D"]
+collision_layer = 64
+collision_mask = 9
+script = ExtResource( 8 )
+_hand_distance_from_head = 100.0
+_time_before_new_walk = 1.5
+_time_between_mob_spits = 20.0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PoolVector2Array( 0, -75, -9, -84, -20, -92, -34, -97, -49, -100, -61, -101, -79, -100, -90, -98, -100, -91, -106, -81, -107, -68, -106, -48, -101, -24, -95, -11, -84, -3, -68, 3, -57, 10, -49, 20, -42, 37, -31, 55, -24, 60, -10, 62, 8, 62, 22, 61, 31, 54, 40, 40, 46, 25, 56, 9, 68, 3, 85, -4, 97, -14, 101, -26, 106, -50, 107, -65, 106, -81, 100, -92, 89, -99, 68, -101, 44, -100, 22, -94, 9, -85 )
+
+[node name="Eye" type="Sprite" parent="."]
+position = Vector2( -63, -44 )
+scale = Vector2( 3, 3 )
+z_index = 100
+texture = ExtResource( 12 )
+script = ExtResource( 9 )
+angle_per_second_rotate = 40
+
+[node name="Eye2" type="Sprite" parent="."]
+position = Vector2( 63, -41 )
+scale = Vector2( 3, 3 )
+z_index = 100
+texture = ExtResource( 12 )
+script = ExtResource( 9 )
+angle_per_second_rotate = -40
+
+[node name="DefaultLegs" parent="." instance=ExtResource( 1 )]
+position = Vector2( 0, 60 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 10 )
+hframes = 3
+
+[node name="AI" parent="." instance=ExtResource( 3 )]
+
+[node name="Damage" type="Area2D" parent="."]
+position = Vector2( 0, -12 )
+collision_layer = 4
+collision_mask = 0
+script = ExtResource( 7 )
+_damage = 5.0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Damage"]
+position = Vector2( 0, 12 )
+polygon = PoolVector2Array( 0, -75, -9, -84, -20, -92, -34, -97, -49, -100, -61, -101, -79, -100, -90, -98, -100, -91, -106, -81, -107, -68, -106, -48, -101, -24, -95, -11, -84, -3, -68, 3, -57, 10, -49, 20, -42, 37, -31, 55, -24, 60, -10, 62, 8, 62, 22, 61, 31, 54, 40, 40, 46, 25, 56, 9, 68, 3, 85, -4, 97, -14, 101, -26, 106, -50, 107, -65, 106, -81, 100, -92, 89, -99, 68, -101, 44, -100, 22, -94, 9, -85 )
+
+[node name="Movement" parent="." instance=ExtResource( 2 )]
+
+[node name="RayCastContainer" parent="." instance=ExtResource( 4 )]
+
+[node name="RoomVisibility" parent="." instance=ExtResource( 5 )]
+position = Vector2( 0, 57 )
+
+[node name="TimerBeforePhase1NewWalk" type="Timer" parent="."]
+wait_time = 2.8
+one_shot = true
+
+[node name="RayCastSolidDetection" parent="." instance=ExtResource( 4 )]
+layers_to_be_detected = [ 3 ]
+_raycast_length = 100
+
+[node name="Left" type="RayCast2D" parent="RayCastSolidDetection"]
+enabled = true
+cast_to = Vector2( -200, 0 )
+collision_mask = 8
+collide_with_areas = true
+
+[node name="Right" type="RayCast2D" parent="RayCastSolidDetection"]
+enabled = true
+cast_to = Vector2( 200, 0 )
+collision_mask = 8
+collide_with_areas = true
+
+[node name="Up" type="RayCast2D" parent="RayCastSolidDetection"]
+enabled = true
+cast_to = Vector2( 0, -100 )
+collision_mask = 8
+collide_with_areas = true
+
+[node name="Down" type="RayCast2D" parent="RayCastSolidDetection"]
+enabled = true
+cast_to = Vector2( 0, 100 )
+collision_mask = 8
+collide_with_areas = true
+
+[node name="SlapRangeDetection" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SlapRangeDetection"]
+shape = SubResource( 1 )
+
+[node name="TimerIfWalkNeverEnds" type="Timer" parent="."]
+one_shot = true
+
+[node name="TimerBeforeKnockedOutFinished" type="Timer" parent="."]
+one_shot = true
+
+[node name="TimerBetweenMobSpit" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="frame_changed" from="Sprite" to="." method="_on_Sprite_frame_changed"]
+[connection signal="timeout" from="TimerBeforePhase1NewWalk" to="." method="_on_TimerBeforePhase1NewWalk_timeout"]
+[connection signal="body_entered" from="SlapRangeDetection" to="." method="_on_SlapRangeDetection_body_entered"]
+[connection signal="body_exited" from="SlapRangeDetection" to="." method="_on_SlapRangeDetection_body_exited"]
+[connection signal="timeout" from="TimerBeforeKnockedOutFinished" to="." method="_on_TimerBeforeKnockedOutFinished_timeout"]
+[connection signal="timeout" from="TimerBetweenMobSpit" to="." method="_on_TimerBetweenMobSpit_timeout"]

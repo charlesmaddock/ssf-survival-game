@@ -100,8 +100,8 @@ func _generate_rooms() -> void:
 	var all_room_data = []
 	var mob_i = 0
 	yield(get_tree().create_timer(1), "timeout")
+
 	for i in Constants.NUMBER_OF_ROOMS:
-		
 		var prev_room_data = null
 		var final_room = i == Constants.NUMBER_OF_ROOMS - 1
 		if i - 1 >= 0:
@@ -219,8 +219,8 @@ func generate_mobs(i) -> Array:
 	if i == 0 && test_spawn != -1:
 		mobs.append({"mob_type": test_spawn, "pos": Vector2.ZERO})
 	
-	if i == Constants.NUMBER_OF_ROOMS - 1:
-		mobs.append({"mob_type": Constants.MobTypes.ROMANS_BOSS, "pos": Vector2(0, -100)})
+	if Constants.NUMBER_OF_ROOMS - 1:
+		mobs.append({"mob_type": Constants.MobTypes.ROMANS_BOSS_FAS_2, "pos": Vector2(0, -100)})
 		
 	elif i != 0:
 		if temp_mob_levels[difficulty].size() == 0:

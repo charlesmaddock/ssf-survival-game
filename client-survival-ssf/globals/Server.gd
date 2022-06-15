@@ -354,3 +354,23 @@ func knockback(id: String, dir: Vector2)  -> void:
 		"dirY": dir.y,
 	}
 	send_packet(payload)
+
+
+func set_sprite_frame(frame: int, entity_id: String) -> void:
+	var payload = {
+		"type": Constants.PacketTypes.SET_SPRITE_FRAME, 
+		"frame": frame,
+		"id": entity_id,
+	}
+	send_packet(payload)
+
+
+func set_animation_player(animation_name: String, animation_speed: float, stop_animation: bool, entity_id: String) -> void:
+	var payload = {
+		"type": Constants.PacketTypes.SET_ANIMATION_PLAYER, 
+		"animation_name": animation_name,
+		"stop_animation": stop_animation,
+		"animation_speed": animation_speed,
+		"id": entity_id
+	}
+	send_packet(payload)

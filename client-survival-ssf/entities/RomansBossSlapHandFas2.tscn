@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://components/Movement.tscn" type="PackedScene" id=3]
+[ext_resource path="res://components/RoomVisibility.tscn" type="PackedScene" id=4]
+[ext_resource path="res://components/Damage.gd" type="Script" id=6]
+[ext_resource path="res://entities/RomansBossSlapHandFas2.gd" type="Script" id=8]
+[ext_resource path="res://assets/sprites/RomansBoss-Hand.png" type="Texture" id=9]
+
+[node name="RomansBossSlapHandFas2" type="KinematicBody2D"]
+collision_layer = 0
+script = ExtResource( 8 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 24.4, -29 )
+texture = ExtResource( 9 )
+hframes = 2
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2( 6.4, 0 )
+polygon = PoolVector2Array( 16, 36, 22, 34, 35, 28, 51, 16, 63.6, 2, 73.6, -10, 77, -24, 73, -31, 64, -33, 53.6, -19, 45.6, -8, 37.6, -8, 31.6, -20, 22.6, -33, 3.6, -35, -16.4, -33, -30.4, -28, -35, -16, -37, -6, -36, 12, -33, 24, -25, 31, -15, 39, -5, 40, 9, 39 )
+
+[node name="Damage" type="Area2D" parent="."]
+position = Vector2( 6.4, 0 )
+collision_layer = 4
+collision_mask = 0
+script = ExtResource( 6 )
+_damage = 10.0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Damage"]
+polygon = PoolVector2Array( 16, 36, 22, 34, 35, 28, 51, 16, 64, 2, 74, -12, 77, -24, 73, -31, 64, -33, 54, -39, 47, -48, 43, -64, 43, -73, 45, -83, 40, -88, 20, -97, 13, -100, 4, -98, -16, -90, -22, -84, -37, -62, -41, -55, -41, -40, -37, -28, -35, -16, -37, -6, -36, 12, -33, 24, -25, 31, -15, 39, -5, 40, 9, 39 )
+
+[node name="RoomVisibility" parent="." instance=ExtResource( 4 )]
+position = Vector2( 6.4, 0 )
+
+[node name="Movement" parent="." instance=ExtResource( 3 )]
+position = Vector2( 6.4, 0 )
+
+[node name="TimerBeforeSlap" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="TimerBeforeSlap" to="." method="_on_TimerBeforeSlap_timeout"]
