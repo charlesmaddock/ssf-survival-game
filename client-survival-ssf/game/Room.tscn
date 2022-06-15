@@ -1,9 +1,8 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://game/Room.gd" type="Script" id=1]
 [ext_resource path="res://game/Door.gd" type="Script" id=2]
-[ext_resource path="res://assets/sprites/Door.png" type="Texture" id=3]
-[ext_resource path="res://assets/theme/theme.tres" type="Theme" id=4]
+[ext_resource path="res://assets/sprites/sDoor.png" type="Texture" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 resource_local_to_scene = true
@@ -34,12 +33,11 @@ collision_mask = 65
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="Door"]
-scale = Vector2( 2, 2 )
 texture = ExtResource( 3 )
 centered = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Door"]
-position = Vector2( 32, 17 )
+position = Vector2( 64, 32 )
 shape = SubResource( 2 )
 
 [node name="EnterDoor" type="StaticBody2D" parent="."]
@@ -48,12 +46,11 @@ collision_mask = 65
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="EnterDoor"]
-scale = Vector2( 2, 2 )
 texture = ExtResource( 3 )
 centered = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnterDoor"]
-position = Vector2( 32, 17 )
+position = Vector2( 64, 32 )
 shape = SubResource( 2 )
 
 [node name="NextRoomDetector" type="Area2D" parent="."]
@@ -62,31 +59,6 @@ collision_layer = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="NextRoomDetector"]
 position = Vector2( 32, 17 )
 shape = SubResource( 3 )
-
-[node name="Tutorial" type="Control" parent="."]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-theme = ExtResource( 4 )
-
-[node name="Move" type="Label" parent="Tutorial"]
-margin_left = -57.0
-margin_top = -23.0
-margin_right = -10.0
-margin_bottom = -4.0
-custom_colors/font_color = Color( 0.431373, 0.0509804, 0.439216, 1 )
-text = "Spring med
-W A S D"
-
-[node name="Move2" type="Label" parent="Tutorial"]
-margin_left = 11.0
-margin_top = -23.0
-margin_right = 73.0
-margin_bottom = -4.0
-custom_colors/font_color = Color( 0.431373, 0.0509804, 0.439216, 1 )
-text = "Attackera med
-Piltangenterna"
 
 [connection signal="body_entered" from="." to="." method="_on_Room_body_entered"]
 [connection signal="body_entered" from="NextRoomDetector" to="." method="_on_NextRoomDetector_body_entered"]

@@ -10,7 +10,7 @@ onready var sprite2: Node = get_node("Sprite2")
 var walk_state: bool = false
 var movement_node: Node
 
-export(float) var walk_speed: float = 80
+export(float) var walk_speed: float = 160
 export(Texture) var leg_texture: Texture
 export(Vector2) var sprite_offset: Vector2
 export(float) var leg_separation: float = 5
@@ -19,7 +19,7 @@ export(float) var leg_scale: float = 1
 
 func _ready():
 	var timer = get_node("Timer")
-	timer.wait_time = 0.3 - round(walk_speed/100)/10
+	timer.wait_time = 0.3 - round(walk_speed/200)/10
 	timer.wait_time = clamp(timer.wait_time, 0.05, 10)
 	
 	if Util.is_entity(get_parent()):

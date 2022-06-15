@@ -6,7 +6,6 @@
 [node name="BodyParent" type="Node2D"]
 script = ExtResource( 2 )
 body_texture = ExtResource( 1 )
-weight = null
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )

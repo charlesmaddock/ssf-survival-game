@@ -1,6 +1,6 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://assets/sprites/romanceScammer.png" type="Texture" id=1]
+[ext_resource path="res://parts/legs/PinkLegsBig.tscn" type="PackedScene" id=1]
 [ext_resource path="res://entities/Chowder.gd" type="Script" id=2]
 [ext_resource path="res://components/AI.tscn" type="PackedScene" id=3]
 [ext_resource path="res://components/Health.tscn" type="PackedScene" id=4]
@@ -8,20 +8,21 @@
 [ext_resource path="res://components/Loot.gd" type="Script" id=6]
 [ext_resource path="res://components/Combat.tscn" type="PackedScene" id=7]
 [ext_resource path="res://components/RoomVisibility.tscn" type="PackedScene" id=8]
+[ext_resource path="res://assets/sprites/sChowder.png" type="Texture" id=9]
 
 [sub_resource type="CapsuleShape2D" id=1]
-radius = 4.0
-height = 4.0
+radius = 6.99999
+height = 24.0
 
 [sub_resource type="CapsuleShape2D" id=2]
-radius = 12.0
+radius = 14.0
 height = 28.0
 
 [node name="Chowder" type="KinematicBody2D"]
 collision_layer = 64
-collision_mask = 0
+collision_mask = 64
 script = ExtResource( 2 )
-_movement_speed = 85
+_movement_speed = 100
 distance_from_player = 30
 _attack_damage = 20
 _attack_scale = Vector2( 0.5, 1 )
@@ -32,25 +33,34 @@ _triple_attack = true
 _triple_attack_angle = 50.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -2 )
 rotation = 1.5708
 shape = SubResource( 1 )
 
+[node name="PinkLegs" parent="." instance=ExtResource( 1 )]
+position = Vector2( 0.249435, -12.0834 )
+
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( -1, -28 )
-texture = ExtResource( 1 )
+position = Vector2( -2.5, -64 )
+texture = ExtResource( 9 )
 
 [node name="RoomVisibility" parent="." instance=ExtResource( 8 )]
+visible = false
 
 [node name="Movement" parent="." instance=ExtResource( 5 )]
+visible = false
 
 [node name="AI" parent="." instance=ExtResource( 3 )]
+visible = false
 
 [node name="Loot" type="Node2D" parent="."]
+visible = false
 script = ExtResource( 6 )
 drop_parts = [ 2, 5, 1, 11 ]
 drop_chance = [ 30, 50, 70, 90 ]
 
 [node name="Combat" parent="." instance=ExtResource( 7 )]
+visible = false
 
 [node name="AttackTimer" type="Timer" parent="."]
 wait_time = 2.0
@@ -66,6 +76,9 @@ position = Vector2( 0, 29 )
 [node name="CollisionShape2D" parent="Health/DamageArea" index="0"]
 position = Vector2( 0, -23 )
 shape = SubResource( 2 )
+
+[node name="Bar" parent="Health" index="1"]
+visible = false
 
 [connection signal="timeout" from="AttackTimer" to="." method="_on_AttackTimer_timeout"]
 

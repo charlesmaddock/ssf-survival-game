@@ -60,8 +60,7 @@ func _process(delta):
 		position = position.linear_interpolate(_spectate.global_position, delta * 14)
 	elif is_instance_valid(_follow) && _lerp_toward_follow == true:
 		position = position.linear_interpolate(_follow.global_position, delta * 14)
-	
-	if self.global_position != destined_position:
+	elif self.global_position != destined_position:
 		position = position.linear_interpolate(destined_position, delta * 4)
 
 

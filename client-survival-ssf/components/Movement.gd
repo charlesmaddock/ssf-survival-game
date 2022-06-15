@@ -16,7 +16,7 @@ var _prev_pos: Vector2
 
 var walking: bool = false
 var attack_freeze: bool = false
-var speed: float = 80.0
+var speed: float = 160.0
 var speed_modifier: float = 1.0
 var weight: float = 100
 
@@ -76,6 +76,10 @@ func _on_packet_received(packet: Dictionary) -> void:
 					return
 				
 				target_position = Vector2(packet.x, packet.y)
+		Constants.PacketTypes.TELEPORT_ENTITY:
+			if entity_id == packet.id:
+				get_parent().global_position = Vector2(packet.x, packet.y)
+				target_position = Vector2(packet.x, packet.y)
 
 
 func _on_attack_freeze(time):
@@ -87,15 +91,20 @@ func _on_attack_freeze(time):
 func get_input():
 	var velocity = Vector2.ZERO
 	var joy_stick_velocity = JoyStick.get_direction()
-	if Input.is_action_pressed("ui_right"):
+	if Input.is_action_pressed("ui_right") || (Lobby.auto_aim == true && Input.is_key_pressed(KEY_RIGHT)):
 		velocity.x += 1
-	if Input.is_action_pressed("ui_left"):
+	if Input.is_action_pressed("ui_left") || (Lobby.auto_aim == true && Input.is_key_pressed(KEY_LEFT)):
 		velocity.x -= 1
-	if Input.is_action_pressed("ui_down"):
+	if Input.is_action_pressed("ui_down") || (Lobby.auto_aim == true && Input.is_key_pressed(KEY_DOWN)):
 		velocity.y += 1
-	if Input.is_action_pressed("ui_up"):
+	if Input.is_action_pressed("ui_up") || (Lobby.auto_aim == true && Input.is_key_pressed(KEY_UP)):
 		velocity.y -= 1
+	
 	return velocity.normalized() + joy_stick_velocity
+
+
+func get_velocity() -> Vector2:
+	return _velocity + _force
 
 
 func _physics_process(delta):
@@ -109,9 +118,9 @@ func _physics_process(delta):
 		
 		set_velocity(input)
 	
-	if Lobby.is_host == true:
+	if (Lobby.is_host == true && Util.is_player(get_parent()) == false) || entity_id == Lobby.my_id:
 		var vel = get_parent().move_and_slide(_velocity + _force)
-		if _send_pos_iteration % 6:
+		if _send_pos_iteration % 10:
 			Server.send_pos(entity_id, global_position + (vel * delta))
 			
 			if vel == Vector2.ZERO:
@@ -131,7 +140,6 @@ func _physics_process(delta):
 			get_parent().entity.emit_signal("turned_around", _prev_pos.x > get_parent().global_position.x)
 	
 	_prev_pos = get_parent().global_position
-	
 	
 	if _force.length() < 3:
 		_force = Vector2.ZERO

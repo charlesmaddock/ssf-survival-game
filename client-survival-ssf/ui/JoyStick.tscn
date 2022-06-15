@@ -10,7 +10,7 @@ radius = 40.0
 
 [node name="JoyStick" type="TouchScreenButton"]
 self_modulate = Color( 1, 1, 1, 0.454902 )
-position = Vector2( 73, 199 )
+scale = Vector2( 2, 2 )
 shape = SubResource( 1 )
 shape_centered = false
 script = ExtResource( 1 )

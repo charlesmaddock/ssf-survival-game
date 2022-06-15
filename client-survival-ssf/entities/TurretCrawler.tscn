@@ -12,19 +12,19 @@
 [ext_resource path="res://components/Loot.tscn" type="PackedScene" id=10]
 
 [sub_resource type="CapsuleShape2D" id=1]
-radius = 5.99997
-height = 14.0
+radius = 10.9999
+height = 40.0002
 
 [sub_resource type="CapsuleShape2D" id=6]
-radius = 12.0
+radius = 20.0
 height = 3.0
 
 [sub_resource type="CapsuleShape2D" id=5]
-radius = 15.0
+radius = 20.0
 height = 0.0
 
 [sub_resource type="CapsuleShape2D" id=3]
-radius = 188.0
+radius = 250.0
 height = 0.0
 
 [sub_resource type="Animation" id=7]
@@ -62,11 +62,11 @@ tracks/0/keys = {
 [node name="TurretCrawler" type="KinematicBody2D"]
 position = Vector2( 0, -1 )
 collision_layer = 64
-collision_mask = 0
+collision_mask = 64
 script = ExtResource( 1 )
 _spiders_to_spawn = 2
 _dashing_interval = 1.0
-_dashing_multiplier = 300.0
+_dashing_multiplier = 500.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 8 )
@@ -75,7 +75,6 @@ shape = SubResource( 1 )
 
 [node name="IntactTurret" type="Sprite" parent="."]
 position = Vector2( 0, -10 )
-scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 6 )
 
 [node name="BrokenTurret" type="Sprite" parent="."]
@@ -87,17 +86,18 @@ texture = ExtResource( 9 )
 position = Vector2( 0, -8 )
 
 [node name="CollisionShape2D" parent="Damage" index="0"]
-position = Vector2( 0, 11.5 )
+position = Vector2( 0, 5.5 )
 shape = SubResource( 6 )
 
 [node name="Health" parent="." instance=ExtResource( 4 )]
-max_health = 25.0
+max_health = 30.0
 
 [node name="DamageArea" parent="Health" index="0"]
 position = Vector2( 0, 3 )
 
 [node name="CollisionShape2D" parent="Health/DamageArea" index="0"]
 modulate = Color( 1, 0, 0, 0.964706 )
+position = Vector2( 0, -5 )
 shape = SubResource( 5 )
 
 [node name="Bar" parent="Health" index="1"]

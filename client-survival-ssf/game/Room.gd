@@ -35,28 +35,9 @@ var _room_completed: bool = false
 var _final_room: bool = false
 var _difficulty: int = Constants.RoomDifficulties.EASY
 var _room_id: int
-var _mob_data: Array
 
 var _room_data: Dictionary = {}
 var _next_room_data: Dictionary = {}
-
-#From highest cost to lowest - otherwise generate_mobs() breaks
-var mob_difficulties: Dictionary = {
-	Constants.MobTypes.CHOWDER: 5,
-	Constants.MobTypes.LOVE_BULL: 4,
-	Constants.MobTypes.MOLE: 3,
-	Constants.MobTypes.CLOUDER: 2,
-	Constants.MobTypes.TURRET_CRAWLER: 1,
-}
-
-var test_spawn: int = -1
-
-var mob_level_templates: Dictionary = {
-	1: [[Constants.MobTypes.CLOUDER, Constants.MobTypes.MOLE], [Constants.MobTypes.CLOUDER, Constants.MobTypes.LOVE_BULL]],
-	2: [[Constants.MobTypes.TURRET_CRAWLER, Constants.MobTypes.MOLE], [Constants.MobTypes.TURRET_CRAWLER, Constants.MobTypes.LOVE_BULL]],
-	3: [[Constants.MobTypes.MOLE, Constants.MobTypes.LOVE_BULL], [Constants.MobTypes.TURRET_CRAWLER, Constants.MobTypes.CHOWDER]],
-	4: [[Constants.MobTypes.MOLE, Constants.MobTypes.CHOWDER], [Constants.MobTypes.LOVE_BULL, Constants.MobTypes.CHOWDER]]
-}
 
 
 func _ready():
@@ -78,7 +59,6 @@ func _ready():
 	_enter_door.global_position = Vector2(_room_data.enter_pos.x, _room_data.enter_pos.y) * Constants.TILE_SIZE
 	
 	generate_environment(room_type)
-	#generate_mobs()
 	
 	if _next_room_data.empty() == false:
 		var exit_direction: int = _room_data.exit_dir
@@ -167,7 +147,7 @@ func set_room_data(room_data: Dictionary, next_room_data: Dictionary) -> void:
 
 
 func set_difficulty(id: int) -> void:
-	if id <= 4:
+	if id <= 3:
 		_difficulty = Constants.RoomDifficulties.EASY
 	elif id <= 8:
 		_difficulty = Constants.RoomDifficulties.MEDIUM
@@ -175,47 +155,8 @@ func set_difficulty(id: int) -> void:
 		_difficulty = Constants.RoomDifficulties.HARD
 
 
-func generate_mobs() -> void:
-	var mobs = []
-	var i = _room_id
-	var spawn_currency: float = i * 1.5
-	randomize()
-	
-	if i == 0 && test_spawn != -1:
-		mobs.append({"mob_type": test_spawn, "pos": Vector2.ZERO})
-	
-	if i == Constants.NUMBER_OF_ROOMS - 1:
-		mobs.append({"mob_type": Constants.MobTypes.ROMANS_BOSS, "pos": Vector2(0, -100)})
-		
-	elif i != 0:
-		if i < mob_difficulties.keys().size():
-			for n in (mob_difficulties.keys().size() - (i - 1)):
-				mobs.append({"mob_type": mob_difficulties.keys()[mob_difficulties.keys().size() - i], "pos": Vector2.ZERO})
-			
-		else:
-			var this_level_templates: Array = mob_level_templates[int(clamp((i - mob_difficulties.keys().size() + 1), 1, 4))]
-			var random_level_template: Array = this_level_templates[randi() % this_level_templates.size()]
-			var spendable_currency: float = spawn_currency
-			
-			while(spendable_currency > 0):
-				var mob_type: int
-				if spendable_currency > (spawn_currency / 2):
-					mob_type = random_level_template[0]
-				else:
-					mob_type = random_level_template[1]
-				
-				mobs.append({"mob_type": mob_type, "pos": Vector2.ZERO})
-				
-				var spawn_cost = mob_difficulties[mob_type]
-				spendable_currency -= spawn_cost
-				
-	_mob_data = mobs
-
-
 func generate_environment(room_type: int) -> void:
 	match room_type:
-		Constants.RoomTypes.START:
-			$Tutorial.set_visible(true)
 		Constants.RoomTypes.SPIKES:
 			var spike_patterns = [spike_pattern1_scene, spike_pattern2_scene, spike_pattern3_scene]
 			var pattern_scene = spike_patterns[randi() % spike_patterns.size()]
@@ -276,7 +217,7 @@ func _on_NextRoomDetector_body_entered(body) -> void:
 			yield(get_tree().create_timer(0.6), "timeout")
 			var player_index: int
 			for player in Util.get_living_players(): 
-				player.global_position = _next_room_spawn_pos.global_position + (Vector2.DOWN * player_index * Constants.TILE_SIZE)
+				Server.teleport_entity(player.entity.id, _next_room_spawn_pos.global_position + (Vector2.DOWN * player_index * Constants.TILE_SIZE))
 				#player_index += 1
 		elif Lobby.is_host == true && next_room == null:
 			printerr("Room was null.")

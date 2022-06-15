@@ -4,17 +4,17 @@
 [ext_resource path="res://assets/sprites/sLegPink.png" type="Texture" id=2]
 
 [node name="PinkLegs" instance=ExtResource( 1 )]
-walk_speed = 90.0
+walk_speed = 190.0
 leg_texture = ExtResource( 2 )
 sprite_offset = Vector2( 3, 7 )
-leg_scale = 0.5
+leg_separation = 12.0
 
 [node name="Sprite1" parent="." index="0"]
-scale = Vector2( 0.5, 0.5 )
+position = Vector2( 6, 1 )
 texture = ExtResource( 2 )
 offset = Vector2( 3, 7 )
 
 [node name="Sprite2" parent="." index="1"]
-scale = Vector2( 0.5, 0.5 )
+position = Vector2( -6, 1 )
 texture = ExtResource( 2 )
 offset = Vector2( 3, 7 )

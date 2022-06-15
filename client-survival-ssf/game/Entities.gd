@@ -60,9 +60,10 @@ func _on_packet_received(packet: Dictionary) -> void:
 		Constants.PacketTypes.SHOOT_PROJECTILE:
 			var spawn_pos = Vector2(packet.posX, packet.posY)
 			var dir = Vector2(packet.dirX, packet.dirY)
+			var add_dir = Vector2(packet.add_dirX, packet.add_dirY)
 			var projectile_scene = projectile_scenes[int(packet.p_type)]
 			var projectile = projectile_scene.instance()
-			projectile.init(spawn_pos, dir, 10, packet.id, packet.team)
+			projectile.init(spawn_pos, dir, 10, packet.id, packet.team, add_dir)
 			add_child(projectile)
 		Constants.PacketTypes.SPAWN_MOB:
 			var spawn_pos = Vector2(packet.posX, packet.posY)
@@ -71,6 +72,7 @@ func _on_packet_received(packet: Dictionary) -> void:
 			var entity = scene.instance()
 			entity.entity = Entity.new(entity, packet.id, Constants.Teams.BAD_GUYS, spawn_pos, packet.room_id)
 			add_child(entity)
+			entity.global_position = spawn_pos
 		Constants.PacketTypes.SPAWN_ENVIRONMENT:
 			var spawn_pos = Vector2(packet.posX, packet.posY)
 			var entity_type = int(packet.environment_type)

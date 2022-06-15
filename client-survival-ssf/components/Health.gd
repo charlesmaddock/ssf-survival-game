@@ -20,8 +20,8 @@ var _weight: float = 0
 
 func _ready():
 	# Temp: More health for each player in room
-	if Util.is_player(get_parent()) == false:
-		set_max_health(max_health * Lobby.players_data.size() * 1.1)
+	if Util.is_player(get_parent()) == false && get_parent() is KinematicBody2D:
+		set_max_health(max_health + (max_health * (Lobby.players_data.size() - 1) * 0.15))
 	
 	if get_child(get_child_count() - 1) is CollisionShape2D:
 		$DamageArea/CollisionShape2D.queue_free()
@@ -53,7 +53,6 @@ func _on_change_weight(weight: float) -> void:
 	set_max_health(max_health - ((_weight / 100) * 10))
 	_weight = weight
 	set_max_health(max_health + ((_weight / 100) * 10))
-	print("max_health: ", max_health)
 
 
 func _on_damage_taken(damage, dir: Vector2) -> void:

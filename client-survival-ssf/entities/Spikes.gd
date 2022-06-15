@@ -14,6 +14,7 @@ onready var InSpikes: Sprite = $InSpikes
 
 
 func _ready() -> void:
+	return
 	if start_retracted == true:
 		retract()
 
