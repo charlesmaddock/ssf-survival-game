@@ -12,5 +12,6 @@ damage = 10.0
 
 [node name="Sprite1" parent="." index="0"]
 position = Vector2( 4, 0 )
+rotation = 0.785398
 texture = ExtResource( 2 )
 offset = Vector2( 13.069, -14.385 )
