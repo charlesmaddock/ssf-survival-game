@@ -38,23 +38,8 @@ func _on_rooms_generated(all_room_data: Array) -> void:
 		add_child(room)
 
 
-#From highest cost to lowest - otherwise generate_mobs() breaks
-var mob_difficulties: Dictionary = {
-	Constants.MobTypes.CHOWDER: 5,
-	Constants.MobTypes.LOVE_BULL: 4,
-	Constants.MobTypes.MOLE: 3,
-	Constants.MobTypes.CLOUDER: 2,
-	Constants.MobTypes.TURRET_CRAWLER: 1,
-}
-
 var test_spawn: int = -1
 
-var mob_level_templates: Dictionary = {
-	1: [[Constants.MobTypes.CLOUDER, Constants.MobTypes.MOLE], [Constants.MobTypes.CLOUDER, Constants.MobTypes.LOVE_BULL]],
-	2: [[Constants.MobTypes.TURRET_CRAWLER, Constants.MobTypes.MOLE], [Constants.MobTypes.TURRET_CRAWLER, Constants.MobTypes.LOVE_BULL]],
-	3: [[Constants.MobTypes.MOLE, Constants.MobTypes.LOVE_BULL], [Constants.MobTypes.TURRET_CRAWLER, Constants.MobTypes.CHOWDER]],
-	4: [[Constants.MobTypes.MOLE, Constants.MobTypes.CHOWDER], [Constants.MobTypes.LOVE_BULL, Constants.MobTypes.CHOWDER]]
-}
 
 var mob_levels: Dictionary = {
 	Constants.RoomDifficulties.EASY: [
@@ -92,12 +77,12 @@ var mob_levels: Dictionary = {
 	],
 	Constants.RoomDifficulties.HARD: [
 		[
-			{"mob": Constants.MobTypes.CLOUDER, "amount": 2, "more_per_player": 1},
+			{"mob": Constants.MobTypes.CLOUDER, "amount": 1, "more_per_player": 1},
 			{"mob": Constants.MobTypes.MOLE, "amount": 2, "more_per_player": 0.5},
 			{"mob": Constants.MobTypes.CHOWDER, "amount": 1, "more_per_player": 0.1}
 		], 
 		[
-			{"mob": Constants.MobTypes.CHOWDER, "amount": 2, "more_per_player": 1},
+			{"mob": Constants.MobTypes.CHOWDER, "amount": 2, "more_per_player": 0.5},
 			{"mob": Constants.MobTypes.LOVE_BULL, "amount": 3, "more_per_player": 0.5},
 		], 
 		[
@@ -226,7 +211,7 @@ func generate_mobs(i) -> Array:
 	var difficulty = Constants.RoomDifficulties.HARD
 	if i <= 3:
 		difficulty = Constants.RoomDifficulties.EASY
-	elif i <= 8:
+	elif i <= 7:
 		difficulty = Constants.RoomDifficulties.MEDIUM
 	
 	randomize()
@@ -247,7 +232,7 @@ func generate_mobs(i) -> Array:
 		temp_mob_levels[difficulty].remove(index)
 		
 		for mob_data in mob_data_array:
-			var amount = mob_data.amount + ((Lobby.players_data.size() - 1) * mob_data.more_per_player)
+			var amount = mob_data.amount + int((Lobby.players_data.size() - 1) * mob_data.more_per_player)
 			for i in amount:
 				mobs.append({"mob_type": mob_data.mob, "pos": Vector2.ZERO})
 			

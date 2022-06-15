@@ -25,10 +25,13 @@ func _ready():
 	if Util.is_entity(get_parent()):
 		movement_node = get_parent().get_node("Movement")
 		
-		if movement_node != null:
-			get_parent().entity.emit_signal("change_movement_speed", walk_speed)
-		
 		get_parent().entity.connect("turned_around", self, "_on_turned_around")
+		
+		yield(get_tree(), "idle_frame")
+		print("movement_node: " , movement_node)
+		if movement_node != null:
+			print("walk_speed: ", walk_speed)
+			get_parent().entity.emit_signal("change_movement_speed", walk_speed)
 	
 	if leg_texture != null:
 		sprite1.texture = leg_texture

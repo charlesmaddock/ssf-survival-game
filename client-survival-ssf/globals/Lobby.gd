@@ -12,7 +12,8 @@ var bot_amount: int = 0
 
 var monsters_drop_loot: bool
 var auto_aim: bool = true
-var regen_health_and_revive: bool
+var regen_health_and_revive: bool = true
+var easy_mode: bool = true
 
 
 signal game_has_loaded(game_node)

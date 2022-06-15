@@ -8,7 +8,6 @@ export(float) var _time_before_dashing = 2.5
 export(float) var _time_before_dashing_variability_intervall = 0.3
 export(float) var _time_before_stop_dashing = 0.2
 
-onready var damage_node = $Damage
 onready var AI_node = $AI
 onready var movement_node: Node2D = $Movement
 

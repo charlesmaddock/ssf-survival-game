@@ -27,5 +27,5 @@ func deactivate_damage():
 
 
 func get_damage() -> float:
-	return _damage
+	return _damage 
 

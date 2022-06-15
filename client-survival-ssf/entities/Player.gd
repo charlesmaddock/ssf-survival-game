@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 
 onready var Sprite = $Sprite
-onready var PickUpButton = $CanvasLayer/PickUpButton
+onready var PickUpButton = $CanvasLayer/PickUpContainer/PickUpButton
 
 
 var entity: Entity

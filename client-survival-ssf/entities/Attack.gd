@@ -5,6 +5,7 @@ export(float) var _damage
 var _damage_creator_id: String
 var _damage_creator_team: int
 var _dir: Vector2
+var _damage_mod: float =1
 
 
 func _ready():
@@ -18,6 +19,10 @@ func init(dir: Vector2, val: float, creator_id: String, creator_team: int) -> vo
 	_damage_creator_id = creator_id
 	_damage_creator_team = creator_team
 	_dir = dir
+	
+	var creator: Node = Util.get_entity(creator_id)
+	if creator != null:
+		_damage_mod = 0.5 if Lobby.easy_mode && Util.is_player(creator) == false else 1
 
 
 func same_creator_or_team(id: String, team: int) -> bool:
@@ -25,7 +30,7 @@ func same_creator_or_team(id: String, team: int) -> bool:
 
 
 func get_damage() -> float:
-	return _damage
+	return _damage * _damage_mod
 
 
 func _on_Timer_timeout():

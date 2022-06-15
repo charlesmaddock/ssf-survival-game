@@ -12,17 +12,18 @@ collision_mask = 65
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 0, -27 )
-scale = Vector2( 0.5, 0.5 )
+position = Vector2( 0, -48.3 )
 texture = ExtResource( 1 )
 
 [node name="DetectPlayerArea" type="Area2D" parent="."]
+position = Vector2( 0, -21.3 )
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectPlayerArea"]
 shape = SubResource( 1 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-polygon = PoolVector2Array( -29, -1, -30, -15, -22, -45, 25, -45, 32, -16, 31, -1 )
+position = Vector2( -27, 5.7 )
+polygon = PoolVector2Array( -29, -1, -33, -31, -11, -100, 74, -100, 87, -30, 86, -3 )
 
 [connection signal="body_entered" from="DetectPlayerArea" to="." method="_on_DetectPlayerArea_body_entered"]

@@ -9,6 +9,7 @@ var _velocity: Vector2
 var _damage_creator_id: String
 var _damage_creator_team: int
 var _destroyed: bool
+var _damage_mod: float = 1
 
 
 func init(pos: Vector2, dir: Vector2, val: float, creator_id: String, creator_team: int, add_dir: Vector2) -> void:
@@ -18,6 +19,11 @@ func init(pos: Vector2, dir: Vector2, val: float, creator_id: String, creator_te
 	
 	global_position = pos
 	_velocity = (dir.normalized() * _speed) + add_dir
+	
+	var creator: Node = Util.get_entity(creator_id)
+	if creator != null:
+		creator.entity.emit_signal("change_attack_damage", _damage)
+		_damage_mod = 0.5 if Lobby.easy_mode && Util.is_player(creator) == false else 1
 
 
 func same_creator_or_team(id: String, team: int) -> bool:
@@ -25,13 +31,14 @@ func same_creator_or_team(id: String, team: int) -> bool:
 
 
 func get_damage() -> float:
-	return _damage
+	return _damage * _damage_mod
 
 
 func _destroy() -> void:
 	_destroyed = true
 	get_node("Sprite").set_visible(false)
 	get_node("Shadow").set_visible(false)
+	get_node("CollisionShape2D").disabled = true
 	get_node("CPUParticles2D").emitting = true
 	yield(get_tree().create_timer(0.3), "timeout")
 	self.queue_free()

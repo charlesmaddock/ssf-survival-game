@@ -426,7 +426,6 @@ const handleStartGame = (ws: WebSocket) => {
     let spawnPosPlayer =
       playerSpawnPoints[Math.floor(Math.random() * playerSpawnPoints.length)];
     rooms.forEach((room: Room) => {
-      if (room.hostId === startingClient.id) {
         let spawnPosScammer = {
           x: 128 + (Math.random() - 0.5 * 4),
           y: -265 + (Math.random() - 0.5 * 4),
@@ -443,7 +442,6 @@ const handleStartGame = (ws: WebSocket) => {
           })),
         };
         broadcastToRoom(room, payload);
-      }
     });
   }
 };

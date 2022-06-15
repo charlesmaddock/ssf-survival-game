@@ -4,7 +4,7 @@
 [ext_resource path="res://components/Health.gd" type="Script" id=2]
 
 [sub_resource type="CapsuleShape2D" id=2]
-radius = 30.0
+radius = 24.0
 height = 0.0
 
 [node name="Health" type="Node2D"]

@@ -18,6 +18,10 @@ func _ready():
 	show_page(Welcome)
 	Server.connect("packet_received", self, "_on_packet_received")
 	Events.connect("error_message", self, "_on_error_message")
+	
+	$"Lobby/HBoxContainer/VBoxContainer2/RegenerateHealthCheckBox".set_visible(Lobby.is_host)
+	$"Lobby/HBoxContainer/VBoxContainer2/EasyMode".set_visible(Lobby.is_host)
+	$"Lobby/HBoxContainer/VBoxContainer2/MonsterLootDropCheckBox".set_visible(Lobby.is_host)
 
 
 func _on_error_message(msg: String) -> void:
@@ -91,3 +95,7 @@ func _on_RegenerateHealthCheckBox_toggled(button_pressed):
 
 func _on_FindRoomButton_pressed():
 	Server.join("find room")
+
+
+func _on_EasyMode_toggled(button_pressed):
+	Lobby.easy_mode = button_pressed

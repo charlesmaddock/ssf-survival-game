@@ -67,6 +67,9 @@ func _ready():
 	
 	attack_timer.wait_time = cooldown
 	#delay_timer.wait_time = attack_delay
+	
+	yield(get_tree(), "idle_frame")
+	get_parent().entity.emit_signal("change_attack_damage", damage)
 
 
 func _on_target_entity(entity_body: Node, manually_targeted: bool) -> void:
@@ -137,8 +140,10 @@ func _process(delta):
 				able_to_attack = false
 				#var dir = (get_global_mouse_position() - global_position).normalized()
 				
+				var damage_mod: float = 0.5 if Lobby.easy_mode && Util.is_player(get_parent()) == false else 1
+				
 				if melee == true:
-					Server.melee_attack(parent_entity.id, aim_dir, parent_entity.team, damage)
+					Server.melee_attack(parent_entity.id, aim_dir, parent_entity.team, damage * damage_mod)
 				else:
 					Server.shoot_projectile(get_parent().global_position + (Vector2.UP * 6), aim_dir, parent_entity.id, parent_entity.team, projectile_type, _movement_node.get_velocity() / 3)
 				

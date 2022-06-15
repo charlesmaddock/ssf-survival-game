@@ -17,19 +17,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 color = Color( 0.701961, 0.345098, 0.764706, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Label" type="Label" parent="Welcome"]
-margin_left = 274.0
-margin_top = 80.0
-margin_right = 574.0
-margin_bottom = 138.0
-rect_min_size = Vector2( 300, 0 )
-custom_fonts/font = ExtResource( 6 )
-text = "Säkerhetshjältarna"
-align = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Welcome"]
 anchor_right = 1.0
@@ -37,73 +24,97 @@ anchor_bottom = 1.0
 alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Welcome/HBoxContainer"]
-margin_left = 309.0
-margin_right = 539.0
-margin_bottom = 500.0
-rect_min_size = Vector2( 230, 0 )
+margin_left = 163.0
+margin_right = 563.0
+margin_bottom = 429.0
+rect_min_size = Vector2( 400, 0 )
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Label" type="Label" parent="Welcome/HBoxContainer/VBoxContainer"]
+margin_top = 42.0
+margin_right = 400.0
+margin_bottom = 83.0
+rect_min_size = Vector2( 300, 0 )
+custom_fonts/font = ExtResource( 6 )
+text = "Säkerhetshjältarna"
+align = 1
+
 [node name="VBoxContainer" type="VBoxContainer" parent="Welcome/HBoxContainer/VBoxContainer"]
-margin_top = 168.0
-margin_right = 230.0
-margin_bottom = 331.0
+margin_top = 87.0
+margin_right = 400.0
+margin_bottom = 387.0
 rect_min_size = Vector2( 100, 0 )
 
 [node name="NameInput" type="LineEdit" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer"]
-margin_right = 230.0
-margin_bottom = 33.0
+margin_right = 400.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 0, 50 )
 placeholder_text = "Ditt namn"
 script = ExtResource( 5 )
 
-[node name="HostButton" type="Button" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer"]
-margin_top = 37.0
-margin_right = 230.0
-margin_bottom = 66.0
-rect_min_size = Vector2( 0, 20 )
-text = "Skapa ett rum"
+[node name="Margin" type="Control" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer"]
+margin_top = 54.0
+margin_right = 400.0
+margin_bottom = 104.0
+rect_min_size = Vector2( 0, 50 )
 
 [node name="Title" type="Label" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer"]
-margin_top = 70.0
-margin_right = 230.0
-margin_bottom = 93.0
+visible = false
+margin_top = 91.0
+margin_right = 306.0
+margin_bottom = 114.0
 rect_min_size = Vector2( 0, 20 )
 custom_colors/font_color = Color( 0.317647, 0.2, 0.6, 1 )
 text = "Gå med i ett rum"
 valign = 2
 
 [node name="FindRoomButton" type="Button" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer"]
-margin_top = 97.0
-margin_right = 230.0
-margin_bottom = 126.0
-rect_min_size = Vector2( 30, 0 )
+margin_top = 108.0
+margin_right = 400.0
+margin_bottom = 158.0
+rect_min_size = Vector2( 30, 50 )
 text = "Hitta ett rum"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer"]
-margin_top = 130.0
-margin_right = 230.0
-margin_bottom = 163.0
+margin_top = 162.0
+margin_right = 400.0
+margin_bottom = 212.0
 rect_min_size = Vector2( 0, 20 )
 
 [node name="CodeInput" type="LineEdit" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
-margin_right = 154.0
-margin_bottom = 33.0
+margin_right = 324.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 0, 50 )
 size_flags_horizontal = 3
 placeholder_text = "Rummets kod"
 
 [node name="JoinButton" type="Button" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
-margin_left = 158.0
-margin_right = 230.0
-margin_bottom = 33.0
-rect_min_size = Vector2( 30, 0 )
+margin_left = 328.0
+margin_right = 400.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 30, 50 )
 text = "Gå med"
 
+[node name="Margin2" type="Control" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer"]
+margin_top = 216.0
+margin_right = 400.0
+margin_bottom = 246.0
+rect_min_size = Vector2( 0, 30 )
+
+[node name="HostButton" type="Button" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer"]
+margin_top = 250.0
+margin_right = 400.0
+margin_bottom = 300.0
+rect_min_size = Vector2( 0, 50 )
+text = "Skapa ett rum"
+
 [node name="Control" type="Control" parent="Welcome/HBoxContainer"]
-margin_left = 543.0
-margin_right = 543.0
-margin_bottom = 500.0
+margin_left = 567.0
+margin_right = 567.0
+margin_bottom = 429.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -135,15 +146,15 @@ mouse_filter = 2
 alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Lobby/HBoxContainer"]
-margin_left = 152.0
-margin_right = 460.0
-margin_bottom = 500.0
+margin_left = 91.0
+margin_right = 399.0
+margin_bottom = 429.0
 alignment = 1
 
 [node name="CodeWrapper" type="Control" parent="Lobby/HBoxContainer/VBoxContainer"]
-margin_top = 144.0
+margin_top = 109.0
 margin_right = 308.0
-margin_bottom = 174.0
+margin_bottom = 139.0
 rect_min_size = Vector2( 0, 30 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -171,9 +182,9 @@ rect_min_size = Vector2( 0, 20 )
 text = "Copy code"
 
 [node name="TeamsContainer" type="HBoxContainer" parent="Lobby/HBoxContainer/VBoxContainer"]
-margin_top = 178.0
+margin_top = 143.0
 margin_right = 308.0
-margin_bottom = 322.0
+margin_bottom = 287.0
 custom_constants/separation = 24
 
 [node name="GoodGuys" type="VBoxContainer" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer"]
@@ -215,41 +226,56 @@ margin_right = 308.0
 margin_bottom = 144.0
 
 [node name="StartButton" type="Button" parent="Lobby/HBoxContainer/VBoxContainer"]
-margin_top = 326.0
+margin_top = 291.0
 margin_right = 308.0
-margin_bottom = 355.0
+margin_bottom = 320.0
 rect_min_size = Vector2( 0, 20 )
 text = "Starta Spelet!"
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="Lobby/HBoxContainer"]
-margin_left = 464.0
-margin_right = 700.0
-margin_bottom = 500.0
+margin_left = 403.0
+margin_right = 639.0
+margin_bottom = 429.0
+
+[node name="Margin" type="Control" parent="Lobby/HBoxContainer/VBoxContainer2"]
+margin_right = 236.0
+margin_bottom = 135.0
+rect_min_size = Vector2( 0, 135 )
 
 [node name="RegenerateHealthCheckBox" type="CheckBox" parent="Lobby/HBoxContainer/VBoxContainer2"]
+margin_top = 139.0
 margin_right = 236.0
-margin_bottom = 31.0
+margin_bottom = 170.0
+pressed = true
 text = "Regenerera hälsa"
 
-[node name="MonsterLootDropCheckBox" type="CheckBox" parent="Lobby/HBoxContainer/VBoxContainer2"]
-margin_top = 35.0
+[node name="EasyMode" type="CheckBox" parent="Lobby/HBoxContainer/VBoxContainer2"]
+margin_top = 174.0
 margin_right = 236.0
-margin_bottom = 66.0
+margin_bottom = 205.0
+pressed = true
+text = "Easy mode"
+
+[node name="MonsterLootDropCheckBox" type="CheckBox" parent="Lobby/HBoxContainer/VBoxContainer2"]
+margin_top = 209.0
+margin_right = 236.0
+margin_bottom = 240.0
 text = "Monster släpper delar"
 
 [node name="AutoAimCheckBox" type="CheckBox" parent="Lobby/HBoxContainer/VBoxContainer2"]
-margin_top = 70.0
+margin_top = 244.0
 margin_right = 236.0
-margin_bottom = 101.0
+margin_bottom = 275.0
 pressed = true
 text = "Sikta automatiskt"
 
 [connection signal="text_changed" from="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/NameInput" to="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/NameInput" method="_on_NameInput_text_changed"]
-[connection signal="pressed" from="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/HostButton" to="." method="_on_HostButton_pressed"]
 [connection signal="pressed" from="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/FindRoomButton" to="." method="_on_FindRoomButton_pressed"]
 [connection signal="pressed" from="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer/JoinButton" to="." method="_on_JoinButton_pressed"]
+[connection signal="pressed" from="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/HostButton" to="." method="_on_HostButton_pressed"]
 [connection signal="pressed" from="Lobby/HBoxContainer/VBoxContainer/CopyCodeButton" to="." method="_on_CopyCodeButton_pressed"]
 [connection signal="pressed" from="Lobby/HBoxContainer/VBoxContainer/StartButton" to="." method="_on_StartButton_pressed"]
 [connection signal="toggled" from="Lobby/HBoxContainer/VBoxContainer2/RegenerateHealthCheckBox" to="." method="_on_RegenerateHealthCheckBox_toggled"]
+[connection signal="toggled" from="Lobby/HBoxContainer/VBoxContainer2/EasyMode" to="." method="_on_EasyMode_toggled"]
 [connection signal="toggled" from="Lobby/HBoxContainer/VBoxContainer2/MonsterLootDropCheckBox" to="." method="_on_MonsterLootDropCheckBox_toggled"]
 [connection signal="toggled" from="Lobby/HBoxContainer/VBoxContainer2/AutoAimCheckBox" to="." method="_on_AutoAimCheckBox_toggled"]
