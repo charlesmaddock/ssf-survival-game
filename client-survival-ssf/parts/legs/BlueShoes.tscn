@@ -4,7 +4,7 @@
 [ext_resource path="res://assets/sprites/blueShoes.png" type="Texture" id=2]
 
 [node name="BlueShoes" instance=ExtResource( 1 )]
-walk_speed = 110.0
+walk_speed = 230.0
 leg_texture = ExtResource( 2 )
 sprite_offset = Vector2( 2, 4.5 )
 leg_separation = 10.0

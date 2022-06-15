@@ -13,6 +13,7 @@ position = Vector2( 16, 16 )
 texture = ExtResource( 2 )
 
 [node name="InSpikes" type="Sprite" parent="."]
+visible = false
 position = Vector2( 16, 16 )
 texture = ExtResource( 3 )
 
@@ -22,6 +23,5 @@ scale = Vector2( 2.074, 2.109 )
 
 [node name="InOutTimer" type="Timer" parent="."]
 wait_time = 2.0
-autostart = true
 
 [connection signal="timeout" from="InOutTimer" to="." method="_on_InOutTimer_timeout"]

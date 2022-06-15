@@ -34,6 +34,7 @@ _global_script_class_icons={
 
 config/name="client-survival-ssf"
 run/main_scene="res://ui/MainMenu.tscn"
+boot_splash/bg_color=Color( 0.141176, 0.141176, 0.141176, 1 )
 config/icon="res://icon.png"
 
 [autoload]
@@ -136,10 +137,6 @@ aim_and_shoot={
  ]
 }
 
-[input_devices]
-
-pointing/emulate_touch_from_mouse=true
-
 [layer_names]
 
 2d_physics/layer_1="player"
@@ -159,5 +156,5 @@ common/enable_pause_aware_picking=true
 [rendering]
 
 quality/driver/driver_name="GLES2"
-environment/default_clear_color=Color( 0.32549, 0.145098, 0.376471, 1 )
+environment/default_clear_color=Color( 0.145098, 0.0980392, 0.156863, 1 )
 environment/default_environment="res://default_env.tres"

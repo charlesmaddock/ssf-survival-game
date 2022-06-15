@@ -19,7 +19,7 @@ export(float) var leg_scale: float = 1
 
 func _ready():
 	var timer = get_node("Timer")
-	timer.wait_time = 0.3 - round(walk_speed/100)/10
+	timer.wait_time = 0.3 - round(walk_speed/200)/10
 	timer.wait_time = clamp(timer.wait_time, 0.05, 10)
 	
 	if Util.is_entity(get_parent()):

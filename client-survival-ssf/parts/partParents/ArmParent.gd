@@ -140,7 +140,7 @@ func _process(delta):
 				if melee == true:
 					Server.melee_attack(parent_entity.id, aim_dir, parent_entity.team, damage)
 				else:
-					Server.shoot_projectile(get_parent().global_position + (Vector2.UP * 6), aim_dir, parent_entity.id, parent_entity.team, projectile_type, _movement_node.get_velocity() / 2)
+					Server.shoot_projectile(get_parent().global_position + (Vector2.UP * 6), aim_dir, parent_entity.id, parent_entity.team, projectile_type, _movement_node.get_velocity() / 3)
 				
 				#get_parent().entity.emit_signal("attack_freeze", freeze_time)
 				get_parent().entity.emit_signal("is_attacking", true)
