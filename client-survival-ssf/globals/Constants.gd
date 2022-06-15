@@ -54,6 +54,8 @@ enum PacketTypes {
   KNOCKBACK,
   PICK_UP_PART,
   DROP_PART,
+  SET_SPRITE_FRAME,
+  SET_ANIMATION_PLAYER
 }
 
 

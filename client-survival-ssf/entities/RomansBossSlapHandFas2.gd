@@ -9,7 +9,6 @@ export var _slap_pushout_distance: float = 30
 export var _time_before_slap: float = 1.0
 export var _slapp_count: int = 2
 
-onready var health_node: Node2D = self.get_node("Health")
 onready var movement_node: Node2D = self.get_node("Movement")
 onready var sprite: Sprite = $Sprite
 
@@ -50,32 +49,36 @@ func init(distance_from_head: float, boss_node_id: String):
 	_init_finished = true
 
 func _ready():
-	timer_before_slap.set_wait_time(_time_before_slap)
-	
-	_behaviour_state == behaviourStates.HOVER_AROUND_HEAD
+	Server.connect("packet_received", self, "_on_packet_received")
+	if Lobby.is_host == true:
+		timer_before_slap.set_wait_time(_time_before_slap)
+		
+		_behaviour_state == behaviourStates.HOVER_AROUND_HEAD
 
 
 func _process(delta) -> void:
-	if _init_finished:
-		
-		if _behaviour_state == behaviourStates.HOVER_AROUND_HEAD:
-			_last_hover_dir = _last_hover_dir.rotated(deg2rad(_hover_speed * delta * _slap_direction))
-			self.global_position = boss_node.global_position + _distance_from_head * _last_hover_dir
+	if Lobby.is_host == true:
+		if _init_finished:
 			
-			if _staging_slap:
-					set_motionless_behaviour()
-					timer_before_slap.start()
-			
-		elif _behaviour_state == behaviourStates.SLAP:
-			_set_new_pos_in_slap(delta)
-			
-			if is_hand_in_slap_threshold():
-				_next_slap_movement()
+			if _behaviour_state == behaviourStates.HOVER_AROUND_HEAD:
+				_last_hover_dir = _last_hover_dir.rotated(deg2rad(_hover_speed * delta * _slap_direction))
+				self.global_position = boss_node.global_position + _distance_from_head * _last_hover_dir
+				
+				if _staging_slap:
+						set_motionless_behaviour()
+						timer_before_slap.start()
+				
+			elif _behaviour_state == behaviourStates.SLAP:
+				_set_new_pos_in_slap(delta)
+				
+				if is_hand_in_slap_threshold():
+					_next_slap_movement()
 
 
 func _set_new_pos_in_slap(delta) -> void:
-	_last_hover_dir = _last_hover_dir.rotated(deg2rad(_slap_speed * delta * _slap_direction))
-	self.global_position = boss_node.global_position + _distance_from_head * _last_hover_dir
+	if Lobby.is_host == true:
+		_last_hover_dir = _last_hover_dir.rotated(deg2rad(_slap_speed * delta * _slap_direction))
+		self.global_position = boss_node.global_position + _distance_from_head * _last_hover_dir
 
 
 func is_hand_in_slap_threshold() -> bool:
@@ -89,34 +92,50 @@ func is_hand_in_slap_threshold() -> bool:
 
 
 func _next_slap_movement() -> void:
-	_slap_direction *= -1
-	_current_slap_count += 1
-	
-	if _current_slap_count >= _slapp_count:
-		_current_slap_count = 0
-		_behaviour_state = behaviourStates.MOTIONLESS
-		emit_signal("slapping_done")
+	if Lobby.is_host == true:
+		if Lobby.is_host == true:
+			_slap_direction *= -1
+			_current_slap_count += 1
+			
+			if _current_slap_count >= _slapp_count:
+				_current_slap_count = 0
+				_behaviour_state = behaviourStates.MOTIONLESS
+				emit_signal("slapping_done")
 
 
 func set_motionless_behaviour() -> void:
-	_behaviour_state = behaviourStates.MOTIONLESS
-	sprite.set_frame(0)
+	if Lobby.is_host == true:
+		_behaviour_state = behaviourStates.MOTIONLESS
+		Server.set_sprite_frame(0, self.entity.id)
+
 
 func set_knocked_out_behaviour() -> void:
-	_behaviour_state = behaviourStates.KNOCKED_OUT
-	sprite.set_frame(1)
-	
+	if Lobby.is_host == true:
+		_behaviour_state = behaviourStates.KNOCKED_OUT
+		_staging_slap = false
+		Server.set_sprite_frame(1, self.entity.id)
+
+
 func set_hovering_behaviour() -> void:
-	_staging_slap = false
-	_behaviour_state = behaviourStates.HOVER_AROUND_HEAD
-	sprite.set_frame(0)
+	if Lobby.is_host == true:
+		_staging_slap = false
+		_behaviour_state = behaviourStates.HOVER_AROUND_HEAD
+		Server.set_sprite_frame(0, self.entity.id)
+
 
 func set_slapping_behaviour(slap_target) -> void:
-	_staging_slap = true
-	_player_slap_dir = boss_node.global_position.direction_to(slap_target.global_position).normalized()
+	if Lobby.is_host == true:
+		_staging_slap = true
+		_player_slap_dir = boss_node.global_position.direction_to(slap_target.global_position).normalized()
 
 
 func _on_TimerBeforeSlap_timeout():
-	_behaviour_state = behaviourStates.SLAP
-	sprite.set_frame(0)
+	if Lobby.is_host == true:
+		_behaviour_state = behaviourStates.SLAP
+		Server.set_sprite_frame(0, self.entity.id)
 
+
+func _on_packet_received(packet: Dictionary) -> void:
+	if packet.type == Constants.PacketTypes.SET_SPRITE_FRAME:
+		if packet.id == self.entity.id:
+			sprite.set_frame(packet.frame)
