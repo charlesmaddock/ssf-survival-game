@@ -1,23 +1,20 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://parts/partParents/LegParent.tscn" type="PackedScene" id=1]
-[ext_resource path="res://assets/sprites/blueShoes.png" type="Texture" id=2]
+[ext_resource path="res://assets/sprites/sFastShoes.png" type="Texture" id=2]
 
 [node name="BlueShoes" instance=ExtResource( 1 )]
 walk_speed = 230.0
 leg_texture = ExtResource( 2 )
-sprite_offset = Vector2( 2, 4.5 )
-leg_separation = 10.0
-leg_scale = 2.0
+sprite_offset = Vector2( 5.675, 4.777 )
+leg_separation = 10.779
 
 [node name="Sprite1" parent="." index="0"]
-position = Vector2( 5, 1 )
-scale = Vector2( 2, 2 )
+position = Vector2( 5.3895, 1 )
 texture = ExtResource( 2 )
-offset = Vector2( 2, 4.5 )
+offset = Vector2( 5.675, 4.777 )
 
 [node name="Sprite2" parent="." index="1"]
-position = Vector2( -5, 1 )
-scale = Vector2( 2, 2 )
+position = Vector2( -5.3895, 1 )
 texture = ExtResource( 2 )
-offset = Vector2( 2, 4.5 )
+offset = Vector2( 5.675, 4.777 )
