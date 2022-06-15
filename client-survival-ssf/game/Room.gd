@@ -205,6 +205,7 @@ func _on_Room_body_entered(body):
 		elif Util.is_entity(body) && body.get("_is_animal") == true && _mobs_entered_room == true:
 			if _mobs_in_room.find(body.entity.id) == -1:
 				_mobs_in_room.append(body.entity.id)
+#				body.entity.residing_room_center_pos = _room_center_position
 
 
 func _on_NextRoomDetector_body_entered(body) -> void:
