@@ -12,6 +12,11 @@ export(Texture) var body_texture: Texture
 export(float) var weight: float = 100
 export(float) var body_scale: float = 1
 
+export(String) var title: String = ""
+export(String) var optional_desc: String = ""
+export(String) var optional_perk_desc: String = ""
+export(String) var optional_con_desc: String = ""
+
 
 func _ready():
 	if get_parent() != null:

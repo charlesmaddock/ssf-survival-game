@@ -52,8 +52,8 @@ func _on_packet_received(packet: Dictionary) -> void:
 				
 				var overlapped = get_node("Pickup").get_overlapping_areas()
 				if overlapped.size() == 1:
-					get_node("PickUpText").visible = false
 					set_visible_pickup(false)
+					Events.emit_signal("standing_over_part", null)
 
 
 func _process(delta):
@@ -125,13 +125,13 @@ func _drop_old_part(part_type: int) -> void:
 
 
 func set_visible_pickup(val: bool) -> void:
-	PickUpButton.visible = val && Util.is_dead(self) == false
+	PickUpButton.visible = val && Util.is_dead(self) == false && Util.is_mobile()
 
 
 func _on_Pickup_area_entered(area):
 	if entity.id == Lobby.my_id:
-		get_node("PickUpText").visible = true
 		set_visible_pickup(true)
+		Events.emit_signal("standing_over_part", area.get_parent())
 
 
 func _on_Pickup_area_exited(area):
@@ -139,8 +139,8 @@ func _on_Pickup_area_exited(area):
 		var overlapped = get_node("Pickup").get_overlapping_areas()
 		
 		if overlapped.empty():
-			get_node("PickUpText").visible = false
 			set_visible_pickup(false)
+			Events.emit_signal("standing_over_part", null)
 	
 #	var pick_up_part_type: int = area.get_parent().get_part_name()
 #	var armNode = Util.get_instanced_part(pick_up_part_type)

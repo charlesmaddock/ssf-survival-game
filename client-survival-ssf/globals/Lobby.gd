@@ -74,6 +74,11 @@ func handle_room_left(packet: Dictionary) -> void:
 		dead_player_ids.clear()
 		bot_amount = 0
 		get_tree().change_scene("res://ui/MainMenu.tscn")
+	else:
+		for player_data in players_data:
+			if packet.id == player_data.id:
+				var remove_at = players_data.find(player_data)
+				players_data.remove(remove_at)
 
 
 func handle_update_client_data(packet: Dictionary) -> void:

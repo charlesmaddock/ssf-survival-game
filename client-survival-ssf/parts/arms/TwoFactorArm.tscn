@@ -4,6 +4,10 @@
 [ext_resource path="res://assets/sprites/partSprites/sTwoFactorArm.png" type="Texture" id=2]
 
 [node name="DefaultArm" instance=ExtResource( 1 )]
+title = "2FA"
+optional_desc = "Tvåfaktorsautentisering (2FA) är ett av det bästa sätten att skydda dina konton mot bedragare. Använda 2FA istället för lösenord ifall du kan."
+optional_perk_desc = null
+optional_con_desc = null
 arm_texture = ExtResource( 2 )
 sprite_offset = Vector2( 18.828, -9.056 )
 arm_separation = 4.0

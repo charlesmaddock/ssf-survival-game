@@ -2,7 +2,7 @@ tool
 extends Node2D
 
 
-const ROOM_DIMENSIONS = Vector2(14, 8)
+const ROOM_DIMENSIONS = Vector2(16, 10)
 const CORRIDOR_DIMENSIONS = Vector2(2, 8)
 
 
@@ -69,7 +69,6 @@ var mob_levels: Dictionary = {
 		[
 			{"mob": Constants.MobTypes.CLOUDER, "amount": 2, "more_per_player": 1},
 			{"mob": Constants.MobTypes.MOLE, "amount": 2, "more_per_player": 0.1},
-			{"mob": Constants.MobTypes.CHOWDER, "amount": 1, "more_per_player": 0.1}
 		], 
 		[
 			{"mob": Constants.MobTypes.CHOWDER, "amount": 2, "more_per_player": 0.5},
@@ -117,7 +116,7 @@ func _generate_rooms() -> void:
 		
 		var prev_room_exit_direction = Constants.ExitDirections.NORTH
 		var enter_pos = Vector2.ZERO
-		var new_room_size = Vector2(ROOM_DIMENSIONS.x, ROOM_DIMENSIONS.y) + (Vector2.ONE * (clamp(mobs.size(), 3, 10) - 3) * 2)
+		var new_room_size = Vector2(ROOM_DIMENSIONS.x, ROOM_DIMENSIONS.y) + (Vector2.ONE * (clamp(mobs.size() / 2, 2, 4) - 2) * 2)
 		
 		if final_room:
 			new_room_size = Vector2(16, 12)
@@ -173,11 +172,22 @@ func _generate_rooms() -> void:
 		if i == 0:
 			enter_pos = Vector2(1000, 1000)
 		
-		var room_type = Constants.RoomTypes.START
+		var contains_bull: bool = false
+		for mob_data in mobs:
+			if mob_data.mob_type == Constants.MobTypes.LOVE_BULL:
+				contains_bull = true
+				break
+		
+		var room_type = Constants.RoomTypes.EMPTY
+		
 		if i > 0 && i % 4 == 0:
 			var room_types = [Constants.RoomTypes.REVIVE, Constants.RoomTypes.LOOT]
 			room_type = room_types[randi() % room_types.size()]
+		elif contains_bull == true:
+			room_type = Constants.RoomTypes.EMPTY
 		elif i > 0:
+			room_type = Constants.RoomTypes.CHIP
+		elif i > 4:
 			var room_types = [Constants.RoomTypes.SPIKES, Constants.RoomTypes.CHIP]
 			room_type = room_types[randi() % room_types.size()]
 		

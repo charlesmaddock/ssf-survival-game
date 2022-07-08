@@ -1,10 +1,10 @@
 extends Area2D
 
 
-export(float) var _damage = 50
 export(float) var _speed = 360
 
 
+var _damage = 50
 var _velocity: Vector2 
 var _damage_creator_id: String
 var _damage_creator_team: int
@@ -19,11 +19,6 @@ func init(pos: Vector2, dir: Vector2, val: float, creator_id: String, creator_te
 	
 	global_position = pos
 	_velocity = (dir.normalized() * _speed) + add_dir
-	
-	var creator: Node = Util.get_entity(creator_id)
-	if creator != null:
-		creator.entity.emit_signal("change_attack_damage", _damage)
-		_damage_mod = 0.5 if Lobby.easy_mode && Util.is_player(creator) == false else 1
 
 
 func same_creator_or_team(id: String, team: int) -> bool:

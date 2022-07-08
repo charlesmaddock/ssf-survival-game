@@ -6,6 +6,10 @@
 [node name="FireWallBody" instance=ExtResource( 1 )]
 body_texture = ExtResource( 2 )
 weight = 160.0
+body_scale = null
+title = "Brandvägg"
+optional_perk_desc = null
+optional_con_desc = null
 
 [node name="Sprite" parent="." index="0"]
 position = Vector2( -1, 0 )

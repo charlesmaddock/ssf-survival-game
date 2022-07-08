@@ -7,6 +7,11 @@
 walk_speed = 120.0
 leg_texture = ExtResource( 2 )
 leg_separation = 18.0
+leg_scale = null
+title = "Monsterben"
+optional_desc = null
+optional_perk_desc = null
+optional_con_desc = null
 
 [node name="Sprite1" parent="." index="0"]
 position = Vector2( 9, 1 )

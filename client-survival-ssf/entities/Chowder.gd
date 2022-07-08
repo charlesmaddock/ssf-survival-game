@@ -36,7 +36,6 @@ func _create_attack(dir, attack_index) -> void:
 	middle_attack.init(dir, _attack_damage, self.entity.id, self.entity.team)
 	middle_attack.global_position += dir * _distance_between_attack * attack_index
 	middle_attack.set_scale(_attack_scale)
-	middle_attack.get_node("Polygon2D").set_color(_attack_color)
 	self.add_child(middle_attack)
 	
 	if _triple_attack:
@@ -54,7 +53,6 @@ func _create_attack(dir, attack_index) -> void:
 			angle_attack.init(angle_dir, _attack_damage, self.entity.id, self.entity.team)
 			angle_attack.global_position += angle_dir * _distance_between_attack * attack_index
 			angle_attack.set_scale(_attack_scale)
-			angle_attack.get_node("Polygon2D").set_color(_attack_color)
 			self.add_child(angle_attack)
 
 

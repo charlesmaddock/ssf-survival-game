@@ -47,7 +47,7 @@ enum PacketTypes {
   PICK_UP_PART,
   DROP_PART,
   SET_SPRITE_FRAME,
-  SET_ANIMATION_PLAYER
+  SET_ANIMATION_PLAYER,
 }
 type PacketType = PacketTypes;
 
@@ -126,6 +126,10 @@ const getClientsRoom = (c: Client): Room => {
   return null;
 };
 
+const tooManyPlayersInRoom = (room: Room): boolean => {
+  return room.clients.length > 1;
+};
+
 const getRoomsClient = (room: Room): Client => {
   if (room !== null) {
     for (let i = 0; i < room.clients.length; i++) {
@@ -184,12 +188,12 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
           case PacketTypes.SET_PLAYER_POS:
             handleSetPos(ws, data);
             break;
-            case PacketTypes.TELEPORT_ENTITY:
-              handleTeleportEntity(ws, data);
-              break;
+          case PacketTypes.TELEPORT_ENTITY:
+            handleTeleportEntity(ws, data);
+            break;
           case PacketTypes.REQUEST_RECONCILIATION:
-              handleRequestReconcilation(ws, data);
-              break;
+            handleRequestReconcilation(ws, data);
+            break;
           case PacketTypes.RECONCILE_PLAYER_POS:
             handleReconcilePlayerPos(ws, data);
             break;
@@ -253,10 +257,10 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
           case PacketTypes.SET_SPRITE_FRAME:
             handleSetSpriteFrame(ws, data);
             break;
-            case PacketTypes.SET_ANIMATION_PLAYER:
-              handleSetAnimationPlayer(ws, data);
-              break;
-            
+          case PacketTypes.SET_ANIMATION_PLAYER:
+            handleSetAnimationPlayer(ws, data);
+            break;
+
           default:
             console.error("Unhandled packet type.");
         }
@@ -354,17 +358,28 @@ const handleJoinRoom = (
 ) => {
   let room = null;
   if (packet.code === "" || packet.code === "find room") {
-    if (rooms.length > 0) {
-      room = rooms[rooms.length - 1];
-    } else {
-      sendError(ws, "Det finns inga rum. Skapa ett eget.");
+    let foundRoom = false;
+    rooms.forEach((iteratedRoom: Room) => {
+      if (tooManyPlayersInRoom(iteratedRoom) == false) {
+        foundRoom = true;
+        room = iteratedRoom;
+      }
+    });
+    if (foundRoom == false) {
+      sendError(ws, "Det finns inga lediga rum, prova att skapa ett eget!");
     }
   } else {
     room = getRoomWithCode(packet.code);
-    if (room === null) sendError(ws, "Invalid code.");
+    if (room === null)
+      sendError(ws, "Det finns inget spel med denna kod, försök igen");
   }
 
   if (room !== null) {
+    if (tooManyPlayersInRoom(room)) {
+      sendError(ws, "Rummet är fullt.");
+      return;
+    }
+
     let joiningClient = getClientFromWs(ws);
     if (joiningClient !== null) {
       room.clients.push(joiningClient);
@@ -386,8 +401,8 @@ const handleLeaveRoom = (ws: WebSocket) => {
     let clientsRoom = getClientsRoom(leavingClient);
     if (clientsRoom !== null) {
       console.log(
-        "Client with id ",
-        leavingClient.id,
+        "Client with name ",
+        leavingClient.name,
         " left the room ",
         clientsRoom.code
       );
@@ -435,29 +450,28 @@ const handleStartGame = (ws: WebSocket) => {
     let spawnPosPlayer =
       playerSpawnPoints[Math.floor(Math.random() * playerSpawnPoints.length)];
     rooms.forEach((room: Room) => {
-        let spawnPosScammer = {
-          x: 128 + (Math.random() - 0.5 * 4),
-          y: -265 + (Math.random() - 0.5 * 4),
-        };
+      let spawnPosScammer = {
+        x: 128 + (Math.random() - 0.5 * 4),
+        y: -265 + (Math.random() - 0.5 * 4),
+      };
 
-        let payload: { type: PacketType; players: Array<MinClientData> } = {
-          type: PacketTypes.GAME_STARTED,
-          players: room.clients.map((c) => ({
-            id: c.id,
-            name: c.name,
-            class: c.class,
-            pos:
-              c.class == "Romance Scammer" ? spawnPosScammer : spawnPosPlayer,
-          })),
-        };
-        broadcastToRoom(room, payload);
+      let payload: { type: PacketType; players: Array<MinClientData> } = {
+        type: PacketTypes.GAME_STARTED,
+        players: room.clients.map((c) => ({
+          id: c.id,
+          name: c.name,
+          class: c.class,
+          pos: c.class == "Romance Scammer" ? spawnPosScammer : spawnPosPlayer,
+        })),
+      };
+      broadcastToRoom(room, payload);
     });
   }
 };
 
 const handleSetInput = (
   ws: WebSocket,
-  packet: { type: number; i: number, x: number; y: number }
+  packet: { type: number; i: number; x: number; y: number }
 ) => {
   let client = getClientFromWs(ws);
   let room: Room = getClientsRoom(client);
@@ -478,7 +492,7 @@ const handleTeleportEntity = (
 ) => {
   let client = getClientFromWs(ws);
   let room: Room = getClientsRoom(client);
- 
+
   broadcastToRoom(room, packet);
 };
 
@@ -488,33 +502,33 @@ const handleSetPos = (
 ) => {
   let client = getClientFromWs(ws);
   let room: Room = getClientsRoom(client);
- 
+
   broadcastToRoom(room, packet);
 };
 
 const handleRequestReconcilation = (ws: WebSocket, packet: any) => {
-  let client = getClientFromWs(ws)
+  let client = getClientFromWs(ws);
   let room: Room = getClientsRoom(client);
-  let host: Client = getRoomsClient(room)
+  let host: Client = getRoomsClient(room);
 
-  if (room != null){
-    host.socket.send(JSON.stringify({...packet, id: client.id}))
+  if (room != null) {
+    host.socket.send(JSON.stringify({ ...packet, id: client.id }));
   }
-}
+};
 
 const handleReconcilePlayerPos = (ws: WebSocket, packet: any) => {
-   let client = getClientFromWs(ws)
-   let room: Room = getClientsRoom(client);
- 
-   if (room != null){
+  let client = getClientFromWs(ws);
+  let room: Room = getClientsRoom(client);
+
+  if (room != null) {
     room.clients.forEach((client: Client) => {
-      if (client.id === packet.id){
-       client.socket.send(JSON.stringify(packet))
-       return
+      if (client.id === packet.id) {
+        client.socket.send(JSON.stringify(packet));
+        return;
       }
-    })
-   }
-}
+    });
+  }
+};
 
 const handleSetHealth = (
   ws: WebSocket,
@@ -727,6 +741,6 @@ const handleSetSpriteFrame = (ws: WebSocket, packet: any) => {
 const handleSetAnimationPlayer = (ws: WebSocket, packet: any) => {
   let client = getClientFromWs(ws);
   let room: Room = getClientsRoom(client);
-  console.log("sending packet with set animation")
+  console.log("sending packet with set animation");
   broadcastToRoom(room, packet);
 };

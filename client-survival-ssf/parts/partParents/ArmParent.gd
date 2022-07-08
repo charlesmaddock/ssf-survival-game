@@ -26,6 +26,12 @@ var _movement_node: Node
 var _walk_dir: Vector2
 
 
+export(String) var title: String = ""
+export(String) var optional_desc: String = ""
+export(String) var optional_perk_desc: String = ""
+export(String) var optional_con_desc: String = ""
+
+
 export(int) var projectile_type: int 
 export(Texture) var arm_texture: Texture
 export(Vector2) var sprite_offset: Vector2
@@ -122,7 +128,7 @@ func _process(delta):
 						Events.emit_signal("target_entity", closest_monster, false)
 			
 			if is_instance_valid(_aim_at_target):
-				_input_attack_dir = global_position.direction_to(_aim_at_target.global_position + (Vector2.UP * 6))
+				_input_attack_dir = global_position.direction_to(_aim_at_target.global_position + (Vector2.UP * 24))
 			
 			if _aim_pos != Vector2.ZERO:
 				_input_attack_dir = global_position.direction_to(_aim_pos)
@@ -145,7 +151,7 @@ func _process(delta):
 				if melee == true:
 					Server.melee_attack(parent_entity.id, aim_dir, parent_entity.team, damage * damage_mod)
 				else:
-					Server.shoot_projectile(get_parent().global_position + (Vector2.UP * 6), aim_dir, parent_entity.id, parent_entity.team, projectile_type, _movement_node.get_velocity() / 3)
+					Server.shoot_projectile(damage * damage_mod, get_parent().global_position + (Vector2.UP * 6), aim_dir, parent_entity.id, parent_entity.team, projectile_type, _movement_node.get_velocity() / 4)
 				
 				#get_parent().entity.emit_signal("attack_freeze", freeze_time)
 				get_parent().entity.emit_signal("is_attacking", true)

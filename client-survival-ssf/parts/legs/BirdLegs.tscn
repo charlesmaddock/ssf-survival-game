@@ -9,6 +9,10 @@ leg_texture = ExtResource( 2 )
 sprite_offset = Vector2( 2, 4.5 )
 leg_separation = 10.0
 leg_scale = 2.0
+title = "Fågelben"
+optional_desc = null
+optional_perk_desc = null
+optional_con_desc = null
 
 [node name="Sprite1" parent="." index="0"]
 position = Vector2( 5, 1 )

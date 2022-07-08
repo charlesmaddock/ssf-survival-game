@@ -4,12 +4,20 @@
 [ext_resource path="res://assets/sprites/hammerArm.png" type="Texture" id=2]
 
 [node name="Hammer Arm" instance=ExtResource( 1 )]
+title = "Hammaren"
+optional_desc = ""
+optional_perk_desc = "Gör mycket skada"
+optional_con_desc = "Flungar dig bakåt efter varje slag"
+projectile_type = 0
 arm_texture = ExtResource( 2 )
 sprite_offset = Vector2( 5.5, -6 )
 arm_scale = 2.0
+angle_offset = 0.0
 cooldown = 1.5
+freeze_time = 0.2
 anim_speed = 0.5
 knockback = 400.0
+melee = true
 damage = 60.0
 
 [node name="Sprite1" parent="." index="0"]

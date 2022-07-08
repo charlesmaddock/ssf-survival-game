@@ -22,7 +22,7 @@ func _ready():
 		set_process(false)
 	
 	yield(get_tree(), "idle_frame")
-	Events.emit_signal("error_message", "Connecting to " + url + "...")
+	#Events.emit_signal("error_message", "Connecting to " + url + "...")
 
 
 func _closed(was_clean = false):
@@ -215,7 +215,7 @@ func melee_attack(id: String, dir: Vector2, team: int, damage: int)  -> void:
 	send_packet(payload)
 
 
-func shoot_projectile(start_pos: Vector2, dir: Vector2, id: String, team: int, projectile_type: int, add_dir: Vector2 = Vector2.ZERO)  -> void:
+func shoot_projectile(damage: float, start_pos: Vector2, dir: Vector2, id: String, team: int, projectile_type: int, add_dir: Vector2 = Vector2.ZERO)  -> void:
 	var payload = {
 		"type": Constants.PacketTypes.SHOOT_PROJECTILE, 
 		"posX": start_pos.x,
@@ -227,6 +227,7 @@ func shoot_projectile(start_pos: Vector2, dir: Vector2, id: String, team: int, p
 		"id": id,
 		"p_type": projectile_type,
 		"team": team,
+		"damage": damage
 	}
 	send_packet(payload)
 

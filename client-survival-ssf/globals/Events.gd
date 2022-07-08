@@ -8,6 +8,7 @@ signal game_over(won)
 signal add_footstep()
 signal switch_rooms(destined_position)
 signal follow_w_camera(node2d)
+signal standing_over_part(part)
 
 
 signal target_entity(target_node, manually_targeted)

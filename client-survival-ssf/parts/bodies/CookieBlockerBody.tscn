@@ -6,6 +6,11 @@
 [node name="Default Body" instance=ExtResource( 1 )]
 body_texture = ExtResource( 2 )
 weight = 50.0
+body_scale = null
+title = "Cookie-blocker 23"
+optional_desc = "Förbättra din integritet online genom att blockera cookies, exempelvis genom inställningarna i din webbläsare. "
+optional_perk_desc = null
+optional_con_desc = null
 
 [node name="Sprite" parent="." index="0"]
 texture = ExtResource( 2 )

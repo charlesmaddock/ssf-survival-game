@@ -1,10 +1,19 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://assets/theme/theme.tres" type="Theme" id=1]
 [ext_resource path="res://ui/MainMenu.gd" type="Script" id=2]
 [ext_resource path="res://ui/PlayerInfoPanel.tscn" type="PackedScene" id=3]
+[ext_resource path="res://assets/sprites/createRoomButton.png" type="Texture" id=4]
 [ext_resource path="res://ui/NameInput.gd" type="Script" id=5]
 [ext_resource path="res://assets/font/largeFont.tres" type="DynamicFont" id=6]
+[ext_resource path="res://assets/sprites/joinRoomButton.png" type="Texture" id=7]
+[ext_resource path="res://assets/sprites/logo.png" type="Texture" id=8]
+[ext_resource path="res://assets/sprites/joinRoomButtonHover.png" type="Texture" id=9]
+[ext_resource path="res://assets/sprites/createRoomButtonHover.png" type="Texture" id=10]
+[ext_resource path="res://assets/sprites/singlePlayerButton.png" type="Texture" id=11]
+[ext_resource path="res://assets/sprites/multiplayerButtonHover.png" type="Texture" id=12]
+[ext_resource path="res://assets/sprites/multiplayerButton.png" type="Texture" id=13]
+[ext_resource path="res://assets/sprites/singlePlayerButtonPressed.png" type="Texture" id=14]
 
 [node name="MainMenu" type="Control"]
 anchor_right = 1.0
@@ -16,7 +25,7 @@ script = ExtResource( 2 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-color = Color( 0.701961, 0.345098, 0.764706, 1 )
+color = Color( 0.917647, 0.635294, 0.964706, 1 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Welcome"]
 anchor_right = 1.0
@@ -24,100 +33,77 @@ anchor_bottom = 1.0
 alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Welcome/HBoxContainer"]
-margin_left = 163.0
-margin_right = 563.0
+margin_left = 165.0
+margin_right = 565.0
 margin_bottom = 429.0
 rect_min_size = Vector2( 400, 0 )
+custom_constants/separation = 70
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="Welcome/HBoxContainer/VBoxContainer"]
-margin_top = 42.0
-margin_right = 400.0
-margin_bottom = 83.0
-rect_min_size = Vector2( 300, 0 )
-custom_fonts/font = ExtResource( 6 )
-text = "Säkerhetshjältarna"
-align = 1
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Welcome/HBoxContainer/VBoxContainer"]
-margin_top = 87.0
-margin_right = 400.0
-margin_bottom = 387.0
-rect_min_size = Vector2( 100, 0 )
-
-[node name="NameInput" type="LineEdit" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer"]
-margin_right = 400.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 0, 50 )
-placeholder_text = "Ditt namn"
-script = ExtResource( 5 )
-
-[node name="Margin" type="Control" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer"]
-margin_top = 54.0
+[node name="LogoContainer" type="Control" parent="Welcome/HBoxContainer/VBoxContainer"]
+margin_top = 104.0
 margin_right = 400.0
 margin_bottom = 104.0
-rect_min_size = Vector2( 0, 50 )
 
-[node name="Title" type="Label" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer"]
-visible = false
-margin_top = 91.0
-margin_right = 306.0
-margin_bottom = 114.0
-rect_min_size = Vector2( 0, 20 )
-custom_colors/font_color = Color( 0.317647, 0.2, 0.6, 1 )
-text = "Gå med i ett rum"
-valign = 2
+[node name="Control" type="Control" parent="Welcome/HBoxContainer/VBoxContainer/LogoContainer"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
 
-[node name="FindRoomButton" type="Button" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer"]
-margin_top = 108.0
+[node name="Sprite" type="Sprite" parent="Welcome/HBoxContainer/VBoxContainer/LogoContainer/Control"]
+position = Vector2( 0, 4 )
+texture = ExtResource( 8 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Welcome/HBoxContainer/VBoxContainer"]
+margin_top = 174.0
 margin_right = 400.0
-margin_bottom = 158.0
-rect_min_size = Vector2( 30, 50 )
-text = "Hitta ett rum"
+margin_bottom = 324.0
+custom_constants/separation = 60
+alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer"]
-margin_top = 162.0
-margin_right = 400.0
-margin_bottom = 212.0
-rect_min_size = Vector2( 0, 20 )
+[node name="SinglePlayerHBoxContainer" type="HBoxContainer" parent="Welcome/HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 20.0
+margin_right = 170.0
+margin_bottom = 150.0
 
-[node name="CodeInput" type="LineEdit" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
-margin_right = 324.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 0, 50 )
-size_flags_horizontal = 3
-placeholder_text = "Rummets kod"
+[node name="SinglePlayerTextureButton" type="TextureButton" parent="Welcome/HBoxContainer/VBoxContainer/HBoxContainer/SinglePlayerHBoxContainer"]
+margin_right = 150.0
+margin_bottom = 150.0
+texture_normal = ExtResource( 11 )
+texture_hover = ExtResource( 14 )
 
-[node name="JoinButton" type="Button" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
-margin_left = 328.0
-margin_right = 400.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 30, 50 )
-text = "Gå med"
+[node name="Label" type="Label" parent="Welcome/HBoxContainer/VBoxContainer/HBoxContainer/SinglePlayerHBoxContainer/SinglePlayerTextureButton"]
+margin_left = 7.0
+margin_top = 146.0
+margin_right = 149.0
+margin_bottom = 175.0
+custom_colors/font_color = Color( 0.607843, 0.294118, 0.647059, 1 )
+text = "Spela!"
+align = 1
 
-[node name="Margin2" type="Control" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer"]
-margin_top = 216.0
-margin_right = 400.0
-margin_bottom = 246.0
-rect_min_size = Vector2( 0, 30 )
+[node name="JoinHBoxContainer2" type="HBoxContainer" parent="Welcome/HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 230.0
+margin_right = 380.0
+margin_bottom = 150.0
 
-[node name="HostButton" type="Button" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer"]
-margin_top = 250.0
-margin_right = 400.0
-margin_bottom = 300.0
-rect_min_size = Vector2( 0, 50 )
-text = "Skapa ett rum"
+[node name="MultiplayerTextureButton" type="TextureButton" parent="Welcome/HBoxContainer/VBoxContainer/HBoxContainer/JoinHBoxContainer2"]
+margin_right = 150.0
+margin_bottom = 150.0
+texture_normal = ExtResource( 13 )
+texture_hover = ExtResource( 12 )
 
-[node name="Control" type="Control" parent="Welcome/HBoxContainer"]
-margin_left = 567.0
-margin_right = 567.0
-margin_bottom = 429.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="Label2" type="Label" parent="Welcome/HBoxContainer/VBoxContainer/HBoxContainer/JoinHBoxContainer2/MultiplayerTextureButton"]
+margin_left = -6.0
+margin_top = 147.0
+margin_right = 164.0
+margin_bottom = 176.0
+custom_colors/font_color = Color( 0.607843, 0.294118, 0.647059, 1 )
+text = "Spela med andra"
+align = 1
 
 [node name="ErrorLabel" type="Label" parent="Welcome"]
 anchor_top = 1.0
@@ -128,16 +114,213 @@ margin_right = 185.0
 margin_bottom = -6.0
 custom_colors/font_color = Color( 0.890196, 0.0392157, 0.0392157, 1 )
 valign = 1
+
+[node name="PlayWithOthersPage" type="ColorRect" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color( 0.917647, 0.635294, 0.964706, 1 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PlayWithOthersPage"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PlayWithOthersPage/HBoxContainer"]
+margin_left = 165.0
+margin_right = 565.0
+margin_bottom = 429.0
+rect_min_size = Vector2( 400, 0 )
+custom_constants/separation = 70
+alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PlayWithOthersPage/HBoxContainer/VBoxContainer"]
+margin_top = 139.0
+margin_right = 400.0
+margin_bottom = 289.0
+custom_constants/separation = 60
+alignment = 1
+
+[node name="JoinHBoxContainer2" type="HBoxContainer" parent="PlayWithOthersPage/HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 20.0
+margin_right = 170.0
+margin_bottom = 150.0
+
+[node name="JoinRoomTextureButton" type="TextureButton" parent="PlayWithOthersPage/HBoxContainer/VBoxContainer/HBoxContainer/JoinHBoxContainer2"]
+margin_right = 150.0
+margin_bottom = 150.0
+texture_normal = ExtResource( 7 )
+texture_hover = ExtResource( 9 )
+
+[node name="Label2" type="Label" parent="PlayWithOthersPage/HBoxContainer/VBoxContainer/HBoxContainer/JoinHBoxContainer2/JoinRoomTextureButton"]
+margin_left = -6.0
+margin_top = 147.0
+margin_right = 164.0
+margin_bottom = 176.0
+custom_colors/font_color = Color( 0.607843, 0.294118, 0.647059, 1 )
+text = "Gå med i ett spel"
+
+[node name="CreateHBoxContainer" type="HBoxContainer" parent="PlayWithOthersPage/HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 230.0
+margin_right = 380.0
+margin_bottom = 150.0
+
+[node name="CreateRoomTextureButton" type="TextureButton" parent="PlayWithOthersPage/HBoxContainer/VBoxContainer/HBoxContainer/CreateHBoxContainer"]
+margin_right = 150.0
+margin_bottom = 150.0
+texture_normal = ExtResource( 4 )
+texture_hover = ExtResource( 10 )
+
+[node name="Label" type="Label" parent="PlayWithOthersPage/HBoxContainer/VBoxContainer/HBoxContainer/CreateHBoxContainer/CreateRoomTextureButton"]
+margin_left = 7.0
+margin_top = 146.0
+margin_right = 149.0
+margin_bottom = 175.0
+custom_colors/font_color = Color( 0.607843, 0.294118, 0.647059, 1 )
+text = "Skapa ett spel"
+
+[node name="PlayWithOthersBackButton" type="Button" parent="PlayWithOthersPage"]
+margin_left = 22.0
+margin_top = 23.0
+margin_right = 62.0
+margin_bottom = 63.0
+rect_min_size = Vector2( 40, 40 )
+text = "<"
+
+[node name="JoinRoomPage" type="ColorRect" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color( 0.917647, 0.635294, 0.964706, 1 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="JoinRoomPage"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="JoinRoomPage/HBoxContainer"]
+margin_left = 54.0
+margin_right = 672.0
+margin_bottom = 429.0
+rect_min_size = Vector2( 400, 0 )
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="JoinRoomPage/HBoxContainer/VBoxContainer"]
+margin_top = 150.0
+margin_right = 618.0
+margin_bottom = 278.0
+rect_min_size = Vector2( 100, 0 )
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="JoinRoomPage/HBoxContainer/VBoxContainer/VBoxContainer"]
+margin_right = 618.0
+margin_bottom = 94.0
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="JoinRoomPage/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer2"]
+margin_right = 270.0
+margin_bottom = 94.0
+
+[node name="Title" type="Label" parent="JoinRoomPage/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+margin_right = 270.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 0, 40 )
+custom_colors/font_color = Color( 0.317647, 0.2, 0.6, 1 )
+text = "Kan du koden till ett spel?"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="JoinRoomPage/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+margin_top = 44.0
+margin_right = 270.0
+margin_bottom = 94.0
+rect_min_size = Vector2( 0, 20 )
+
+[node name="CodeInput" type="LineEdit" parent="JoinRoomPage/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer"]
+margin_right = 184.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 0, 50 )
+size_flags_horizontal = 3
+placeholder_text = "Skriv spelets kod"
+
+[node name="JoinButton" type="Button" parent="JoinRoomPage/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer"]
+margin_left = 188.0
+margin_right = 270.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 30, 50 )
+text = "Gå med!"
+
+[node name="Separator" type="Label" parent="JoinRoomPage/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer2"]
+margin_left = 274.0
+margin_top = 35.0
+margin_right = 374.0
+margin_bottom = 58.0
+rect_min_size = Vector2( 100, 0 )
+custom_colors/font_color = Color( 0.317647, 0.2, 0.6, 1 )
+text = "•"
+align = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="JoinRoomPage/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer2"]
+margin_left = 378.0
+margin_right = 618.0
+margin_bottom = 94.0
+
+[node name="Title" type="Label" parent="JoinRoomPage/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer"]
+margin_right = 240.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 0, 40 )
+custom_colors/font_color = Color( 0.317647, 0.2, 0.6, 1 )
+text = "Gå med i ett ledigt spel"
+
+[node name="FindRoomButton" type="Button" parent="JoinRoomPage/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer"]
+margin_top = 44.0
+margin_right = 240.0
+margin_bottom = 94.0
+rect_min_size = Vector2( 30, 50 )
+text = "Hitta ett spel"
+
+[node name="Margin2" type="Control" parent="JoinRoomPage/HBoxContainer/VBoxContainer/VBoxContainer"]
+margin_top = 98.0
+margin_right = 618.0
+margin_bottom = 128.0
+rect_min_size = Vector2( 0, 30 )
+
+[node name="Control" type="Control" parent="JoinRoomPage/HBoxContainer"]
+margin_left = 676.0
+margin_right = 676.0
+margin_bottom = 429.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="JoinRoomBackButton" type="Button" parent="JoinRoomPage"]
+margin_left = 22.0
+margin_top = 23.0
+margin_right = 62.0
+margin_bottom = 63.0
+rect_min_size = Vector2( 40, 40 )
+text = "<"
+
+[node name="ErrorLabel" type="Label" parent="JoinRoomPage"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 6.0
+margin_top = -29.0
+margin_right = 185.0
+margin_bottom = -6.0
+custom_colors/font_color = Color( 0.890196, 0.0392157, 0.0392157, 1 )
+valign = 1
 
 [node name="Lobby" type="ColorRect" parent="."]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-color = Color( 0.701961, 0.345098, 0.764706, 1 )
+color = Color( 0.917647, 0.635294, 0.964706, 1 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Lobby"]
 anchor_right = 1.0
@@ -152,10 +335,10 @@ margin_bottom = 429.0
 alignment = 1
 
 [node name="CodeWrapper" type="Control" parent="Lobby/HBoxContainer/VBoxContainer"]
-margin_top = 109.0
+margin_top = 88.0
 margin_right = 308.0
-margin_bottom = 139.0
-rect_min_size = Vector2( 0, 30 )
+margin_bottom = 148.0
+rect_min_size = Vector2( 0, 60 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -163,9 +346,6 @@ __meta__ = {
 [node name="CodeLabel" type="RichTextLabel" parent="Lobby/HBoxContainer/VBoxContainer/CodeWrapper"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = -40.0
-margin_right = -105.0
-margin_bottom = -15.0
 rect_min_size = Vector2( 0, 10 )
 focus_mode = 2
 custom_colors/default_color = Color( 0.341176, 0.0156863, 0.313726, 1 )
@@ -182,9 +362,9 @@ rect_min_size = Vector2( 0, 20 )
 text = "Copy code"
 
 [node name="TeamsContainer" type="HBoxContainer" parent="Lobby/HBoxContainer/VBoxContainer"]
-margin_top = 143.0
+margin_top = 152.0
 margin_right = 308.0
-margin_bottom = 287.0
+margin_bottom = 296.0
 custom_constants/separation = 24
 
 [node name="GoodGuys" type="VBoxContainer" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer"]
@@ -226,10 +406,10 @@ margin_right = 308.0
 margin_bottom = 144.0
 
 [node name="StartButton" type="Button" parent="Lobby/HBoxContainer/VBoxContainer"]
-margin_top = 291.0
+margin_top = 300.0
 margin_right = 308.0
-margin_bottom = 320.0
-rect_min_size = Vector2( 0, 20 )
+margin_bottom = 340.0
+rect_min_size = Vector2( 0, 40 )
 text = "Starta Spelet!"
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="Lobby/HBoxContainer"]
@@ -242,40 +422,83 @@ margin_right = 236.0
 margin_bottom = 135.0
 rect_min_size = Vector2( 0, 135 )
 
-[node name="RegenerateHealthCheckBox" type="CheckBox" parent="Lobby/HBoxContainer/VBoxContainer2"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Lobby/HBoxContainer/VBoxContainer2"]
 margin_top = 139.0
 margin_right = 236.0
-margin_bottom = 170.0
+margin_bottom = 172.0
+script = ExtResource( 5 )
+
+[node name="LineEdit" type="LineEdit" parent="Lobby/HBoxContainer/VBoxContainer2/HBoxContainer"]
+margin_right = 130.0
+margin_bottom = 33.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+placeholder_text = "Ditt namn"
+
+[node name="SubmitName" type="Button" parent="Lobby/HBoxContainer/VBoxContainer2/HBoxContainer"]
+margin_left = 134.0
+margin_right = 236.0
+margin_bottom = 33.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Uppdatera"
+
+[node name="Margin2" type="Control" parent="Lobby/HBoxContainer/VBoxContainer2"]
+margin_top = 176.0
+margin_right = 236.0
+margin_bottom = 206.0
+rect_min_size = Vector2( 0, 30 )
+
+[node name="RegenerateHealthCheckBox" type="CheckBox" parent="Lobby/HBoxContainer/VBoxContainer2"]
+margin_top = 210.0
+margin_right = 236.0
+margin_bottom = 241.0
 pressed = true
-text = "Regenerera hälsa"
+text = "Återgenerera liv"
 
 [node name="EasyMode" type="CheckBox" parent="Lobby/HBoxContainer/VBoxContainer2"]
-margin_top = 174.0
+margin_top = 245.0
 margin_right = 236.0
-margin_bottom = 205.0
+margin_bottom = 276.0
 pressed = true
-text = "Easy mode"
+text = "Lättare monster"
 
 [node name="MonsterLootDropCheckBox" type="CheckBox" parent="Lobby/HBoxContainer/VBoxContainer2"]
-margin_top = 209.0
+margin_top = 280.0
 margin_right = 236.0
-margin_bottom = 240.0
+margin_bottom = 311.0
 text = "Monster släpper delar"
 
 [node name="AutoAimCheckBox" type="CheckBox" parent="Lobby/HBoxContainer/VBoxContainer2"]
-margin_top = 244.0
+margin_top = 315.0
 margin_right = 236.0
-margin_bottom = 275.0
+margin_bottom = 346.0
 pressed = true
 text = "Sikta automatiskt"
 
-[connection signal="text_changed" from="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/NameInput" to="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/NameInput" method="_on_NameInput_text_changed"]
-[connection signal="pressed" from="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/FindRoomButton" to="." method="_on_FindRoomButton_pressed"]
-[connection signal="pressed" from="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer/JoinButton" to="." method="_on_JoinButton_pressed"]
-[connection signal="pressed" from="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/HostButton" to="." method="_on_HostButton_pressed"]
+[node name="LobbyBackButton" type="Button" parent="Lobby"]
+margin_left = 22.0
+margin_top = 23.0
+margin_right = 62.0
+margin_bottom = 63.0
+rect_min_size = Vector2( 40, 40 )
+text = "<"
+
+[connection signal="pressed" from="Welcome/HBoxContainer/VBoxContainer/HBoxContainer/SinglePlayerHBoxContainer/SinglePlayerTextureButton" to="." method="_on_SinglePlayerTextureButton_pressed"]
+[connection signal="pressed" from="Welcome/HBoxContainer/VBoxContainer/HBoxContainer/JoinHBoxContainer2/MultiplayerTextureButton" to="." method="_on_MultiplayerTextureButton_pressed"]
+[connection signal="pressed" from="PlayWithOthersPage/HBoxContainer/VBoxContainer/HBoxContainer/JoinHBoxContainer2/JoinRoomTextureButton" to="." method="_on_JoinRoomTextureButton_pressed"]
+[connection signal="pressed" from="PlayWithOthersPage/HBoxContainer/VBoxContainer/HBoxContainer/CreateHBoxContainer/CreateRoomTextureButton" to="." method="_on_CreateRoomTextureButton_pressed"]
+[connection signal="pressed" from="PlayWithOthersPage/PlayWithOthersBackButton" to="." method="_on_PlayWithOthersBackButton_pressed"]
+[connection signal="pressed" from="JoinRoomPage/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer/JoinButton" to="." method="_on_JoinButton_pressed"]
+[connection signal="pressed" from="JoinRoomPage/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/FindRoomButton" to="." method="_on_FindRoomButton_pressed"]
+[connection signal="pressed" from="JoinRoomPage/JoinRoomBackButton" to="." method="_on_JoinRoomBackButton_pressed"]
 [connection signal="pressed" from="Lobby/HBoxContainer/VBoxContainer/CopyCodeButton" to="." method="_on_CopyCodeButton_pressed"]
 [connection signal="pressed" from="Lobby/HBoxContainer/VBoxContainer/StartButton" to="." method="_on_StartButton_pressed"]
+[connection signal="text_entered" from="Lobby/HBoxContainer/VBoxContainer2/HBoxContainer/LineEdit" to="Lobby/HBoxContainer/VBoxContainer2/HBoxContainer" method="_on_LineEdit_text_entered"]
+[connection signal="pressed" from="Lobby/HBoxContainer/VBoxContainer2/HBoxContainer/SubmitName" to="Lobby/HBoxContainer/VBoxContainer2/HBoxContainer" method="_on_SubmitName_pressed"]
 [connection signal="toggled" from="Lobby/HBoxContainer/VBoxContainer2/RegenerateHealthCheckBox" to="." method="_on_RegenerateHealthCheckBox_toggled"]
 [connection signal="toggled" from="Lobby/HBoxContainer/VBoxContainer2/EasyMode" to="." method="_on_EasyMode_toggled"]
 [connection signal="toggled" from="Lobby/HBoxContainer/VBoxContainer2/MonsterLootDropCheckBox" to="." method="_on_MonsterLootDropCheckBox_toggled"]
 [connection signal="toggled" from="Lobby/HBoxContainer/VBoxContainer2/AutoAimCheckBox" to="." method="_on_AutoAimCheckBox_toggled"]
+[connection signal="pressed" from="Lobby/LobbyBackButton" to="." method="_on_LobbyBackButton_pressed"]

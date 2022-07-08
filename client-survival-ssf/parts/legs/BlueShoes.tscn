@@ -6,15 +6,20 @@
 [node name="BlueShoes" instance=ExtResource( 1 )]
 walk_speed = 230.0
 leg_texture = ExtResource( 2 )
-sprite_offset = Vector2( 5.675, 4.777 )
-leg_separation = 10.779
+sprite_offset = Vector2( 5.675, 9 )
+leg_separation = 12.0
+leg_scale = null
+title = "Springskor"
+optional_desc = null
+optional_perk_desc = null
+optional_con_desc = null
 
 [node name="Sprite1" parent="." index="0"]
-position = Vector2( 5.3895, 1 )
+position = Vector2( 6, 1 )
 texture = ExtResource( 2 )
-offset = Vector2( 5.675, 4.777 )
+offset = Vector2( 5.675, 9 )
 
 [node name="Sprite2" parent="." index="1"]
-position = Vector2( -5.3895, 1 )
+position = Vector2( -6, 1 )
 texture = ExtResource( 2 )
-offset = Vector2( 5.675, 4.777 )
+offset = Vector2( 5.675, 9 )

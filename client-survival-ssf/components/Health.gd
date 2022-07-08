@@ -54,9 +54,9 @@ func get_is_dead() -> bool:
 
 func _on_change_weight(weight: float) -> void:
 	# Remove old weight mod
-	set_max_health(max_health - ((_weight / 100) * 10))
+	set_max_health(max_health - ((_weight / 100) * 20))
 	_weight = weight
-	set_max_health(max_health + ((_weight / 100) * 10))
+	set_max_health(max_health + ((_weight / 100) * 20))
 
 
 func _on_damage_taken(damage, dir: Vector2) -> void:
@@ -65,7 +65,11 @@ func _on_damage_taken(damage, dir: Vector2) -> void:
 
 func _on_heal(amount: float) -> void:
 	if Lobby.is_host == true:
-		Server.set_health(health_for_entity_w_id, health + amount, Vector2.ZERO)
+		var new_health = health + amount
+		if new_health > max_health:
+			new_health = max_health
+		
+		Server.set_health(health_for_entity_w_id, new_health, Vector2.ZERO)
 
 
 func set_invinsible(invinsible: bool) -> void:
@@ -120,7 +124,6 @@ func _on_packet_received(packet: Dictionary) -> void:
 					if health_for_entity_w_id == Lobby.my_id: 
 						Events.emit_signal("follow_w_camera", self)
 					Events.emit_signal("player_revived", get_parent().entity.id)
-				
 
 
 func damage_flash() -> void:

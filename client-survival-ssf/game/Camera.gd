@@ -57,9 +57,9 @@ func _process(delta):
 		_target_zoom = Vector2(2, 2)
 	
 	if _spectating == true && _lerp_toward_follow == true:
-		position = position.linear_interpolate(_spectate.global_position, delta * 14)
+		position = position.linear_interpolate(_spectate.global_position, delta * 12)
 	elif is_instance_valid(_follow) && _lerp_toward_follow == true:
-		position = position.linear_interpolate(_follow.global_position, delta * 14)
+		position = position.linear_interpolate(_follow.global_position, delta * 12)
 	elif self.global_position != destined_position:
 		position = position.linear_interpolate(destined_position, delta * 4)
 

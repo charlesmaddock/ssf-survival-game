@@ -17,7 +17,15 @@ func _ready():
 	entity.connect("damage_taken", self, "_on_damage_taken")
 	
 	var room_difficulty: int = Util.get_room(entity.room_id).get_difficulty()
-	var parts: Array = part_difficulties[room_difficulty]
+	var parts: Array = []
+	
+	if room_difficulty == Constants.RoomDifficulties.EASY:
+		parts = part_difficulties[Constants.RoomDifficulties.EASY]
+	elif room_difficulty == Constants.RoomDifficulties.MEDIUM:
+		parts = part_difficulties[Constants.RoomDifficulties.EASY] + part_difficulties[Constants.RoomDifficulties.MEDIUM]
+	elif room_difficulty == Constants.RoomDifficulties.HARD:
+		parts = part_difficulties[Constants.RoomDifficulties.MEDIUM] + part_difficulties[Constants.RoomDifficulties.HARD]
+	
 	_part_name = parts[randi() % parts.size()]
 
 

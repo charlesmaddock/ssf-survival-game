@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://assets/sprites/sRobotHead.png" type="Texture" id=1]
 [ext_resource path="res://entities/Player.gd" type="Script" id=2]
@@ -11,10 +11,10 @@
 [ext_resource path="res://components/AttackInputHandler.gd" type="Script" id=9]
 [ext_resource path="res://parts/arms/sHpIcon.png" type="Texture" id=10]
 [ext_resource path="res://components/Stats.gd" type="Script" id=11]
-[ext_resource path="res://parts/arms/sSpeedIcon.png" type="Texture" id=12]
-[ext_resource path="res://parts/arms/sWeightIcon.png" type="Texture" id=13]
-[ext_resource path="res://parts/arms/sAttackIcon.png" type="Texture" id=14]
+[ext_resource path="res://game/StatsBar.tscn" type="PackedScene" id=12]
 [ext_resource path="res://assets/font/largeFont.tres" type="DynamicFont" id=15]
+[ext_resource path="res://assets/sprites/youMarker.png" type="Texture" id=16]
+[ext_resource path="res://components/YouMarker.gd" type="Script" id=17]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 3.0
@@ -22,12 +22,84 @@ height = 4.0
 
 [sub_resource type="CapsuleShape2D" id=2]
 radius = 8.0
-height = 18.0
+height = 6.0
+
+[sub_resource type="Animation" id=3]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0.6, 0.6 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Sprite:rotation_degrees")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "change"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.0931373, 0.2, 0.3, 0.999999 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1.2, 1.2 ), Vector2( 1.7, 1 ), Vector2( 1.7, 1.7 ), Vector2( 1.2, 1.2 ), Vector2( 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:rotation_degrees")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.0901978, 0.145751, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, -22.3, 13.4, -22.3, 0.0 ]
+}
 
 [node name="Player" type="KinematicBody2D"]
 position = Vector2( 29, 43 )
 collision_mask = 0
 script = ExtResource( 2 )
+
+[node name="YouMarker" type="Sprite" parent="."]
+position = Vector2( 87, -135 )
+texture = ExtResource( 16 )
+script = ExtResource( 17 )
 
 [node name="MyPlayerIndicator" type="Sprite" parent="."]
 modulate = Color( 1, 1, 1, 0.313726 )
@@ -75,63 +147,35 @@ position = Vector2( 1, 0 )
 rotation = 1.5708
 shape = SubResource( 2 )
 
-[node name="PickUpText" type="Label" parent="."]
-visible = false
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -83.0
-margin_top = -173.0
-margin_right = 97.0
-margin_bottom = -83.0
-theme = ExtResource( 8 )
-text = "Tryck E för 
-att plocka upp"
-align = 1
-valign = 1
-clip_text = true
+[node name="StatsCanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-layer = 2
-
-[node name="Stats" type="Control" parent="CanvasLayer"]
-margin_right = 255.0
-margin_bottom = 113.0
+[node name="Stats" type="Control" parent="StatsCanvasLayer"]
+margin_left = 12.0
+margin_top = 12.0
+margin_right = 267.0
+margin_bottom = 125.0
 mouse_filter = 2
 theme = ExtResource( 8 )
 script = ExtResource( 11 )
 
-[node name="Panel" type="PanelContainer" parent="CanvasLayer/Stats"]
-self_modulate = Color( 37.71, 53.97, 57.24, 0.41 )
-margin_left = 8.0
-margin_top = 8.0
-margin_right = 234.0
-margin_bottom = 48.0
+[node name="StatsBar" parent="StatsCanvasLayer/Stats" instance=ExtResource( 12 )]
+margin_bottom = 60.0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Stats/Panel"]
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 219.0
-margin_bottom = 33.0
+[node name="HealthIcon" type="Control" parent="StatsCanvasLayer/Stats"]
+margin_right = 40.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 40, 50 )
 
-[node name="HealthIcon" type="Control" parent="CanvasLayer/Stats/Panel/HBoxContainer"]
-margin_right = 50.0
-margin_bottom = 26.0
-rect_min_size = Vector2( 50, 20 )
-
-[node name="Sprite" type="Sprite" parent="CanvasLayer/Stats/Panel/HBoxContainer/HealthIcon"]
-position = Vector2( 16, 16 )
+[node name="Sprite" type="Sprite" parent="StatsCanvasLayer/Stats/HealthIcon"]
+position = Vector2( 34, 32 )
+scale = Vector2( 0.6, 0.6 )
 texture = ExtResource( 10 )
 
-[node name="Label" type="Label" parent="CanvasLayer/Stats/Panel/HBoxContainer/HealthIcon"]
-margin_left = -7.0
-margin_top = -4.0
-margin_right = 33.0
-margin_bottom = 37.0
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_colors/font_outline_modulate = Color( 0.537255, 0.34902, 0.34902, 1 )
-custom_colors/font_color_shadow = Color( 0.831373, 0.258824, 0.258824, 1 )
+[node name="Label" type="Label" parent="StatsCanvasLayer/Stats/HealthIcon"]
+margin_left = -8.0
+margin_top = 12.0
+margin_right = 69.0
+margin_bottom = 53.0
 custom_constants/shadow_offset_x = 1
 custom_constants/line_spacing = 1
 custom_constants/shadow_offset_y = 1
@@ -140,77 +184,12 @@ custom_fonts/font = ExtResource( 15 )
 text = "12"
 align = 1
 
-[node name="AttackIcon" type="Control" parent="CanvasLayer/Stats/Panel/HBoxContainer"]
-margin_left = 54.0
-margin_right = 104.0
-margin_bottom = 26.0
-rect_min_size = Vector2( 50, 20 )
+[node name="AnimationPlayer" type="AnimationPlayer" parent="StatsCanvasLayer/Stats/HealthIcon"]
+anims/RESET = SubResource( 3 )
+anims/change = SubResource( 4 )
 
-[node name="Sprite" type="Sprite" parent="CanvasLayer/Stats/Panel/HBoxContainer/AttackIcon"]
-position = Vector2( 22, 11 )
-texture = ExtResource( 14 )
-
-[node name="Label" type="Label" parent="CanvasLayer/Stats/Panel/HBoxContainer/AttackIcon"]
-margin_top = 3.0
-margin_right = 40.0
-margin_bottom = 26.0
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_colors/font_outline_modulate = Color( 0.0156863, 0.105882, 0.92549, 1 )
-custom_colors/font_color_shadow = Color( 0.2, 0.231373, 0.47451, 1 )
-custom_constants/shadow_offset_x = 1
-custom_constants/line_spacing = 1
-custom_constants/shadow_offset_y = 1
-custom_constants/shadow_as_outline = 1
-text = "12"
-align = 1
-
-[node name="SpeedIcon" type="Control" parent="CanvasLayer/Stats/Panel/HBoxContainer"]
-margin_left = 108.0
-margin_right = 158.0
-margin_bottom = 26.0
-rect_min_size = Vector2( 50, 20 )
-
-[node name="Sprite" type="Sprite" parent="CanvasLayer/Stats/Panel/HBoxContainer/SpeedIcon"]
-position = Vector2( 22, 11 )
-texture = ExtResource( 12 )
-
-[node name="Label" type="Label" parent="CanvasLayer/Stats/Panel/HBoxContainer/SpeedIcon"]
-margin_top = 3.0
-margin_right = 40.0
-margin_bottom = 26.0
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_colors/font_outline_modulate = Color( 0.0156863, 0.105882, 0.92549, 1 )
-custom_colors/font_color_shadow = Color( 0.2, 0.231373, 0.47451, 1 )
-custom_constants/shadow_offset_x = 1
-custom_constants/line_spacing = 1
-custom_constants/shadow_offset_y = 1
-custom_constants/shadow_as_outline = 1
-text = "12"
-align = 1
-
-[node name="WeightIcon" type="Control" parent="CanvasLayer/Stats/Panel/HBoxContainer"]
-margin_left = 162.0
-margin_right = 212.0
-margin_bottom = 26.0
-rect_min_size = Vector2( 50, 20 )
-
-[node name="Sprite" type="Sprite" parent="CanvasLayer/Stats/Panel/HBoxContainer/WeightIcon"]
-position = Vector2( 22, 11 )
-texture = ExtResource( 13 )
-
-[node name="Label" type="Label" parent="CanvasLayer/Stats/Panel/HBoxContainer/WeightIcon"]
-margin_top = 3.0
-margin_right = 40.0
-margin_bottom = 26.0
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_colors/font_outline_modulate = Color( 0.0156863, 0.105882, 0.92549, 1 )
-custom_colors/font_color_shadow = Color( 0.2, 0.231373, 0.47451, 1 )
-custom_constants/shadow_offset_x = 1
-custom_constants/line_spacing = 1
-custom_constants/shadow_offset_y = 1
-custom_constants/shadow_as_outline = 1
-text = "12"
-align = 1
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 2
 
 [node name="AttackInputHandler" type="CanvasModulate" parent="CanvasLayer"]
 position = Vector2( 29, 43 )

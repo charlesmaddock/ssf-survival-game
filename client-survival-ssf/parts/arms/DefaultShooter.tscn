@@ -4,20 +4,17 @@
 [ext_resource path="res://assets/sprites/sDefaultShooter.png" type="Texture" id=2]
 
 [node name="DefaultShooter" instance=ExtResource( 1 )]
-projectile_type = null
+title = "Plasmakanon"
 arm_texture = ExtResource( 2 )
 sprite_offset = Vector2( 10.783, -1.383 )
 arm_separation = 4.0
-angle_offset = null
 cooldown = 0.6
 freeze_time = 0.1
-anim_speed = null
 knockback = 0.1
 melee = false
 damage = 10.0
 
 [node name="Sprite1" parent="." index="0"]
 position = Vector2( 4, 0 )
-rotation = 0.0
 texture = ExtResource( 2 )
 offset = Vector2( 10.783, -1.383 )

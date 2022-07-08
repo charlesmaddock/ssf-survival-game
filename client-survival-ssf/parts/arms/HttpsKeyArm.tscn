@@ -4,12 +4,21 @@
 [ext_resource path="res://assets/sprites/partSprites/sHttpsKeyArm.png" type="Texture" id=2]
 
 [node name="DefaultArm" instance=ExtResource( 1 )]
+title = "HTTPS"
+optional_desc = "Https enkrypterar dina meddelanden när du surfar online."
+optional_perk_desc = "Gör mycket skada"
+optional_con_desc = "Väldigt långsam"
+projectile_type = 0
 arm_texture = ExtResource( 2 )
 sprite_offset = Vector2( 13.481, 1.42 )
 arm_separation = 4.0
+arm_scale = 1.0
+angle_offset = 0.0
 cooldown = 2.5
 freeze_time = 0.1
 anim_speed = 0.4
+knockback = 0.0
+melee = true
 damage = 30.0
 
 [node name="Sprite1" parent="." index="0"]

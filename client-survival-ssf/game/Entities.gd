@@ -63,7 +63,7 @@ func _on_packet_received(packet: Dictionary) -> void:
 			var add_dir = Vector2(packet.add_dirX, packet.add_dirY)
 			var projectile_scene = projectile_scenes[int(packet.p_type)]
 			var projectile = projectile_scene.instance()
-			projectile.init(spawn_pos, dir, 10, packet.id, packet.team, add_dir)
+			projectile.init(spawn_pos, dir, packet.damage, packet.id, packet.team, add_dir)
 			add_child(projectile)
 		Constants.PacketTypes.SPAWN_MOB:
 			var spawn_pos = Vector2(packet.posX, packet.posY)

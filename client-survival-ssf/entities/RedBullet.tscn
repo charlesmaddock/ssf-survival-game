@@ -4,7 +4,6 @@
 [ext_resource path="res://entities/Projectile.tscn" type="PackedScene" id=2]
 
 [node name="RedBullet" instance=ExtResource( 2 )]
-_damage = 4.0
 _speed = 320.0
 
 [node name="Sprite" parent="." index="0"]

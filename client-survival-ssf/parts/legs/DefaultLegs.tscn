@@ -4,9 +4,15 @@
 [ext_resource path="res://assets/sprites/sRobotLeg.png" type="Texture" id=2]
 
 [node name="DefaultLegs" instance=ExtResource( 1 )]
+walk_speed = null
 leg_texture = ExtResource( 2 )
 sprite_offset = Vector2( 3, 7 )
 leg_separation = 14.0
+leg_scale = null
+title = "Robotben"
+optional_desc = null
+optional_perk_desc = null
+optional_con_desc = null
 
 [node name="Sprite1" parent="." index="0"]
 position = Vector2( 7, 1 )

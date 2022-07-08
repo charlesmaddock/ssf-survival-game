@@ -32,7 +32,7 @@ position = Vector2( 0, -21 )
 texture = ExtResource( 6 )
 
 [node name="Health" parent="." instance=ExtResource( 4 )]
-max_health = 80.0
+max_health = 50.0
 knockbackable = false
 
 [node name="Movement" parent="." instance=ExtResource( 5 )]

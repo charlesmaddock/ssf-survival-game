@@ -3,8 +3,11 @@ extends Control
 
 onready var Welcome = $Welcome
 onready var LobbyNode = $Lobby
+onready var JoinRoomPage = $JoinRoomPage
+onready var PlayWithOthersPage = $PlayWithOthersPage
 
-onready var CodeInput = $Welcome/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer/CodeInput
+
+onready var CodeInput = $JoinRoomPage/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer/CodeInput
 onready var CodeLabel = $Lobby/HBoxContainer/VBoxContainer/CodeWrapper/CodeLabel
 onready var PlayerInfoContainer = $Lobby/HBoxContainer/VBoxContainer/TeamsContainer/GoodGuys/PlayerInfoContainer
 onready var ErrorLabel = $Welcome/ErrorLabel
@@ -18,10 +21,6 @@ func _ready():
 	show_page(Welcome)
 	Server.connect("packet_received", self, "_on_packet_received")
 	Events.connect("error_message", self, "_on_error_message")
-	
-	$"Lobby/HBoxContainer/VBoxContainer2/RegenerateHealthCheckBox".set_visible(Lobby.is_host)
-	$"Lobby/HBoxContainer/VBoxContainer2/EasyMode".set_visible(Lobby.is_host)
-	$"Lobby/HBoxContainer/VBoxContainer2/MonsterLootDropCheckBox".set_visible(Lobby.is_host)
 
 
 func _on_error_message(msg: String) -> void:
@@ -41,7 +40,7 @@ func _on_packet_received(packet: Dictionary) -> void:
 
 
 func set_lobby(packet: Dictionary) -> void:
-	CodeLabel.text = "Kod: " + str(packet.code)
+	CodeLabel.text = "Spelets kod: " + str(packet.code)
 	_lobby_client_data = packet.clientData
 	
 	StartButton.set_visible(Lobby.is_host)
@@ -59,6 +58,10 @@ func show_page(page: Control) -> void:
 		page.set_visible(false)
 	
 	page.set_visible(true)
+	
+	$"Lobby/HBoxContainer/VBoxContainer2/RegenerateHealthCheckBox".set_visible(Lobby.is_host)
+	$"Lobby/HBoxContainer/VBoxContainer2/EasyMode".set_visible(Lobby.is_host)
+	$"Lobby/HBoxContainer/VBoxContainer2/MonsterLootDropCheckBox".set_visible(Lobby.is_host)
 
 
 func _on_Button2_pressed():
@@ -67,10 +70,6 @@ func _on_Button2_pressed():
 
 func _on_JoinButton_pressed():
 	Server.join(CodeInput.text)
-
-
-func _on_HostButton_pressed():
-	Server.host()
 
 
 func _on_StartButton_pressed():
@@ -99,3 +98,32 @@ func _on_FindRoomButton_pressed():
 
 func _on_EasyMode_toggled(button_pressed):
 	Lobby.easy_mode = button_pressed
+
+
+func _on_CreateRoomTextureButton_pressed():
+	Server.host()
+
+
+func _on_JoinRoomTextureButton_pressed():
+	show_page(JoinRoomPage)
+
+
+func _on_JoinRoomBackButton_pressed():
+	show_page(PlayWithOthersPage)
+
+
+func _on_LobbyBackButton_pressed():
+	Server.leave()
+	show_page(Welcome)
+
+
+func _on_SinglePlayerTextureButton_pressed():
+	Server.host()
+
+
+func _on_MultiplayerTextureButton_pressed():
+	show_page(PlayWithOthersPage)
+
+
+func _on_PlayWithOthersBackButton_pressed():
+	show_page(Welcome)

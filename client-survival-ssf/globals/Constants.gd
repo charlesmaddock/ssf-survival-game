@@ -61,7 +61,7 @@ enum PacketTypes {
 
 
 enum RoomTypes {
-	START,
+	EMPTY,
 	SPIKES,
 	CHIP,
 	QUESTION,

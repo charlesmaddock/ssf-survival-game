@@ -4,6 +4,8 @@
 [ext_resource path="res://assets/sprites/minigun.png" type="Texture" id=2]
 
 [node name="DefaultShooter" instance=ExtResource( 1 )]
+title = "Minigun"
+optional_perk_desc = "Skjuter väldigt snabbt"
 projectile_type = 1
 arm_texture = ExtResource( 2 )
 arm_separation = 2.0
@@ -12,7 +14,7 @@ cooldown = 0.15
 freeze_time = 0.1
 knockback = 0.2
 melee = false
-damage = 10.0
+damage = 5.0
 
 [node name="Sprite1" parent="." index="0"]
 position = Vector2( 2, 0 )

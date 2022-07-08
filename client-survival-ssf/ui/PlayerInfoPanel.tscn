@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://assets/theme/theme.tres" type="Theme" id=1]
 [ext_resource path="res://ui/PlayerInfoPanel.gd" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://assets/sprites/sRobotArm.png" type="Texture" id=5]
 [ext_resource path="res://assets/sprites/sRobotBody.png" type="Texture" id=6]
 [ext_resource path="res://assets/sprites/sRobotLeg.png" type="Texture" id=7]
+[ext_resource path="res://assets/font/tinyFont.tres" type="DynamicFont" id=8]
 
 [node name="PlayerInfoPanel" type="Control"]
 margin_right = 100.0
@@ -23,6 +24,7 @@ __meta__ = {
 }
 
 [node name="Panel" type="Panel" parent="."]
+self_modulate = Color( 2.3, 2.65, 59.54, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 1 )
@@ -50,8 +52,9 @@ __meta__ = {
 
 [node name="Name" type="Label" parent="Panel/MarginContainer/vbox"]
 margin_right = 92.0
-margin_bottom = 23.0
+margin_bottom = 20.0
 rect_min_size = Vector2( 0, 20 )
+custom_fonts/font = ExtResource( 8 )
 text = "Name"
 align = 1
 valign = 1
@@ -70,9 +73,9 @@ align = 1
 autowrap = true
 
 [node name="ClassContainer" type="HBoxContainer" parent="Panel/MarginContainer/vbox"]
-margin_top = 27.0
+margin_top = 24.0
 margin_right = 92.0
-margin_bottom = 51.0
+margin_bottom = 48.0
 alignment = 1
 
 [node name="Left" type="Button" parent="Panel/MarginContainer/vbox/ClassContainer"]

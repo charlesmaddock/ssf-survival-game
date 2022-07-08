@@ -3,8 +3,19 @@ extends Node2D
 
 onready var sprite: Node = get_node("Sprite")
 
+
 var _part_name: int
 var _id: String
+
+var title: String = ""
+var desc: String = ""
+var perk_desc: String = ""
+var con_desc: String = ""
+var perks: Dictionary = {
+	"damage": -1,
+	"speed": -1,
+	"weight": -1
+}
 
 func init(id: String, pos: Vector2, part_name: int):
 	global_position = pos
@@ -13,6 +24,19 @@ func init(id: String, pos: Vector2, part_name: int):
 	_id = id
 	
 	var part_scene = Constants.PartScenes[part_name].duplicate(true).instance()
+	
+	title = part_scene.title
+	desc = part_scene.optional_desc
+	perk_desc = part_scene.optional_perk_desc
+	con_desc = part_scene.optional_con_desc
+	
+	if part_scene.part_type == Constants.PartTypes.ARM:
+		perks.damage = part_scene.damage
+	elif part_scene.part_type == Constants.PartTypes.BODY:
+		perks.weight = part_scene.weight
+	elif part_scene.part_type == Constants.PartTypes.LEG:
+		perks.speed = part_scene.walk_speed
+	
 	get_node("Sprite").texture = part_scene.get_sprite()
 	part_scene.queue_free()
 

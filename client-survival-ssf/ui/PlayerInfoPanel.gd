@@ -25,6 +25,11 @@ func _on_packet_received(packet: Dictionary) -> void:
 			var new_client_data = packet.clientData
 			if new_client_data.id == _client_data.id:
 				set_player_info(new_client_data)
+	if packet.type == Constants.PacketTypes.ROOM_LEFT:
+		if _client_data.has("id"):
+			if _client_data.id == packet.id:
+				_client_data = {}
+				clear()
 
 
 func clear() -> void:
@@ -38,8 +43,10 @@ func set_player_info(client_data: Dictionary) -> void:
 	
 	ClassSprite.texture = Util.get_sprite_for_class(client_data.class)
 	
-	Name.text = client_data.name
+	Name.text = client_data.name + "(du)" if client_data.id == Lobby.my_id else client_data.name
 	ClassName.text = client_data.class
+	
+	Panel.self_modulate = Color(2.3, 2.6, 50) if client_data.id == Lobby.my_id else Color.white
 	
 	#LeftButton.set_visible(client_data.id == Lobby.my_id)
 	#RightButton.set_visible(client_data.id == Lobby.my_id)

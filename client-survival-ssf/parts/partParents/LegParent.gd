@@ -16,6 +16,11 @@ export(Vector2) var sprite_offset: Vector2
 export(float) var leg_separation: float = 5
 export(float) var leg_scale: float = 1
 
+export(String) var title: String = ""
+export(String) var optional_desc: String = ""
+export(String) var optional_perk_desc: String = ""
+export(String) var optional_con_desc: String = ""
+
 
 func _ready():
 	var timer = get_node("Timer")
@@ -28,9 +33,7 @@ func _ready():
 		get_parent().entity.connect("turned_around", self, "_on_turned_around")
 		
 		yield(get_tree(), "idle_frame")
-		print("movement_node: " , movement_node)
 		if movement_node != null:
-			print("walk_speed: ", walk_speed)
 			get_parent().entity.emit_signal("change_movement_speed", walk_speed)
 	
 	if leg_texture != null:
