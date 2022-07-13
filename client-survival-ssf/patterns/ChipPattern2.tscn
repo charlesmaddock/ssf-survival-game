@@ -11,14 +11,14 @@ script = ExtResource( 2 )
 environment_type = 1
 
 [node name="Point4" type="Node2D" parent="EnvironmentPattern5"]
-position = Vector2( -32, 112 )
+position = Vector2( -96, 176 )
 
 [node name="Sprite" type="Sprite" parent="EnvironmentPattern5/Point4"]
 position = Vector2( 16, 16 )
 texture = ExtResource( 1 )
 
 [node name="Point2" type="Node2D" parent="EnvironmentPattern5"]
-position = Vector2( -32, -80 )
+position = Vector2( -96, -144 )
 
 [node name="Sprite" type="Sprite" parent="EnvironmentPattern5/Point2"]
 position = Vector2( 16, 16 )
@@ -37,7 +37,7 @@ script = ExtResource( 2 )
 environment_type = 1
 
 [node name="Point" type="Node2D" parent="EnvironmentPattern6"]
-position = Vector2( 96, -80 )
+position = Vector2( 160, -144 )
 
 [node name="Sprite" type="Sprite" parent="EnvironmentPattern6/Point"]
 position = Vector2( 16, 16 )
@@ -51,7 +51,7 @@ position = Vector2( 16, 16 )
 texture = ExtResource( 1 )
 
 [node name="Point3" type="Node2D" parent="EnvironmentPattern6"]
-position = Vector2( 96, 112 )
+position = Vector2( 160, 176 )
 
 [node name="Sprite" type="Sprite" parent="EnvironmentPattern6/Point3"]
 position = Vector2( 16, 16 )

@@ -2,11 +2,11 @@ extends Node2D
 
 
 export var _strafe_dist: float = 4
-export var _hover_speed: float = 70
-export var _slap_speed: float = 210
+export var _hover_speed: float = 100
+export var _slap_speed: float = 300
 export var _slap_angle: float = 60
 export var _slap_pushout_distance: float = 30
-export var _time_before_slap: float = 1.0
+export var _time_before_slap: float = 0.1
 export var _slapp_count: int = 2
 
 onready var movement_node: Node2D = self.get_node("Movement")

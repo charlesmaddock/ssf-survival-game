@@ -16,20 +16,6 @@ position = Vector2( 96, -48 )
 position = Vector2( 16, 16 )
 texture = ExtResource( 1 )
 
-[node name="Point2" type="Node2D" parent="EnvironmentPattern"]
-position = Vector2( 32, 80 )
-
-[node name="Sprite" type="Sprite" parent="EnvironmentPattern/Point2"]
-position = Vector2( 16, 16 )
-texture = ExtResource( 1 )
-
-[node name="Point3" type="Node2D" parent="EnvironmentPattern"]
-position = Vector2( 32, 16 )
-
-[node name="Sprite" type="Sprite" parent="EnvironmentPattern/Point3"]
-position = Vector2( 16, 16 )
-texture = ExtResource( 1 )
-
 [node name="Point4" type="Node2D" parent="EnvironmentPattern"]
 position = Vector2( 96, 144 )
 
@@ -41,20 +27,6 @@ texture = ExtResource( 1 )
 position = Vector2( 224, -48 )
 
 [node name="Sprite" type="Sprite" parent="EnvironmentPattern/Point5"]
-position = Vector2( 16, 16 )
-texture = ExtResource( 1 )
-
-[node name="Point6" type="Node2D" parent="EnvironmentPattern"]
-position = Vector2( 288, 80 )
-
-[node name="Sprite" type="Sprite" parent="EnvironmentPattern/Point6"]
-position = Vector2( 16, 16 )
-texture = ExtResource( 1 )
-
-[node name="Point7" type="Node2D" parent="EnvironmentPattern"]
-position = Vector2( 288, 16 )
-
-[node name="Sprite" type="Sprite" parent="EnvironmentPattern/Point7"]
 position = Vector2( 16, 16 )
 texture = ExtResource( 1 )
 
@@ -71,28 +43,28 @@ script = ExtResource( 2 )
 environment_type = 1
 
 [node name="Point" type="Node2D" parent="EnvironmentPattern2"]
-position = Vector2( -32, -48 )
+position = Vector2( -96, -112 )
 
 [node name="Sprite" type="Sprite" parent="EnvironmentPattern2/Point"]
 position = Vector2( 16, 16 )
 texture = ExtResource( 1 )
 
 [node name="Point2" type="Node2D" parent="EnvironmentPattern2"]
-position = Vector2( -32, 144 )
+position = Vector2( -96, 208 )
 
 [node name="Sprite" type="Sprite" parent="EnvironmentPattern2/Point2"]
 position = Vector2( 16, 16 )
 texture = ExtResource( 1 )
 
 [node name="Point3" type="Node2D" parent="EnvironmentPattern2"]
-position = Vector2( 352, 144 )
+position = Vector2( 416, 208 )
 
 [node name="Sprite" type="Sprite" parent="EnvironmentPattern2/Point3"]
 position = Vector2( 16, 16 )
 texture = ExtResource( 1 )
 
 [node name="Point4" type="Node2D" parent="EnvironmentPattern2"]
-position = Vector2( 352, -48 )
+position = Vector2( 416, -112 )
 
 [node name="Sprite" type="Sprite" parent="EnvironmentPattern2/Point4"]
 position = Vector2( 16, 16 )
@@ -102,17 +74,16 @@ texture = ExtResource( 1 )
 position = Vector2( 64, -32 )
 script = ExtResource( 2 )
 environment_type = 2
-chest_spawn_change = 1.0
 
 [node name="Point" type="Node2D" parent="Treasure2"]
-position = Vector2( 0, -32 )
+position = Vector2( 128, -32 )
 
 [node name="Sprite" type="Sprite" parent="Treasure2/Point"]
 position = Vector2( 16, 16 )
 texture = ExtResource( 1 )
 
 [node name="Point4" type="Node2D" parent="Treasure2"]
-position = Vector2( 0, 32 )
+position = Vector2( 128, 32 )
 
 [node name="Sprite" type="Sprite" parent="Treasure2/Point4"]
 position = Vector2( 16, 16 )
@@ -122,17 +93,16 @@ texture = ExtResource( 1 )
 position = Vector2( 32, -32 )
 script = ExtResource( 2 )
 environment_type = 3
-chest_spawn_change = 1.0
 
 [node name="Point" type="Node2D" parent="Treasure3"]
-position = Vector2( -96, -32 )
+position = Vector2( -224, -32 )
 
 [node name="Sprite" type="Sprite" parent="Treasure3/Point"]
 position = Vector2( 16, 16 )
 texture = ExtResource( 1 )
 
 [node name="Point4" type="Node2D" parent="Treasure3"]
-position = Vector2( -96, 32 )
+position = Vector2( -224, 32 )
 
 [node name="Sprite" type="Sprite" parent="Treasure3/Point4"]
 position = Vector2( 16, 16 )

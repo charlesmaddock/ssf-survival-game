@@ -45,7 +45,8 @@ var _behaviour_state: int = behaviourStates.NEUTRAL
 enum behaviourStates {
 	NEUTRAL,
 	SLAPPING,
-	KNOCKED_OUT
+	KNOCKED_OUT,
+	FRENZY
 } 
 
 
@@ -63,9 +64,6 @@ func _ready():
 		timer_before_knocked_out_finished.set_wait_time(_knocked_out_time)
 		timer_before_phase_1_new_walk.set_wait_time(_time_before_new_walk)
 		timer_if_walk_never_ends.set_wait_time(_time_if_walk_never_ends)
-		
-		yield(get_tree().create_timer(10), "timeout")
-		spawn_mob_spit()
 
 
 func _process(delta):
@@ -99,18 +97,14 @@ func spawn_mob_spit():
 		_is_spitting = true
 		var mob_type: int
 		var spawn_amount = _health
-		var mob_spit_time
 		match(_health):
 			3:
 				mob_type = Constants.MobTypes.CLOUDER
-				mob_spit_time = _time_between_mob_spits
 			2:
 				mob_type = Constants.MobTypes.MOLE
-				mob_spit_time = _time_between_mob_spits + 10
 			1:
 				mob_type = Constants.MobTypes.CHOWDER
-				mob_spit_time = _time_between_mob_spits + 20
-			
+		
 		for i in spawn_amount:
 			Server.set_sprite_frame(1, self.entity.id)
 			Server.spawn_mob(Util.generate_id(), mob_type, self.global_position + Vector2(0, 40), -1)

@@ -1,21 +1,22 @@
 extends Node2D
 
 
-export(float) var max_health = 100
+export(float) var max_health = 100 # Default max health
 export var knockbackable: bool = true
 export var show_health_bar: bool = false
 
 
 onready var Bar = $Bar
 onready var DamageArea = $DamageArea
-onready var health: float 
 onready var health_for_entity_w_id: String = get_parent().entity.id
 onready var health_for_entity_team: int = get_parent().entity.team
 
 
+var health: float 
+var current_max_health: float 
+
 var _is_dead: bool
 var _default_parent_collision_layer: int
-var _weight: float = 0
 
 
 func _ready():
@@ -44,8 +45,11 @@ func _ready():
 
 
 func set_max_health(val: float) -> void:
-	max_health = val
-	Bar.max_value = max_health
+	current_max_health = val
+	Bar.set_max(current_max_health)
+	
+	if health > current_max_health:
+		Server.set_health(health_for_entity_w_id, current_max_health, Vector2.ZERO)
 
 
 func get_is_dead() -> bool:
@@ -53,10 +57,7 @@ func get_is_dead() -> bool:
 
 
 func _on_change_weight(weight: float) -> void:
-	# Remove old weight mod
-	set_max_health(max_health - ((_weight / 100) * 20))
-	_weight = weight
-	set_max_health(max_health + ((_weight / 100) * 20))
+	set_max_health(max_health + ((weight / 100) * 40))
 
 
 func _on_damage_taken(damage, dir: Vector2) -> void:
@@ -66,8 +67,8 @@ func _on_damage_taken(damage, dir: Vector2) -> void:
 func _on_heal(amount: float) -> void:
 	if Lobby.is_host == true:
 		var new_health = health + amount
-		if new_health > max_health:
-			new_health = max_health
+		if new_health > current_max_health:
+			new_health = current_max_health
 		
 		Server.set_health(health_for_entity_w_id, new_health, Vector2.ZERO)
 
@@ -80,7 +81,7 @@ func set_invinsible(invinsible: bool) -> void:
 func _on_packet_received(packet: Dictionary) -> void:
 	if packet.type == Constants.PacketTypes.SWITCH_ROOMS:
 		if Lobby.is_host && Util.is_player(get_parent()) && Lobby.regen_health_and_revive:
-				Server.set_health(health_for_entity_w_id, max_health, Vector2.ZERO)
+			Server.set_health(health_for_entity_w_id, current_max_health, Vector2.ZERO)
 	if packet.type == Constants.PacketTypes.SET_HEALTH:
 		if packet.id == health_for_entity_w_id:
 			var decrease_of_health = packet.health < health 

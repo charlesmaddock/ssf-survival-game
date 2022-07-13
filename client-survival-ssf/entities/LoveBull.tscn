@@ -80,7 +80,7 @@ tracks/1/keys = {
 collision_layer = 64
 collision_mask = 64
 script = ExtResource( 7 )
-_charge_speed = 390.0
+_charge_speed = 420.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
@@ -155,7 +155,7 @@ collision_layer = 0
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="DetectPlayerArea"]
 position = Vector2( -25, 80 )
-polygon = PoolVector2Array( -152, 190, -51, -93, 94, -91, 208, 187, 26, 260 )
+polygon = PoolVector2Array( -176, 224, -59, -100, 105, -98, 237, 213, 28, 309 )
 
 [connection signal="timeout" from="ChargeBuildupTimer" to="." method="_on_ChargeBuildupTimer_timeout"]
 [connection signal="timeout" from="AimlessWalkingTimer" to="." method="_on_AimlessWalkingTimer_timeout"]

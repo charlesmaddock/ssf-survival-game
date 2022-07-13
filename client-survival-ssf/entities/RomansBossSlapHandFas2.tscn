@@ -7,6 +7,7 @@
 [ext_resource path="res://assets/sprites/RomansBoss-Hand.png" type="Texture" id=9]
 
 [node name="RomansBossSlapHandFas2" type="KinematicBody2D"]
+scale = Vector2( 0.5, 0.5 )
 collision_layer = 0
 script = ExtResource( 8 )
 
@@ -16,8 +17,8 @@ texture = ExtResource( 9 )
 hframes = 2
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-position = Vector2( 6.4, 0 )
-polygon = PoolVector2Array( 16, 36, 22, 34, 35, 28, 51, 16, 63.6, 2, 73.6, -10, 77, -24, 73, -31, 64, -33, 53.6, -19, 45.6, -8, 37.6, -8, 31.6, -20, 22.6, -33, 3.6, -35, -16.4, -33, -30.4, -28, -35, -16, -37, -6, -36, 12, -33, 24, -25, 31, -15, 39, -5, 40, 9, 39 )
+position = Vector2( 6, 0 )
+polygon = PoolVector2Array( 16, 36, 22, 34, 35, 28, 51, 16, 58, -2, 50, -10, 37.6, -8, 31.6, -20, 22.6, -33, 3.6, -35, -16.4, -33, -30.4, -28, -35, -16, -37, -6, -36, 12, -33, 24, -25, 31, -15, 39, -5, 40, 9, 39 )
 
 [node name="Damage" type="Area2D" parent="."]
 position = Vector2( 6.4, 0 )

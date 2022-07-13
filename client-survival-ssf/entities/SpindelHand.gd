@@ -7,7 +7,7 @@ export var _time_before_new_walk: float = 1.5
 export var _charge_max_speed: float = 180
 export var _friction: float = 1
 export var _friction_time_multiplier: float = 1.0
-export var _time_before_charge: float = 1.4
+export var _time_before_charge: float = 1.0
 export var _time_before_knockdown_stopped: float = 1.5
 export var time_for_if_collided_downtime: float = 1.0
 
@@ -206,13 +206,13 @@ func _on_TimerIfWalkNeverEnds_timeout():
 	if Lobby.is_host == true:
 		_target_walk_destination = Vector2.ZERO
 
+
 func _on_packet_received(packet: Dictionary) -> void:
 	if packet.type == Constants.PacketTypes.SET_SPRITE_FRAME:
 		if packet.id == self.entity.id:
 			sprite.set_frame(packet.frame)
 	elif packet.type == Constants.PacketTypes.SET_ANIMATION_PLAYER:
 		if packet.id == self.entity.id:
-			print("spindelhanden told to play animation: ", packet.animation_name, " and stop is: ", packet.stop_animation)
 			if packet.stop_animation != true:
 				animationPlayer.play(packet.animation_name, -1, packet.animation_speed)
 			else:
