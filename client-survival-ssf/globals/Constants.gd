@@ -4,7 +4,7 @@ extends Node
 const PLAYERS_PER_ROOM: int = 6
 const TILE_SIZE = Vector2(64, 64)
 const RECONCILE_POSITION_RATE: float = 0.2
-const NUMBER_OF_ROOMS: int = 2
+const NUMBER_OF_ROOMS: int = 12
 
 
 enum AppMode {
