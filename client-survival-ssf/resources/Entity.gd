@@ -12,6 +12,8 @@ var room_id: int
 signal take_damage(damage, dir)
 signal damage_taken(health, dir)
 signal heal(amount)
+signal new_max_health(max_health)
+
 signal request_attack()
 signal change_movement_speed(speed)
 signal change_attack_damage(damage)
@@ -21,8 +23,10 @@ signal aim_dir(dir)
 signal is_attacking(attack_bool)
 signal attack_freeze(time)
 signal knockback(dir)
+
 signal add_health_modifier(modifier)
 signal remove_health_modifier(modifier)
+
 signal add_weight(weight)
 signal remove_weight(weight)
 

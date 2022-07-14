@@ -4,3 +4,4 @@
 
 [node name="KissProjectile" instance=ExtResource( 1 )]
 _speed = 300.0
+_knockback_mod = 4.0

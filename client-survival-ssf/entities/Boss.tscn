@@ -424,6 +424,7 @@ anims/enterShootMode = SubResource( 5 )
 
 [node name="BossDamage" parent="." instance=ExtResource( 5 )]
 _damage = 30.0
+_knockback_mod = 6.0
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="BossDamage"]
 position = Vector2( -4, -30 )

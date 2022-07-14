@@ -92,8 +92,7 @@ func update_max_health() -> void:
 	if health > current_max_health:
 		Server.set_health(health_for_entity_w_id, current_max_health, Vector2.ZERO)
 	
-	
-	print("new_max_health: ", new_max_health)
+	get_parent().entity.emit_signal("new_max_health", new_max_health)
 
 
 func get_is_dead() -> bool:
@@ -174,12 +173,12 @@ func damage_flash() -> void:
 	get_parent().modulate = Color(1, 1, 1, parent_modulate.a)
 
 
-func take_damage(damage: float, dir: Vector2) -> void:
+func take_damage(damage: float, dir: Vector2, knockback_mod: float = 1) -> void:
 	if Lobby.is_host == true:
-		Server.set_health(health_for_entity_w_id, health - damage, dir.normalized() * (damage * 10))
+		Server.set_health(health_for_entity_w_id, health - damage, dir.normalized() * (damage * 10) * knockback_mod)
 
 
 func _on_DamageArea_area_entered(area):
 	if area.has_method("same_creator_or_team"):
 		if area.same_creator_or_team(health_for_entity_w_id, health_for_entity_team) == false:
-			take_damage(area.get_damage(), area.global_position.direction_to(global_position))
+			take_damage(area.get_damage(), area.global_position.direction_to(global_position), area.get_knockback_mod())

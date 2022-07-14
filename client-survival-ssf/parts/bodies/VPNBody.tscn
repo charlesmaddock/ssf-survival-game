@@ -1,13 +1,92 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://parts/partParents/BodyParent.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/sprites/partSprites/sVpnBody.png" type="Texture" id=2]
+[ext_resource path="res://assets/sprites/circle.png" type="Texture" id=3]
+
+[sub_resource type="Animation" id=2]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("..:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("..:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "shimmer"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("..:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.1, 1.1 ), Vector2( 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("..:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.537255 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 84.006
 
 [node name="Default Body" instance=ExtResource( 1 )]
 body_texture = ExtResource( 2 )
 weight = 120.0
 health_modifier = 40.0
 title = "VPN"
+optional_perk_desc = "Håller fiender borta"
 
 [node name="Sprite" parent="." index="0"]
 texture = ExtResource( 2 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." index="1"]
+collision_layer = 0
+collision_mask = 64
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="StaticBody2D" index="0"]
+root_node = NodePath("../Sprite2")
+autoplay = "shimmer"
+anims/RESET = SubResource( 2 )
+anims/shimmer = SubResource( 3 )
+
+[node name="Sprite2" type="Sprite" parent="StaticBody2D" index="1"]
+modulate = Color( 1, 1, 1, 0.109804 )
+position = Vector2( -3.8147e-06, -3.8147e-06 )
+scale = Vector2( 1.13667, 1.13667 )
+texture = ExtResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" index="2"]
+shape = SubResource( 1 )

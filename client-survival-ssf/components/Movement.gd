@@ -70,7 +70,7 @@ func set_speed(speed: float) -> void:
 
 
 func set_velocity(dir: Vector2) -> void:
-	var weight = 100 if weight_modifiers.size() == 0 else 0.01
+	var weight = 100 if !Util.is_player(get_parent()) else 0.01
 	for mod in weight_modifiers:
 		weight += mod
 	
@@ -124,8 +124,13 @@ func _physics_process(delta):
 	_send_pos_iteration += 1
 	
 	if Util.is_my_entity(get_parent()):
-		var input = get_input()
+		var input: Vector2 = get_input()
 		if input != _prev_input:
+			if get_parent().has_node("BirdLegs"):
+				if input.x != 0 && input.y != 0:
+					input.y = 0
+			if get_parent().has_node("BlueShoes"):
+				input = input.rotated(deg2rad(180))
 			Server.send_input(input, _send_pos_iteration)
 		_prev_input = input
 		

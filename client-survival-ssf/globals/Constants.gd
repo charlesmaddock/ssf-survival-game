@@ -95,7 +95,8 @@ enum ProjectileTypes {
 	RED_BULLET = 0,
 	BLUE_BULLET = 1,
 	KISS = 2,
-	HEART
+	HEART,
+	CD
 }
 
 

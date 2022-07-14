@@ -31,6 +31,8 @@ export(String) var optional_desc: String = ""
 export(String) var optional_perk_desc: String = ""
 export(String) var optional_con_desc: String = ""
 
+export(float) var weight: float = 20
+export(float) var health_modifier: float = 0
 
 export(int) var projectile_type: int 
 export(Texture) var arm_texture: Texture
@@ -42,6 +44,7 @@ export(float) var cooldown: float = 1
 export(float) var freeze_time: float = 0.2
 export(float) var anim_speed: float = 1
 export(float) var knockback: float = 0
+export(float) var enemy_knockback_mod: float = 1
 export(bool) var melee: bool = true
 export(float) var damage: float = 20
 #export(float) var attack_delay: float = 0
@@ -76,6 +79,8 @@ func _ready():
 	
 	yield(get_tree(), "idle_frame")
 	get_parent().entity.emit_signal("change_attack_damage", damage)
+	get_parent().entity.emit_signal("add_weight", weight)
+	get_parent().entity.emit_signal("add_health_modifier", health_modifier)
 
 
 func _on_target_entity(entity_body: Node, manually_targeted: bool) -> void:
@@ -89,6 +94,11 @@ func _on_update_target_pos(pos: Vector2) -> void:
 
 func _on_manual_aim(val: bool) -> void:
 	_aiming_manually = val
+
+
+func remove() -> void:
+	get_parent().entity.emit_signal("remove_health_modifier", health_modifier)
+	get_parent().entity.emit_signal("remove_weight", weight)
 
 
 func _process(delta):
@@ -149,7 +159,7 @@ func _process(delta):
 				var damage_mod: float = 0.5 if Lobby.easy_mode && Util.is_player(get_parent()) == false else 1
 				
 				if melee == true:
-					Server.melee_attack(parent_entity.id, aim_dir, parent_entity.team, damage * damage_mod)
+					Server.melee_attack(parent_entity.id, aim_dir, parent_entity.team, damage * damage_mod, enemy_knockback_mod)
 				else:
 					Server.shoot_projectile(damage * damage_mod, get_parent().global_position + (Vector2.UP * 6), aim_dir, parent_entity.id, parent_entity.team, projectile_type, _movement_node.get_velocity() / 4)
 				
@@ -191,7 +201,7 @@ func _on_packet_recieved(packet: Dictionary):
 		if packet.id == get_parent().entity.id:
 			var attack = attack_scene.instance()
 			var dir = Vector2(packet.dirX, packet.dirY)
-			attack.init(dir, packet.damage, packet.id, packet.team)
+			attack.init(dir, packet.damage, packet.id, packet.team, packet.knock)
 			get_parent().add_child(attack)
 			get_parent().entity.emit_signal("knockback", dir * -knockback)
 

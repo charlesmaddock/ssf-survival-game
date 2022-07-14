@@ -4,11 +4,14 @@
 [ext_resource path="res://assets/sprites/partSprites/sWheelLeg.png" type="Texture" id=2]
 
 [node name="BirdLegs" instance=ExtResource( 1 )]
-walk_speed = 190.0
+weight = -10.0
+walk_speed = 200.0
 leg_texture = ExtResource( 2 )
 sprite_offset = Vector2( 0.039, 12.128 )
 leg_separation = 10.0
 title = "Hjulben"
+optional_perk_desc = "Snabba"
+optional_con_desc = "Begränsad rörelse"
 
 [node name="Sprite1" parent="." index="0"]
 position = Vector2( 5, 1 )

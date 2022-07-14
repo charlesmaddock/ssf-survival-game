@@ -6,9 +6,10 @@
 [node name="Drill Arm" instance=ExtResource( 1 )]
 title = "BorrArm"
 optional_perk_desc = "Får dig att flyga åt hållet du slår"
+weight = 10.0
+health_modifier = -50.0
 arm_texture = ExtResource( 2 )
 sprite_offset = Vector2( 21.418, -3.974 )
-arm_scale = 1.0
 cooldown = 0.4
 freeze_time = 0.1
 anim_speed = 1.2

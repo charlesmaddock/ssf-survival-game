@@ -4,14 +4,12 @@
 [ext_resource path="res://assets/sprites/sLegPinkBig.png" type="Texture" id=2]
 
 [node name="PinkLegs" instance=ExtResource( 1 )]
+weight = 40.0
+health_modifier = 30.0
 walk_speed = 120.0
 leg_texture = ExtResource( 2 )
 leg_separation = 18.0
-leg_scale = null
 title = "Monsterben"
-optional_desc = null
-optional_perk_desc = null
-optional_con_desc = null
 
 [node name="Sprite1" parent="." index="0"]
 position = Vector2( 9, 1 )

@@ -4,15 +4,12 @@
 [ext_resource path="res://assets/sprites/sLegPink.png" type="Texture" id=2]
 
 [node name="PinkLegs" instance=ExtResource( 1 )]
-walk_speed = 190.0
+health_modifier = 15.0
+walk_speed = 180.0
 leg_texture = ExtResource( 2 )
 sprite_offset = Vector2( 3, 7 )
 leg_separation = 12.0
-leg_scale = null
 title = "Hjärtben"
-optional_desc = null
-optional_perk_desc = null
-optional_con_desc = null
 
 [node name="Sprite1" parent="." index="0"]
 position = Vector2( 6, 1 )

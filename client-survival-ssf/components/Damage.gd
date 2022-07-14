@@ -5,6 +5,9 @@ onready var parent_node: Node2D = self.get_parent()
 
 
 export(float) var _damage
+export(float) var _knockback_mod = 1
+
+
 var _damage_creator_id: String = ""
 var _damage_creator_team: int = Constants.Teams.NONE
 
@@ -29,3 +32,5 @@ func deactivate_damage():
 func get_damage() -> float:
 	return _damage 
 
+func get_knockback_mod() -> float:
+	return _knockback_mod

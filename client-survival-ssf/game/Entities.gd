@@ -10,6 +10,7 @@ var projectile_scenes: Dictionary = {
 	Constants.ProjectileTypes.BLUE_BULLET: preload("res://entities/BlueBullet.tscn"),
 	Constants.ProjectileTypes.KISS: preload("res://entities/KissProjectile.tscn"),
 	Constants.ProjectileTypes.HEART: preload("res://entities/HeartProjectile.tscn"),
+	Constants.ProjectileTypes.CD: preload("res://entities/CDProjectile.tscn"),
 }
 
 var mob_type_scenes: Dictionary = {

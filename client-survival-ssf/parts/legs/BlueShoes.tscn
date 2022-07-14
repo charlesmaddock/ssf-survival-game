@@ -4,15 +4,15 @@
 [ext_resource path="res://assets/sprites/sFastShoes.png" type="Texture" id=2]
 
 [node name="BlueShoes" instance=ExtResource( 1 )]
+weight = -10.0
+health_modifier = 30.0
 walk_speed = 230.0
 leg_texture = ExtResource( 2 )
 sprite_offset = Vector2( 5.675, 9 )
 leg_separation = 12.0
-leg_scale = null
 title = "Springskor"
-optional_desc = null
-optional_perk_desc = null
-optional_con_desc = null
+optional_perk_desc = "Väldigt snabba"
+optional_con_desc = "Inverterad rörelse"
 
 [node name="Sprite1" parent="." index="0"]
 position = Vector2( 6, 1 )

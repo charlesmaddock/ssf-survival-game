@@ -5,19 +5,15 @@
 
 [node name="Hammer Arm" instance=ExtResource( 1 )]
 title = "Hammaren"
-optional_desc = ""
 optional_perk_desc = "Gör mycket skada"
 optional_con_desc = "Flungar dig bakåt efter varje slag"
-projectile_type = 0
+weight = 30.0
 arm_texture = ExtResource( 2 )
 sprite_offset = Vector2( 16.945, -2.327 )
-arm_scale = 1.0
-angle_offset = 0.0
 cooldown = 1.5
-freeze_time = 0.2
 anim_speed = 0.5
-knockback = 400.0
-melee = true
+knockback = 450.0
+enemy_knockback_mod = 3.0
 damage = 60.0
 
 [node name="Sprite1" parent="." index="0"]

@@ -118,8 +118,10 @@ func _drop_old_part(part_type: int) -> void:
 	if Lobby.is_host:
 		if part_type == Constants.PartTypes.ARM && is_instance_valid(_armPart):
 			Server.spawn_pickup(Util.generate_id(), _armPart.part_name, global_position)
+			_armPart.remove()
 		elif part_type == Constants.PartTypes.LEG && is_instance_valid(_legPart):
 			Server.spawn_pickup(Util.generate_id(), _legPart.part_name, global_position)
+			_legPart.remove()
 		elif part_type == Constants.PartTypes.BODY && is_instance_valid(_bodyPart):
 			_bodyPart.remove()
 			Server.spawn_pickup(Util.generate_id(), _bodyPart.part_name, global_position)

@@ -87,6 +87,7 @@ shape = SubResource( 1 )
 
 [node name="Damage" parent="." instance=ExtResource( 3 )]
 _damage = 25.0
+_knockback_mod = 6.0
 
 [node name="CollisionShape2D" parent="Damage" index="0"]
 shape = SubResource( 2 )

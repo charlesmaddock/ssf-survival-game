@@ -1,12 +1,16 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://parts/partParents/BodyParent.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/sprites/partSprites/sCdBody.png" type="Texture" id=2]
+[ext_resource path="res://components/Trail.tscn" type="PackedScene" id=3]
 
 [node name="Fish Body" instance=ExtResource( 1 )]
 body_texture = ExtResource( 2 )
 weight = 140.0
+health_modifier = 40.0
 title = "CD-kropp"
 
 [node name="Sprite" parent="." index="0"]
 texture = ExtResource( 2 )
+
+[node name="Trail" parent="." index="1" instance=ExtResource( 3 )]

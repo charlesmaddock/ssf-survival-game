@@ -3,6 +3,7 @@ extends Area2D
 
 export(float) var _speed = 360
 export(float) var _life_time_modifier = 1
+export(float) var _knockback_mod = 1
 
 
 var _damage = 50
@@ -30,6 +31,10 @@ func same_creator_or_team(id: String, team: int) -> bool:
 
 func get_damage() -> float:
 	return _damage * _damage_mod
+
+
+func get_knockback_mod() -> float:
+	return _knockback_mod
 
 
 func _destroy() -> void:

@@ -10,6 +10,8 @@ onready var sprite2: Node = get_node("Sprite2")
 var walk_state: bool = false
 var movement_node: Node
 
+export(float) var weight: float = 10
+export(float) var health_modifier: float = 0
 export(float) var walk_speed: float = 160
 export(Texture) var leg_texture: Texture
 export(Vector2) var sprite_offset: Vector2
@@ -35,6 +37,8 @@ func _ready():
 		yield(get_tree(), "idle_frame")
 		if movement_node != null:
 			get_parent().entity.emit_signal("change_movement_speed", walk_speed)
+			get_parent().entity.emit_signal("add_weight", weight)
+			get_parent().entity.emit_signal("add_health_modifier", health_modifier)
 	
 	if leg_texture != null:
 		sprite1.texture = leg_texture
@@ -48,6 +52,11 @@ func _ready():
 	
 	sprite1.scale = Vector2(leg_scale, leg_scale)
 	sprite2.scale = Vector2(leg_scale, leg_scale)
+
+
+func remove() -> void:
+	get_parent().entity.emit_signal("remove_health_modifier", health_modifier)
+	get_parent().entity.emit_signal("remove_weight", weight)
 
 
 func _process(delta):

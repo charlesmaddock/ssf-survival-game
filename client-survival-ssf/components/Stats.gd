@@ -16,9 +16,10 @@ func _ready():
 	parent_entity.entity.connect("damage_taken", self, "_on_damage_taken")
 	parent_entity.entity.connect("change_movement_speed", self, "_on_change_movement_speed")
 	parent_entity.entity.connect("change_attack_damage", self, "_on_change_attack_damage")
+	parent_entity.entity.connect("new_max_health", self, "_on_new_max_health")
 	
-	parent_entity.entity.connect("add_weight", self, "_add_change_weight")
-	parent_entity.entity.connect("remove_weight", self, "_add_change_weight")
+	parent_entity.entity.connect("add_weight", self, "_on_add_weight")
+	parent_entity.entity.connect("remove_weight", self, "_on_remove_weight")
 	
 	Server.connect("packet_received", self, "_on_packet_received")
 
@@ -29,6 +30,12 @@ func _on_packet_received(packet: Dictionary) -> void:
 			if HealthIcon.get_node("Label").text != str(int(packet.health)):
 				HealthIcon.get_node("AnimationPlayer").play("change")
 			HealthIcon.get_node("Label").text = str(int(packet.health))
+
+
+func _on_new_max_health(max_health) -> void:
+	if HealthIcon.get_node("MaxHealth").text != ("/" + str(int(max_health))):
+		HealthIcon.get_node("AnimationPlayer").play("change")
+	HealthIcon.get_node("MaxHealth").text = ("/" + str(int(max_health)))
 
 
 func _on_add_weight(weight: float) -> void:

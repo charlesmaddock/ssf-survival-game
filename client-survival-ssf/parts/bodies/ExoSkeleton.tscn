@@ -6,6 +6,7 @@
 [node name="Exo Skeleton Body" instance=ExtResource( 1 )]
 body_texture = ExtResource( 2 )
 weight = 80.0
+health_modifier = 10.0
 title = "WiFi-kropp"
 
 [node name="Sprite" parent="." index="0"]

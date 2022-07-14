@@ -208,6 +208,7 @@ anims/change = SubResource( 4 )
 layer = 2
 
 [node name="AttackInputHandler" type="CanvasModulate" parent="CanvasLayer"]
+visible = false
 position = Vector2( 29, 43 )
 color = Color( 1, 1, 1, 0.752941 )
 script = ExtResource( 9 )

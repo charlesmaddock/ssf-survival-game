@@ -1,15 +1,14 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://entities/Projectile.tscn" type="PackedScene" id=1]
-[ext_resource path="res://assets/sprites/heartProjectile.png" type="Texture" id=2]
+[ext_resource path="res://assets/sprites/smallCD.png" type="Texture" id=2]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 13.0
 
-[node name="HeartProjectile" instance=ExtResource( 1 )]
-_speed = 150.0
-_life_time_modifier = 0.1
-_knockback_mod = 2.0
+[node name="CDProjectile" instance=ExtResource( 1 )]
+_speed = 0.0
+_life_time_modifier = 0.5
 
 [node name="Sprite" parent="." index="0"]
 position = Vector2( 0, -11 )
