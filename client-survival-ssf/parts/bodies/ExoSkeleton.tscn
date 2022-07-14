@@ -1,16 +1,12 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://parts/partParents/BodyParent.tscn" type="PackedScene" id=1]
-[ext_resource path="res://assets/sprites/exoSkeletonBody.png" type="Texture" id=2]
+[ext_resource path="res://assets/sprites/partSprites/sWifiBody.png" type="Texture" id=2]
 
 [node name="Exo Skeleton Body" instance=ExtResource( 1 )]
 body_texture = ExtResource( 2 )
 weight = 80.0
-body_scale = null
-title = "Exoskelett"
-optional_desc = null
-optional_perk_desc = null
-optional_con_desc = null
+title = "WiFi-kropp"
 
 [node name="Sprite" parent="." index="0"]
 texture = ExtResource( 2 )

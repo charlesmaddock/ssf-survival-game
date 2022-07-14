@@ -1,22 +1,19 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://parts/partParents/ArmParent.tscn" type="PackedScene" id=1]
-[ext_resource path="res://assets/sprites/drillArm.png" type="Texture" id=2]
+[ext_resource path="res://assets/sprites/partSprites/sDrillArm.png" type="Texture" id=2]
 
 [node name="Drill Arm" instance=ExtResource( 1 )]
 title = "BorrArm"
-optional_desc = null
 optional_perk_desc = "Får dig att flyga åt hållet du slår"
-optional_con_desc = null
 arm_texture = ExtResource( 2 )
-sprite_offset = Vector2( 4.5, -6 )
-arm_scale = 2.0
+sprite_offset = Vector2( 21.418, -3.974 )
+arm_scale = 1.0
 cooldown = 0.4
 freeze_time = 0.1
 anim_speed = 1.2
 knockback = -400.0
 
 [node name="Sprite1" parent="." index="0"]
-scale = Vector2( 2, 2 )
 texture = ExtResource( 2 )
-offset = Vector2( 4.5, -6 )
+offset = Vector2( 21.418, -3.974 )
