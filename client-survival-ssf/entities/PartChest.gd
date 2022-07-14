@@ -7,9 +7,9 @@ var _part_name: int
 
 
 var part_difficulties: Dictionary = {
-	Constants.RoomDifficulties.EASY: [Constants.PartNames.HttpsKeyArm],
+	#Constants.RoomDifficulties.EASY: [Constants.PartNames.HttpsKeyArm],
 	
-	#Constants.RoomDifficulties.EASY: [Constants.PartNames.DefaultArm, Constants.PartNames.HttpsKeyArm, Constants.PartNames.ExoSkeleton, Constants.PartNames.CookieBlockerBody, Constants.PartNames.BirdLegs, Constants.PartNames.VPNBody],
+	Constants.RoomDifficulties.EASY: [Constants.PartNames.DefaultArm, Constants.PartNames.HttpsKeyArm, Constants.PartNames.ExoSkeleton, Constants.PartNames.CookieBlockerBody, Constants.PartNames.BirdLegs, Constants.PartNames.VPNBody],
 	Constants.RoomDifficulties.MEDIUM: [Constants.PartNames.HeartArm, Constants.PartNames.HammerArm, Constants.PartNames.FireWallBody, Constants.PartNames.BlueShoes, Constants.PartNames.TwoFactorArm],
 	Constants.RoomDifficulties.HARD: [Constants.PartNames.FishBody, Constants.PartNames.MiniGun, Constants.PartNames.DrillArm]
 }
