@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://parts/partParents/ArmParent.tscn" type="PackedScene" id=1]
-[ext_resource path="res://assets/sprites/hammerArm.png" type="Texture" id=2]
+[ext_resource path="res://assets/sprites/partSprites/sHammerArm.png" type="Texture" id=2]
 
 [node name="Hammer Arm" instance=ExtResource( 1 )]
 title = "Hammaren"
@@ -10,8 +10,8 @@ optional_perk_desc = "Gör mycket skada"
 optional_con_desc = "Flungar dig bakåt efter varje slag"
 projectile_type = 0
 arm_texture = ExtResource( 2 )
-sprite_offset = Vector2( 5.5, -6 )
-arm_scale = 2.0
+sprite_offset = Vector2( 16.945, -2.327 )
+arm_scale = 1.0
 angle_offset = 0.0
 cooldown = 1.5
 freeze_time = 0.2
@@ -21,6 +21,5 @@ melee = true
 damage = 60.0
 
 [node name="Sprite1" parent="." index="0"]
-scale = Vector2( 2, 2 )
 texture = ExtResource( 2 )
-offset = Vector2( 5.5, -6 )
+offset = Vector2( 16.945, -2.327 )

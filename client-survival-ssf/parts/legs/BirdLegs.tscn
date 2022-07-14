@@ -1,27 +1,21 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://parts/partParents/LegParent.tscn" type="PackedScene" id=1]
-[ext_resource path="res://assets/sprites/birdLeg.png" type="Texture" id=2]
+[ext_resource path="res://assets/sprites/partSprites/sWheelLeg.png" type="Texture" id=2]
 
 [node name="BirdLegs" instance=ExtResource( 1 )]
 walk_speed = 190.0
 leg_texture = ExtResource( 2 )
-sprite_offset = Vector2( 2, 4.5 )
+sprite_offset = Vector2( 0.039, 12.128 )
 leg_separation = 10.0
-leg_scale = 2.0
-title = "Fågelben"
-optional_desc = null
-optional_perk_desc = null
-optional_con_desc = null
+title = "Hjulben"
 
 [node name="Sprite1" parent="." index="0"]
 position = Vector2( 5, 1 )
-scale = Vector2( 2, 2 )
 texture = ExtResource( 2 )
-offset = Vector2( 2, 4.5 )
+offset = Vector2( 0.039, 12.128 )
 
 [node name="Sprite2" parent="." index="1"]
 position = Vector2( -5, 1 )
-scale = Vector2( 2, 2 )
 texture = ExtResource( 2 )
-offset = Vector2( 2, 4.5 )
+offset = Vector2( 0.039, 12.128 )
