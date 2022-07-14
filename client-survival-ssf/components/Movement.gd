@@ -18,7 +18,7 @@ var walking: bool = false
 var attack_freeze: bool = false
 var speed: float = 160.0
 var speed_modifier: float = 1.0
-var weight: float = 100
+var weight_modifiers: Array 
 
 
 func _ready():
@@ -26,14 +26,27 @@ func _ready():
 	
 	get_parent().entity.connect("damage_taken", self, "_on_take_damage")
 	get_parent().entity.connect("change_movement_speed", self, "_on_change_movement_speed")
-	get_parent().entity.connect("change_weight", self, "_on_change_weight")
 	get_parent().entity.connect("attack_freeze", self, "_on_attack_freeze")
 	get_parent().entity.connect("knockback", self, "_on_knockback")
+	
+	get_parent().entity.connect("add_weight", self, "_on_add_weight")
+	get_parent().entity.connect("remove_weight", self, "_on_remove_weight")
+	
 	
 	_prev_pos = get_parent().global_position
 	get_parent().entity.connect("dashed", self, "_on_dashed")
 	
 	JoyStick.init(get_parent().entity.id == Lobby.my_id)
+
+
+func _on_add_weight(weight: float) -> void:
+	weight_modifiers.append(weight)
+
+
+func _on_remove_weight(weight: float) -> void:
+	var index = weight_modifiers.find(weight)
+	if index != -1:
+		weight_modifiers.remove(index) 
 
 
 func _on_dashed(dir) -> void:
@@ -52,15 +65,15 @@ func _on_change_movement_speed(new_speed):
 	speed = new_speed
 
 
-func _on_change_weight(new_weight):
-	weight = new_weight
-
-
 func set_speed(speed: float) -> void:
 	speed = speed 
 
 
 func set_velocity(dir: Vector2) -> void:
+	var weight = 100 if weight_modifiers.size() == 0 else 0.01
+	for mod in weight_modifiers:
+		weight += mod
+	
 	_velocity = dir.normalized() * speed * speed_modifier * (100 / weight)
 
 

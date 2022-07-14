@@ -6,11 +6,8 @@
 [node name="Default Body" instance=ExtResource( 1 )]
 body_texture = ExtResource( 2 )
 weight = 120.0
-body_scale = null
+health_modifier = 40.0
 title = "VPN"
-optional_desc = null
-optional_perk_desc = null
-optional_con_desc = null
 
 [node name="Sprite" parent="." index="0"]
 texture = ExtResource( 2 )

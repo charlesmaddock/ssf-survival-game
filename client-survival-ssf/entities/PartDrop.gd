@@ -14,7 +14,8 @@ var con_desc: String = ""
 var perks: Dictionary = {
 	"damage": -1,
 	"speed": -1,
-	"weight": -1
+	"weight": -1,
+	"health_mod": -1
 }
 
 func init(id: String, pos: Vector2, part_name: int):
@@ -34,6 +35,7 @@ func init(id: String, pos: Vector2, part_name: int):
 		perks.damage = part_scene.damage
 	elif part_scene.part_type == Constants.PartTypes.BODY:
 		perks.weight = part_scene.weight
+		perks.health_mod = part_scene.health_modifier
 	elif part_scene.part_type == Constants.PartTypes.LEG:
 		perks.speed = part_scene.walk_speed
 	

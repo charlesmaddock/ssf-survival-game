@@ -128,7 +128,7 @@ const getClientsRoom = (c: Client): Room => {
 };
 
 const tooManyPlayersInRoom = (room: Room): boolean => {
-  return room.clients.length > 1;
+  return room.clients.length >= 6;
 };
 
 const getRoomsClient = (room: Room): Client => {

@@ -192,6 +192,8 @@ func _generate_rooms() -> void:
 			var room_types = [Constants.RoomTypes.SPIKES, Constants.RoomTypes.CHIP]
 			room_type = room_types[randi() % room_types.size()]
 		
+		room_type = Constants.RoomTypes.LOOT
+		
 		if final_room:
 			room_type = Constants.RoomTypes.BOSS
 		

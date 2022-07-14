@@ -14,7 +14,6 @@ signal damage_taken(health, dir)
 signal heal(amount)
 signal request_attack()
 signal change_movement_speed(speed)
-signal change_weight(weight)
 signal change_attack_damage(damage)
 signal turned_around(dir)
 signal dashed(force)
@@ -22,6 +21,10 @@ signal aim_dir(dir)
 signal is_attacking(attack_bool)
 signal attack_freeze(time)
 signal knockback(dir)
+signal add_health_modifier(modifier)
+signal remove_health_modifier(modifier)
+signal add_weight(weight)
+signal remove_weight(weight)
 
 
 func _init(node: Node, entity_id: String, entity_team: int, pos: Vector2, r_id: int):

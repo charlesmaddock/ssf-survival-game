@@ -14,15 +14,15 @@ onready var health_for_entity_team: int = get_parent().entity.team
 
 var health: float 
 var current_max_health: float 
+var health_modifiers: Array = []
+var weight_modifiers: Array = []
 
 var _is_dead: bool
 var _default_parent_collision_layer: int
 
 
 func _ready():
-	# Temp: More health for each player in room
-	if Util.is_player(get_parent()) == false && get_parent() is KinematicBody2D:
-		set_max_health(max_health + (max_health * (Lobby.players_data.size() - 1) * 0.15))
+	update_max_health()
 	
 	if get_child(get_child_count() - 1) is CollisionShape2D:
 		$DamageArea/CollisionShape2D.queue_free()
@@ -35,7 +35,12 @@ func _ready():
 	health = max_health 
 	get_parent().entity.connect("take_damage", self, "_on_damage_taken")
 	get_parent().entity.connect("heal", self, "_on_heal")
-	get_parent().entity.connect("change_weight", self, "_on_change_weight")
+	
+	get_parent().entity.connect("add_weight", self, "_on_add_weight")
+	get_parent().entity.connect("remove_weight", self, "_on_remove_weight")
+	
+	get_parent().entity.connect("add_health_modifier", self, "_on_add_health_modifier")
+	get_parent().entity.connect("remove_health_modifier", self, "_on_remove_health_modifier")
 	
 	Server.connect("packet_received", self, "_on_packet_received")
 	
@@ -44,20 +49,55 @@ func _ready():
 	#get_parent().entity.emit_signal("damage_taken", health, Vector2.ZERO)
 
 
-func set_max_health(val: float) -> void:
-	current_max_health = val
+func _on_add_health_modifier(mod: float) -> void:
+	health_modifiers.append(mod)
+	
+	update_max_health()
+
+
+func _on_remove_health_modifier(mod: float) -> void:
+	var index = health_modifiers.find(mod)
+	if index != -1:
+		health_modifiers.remove(index) 
+		update_max_health()
+
+
+func _on_add_weight(weight: float) -> void:
+	weight_modifiers.append(weight)
+
+
+func _on_remove_weight(weight: float) -> void:
+	var index = weight_modifiers.find(weight)
+	if index != -1:
+		weight_modifiers.remove(index) 
+		update_max_health()
+
+
+func update_max_health() -> void:
+	var new_max_health = max_health
+	
+	# Temp: More health for mobs for each player in room
+	if Util.is_player(get_parent()) == false && get_parent() is KinematicBody2D:
+		new_max_health += (max_health * (Lobby.players_data.size() - 1) * 0.15)
+	
+	for mod in health_modifiers:
+		 new_max_health += mod
+	
+	for weight in weight_modifiers:
+		new_max_health += (weight / 100) * 40
+	
+	current_max_health = new_max_health
 	Bar.set_max(current_max_health)
 	
 	if health > current_max_health:
 		Server.set_health(health_for_entity_w_id, current_max_health, Vector2.ZERO)
+	
+	
+	print("new_max_health: ", new_max_health)
 
 
 func get_is_dead() -> bool:
 	return _is_dead
-
-
-func _on_change_weight(weight: float) -> void:
-	set_max_health(max_health + ((weight / 100) * 40))
 
 
 func _on_damage_taken(damage, dir: Vector2) -> void:

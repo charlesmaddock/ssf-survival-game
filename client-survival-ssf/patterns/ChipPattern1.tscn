@@ -108,7 +108,6 @@ texture = ExtResource( 1 )
 position = Vector2( 44, -20 )
 script = ExtResource( 2 )
 environment_type = 3
-chest_spawn_change = 1.0
 
 [node name="Point" type="Node2D" parent="Treasure3"]
 position = Vector2( -44, -44 )

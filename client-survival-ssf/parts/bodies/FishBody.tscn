@@ -6,11 +6,7 @@
 [node name="Fish Body" instance=ExtResource( 1 )]
 body_texture = ExtResource( 2 )
 weight = 140.0
-body_scale = null
 title = "Akvarium"
-optional_desc = null
-optional_perk_desc = null
-optional_con_desc = null
 
 [node name="Sprite" parent="." index="0"]
 texture = ExtResource( 2 )

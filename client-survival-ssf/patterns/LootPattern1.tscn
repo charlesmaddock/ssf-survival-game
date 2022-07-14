@@ -9,30 +9,30 @@
 position = Vector2( -96, -48 )
 script = ExtResource( 2 )
 environment_type = 3
-chest_spawn_change = 0.6
 
 [node name="Point" type="Node2D" parent="EnvironmentPattern5"]
+position = Vector2( -32, -16 )
 
 [node name="Sprite" type="Sprite" parent="EnvironmentPattern5/Point"]
 position = Vector2( 16, 16 )
 texture = ExtResource( 1 )
 
 [node name="Point4" type="Node2D" parent="EnvironmentPattern5"]
-position = Vector2( 32, 32 )
+position = Vector2( 16, 32 )
 
 [node name="Sprite" type="Sprite" parent="EnvironmentPattern5/Point4"]
 position = Vector2( 16, 16 )
 texture = ExtResource( 1 )
 
 [node name="Point2" type="Node2D" parent="EnvironmentPattern5"]
-position = Vector2( 32, 0 )
+position = Vector2( 16, -16 )
 
 [node name="Sprite" type="Sprite" parent="EnvironmentPattern5/Point2"]
 position = Vector2( 16, 16 )
 texture = ExtResource( 1 )
 
 [node name="Point3" type="Node2D" parent="EnvironmentPattern5"]
-position = Vector2( 0, 32 )
+position = Vector2( -32, 32 )
 
 [node name="Sprite" type="Sprite" parent="EnvironmentPattern5/Point3"]
 position = Vector2( 16, 16 )
@@ -42,23 +42,24 @@ texture = ExtResource( 1 )
 position = Vector2( 32, -48 )
 script = ExtResource( 2 )
 environment_type = 2
-chest_spawn_change = 0.6
+chest_spawn_change = 0.4
 
 [node name="Point" type="Node2D" parent="EnvironmentPattern6"]
+position = Vector2( 0, -16 )
 
 [node name="Sprite" type="Sprite" parent="EnvironmentPattern6/Point"]
 position = Vector2( 16, 16 )
 texture = ExtResource( 1 )
 
 [node name="Point4" type="Node2D" parent="EnvironmentPattern6"]
-position = Vector2( 32, 32 )
+position = Vector2( 48, 32 )
 
 [node name="Sprite" type="Sprite" parent="EnvironmentPattern6/Point4"]
 position = Vector2( 16, 16 )
 texture = ExtResource( 1 )
 
 [node name="Point2" type="Node2D" parent="EnvironmentPattern6"]
-position = Vector2( 32, 0 )
+position = Vector2( 48, -16 )
 
 [node name="Sprite" type="Sprite" parent="EnvironmentPattern6/Point2"]
 position = Vector2( 16, 16 )
@@ -75,7 +76,6 @@ texture = ExtResource( 1 )
 position = Vector2( -16, 32 )
 script = ExtResource( 2 )
 environment_type = 4
-chest_spawn_change = 0.6
 
 [node name="Point" type="Node2D" parent="EnvironmentPattern7"]
 

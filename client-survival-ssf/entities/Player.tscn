@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://assets/sprites/sRobotHead.png" type="Texture" id=1]
 [ext_resource path="res://entities/Player.gd" type="Script" id=2]
@@ -15,6 +15,7 @@
 [ext_resource path="res://assets/font/largeFont.tres" type="DynamicFont" id=15]
 [ext_resource path="res://assets/sprites/youMarker.png" type="Texture" id=16]
 [ext_resource path="res://components/YouMarker.gd" type="Script" id=17]
+[ext_resource path="res://assets/font/tinyFont.tres" type="DynamicFont" id=18]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 3.0
@@ -173,16 +174,30 @@ scale = Vector2( 0.6, 0.6 )
 texture = ExtResource( 10 )
 
 [node name="Label" type="Label" parent="StatsCanvasLayer/Stats/HealthIcon"]
-margin_left = -8.0
-margin_top = 12.0
-margin_right = 69.0
-margin_bottom = 53.0
+margin_left = -6.0
+margin_top = 6.0
+margin_right = 71.0
+margin_bottom = 47.0
 custom_constants/shadow_offset_x = 1
 custom_constants/line_spacing = 1
 custom_constants/shadow_offset_y = 1
 custom_constants/shadow_as_outline = 1
 custom_fonts/font = ExtResource( 15 )
-text = "12"
+text = "100"
+align = 1
+
+[node name="MaxHealth" type="Label" parent="StatsCanvasLayer/Stats/HealthIcon"]
+margin_left = -9.0
+margin_top = 43.0
+margin_right = 68.0
+margin_bottom = 84.0
+custom_colors/font_color = Color( 1, 0.690196, 0.690196, 1 )
+custom_constants/shadow_offset_x = 1
+custom_constants/line_spacing = 1
+custom_constants/shadow_offset_y = 1
+custom_constants/shadow_as_outline = 1
+custom_fonts/font = ExtResource( 18 )
+text = "/100"
 align = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="StatsCanvasLayer/Stats/HealthIcon"]
