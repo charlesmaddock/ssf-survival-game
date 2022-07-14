@@ -5,7 +5,7 @@
 [ext_resource path="res://assets/sprites/largePoint.png" type="Texture" id=3]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 9.0
+radius = 8.0
 
 [sub_resource type="Animation" id=2]
 length = 0.001
@@ -44,7 +44,6 @@ _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.470518 ), 0.0, 0.0, 0, 
 collision_layer = 4
 collision_mask = 8
 script = ExtResource( 2 )
-_damage = 30.0
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 0, -5 )

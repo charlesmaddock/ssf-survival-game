@@ -3,5 +3,4 @@
 [ext_resource path="res://entities/Projectile.tscn" type="PackedScene" id=1]
 
 [node name="KissProjectile" instance=ExtResource( 1 )]
-_damage = 25.0
 _speed = 300.0

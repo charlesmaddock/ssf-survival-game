@@ -39,9 +39,9 @@ func _ready():
 	
 	Server.connect("packet_received", self, "_on_packet_received")
 	
-	yield(get_tree(), "idle_frame")
+	#yield(get_tree(), "idle_frame")
 	# HACK: just to show in stats
-	get_parent().entity.emit_signal("damage_taken", health, Vector2.ZERO)
+	#get_parent().entity.emit_signal("damage_taken", health, Vector2.ZERO)
 
 
 func set_max_health(val: float) -> void:

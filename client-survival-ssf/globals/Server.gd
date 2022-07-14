@@ -375,3 +375,11 @@ func set_animation_player(animation_name: String, animation_speed: float, stop_a
 		"id": entity_id
 	}
 	send_packet(payload)
+
+
+func send_boss_event(event: int) -> void:
+	var payload = {
+		"type": Constants.PacketTypes.BOSS_EVENT, 
+		"event": event,
+	}
+	send_packet(payload)

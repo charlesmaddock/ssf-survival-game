@@ -4,7 +4,7 @@ extends Node
 const PLAYERS_PER_ROOM: int = 6
 const TILE_SIZE = Vector2(64, 64)
 const RECONCILE_POSITION_RATE: float = 0.2
-const NUMBER_OF_ROOMS: int = 12
+const NUMBER_OF_ROOMS: int = 2
 
 
 enum AppMode {
@@ -56,7 +56,8 @@ enum PacketTypes {
   PICK_UP_PART,
   DROP_PART,
   SET_SPRITE_FRAME,
-  SET_ANIMATION_PLAYER
+  SET_ANIMATION_PLAYER,
+  BOSS_EVENT
 }
 
 
@@ -75,6 +76,11 @@ enum ItemTypes {
 	HEART
 }
 
+enum BossEvent {
+	HIT,
+	SHOOT_MODE,
+}
+
 
 enum EnvironmentTypes {
 	SPIKES,
@@ -88,7 +94,8 @@ enum EnvironmentTypes {
 enum ProjectileTypes {
 	RED_BULLET = 0,
 	BLUE_BULLET = 1,
-	KISS = 2
+	KISS = 2,
+	HEART
 }
 
 
@@ -102,11 +109,7 @@ enum MobTypes {
 	SLIME,
 	SMALL_SLIME,
 	LOVE_BULL,
-	ROMANS_BOSS_FAS_1,
-	ROMANS_BOSS_FAS_2,
-	ROMANS_BOSS_HAND_FAS_1,
-	ROMANS_BOSS_SLAP_HAND_FAS_2,
-	SPINDELHAND,
+	BOSS
 }
 
 

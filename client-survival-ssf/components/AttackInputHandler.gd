@@ -11,7 +11,7 @@ func _ready():
 	JoyStick.init(_player.entity.id == Lobby.my_id && Lobby.auto_aim == false)
 
 
-func _input(event):
+func _input(_event):
 	yield(get_tree().create_timer(0.05), "timeout")
 	var aim_dir = Vector2.ZERO
 	if Input.is_action_pressed("aim_right"):
@@ -25,5 +25,5 @@ func _input(event):
 	_key_input = aim_dir
 
 
-func _process(delta):
+func _process(_delta):
 	_player.entity.emit_signal("aim_dir", (JoyStick.get_direction() + _key_input).normalized())

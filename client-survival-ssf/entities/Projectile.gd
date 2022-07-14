@@ -2,6 +2,7 @@ extends Area2D
 
 
 export(float) var _speed = 360
+export(float) var _life_time_modifier = 1
 
 
 var _damage = 50
@@ -19,6 +20,8 @@ func init(pos: Vector2, dir: Vector2, val: float, creator_id: String, creator_te
 	
 	global_position = pos
 	_velocity = (dir.normalized() * _speed) + add_dir
+	
+	$AnimationPlayer.playback_speed = _life_time_modifier
 
 
 func same_creator_or_team(id: String, team: int) -> bool:
@@ -45,6 +48,12 @@ func _process(delta):
 
 
 func _on_Projectile_area_entered(area):
+	if area.name == "WontLetProjectilesPass" && has_node("WontLetProjectilesPass") == true:
+		return
+	
+	if has_node("WontLetProjectilesPass") == true && area.name == "BossHitbox":
+		return
+	
 	if Util.is_entity(area.get_parent().get_parent()) == true:
 		var entity = area.get_parent().get_parent().entity
 		if same_creator_or_team(entity.id, entity.team) == false:

@@ -120,7 +120,7 @@ func _physics_process(delta):
 	
 	if (Lobby.is_host == true && Util.is_player(get_parent()) == false) || entity_id == Lobby.my_id:
 		var vel = get_parent().move_and_slide(_velocity + _force)
-		if _send_pos_iteration % 10:
+		if _send_pos_iteration % 7:
 			Server.send_pos(entity_id, global_position + (vel * delta))
 			
 			if vel == Vector2.ZERO:

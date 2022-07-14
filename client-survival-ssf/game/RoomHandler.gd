@@ -120,7 +120,7 @@ func _generate_rooms() -> void:
 		var new_room_size = Vector2(ROOM_DIMENSIONS.x, ROOM_DIMENSIONS.y) + (Vector2.ONE * (clamp(mobs.size() / 2, 2, 4) - 2) * 2)
 		
 		if final_room:
-			new_room_size = Vector2(16, 10)
+			new_room_size = Vector2(16, 12)
 		
 		if prev_room_data != null:
 			prev_room_exit_direction = prev_room_data.exit_dir
@@ -231,7 +231,7 @@ func generate_mobs(i, final_room) -> Array:
 		mobs.append({"mob_type": test_spawn, "pos": Vector2.ZERO})
 	
 	elif final_room:
-		mobs.append({"mob_type": Constants.MobTypes.ROMANS_BOSS_FAS_2, "pos": Vector2(0, -100)})
+		mobs.append({"mob_type": Constants.MobTypes.BOSS, "pos": Vector2(0, -100)})
 		
 	elif i != 0:
 		if temp_mob_levels[difficulty].size() == 0:

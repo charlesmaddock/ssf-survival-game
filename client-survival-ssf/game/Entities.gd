@@ -9,6 +9,7 @@ var projectile_scenes: Dictionary = {
 	Constants.ProjectileTypes.RED_BULLET: preload("res://entities/RedBullet.tscn"),
 	Constants.ProjectileTypes.BLUE_BULLET: preload("res://entities/BlueBullet.tscn"),
 	Constants.ProjectileTypes.KISS: preload("res://entities/KissProjectile.tscn"),
+	Constants.ProjectileTypes.HEART: preload("res://entities/HeartProjectile.tscn"),
 }
 
 var mob_type_scenes: Dictionary = {
@@ -18,11 +19,7 @@ var mob_type_scenes: Dictionary = {
 	Constants.MobTypes.MOLE: preload("res://entities/Mole.tscn"),
 	Constants.MobTypes.LOVE_BULL: preload("res://entities/LoveBull.tscn"),
 	Constants.MobTypes.MINI_TURRET_CRAWLER: preload("res://entities/MiniTurretCrawler.tscn"),
-	Constants.MobTypes.ROMANS_BOSS_FAS_1: preload("res://entities/RomansBossFas1.tscn"),
-	Constants.MobTypes.ROMANS_BOSS_FAS_2: preload("res://entities/RomansBossFas2.tscn"),
-	Constants.MobTypes.ROMANS_BOSS_HAND_FAS_1: preload("res://entities/RomansBossHandFas1.tscn"),
-	Constants.MobTypes.ROMANS_BOSS_SLAP_HAND_FAS_2: preload("res://entities/RomansBossSlapHandFas2.tscn"),
-	Constants.MobTypes.SPINDELHAND: preload("res://entities/SpindelHand.tscn")
+	Constants.MobTypes.BOSS: preload("res://entities/Boss.tscn"),
 }
 
 var environment_type_scenes: Dictionary = {

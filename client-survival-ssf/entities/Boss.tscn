@@ -1,0 +1,518 @@
+[gd_scene load_steps=26 format=2]
+
+[ext_resource path="res://entities/Boss.gd" type="Script" id=1]
+[ext_resource path="res://assets/sprites/boss.png" type="Texture" id=2]
+[ext_resource path="res://assets/sprites/energyShield.png" type="Texture" id=3]
+[ext_resource path="res://assets/sprites/circle.png" type="Texture" id=4]
+[ext_resource path="res://components/Damage.tscn" type="PackedScene" id=5]
+[ext_resource path="res://assets/sprites/bossAngry.png" type="Texture" id=6]
+[ext_resource path="res://assets/sprites/bossHit.png" type="Texture" id=7]
+[ext_resource path="res://assets/sprites/bossShooting.png" type="Texture" id=8]
+[ext_resource path="res://parts/arms/sHpIcon.png" type="Texture" id=9]
+[ext_resource path="res://assets/font/largeFont.tres" type="DynamicFont" id=10]
+[ext_resource path="res://components/Movement.tscn" type="PackedScene" id=11]
+
+[sub_resource type="Animation" id=13]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=14]
+resource_name = "shake"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:offset")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6, 0.8, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 1.006, -1.1 ), Vector2( -0.534, 0.198 ), Vector2( 1, 1.978 ), Vector2( -1.46, 2.174 ), Vector2( 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=7]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("../BossHit:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("../BossHit:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("../BossHit:rotation_degrees")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+
+[sub_resource type="Animation" id=12]
+resource_name = "death"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("../BossHit:offset")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.123292, 0.4, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, -60 ), Vector2( 0, -60 ), Vector2( 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("../BossHit:scale")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.0669008, 0.225744, 0.4, 0.7, 3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 0.5, 1.5 ), Vector2( 1.5, 1 ), Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 0, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("../BossHit:rotation_degrees")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.1, 3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0, 360.0 ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "jump"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/path = NodePath("../BossHit:offset")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.123292, 0.283361, 0.355868 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, -60 ), Vector2( 0, -60 ), Vector2( 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("../BossHit:scale")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.0669008, 0.225744, 0.299118, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 0.5, 1.5 ), Vector2( 1.5, 1 ), Vector2( 1, 1 ), Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 12.0
+height = 35.9999
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 43.0
+
+[sub_resource type="Animation" id=3]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Boss:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("DetectSolid/Shield:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, -79 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("DetectSolid:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("DetectSolid:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Shadow:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "enterBounceMode"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Boss:offset")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, -16 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("DetectSolid:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, -17 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("DetectSolid:modulate")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Shadow:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 0.360784 ) ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "enterShootMode"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Boss:offset")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, -16 ), Vector2( 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("DetectSolid:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, -17 ), Vector2( 0, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("DetectSolid:modulate")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.3, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Shadow:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 0.360784 ), Color( 0, 0, 0, 0 ) ]
+}
+
+[sub_resource type="CapsuleShape2D" id=8]
+radius = 22.8418
+height = 46.8617
+
+[sub_resource type="CircleShape2D" id=9]
+radius = 22.0
+
+[sub_resource type="Animation" id=11]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=10]
+resource_name = "appear"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[node name="Boss" type="KinematicBody2D"]
+collision_layer = 64
+collision_mask = 0
+script = ExtResource( 1 )
+
+[node name="Shadow" type="Sprite" parent="."]
+modulate = Color( 0, 0, 0, 0 )
+position = Vector2( -1.90735e-06, -2 )
+scale = Vector2( 0.633333, 0.1 )
+texture = ExtResource( 4 )
+
+[node name="Boss" type="Sprite" parent="."]
+position = Vector2( 0, -79 )
+texture = ExtResource( 2 )
+
+[node name="BossAngry" type="Sprite" parent="."]
+position = Vector2( 0, -79 )
+texture = ExtResource( 6 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="BossAngry"]
+playback_speed = 3.0
+anims/RESET = SubResource( 13 )
+anims/shake = SubResource( 14 )
+
+[node name="BossHit" type="Sprite" parent="."]
+position = Vector2( 0, -79 )
+texture = ExtResource( 7 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="BossHit"]
+root_node = NodePath("../../BossShooting")
+anims/RESET = SubResource( 7 )
+anims/death = SubResource( 12 )
+anims/jump = SubResource( 6 )
+
+[node name="BossShooting" type="Sprite" parent="."]
+position = Vector2( 0, -79 )
+texture = ExtResource( 8 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -2, -11 )
+rotation = 1.57079
+shape = SubResource( 1 )
+
+[node name="DetectSolid" type="Area2D" parent="."]
+modulate = Color( 1, 1, 1, 0 )
+collision_layer = 0
+collision_mask = 8
+
+[node name="Shield" type="Sprite" parent="DetectSolid"]
+position = Vector2( 0, -79 )
+texture = ExtResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectSolid"]
+position = Vector2( -2, -18 )
+shape = SubResource( 2 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 3 )
+anims/enterBounceMode = SubResource( 4 )
+anims/enterShootMode = SubResource( 5 )
+
+[node name="BossDamage" parent="." instance=ExtResource( 5 )]
+_damage = 30.0
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="BossDamage"]
+position = Vector2( -4, -30 )
+rotation = 1.57765
+shape = SubResource( 8 )
+
+[node name="BounceModeTimer" type="Timer" parent="."]
+wait_time = 12.0
+one_shot = true
+
+[node name="BossHitbox" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 4
+
+[node name="shape" type="CollisionShape2D" parent="BossHitbox"]
+position = Vector2( -1, -20 )
+shape = SubResource( 9 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -331.5
+margin_right = 331.5
+margin_bottom = 250.0
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Control"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -229.5
+margin_top = 8.0
+margin_right = 229.5
+margin_bottom = 49.0
+custom_fonts/font = ExtResource( 10 )
+text = "- Romansbedragarmonstret - "
+align = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -94.0
+margin_top = 57.0
+margin_right = 94.0
+margin_bottom = 117.0
+mouse_filter = 2
+alignment = 1
+
+[node name="HeartContainer" type="Control" parent="CanvasLayer/Control/HBoxContainer"]
+margin_right = 60.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 60, 60 )
+mouse_filter = 2
+
+[node name="Sprite" type="Sprite" parent="CanvasLayer/Control/HBoxContainer/HeartContainer"]
+texture = ExtResource( 9 )
+centered = false
+
+[node name="HeartContainer2" type="Control" parent="CanvasLayer/Control/HBoxContainer"]
+margin_left = 64.0
+margin_right = 124.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 60, 60 )
+mouse_filter = 2
+
+[node name="Sprite" type="Sprite" parent="CanvasLayer/Control/HBoxContainer/HeartContainer2"]
+texture = ExtResource( 9 )
+centered = false
+
+[node name="HeartContainer3" type="Control" parent="CanvasLayer/Control/HBoxContainer"]
+margin_left = 128.0
+margin_right = 188.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 60, 60 )
+mouse_filter = 2
+
+[node name="Sprite" type="Sprite" parent="CanvasLayer/Control/HBoxContainer/HeartContainer3"]
+texture = ExtResource( 9 )
+centered = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/Control"]
+autoplay = "appear"
+anims/RESET = SubResource( 11 )
+anims/appear = SubResource( 10 )
+
+[node name="Movement" parent="." instance=ExtResource( 11 )]
+
+[connection signal="body_entered" from="DetectSolid" to="." method="_on_DetectSolid_body_entered"]
+[connection signal="timeout" from="BounceModeTimer" to="." method="_on_BounceModeTimer_timeout"]
+[connection signal="area_entered" from="BossHitbox" to="." method="_on_BossHitbox_area_entered"]
+[connection signal="body_entered" from="BossHitbox" to="." method="_on_BossHitbox_body_entered"]

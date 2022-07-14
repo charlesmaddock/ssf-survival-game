@@ -48,6 +48,7 @@ enum PacketTypes {
   DROP_PART,
   SET_SPRITE_FRAME,
   SET_ANIMATION_PLAYER,
+  BOSS_EVENT,
 }
 type PacketType = PacketTypes;
 
@@ -260,7 +261,9 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
           case PacketTypes.SET_ANIMATION_PLAYER:
             handleSetAnimationPlayer(ws, data);
             break;
-
+          case PacketTypes.BOSS_EVENT:
+            handleBossEvent(ws, data);
+            break;
           default:
             console.error("Unhandled packet type.");
         }
@@ -741,6 +744,11 @@ const handleSetSpriteFrame = (ws: WebSocket, packet: any) => {
 const handleSetAnimationPlayer = (ws: WebSocket, packet: any) => {
   let client = getClientFromWs(ws);
   let room: Room = getClientsRoom(client);
-  console.log("sending packet with set animation");
+  broadcastToRoom(room, packet);
+};
+
+const handleBossEvent = (ws: WebSocket, packet: any) => {
+  let client = getClientFromWs(ws);
+  let room: Room = getClientsRoom(client);
   broadcastToRoom(room, packet);
 };
