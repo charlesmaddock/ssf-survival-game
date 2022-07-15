@@ -96,18 +96,21 @@ func add_part(part_name: int) -> void:
 	add_child(part)
 	if part.part_type == Constants.PartTypes.ARM:
 		if is_instance_valid(_armPart):
+			_armPart.remove()
 			_armPart.queue_free()
 		move_child(part, _arm_child_index)
 		part.position = _arm_offset
 		_armPart = part
 	elif part.part_type == Constants.PartTypes.LEG:
 		if is_instance_valid(_legPart):
+			_legPart.remove()
 			_legPart.queue_free()
 		move_child(part, _leg_child_index)
 		part.position = _leg_offset
 		_legPart = part
 	elif part.part_type == Constants.PartTypes.BODY:
 		if is_instance_valid(_bodyPart):
+			_bodyPart.remove()
 			_bodyPart.queue_free()
 		move_child(part, _body_child_index)
 		part.position = _body_offset
@@ -118,12 +121,9 @@ func _drop_old_part(part_type: int) -> void:
 	if Lobby.is_host:
 		if part_type == Constants.PartTypes.ARM && is_instance_valid(_armPart):
 			Server.spawn_pickup(Util.generate_id(), _armPart.part_name, global_position)
-			_armPart.remove()
 		elif part_type == Constants.PartTypes.LEG && is_instance_valid(_legPart):
 			Server.spawn_pickup(Util.generate_id(), _legPart.part_name, global_position)
-			_legPart.remove()
 		elif part_type == Constants.PartTypes.BODY && is_instance_valid(_bodyPart):
-			_bodyPart.remove()
 			Server.spawn_pickup(Util.generate_id(), _bodyPart.part_name, global_position)
 
 

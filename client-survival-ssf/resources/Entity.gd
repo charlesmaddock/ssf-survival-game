@@ -61,8 +61,10 @@ func _on_packet_received(packet: Dictionary) -> void:
 			if id == packet.id:
 				entity_node.queue_free()
 		Constants.PacketTypes.DESPAWN_MOB:
-			if id == packet.id:
-				entity_node.queue_free()
+			if id == packet.id && is_instance_valid(entity_node):
+				yield(entity_node.get_tree().create_timer(0.6), "timeout")
+				if is_instance_valid(entity_node):
+					entity_node.queue_free()
 
 
 func on_damage_taken(health, dir) -> void:

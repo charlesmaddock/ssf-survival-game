@@ -19,6 +19,7 @@ var attack_freeze: bool = false
 var speed: float = 160.0
 var speed_modifier: float = 1.0
 var weight_modifiers: Array 
+var input_acceleraction: Vector2 = Vector2.ZERO
 
 
 func _ready():
@@ -113,6 +114,8 @@ func get_input():
 	if Input.is_action_pressed("ui_up") || (Lobby.auto_aim == true && Input.is_key_pressed(KEY_UP)):
 		velocity.y -= 1
 	
+	input_acceleraction += (velocity / 2)
+	
 	return velocity.normalized() + joy_stick_velocity
 
 
@@ -130,11 +133,14 @@ func _physics_process(delta):
 				if input.x != 0 && input.y != 0:
 					input.y = 0
 			if get_parent().has_node("BlueShoes"):
-				input = input.rotated(deg2rad(180))
+				input = input + input_acceleraction
 			Server.send_input(input, _send_pos_iteration)
 		_prev_input = input
 		
 		set_velocity(input)
+		
+		input_acceleraction /= 2
+		
 	
 	if (Lobby.is_host == true && Util.is_player(get_parent()) == false) || entity_id == Lobby.my_id:
 		var vel = get_parent().move_and_slide(_velocity + _force)

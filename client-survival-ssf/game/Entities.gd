@@ -71,6 +71,9 @@ func _on_packet_received(packet: Dictionary) -> void:
 			entity.entity = Entity.new(entity, packet.id, Constants.Teams.BAD_GUYS, spawn_pos, packet.room_id)
 			add_child(entity)
 			entity.global_position = spawn_pos
+			
+			if Lobby.is_host:
+				Server.teleport_entity(packet.id, spawn_pos)
 		Constants.PacketTypes.SPAWN_ENVIRONMENT:
 			var spawn_pos = Vector2(packet.posX, packet.posY)
 			var entity_type = int(packet.environment_type)

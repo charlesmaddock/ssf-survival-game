@@ -5,7 +5,7 @@
 
 [node name="BirdLegs" instance=ExtResource( 1 )]
 weight = -10.0
-walk_speed = 200.0
+walk_speed = 210.0
 leg_texture = ExtResource( 2 )
 sprite_offset = Vector2( 0.039, 12.128 )
 leg_separation = 10.0

@@ -5,6 +5,7 @@
 
 [node name="DefaultLegs" instance=ExtResource( 1 )]
 weight = 0.0
+walk_speed = 180.0
 leg_texture = ExtResource( 2 )
 sprite_offset = Vector2( 3, 7 )
 leg_separation = 14.0

@@ -38,7 +38,7 @@ func _on_rooms_generated(all_room_data: Array) -> void:
 		add_child(room)
 
 
-var test_spawn: int = -1
+var test_spawn: int = -1 #Constants.MobTypes.CHOWDER
 
 
 var mob_levels: Dictionary = {
@@ -192,7 +192,7 @@ func _generate_rooms() -> void:
 			var room_types = [Constants.RoomTypes.SPIKES, Constants.RoomTypes.CHIP]
 			room_type = room_types[randi() % room_types.size()]
 		
-		room_type = Constants.RoomTypes.LOOT
+		#room_type = Constants.RoomTypes.LOOT
 		
 		if final_room:
 			room_type = Constants.RoomTypes.BOSS
@@ -229,7 +229,7 @@ func generate_mobs(i, final_room) -> Array:
 	
 	randomize()
 	
-	if i == 0 && test_spawn != -1:
+	if test_spawn != -1:
 		mobs.append({"mob_type": test_spawn, "pos": Vector2.ZERO})
 	
 	elif final_room:

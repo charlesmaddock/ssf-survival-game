@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://game/Game.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/target.png" type="Texture" id=2]
@@ -17,9 +17,99 @@
 [ext_resource path="res://game/Entities.gd" type="Script" id=15]
 [ext_resource path="res://game/Walls.gd" type="Script" id=16]
 [ext_resource path="res://ui/PickUpInfoPanel.tscn" type="PackedScene" id=17]
+[ext_resource path="res://game/Cutscene.gd" type="Script" id=18]
+[ext_resource path="res://assets/font/largeFont.tres" type="DynamicFont" id=19]
+[ext_resource path="res://assets/sprites/cutscene/SB-SSF-6.png" type="Texture" id=20]
+[ext_resource path="res://assets/sprites/cutscene/SB-SSF-2.png" type="Texture" id=21]
+[ext_resource path="res://assets/sprites/cutscene/SB-SSF-1.png" type="Texture" id=22]
+[ext_resource path="res://assets/sprites/cutscene/STORYBOARDSSF-3-pinoblevsjuk.png" type="Texture" id=23]
+[ext_resource path="res://assets/sprites/cutscene/SB-SSF-4.png" type="Texture" id=24]
+[ext_resource path="res://assets/sprites/cutscene/SB-SSF-5.png" type="Texture" id=25]
+[ext_resource path="res://assets/sprites/cutscene/SB-SSF-7.png" type="Texture" id=26]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 69.0
+
+[sub_resource type="Animation" id=2]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Cutscene/ColorRect/DisplaySprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Cutscene/ColorRect/DisplayText:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "appear"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Cutscene/ColorRect/DisplaySprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Cutscene/ColorRect/DisplayText:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "disappear"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Cutscene/ColorRect/DisplaySprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Cutscene/ColorRect/DisplayText:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
 
 [node name="GameWrapper" type="Control"]
 margin_right = 40.0
@@ -223,6 +313,62 @@ __meta__ = {
 [node name="PickUpCanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="PickUpInfoPanel" parent="PickUpCanvasLayer" instance=ExtResource( 17 )]
+
+[node name="Cutscene" type="CanvasLayer" parent="."]
+layer = 100
+script = ExtResource( 18 )
+text1 = "Linda och henns dator Pino älskade att vara på internet. De var online varje dag. "
+img1 = ExtResource( 22 )
+text2 = "Men Linda började gå in på alla sorters webbsidor utan att tänka efter. Till och med osäkra webbsidor där det fanns bedragare som lurade."
+img2 = ExtResource( 21 )
+text3 = "Pino blev snabbt sjuk. Många bedragare och virus hade tagit sig in på datorn."
+img3 = ExtResource( 23 )
+text4 = "Linda funderade på hur hon kunde få Pino att må bra igen."
+img4 = ExtResource( 24 )
+text5 = "Då fick Linda en idé!"
+img5 = ExtResource( 25 )
+text6 = "Hon kallade på säkerhetshjältarnas hjälp."
+img6 = ExtResource( 20 )
+text7 = "Nu måste du rädda Pino!"
+img7 = ExtResource( 26 )
+
+[node name="ColorRect" type="ColorRect" parent="Cutscene"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 3 )
+color = Color( 0, 0, 0, 1 )
+
+[node name="DisplaySprite" type="Sprite" parent="Cutscene/ColorRect"]
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 512, 222 )
+scale = Vector2( 1.26, 1.26 )
+texture = ExtResource( 21 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Cutscene/ColorRect/DisplaySprite"]
+root_node = NodePath("../../../..")
+anims/RESET = SubResource( 2 )
+anims/appear = SubResource( 3 )
+anims/disappear = SubResource( 4 )
+
+[node name="DisplayText" type="Label" parent="Cutscene/ColorRect"]
+margin_left = 16.0
+margin_top = 436.0
+margin_right = 1008.0
+margin_bottom = 565.0
+custom_fonts/font = ExtResource( 19 )
+text = "Text"
+autowrap = true
+
+[node name="SkipLabel" type="Label" parent="Cutscene/ColorRect"]
+modulate = Color( 1, 1, 1, 0.721569 )
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -245.0
+margin_top = -32.0
+margin_right = 26.0
+text = "Tryck E för att skippa"
 
 [connection signal="body_entered" from="Game/Target/MonsterDetector" to="Game/Target" method="_on_MonsterDetector_body_entered"]
 [connection signal="body_exited" from="Game/Target/MonsterDetector" to="Game/Target" method="_on_MonsterDetector_body_exited"]

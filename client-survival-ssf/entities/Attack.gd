@@ -15,7 +15,7 @@ func _ready():
 	position.y -= 12
 
 
-func init(dir: Vector2, val: float, creator_id: String, creator_team: int, knockback_mod: float) -> void:
+func init(dir: Vector2, val: float, creator_id: String, creator_team: int, knockback_mod: float = 1) -> void:
 	_damage = val
 	_damage_creator_id = creator_id
 	_damage_creator_team = creator_team
