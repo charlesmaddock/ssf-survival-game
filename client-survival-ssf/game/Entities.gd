@@ -2,7 +2,7 @@ extends YSort
 
 
 var item_scene = preload("res://entities/Item.tscn")
-var pino_scene: PackedScene = preload("res://entities/Pino.tscn")
+var pino_scene: PackedScene = preload("res://entities/Pino_3.tscn")
 
 
 var projectile_scenes: Dictionary = {

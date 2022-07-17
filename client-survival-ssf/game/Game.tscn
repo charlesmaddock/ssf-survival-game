@@ -317,11 +317,11 @@ __meta__ = {
 [node name="Cutscene" type="CanvasLayer" parent="."]
 layer = 100
 script = ExtResource( 18 )
-text1 = "Linda och henns dator Pino älskade att vara på internet. De var online varje dag. "
+text1 = "Linda och hennes dator Pino älskade att vara på internet. De var online varje dag. "
 img1 = ExtResource( 22 )
 text2 = "Men Linda började gå in på alla sorters webbsidor utan att tänka efter. Till och med osäkra webbsidor där det fanns bedragare som lurade."
 img2 = ExtResource( 21 )
-text3 = "Pino blev snabbt sjuk. Många bedragare och virus hade tagit sig in på datorn."
+text3 = "Pino blev snabbt sjuk. Många virus och bedragare hade tagit sig in på datorn."
 img3 = ExtResource( 23 )
 text4 = "Linda funderade på hur hon kunde få Pino att må bra igen."
 img4 = ExtResource( 24 )

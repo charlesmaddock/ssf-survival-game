@@ -24,22 +24,22 @@ var _is_animaton_to_stop: bool = false
 var _dialogue_index = 0
 var dialogues: Array = [
 	{
-	"text": "Ursch, jag vet inte hur länge jag klarar av det här längre.",
+	"text": "Linda hade förut ett långdistansförhållande med\nnågon hon inte kände...",
 	"text_speed": "Fast",
 	"animation": "Talking_Neutral"
 	},
 	{
-	"text": "...",
+	"text": "Personen ville aldrig visa sig eller träffas,\nmen vill gärna dela på Lindas Netflix-konto.",
 	"text_speed": "Fast",
 	"animation": "Talking_Neutral"
 	},
 	{
-	"text": "Vem är du...?",
+	"text": "Det visade sig att personen aldrig fanns\noch Netflix-kontot blev stulet!",
 	"text_speed": "Fast",
 	"animation": "Talking_Neutral"
 	},
 	{
-	"text": "Hur som helst borde du ta dig ut härifrån.\nDet finns bara otäckheter - bedragare och virus - härinne.",
+	"text": "Snälla hjälp mig besegra Kärleksbedrägeriet!",
 	"text_speed": "Fast",
 	"animation": "Talking_Neutral"
 	},
