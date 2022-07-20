@@ -33,9 +33,9 @@ anchor_bottom = 1.0
 alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Welcome/HBoxContainer"]
-margin_left = 312.0
-margin_right = 712.0
-margin_bottom = 600.0
+margin_left = 265.0
+margin_right = 665.0
+margin_bottom = 545.0
 rect_min_size = Vector2( 400, 0 )
 custom_constants/separation = 70
 alignment = 1
@@ -44,9 +44,9 @@ __meta__ = {
 }
 
 [node name="LogoContainer" type="Control" parent="Welcome/HBoxContainer/VBoxContainer"]
-margin_top = 190.0
+margin_top = 162.0
 margin_right = 400.0
-margin_bottom = 190.0
+margin_bottom = 162.0
 
 [node name="Control" type="Control" parent="Welcome/HBoxContainer/VBoxContainer/LogoContainer"]
 anchor_left = 0.5
@@ -59,9 +59,9 @@ position = Vector2( 0, 4 )
 texture = ExtResource( 8 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Welcome/HBoxContainer/VBoxContainer"]
-margin_top = 260.0
+margin_top = 232.0
 margin_right = 400.0
-margin_bottom = 410.0
+margin_bottom = 382.0
 custom_constants/separation = 60
 alignment = 1
 
