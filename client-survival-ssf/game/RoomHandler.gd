@@ -12,7 +12,7 @@ var _room_coordinates: PoolVector2Array = [Vector2(0, 0)]
 #ha en rect/bitmap och gör en set-cell utifrån den
 #array med 2d-åunkter, kolla ifall kollision med andra rum
 #is_host skickar packet med all data till clients (icl. host)
-
+signal spawn_pino(center_spawn_pos, which_pino)
 
 func _ready():
 	Server.connect("packet_received", self, "_on_packet_received")
@@ -109,7 +109,7 @@ func _generate_rooms() -> void:
 			var prev_corridor_size = prev_room_data.corridor_rect_size
 		
 		var mobs = []
-		if i % 4 != 0:
+		if i % 4 != 0 && i != 7 && i != Constants.NUMBER_OF_ROOMS - 2:
 			mob_i += 1
 			mobs = generate_mobs(mob_i, final_room)
 		
@@ -196,7 +196,15 @@ func _generate_rooms() -> void:
 		
 		if final_room:
 			room_type = Constants.RoomTypes.BOSS
-		
+	
+		if i == 7:
+			print(room_rect.position)
+			emit_signal("spawn_pino", room_rect.position, 1)
+		if i == Constants.NUMBER_OF_ROOMS - 2:
+			print(room_rect.position)
+			emit_signal("spawn_pino",room_rect.position, 2)
+			
+			
 		var corridor_rect = Rect2(corridor_pos, corridor_dim)
 		var data = {
 			"room_type": room_type,

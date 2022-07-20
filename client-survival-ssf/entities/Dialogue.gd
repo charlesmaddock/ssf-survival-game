@@ -60,22 +60,22 @@ func _process(delta):
 func _on_bubble_deleted() -> void:
 	yield(get_tree().create_timer(1), "timeout")
 	_reset_settings()
-	print("This is the dialogue_index: ", _dialogue_index)
+	#print("This is the dialogue_index: ", _dialogue_index)
 
 
 func _on_dialogue_finished() -> void:
 	_is_dialogue_finished = true
-	print("Dialogue is finished!")
+	#print("Dialogue is finished!")
 
 
 func _on_changed_talking_state(is_talking: bool) -> void:
 	if _is_talking != is_talking:
 		_is_talking = is_talking
 		if _is_talking:
-			print("Telling animationplayer to player this: ", _current_bubble_animation)
+			#print("Telling animationplayer to player this: ", _current_bubble_animation)
 			_play_animation(_current_bubble_animation)
 		else:
-			print("setting animation to stop = true")
+			#print("setting animation to stop = true")
 			_is_animaton_to_stop = true
 
 
@@ -101,14 +101,14 @@ func _start_next_dialogue() -> void:
 func _write_next_dialogue() -> void:
 	if is_instance_valid(bubble) && dialogues.size() != 0:
 		if _is_dialogue_finished && _is_dialogue_being_deleted != true:
-			print("This is the dialogue_index: ", _dialogue_index)
+			#print("This is the dialogue_index: ", _dialogue_index)
 			if !_dialogue_index > dialogues.size() - 1:
 				_is_dialogue_finished = false
 				if dialogues[_dialogue_index]["animation"]:
 					_current_bubble_animation = dialogues[_dialogue_index]["animation"]
 				else:
 					_current_bubble_animation = "Talking_Neutral"
-				print("Writing this dialogue: ", dialogues[_dialogue_index])
+				#print("Writing this dialogue: ", dialogues[_dialogue_index])
 				if "text_speed" in dialogues[_dialogue_index]:
 					bubble.write_new_dialogue(dialogues[_dialogue_index]["text"], dialogues[_dialogue_index]["text_speed"])
 				else:
@@ -123,7 +123,7 @@ func _play_animation(animation) -> void:
 		if _is_dialogue_finished == false && animationPlayer.get_animation(animation):
 			var dialogue_index: int = _dialogue_index - 1
 			if !dialogue_index > dialogues.size() - 1:
-				print("Telling animationplayer to play index: ", dialogue_index)
+				#print("Telling animationplayer to play index: ", dialogue_index)
 				animationPlayer.play(dialogues[dialogue_index]["animation"], -1, 0.4 / Constants.DialogueSpeeds[dialogues[dialogue_index]["text_speed"]])
 
 
@@ -154,5 +154,5 @@ func on_animation_finished() -> void:
 	if _is_animaton_to_stop:
 		_is_animaton_to_stop = false
 		animationPlayer.stop()
-		print("Telling sprite to set frame 0")
+		#print("Telling sprite to set frame 0")
 		sprite.set_frame(0)

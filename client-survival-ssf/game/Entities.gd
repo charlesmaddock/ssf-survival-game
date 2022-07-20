@@ -1,9 +1,9 @@
 extends YSort
 
-
 var item_scene = preload("res://entities/Item.tscn")
-var pino_scene: PackedScene = preload("res://entities/Pino_3.tscn")
-
+var pino_scene_0: PackedScene = preload("res://entities/Pino.tscn")
+var pino_scene_1: PackedScene = preload("res://entities/Pino_2.tscn")
+var pino_scene_2: PackedScene = preload("res://entities/Pino_3.tscn")
 
 var projectile_scenes: Dictionary = {
 	Constants.ProjectileTypes.RED_BULLET: preload("res://entities/RedBullet.tscn"),
@@ -31,15 +31,25 @@ var environment_type_scenes: Dictionary = {
 	Constants.EnvironmentTypes.REVIVE_DISK: preload("res://entities/BackupDisk.tscn"),
 }
 
-
 func _ready():
 	Server.connect("packet_received", self, "_on_packet_received")
-	_spawn_pino(Constants.TILE_SIZE * 4)
+	self.get_parent().get_node("RoomHandler").connect("spawn_pino", self, "_on_spawn_pino")
+	_on_spawn_pino(Vector2.ZERO, 0)
+	
 
 
-func _spawn_pino(pino_global_position: Vector2) -> void:
-	var pino: Node2D = pino_scene.instance()
-	pino.global_position = pino_global_position
+func _on_spawn_pino(pino_global_position: Vector2, which_pino) -> void:
+	var pino: Node2D
+	match(which_pino):
+		0:
+			pino = pino_scene_0.instance()
+			pino.global_position = pino_global_position + Constants.TILE_SIZE * 4
+		1:
+			pino = pino_scene_1.instance()
+			pino.global_position = pino_global_position + Constants.TILE_SIZE * 4
+		2:
+			pino = pino_scene_2.instance()
+			pino.global_position = pino_global_position + Constants.TILE_SIZE * 4
 	var entities: YSort = $"../Entities"
 	entities.add_child(pino)
 
