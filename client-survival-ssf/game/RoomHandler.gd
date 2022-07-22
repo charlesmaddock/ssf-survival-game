@@ -199,10 +199,10 @@ func _generate_rooms() -> void:
 	
 		if i == 7:
 			print(room_rect.position)
-			emit_signal("spawn_pino", room_rect.position, 1)
+			emit_signal("spawn_pino", room_rect.position * Constants.TILE_SIZE, 1)
 		if i == Constants.NUMBER_OF_ROOMS - 2:
 			print(room_rect.position)
-			emit_signal("spawn_pino",room_rect.position, 2)
+			emit_signal("spawn_pino",room_rect.position * Constants.TILE_SIZE, 2)
 			
 			
 		var corridor_rect = Rect2(corridor_pos, corridor_dim)

@@ -3,6 +3,6 @@
 [ext_resource path="res://assets/font/VT323-Regular.ttf" type="DynamicFontData" id=1]
 
 [resource]
-size = 42
+size = 28
 extra_spacing_top = -2
 font_data = ExtResource( 1 )

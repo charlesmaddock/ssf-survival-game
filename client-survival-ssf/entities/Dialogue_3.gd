@@ -39,7 +39,7 @@ var dialogues: Array = [
 	"animation": "Talking_Neutral"
 	},
 	{
-	"text": "Snälla hjälp mig besegra Kärleksbedrägeriet!",
+	"text": "Snälla hjälp mig besegra Romansbedragarmonstret!",
 	"text_speed": "Fast",
 	"animation": "Talking_Neutral"
 	},

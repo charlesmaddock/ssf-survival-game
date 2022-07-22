@@ -340,7 +340,7 @@ color = Color( 0, 0, 0, 1 )
 
 [node name="DisplaySprite" type="Sprite" parent="Cutscene/ColorRect"]
 modulate = Color( 1, 1, 1, 0 )
-position = Vector2( 512, 222 )
+position = Vector2( 459, 226 )
 scale = Vector2( 1.26, 1.26 )
 texture = ExtResource( 21 )
 
@@ -351,10 +351,11 @@ anims/appear = SubResource( 3 )
 anims/disappear = SubResource( 4 )
 
 [node name="DisplayText" type="Label" parent="Cutscene/ColorRect"]
-margin_left = 16.0
+margin_left = 17.0
 margin_top = 436.0
-margin_right = 1008.0
-margin_bottom = 565.0
+margin_right = 910.0
+margin_bottom = 531.0
+rect_pivot_offset = Vector2( 405, 28 )
 custom_fonts/font = ExtResource( 19 )
 text = "Text"
 autowrap = true
