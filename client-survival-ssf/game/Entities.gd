@@ -33,9 +33,8 @@ var environment_type_scenes: Dictionary = {
 
 func _ready():
 	Server.connect("packet_received", self, "_on_packet_received")
-	self.get_parent().get_node("RoomHandler").connect("spawn_pino", self, "_on_spawn_pino")
+	Events.connect("spawn_pino", self, "_on_spawn_pino")
 	_on_spawn_pino(Vector2.ZERO, 0)
-	
 
 
 func _on_spawn_pino(pino_global_position: Vector2, which_pino) -> void:
@@ -52,6 +51,8 @@ func _on_spawn_pino(pino_global_position: Vector2, which_pino) -> void:
 			pino.global_position = pino_global_position + Constants.TILE_SIZE * 4
 	var entities: YSort = $"../Entities"
 	entities.add_child(pino)
+	
+	print("_on_spawn_pino: ")
 
 
 func get_entity(id: String) -> Node:

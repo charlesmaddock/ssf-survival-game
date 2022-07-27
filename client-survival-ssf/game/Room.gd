@@ -60,6 +60,14 @@ func _ready():
 	
 	generate_environment(room_type)
 	
+	print("_room_id: ", _room_id)
+	
+	if str(_room_id) == str(7):
+		Events.emit_signal("spawn_pino", global_position, 1)
+	
+	if str(_room_id) == str(Constants.NUMBER_OF_ROOMS - 2):
+		Events.emit_signal("spawn_pino", global_position, 2)
+	
 	if _next_room_data.empty() == false:
 		var exit_direction: int = _room_data.exit_dir
 		var enter_direction: int = _room_data.enter_dir
