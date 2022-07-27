@@ -175,9 +175,9 @@ texture = ExtResource( 10 )
 
 [node name="Label" type="Label" parent="StatsCanvasLayer/Stats/HealthIcon"]
 margin_left = -6.0
-margin_top = 6.0
+margin_top = 11.0
 margin_right = 71.0
-margin_bottom = 47.0
+margin_bottom = 52.0
 custom_constants/shadow_offset_x = 1
 custom_constants/line_spacing = 1
 custom_constants/shadow_offset_y = 1
@@ -188,9 +188,9 @@ align = 1
 
 [node name="MaxHealth" type="Label" parent="StatsCanvasLayer/Stats/HealthIcon"]
 margin_left = -9.0
-margin_top = 43.0
+margin_top = 37.0
 margin_right = 68.0
-margin_bottom = 84.0
+margin_bottom = 78.0
 custom_colors/font_color = Color( 1, 0.690196, 0.690196, 1 )
 custom_constants/shadow_offset_x = 1
 custom_constants/line_spacing = 1

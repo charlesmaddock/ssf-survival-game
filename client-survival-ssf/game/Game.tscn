@@ -366,10 +366,10 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -245.0
+margin_left = -366.0
 margin_top = -32.0
-margin_right = 26.0
-text = "Tryck E för att skippa"
+margin_right = 25.0
+text = "Tryck vad som helst för att skippa"
 
 [connection signal="body_entered" from="Game/Target/MonsterDetector" to="Game/Target" method="_on_MonsterDetector_body_entered"]
 [connection signal="body_exited" from="Game/Target/MonsterDetector" to="Game/Target" method="_on_MonsterDetector_body_exited"]

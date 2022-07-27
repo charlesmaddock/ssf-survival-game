@@ -37,7 +37,7 @@ func _ready():
 
 
 func _input(event):
-	if Input.is_key_pressed(KEY_E):
+	if event is InputEventScreenTouch || event is InputEventKey || event is InputEventMouseButton:
 		queue_free()
 
 

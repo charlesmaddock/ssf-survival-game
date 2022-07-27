@@ -109,7 +109,7 @@ func _generate_rooms() -> void:
 			var prev_corridor_size = prev_room_data.corridor_rect_size
 		
 		var mobs = []
-		if i % 4 != 0 && i != 7 && i != Constants.NUMBER_OF_ROOMS - 2:
+		if i % 4 != 0:
 			mob_i += 1
 			mobs = generate_mobs(mob_i, final_room)
 		
@@ -184,6 +184,8 @@ func _generate_rooms() -> void:
 		if i > 0 && i % 4 == 0:
 			var room_types = [Constants.RoomTypes.REVIVE, Constants.RoomTypes.LOOT]
 			room_type = room_types[randi() % room_types.size()]
+		if i == 7 && i == Constants.NUMBER_OF_ROOMS - 2:
+			room_type = Constants.RoomTypes.EMPTY
 		elif contains_bull == true:
 			room_type = Constants.RoomTypes.EMPTY
 		elif i > 0:
